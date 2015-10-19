@@ -1,0 +1,32 @@
+[% USE Dumper %]
+database template
+<ol>
+[% FOREACH server IN servers %]
+    <li>    server: [% server.name %]</li>
+[% END  %]
+</ol>
+<ol>
+[% FOREACH database IN databases %]
+    <li>database: [% database.name %]</li>
+[% END  %]
+</ol>
+
+[% # Dumper.dump(fields) %]
+<h2>Fields</h2>
+<ul>
+    [% FOREACH field IN fields %]
+        <li>field: [% field %]</li>
+    [% END  %]
+</ul>
+
+
+<table>
+    [% FOREACH creditor IN creditors %]
+        <tr>
+            [% FOREACH field IN fields %]
+                <td>[% creditor.$field %]</td>
+            [% END %]
+        </tr>
+    [% END  %]
+</table>
+
