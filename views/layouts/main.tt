@@ -6,11 +6,25 @@
   <title>reports</title>
   <link rel="stylesheet" href="[% request.uri_base %]/css/style.css">
 
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
+
+
 <!-- Grab jQuery from a CDN, fall back to local if necessary -->
 <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">/* <![CDATA[ */
     !window.jQuery && document.write('<script type="text/javascript" src="[% request.uri_base %]/javascripts/jquery.js"><\/script>')
 /* ]]> */</script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" class="init">
+
+
+ $(document).ready(function() {
+     $('#example').DataTable();
+ } );
+
+
+</script>
+
 
 </head>
 <body>

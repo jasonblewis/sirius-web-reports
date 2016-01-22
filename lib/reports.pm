@@ -47,7 +47,6 @@ get '/database' => sub {
   my $creditors = $sth->fetchall_arrayref({});
   $sth->finish;
 
-  
   template 'database', {
     'servers' => $dat,
     'databases' => $dbnames,
