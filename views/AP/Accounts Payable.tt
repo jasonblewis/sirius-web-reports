@@ -1,0 +1,38 @@
+
+<!--
+    Credit goes to the Ruby on Rails team for this page
+    has been heavily based on the default Rails page that is
+    built with a scaffolded application.
+
+    Thanks a lot to them for their work.
+
+    See Ruby on Rails if you want a kickass framework in Ruby:
+    http://www.rubyonrails.org/
+-->
+
+<div id="page">
+
+    <div id="sidebar">
+        <ul id="sidebar-items">
+            <li>
+                <h3>Accounts Payable sidebar</h3>
+                <ul class="links">
+                    <li><a href="https://wiki.organictrader.com.au/wiki/Main_Page/">Organic Trader Wiki</a></li>
+                </ul>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div id="content">
+        <div id="header">
+            <h1>Accounts Payable</h1>
+        </div>
+        
+        <div id="reports">
+            <h3><a href="/Accounts Payable/Creditor Terms" >Creditor Terms</a></h3>
+            <h3><a href="/Accounts Payable/Detailed Trial Balance" >Detailed Trial Balance</a></h3>
+        </div>
+    </div>
+
+</div>
