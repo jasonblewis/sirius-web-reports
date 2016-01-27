@@ -1,9 +1,15 @@
-package reports;
+package Reports;
+use strict;
+use warnings;
 use Dancer2;
 use DBI;
+use Reports::AccountsReceivable;
 
 set 'logger'       => 'console';
 set 'log'          => 'debug';
+set 'show_errors'  => 1;
+set 'startup_info' => 1;
+set 'warnings'     => 1;
 set 'show_errors'  => 1;
 set 'startup_info' => 1;
 set 'warnings'     => 1;
@@ -11,10 +17,15 @@ set 'warnings'     => 1;
 our $VERSION = '0.1';
 
 
-
 get '/' => sub {
   template 'index';
 };
+
+
+get '/Accounts Receivable' => \&Reports::AccountsReceivable::menu;
+get '/Accounts Receivable/Outstanding Invoices' => \&Reports::AccountsReceivable::outstandinginvoices;
+get '/Accounts Receivable/Statement Email Addresses' => \&Reports::AccountsReceivable::statementemailaddresses;
+
 
 get '/database' => sub {
   my $dbh = DBI->connect("dbi:ODBC:DSN=demo",***REMOVED***, {PrintError => 1});
@@ -56,4 +67,4 @@ get '/database' => sub {
 
 };
 
-true;
+1;

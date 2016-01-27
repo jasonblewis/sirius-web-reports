@@ -1,0 +1,6 @@
+* shotgun
+  plackup -L Shotgun bin/app.psgi
+* medium scale app
+  http://lists.preshweb.co.uk/pipermail/dancer-users/2015-October/005237.html
+  https://github.com/wyoung/advent-calendar/tree/master/danceradvent/public/articles/2015
+
