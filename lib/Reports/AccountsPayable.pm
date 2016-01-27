@@ -9,7 +9,45 @@ sub menu {
 };
 
 sub creditorterms {
-  template 'AP/Creditor Terms';
+
+  my $dbh = DBI->connect("dbi:ODBC:DSN=sirius",***REMOVED***, {PrintError => 1});
+  unless ($dbh) {
+    die "Unable for connect to server $DBI::errstr";
+  }
+  my $sth;
+  my $sth_dbname;
+  my $dat;
+  my $dbnames;
+  $sth = $dbh->prepare("select \@\@servername as name")  or die "Can't prepare: $DBI::errstr\n";
+  $sth->execute or die $sth->errstr;
+  $dat = $sth->fetchall_arrayref({});
+  $sth->finish;
+
+  $sth_dbname = $dbh->prepare("select DB_NAME() as name;") or die "can't prepare\n";
+  $sth_dbname->execute or die $sth_dbname->errstr;
+  $dbnames = $sth_dbname->fetchall_arrayref({});
+  $sth_dbname->finish;
+
+  my $term_sql = qq/SELECT "ap_creditor"."creditor_code", "ap_creditor"."term_code", "term_rate"."description", "term_rate"."term_days", "term_rate"."term_method", "term_rate"."discount_rate"
+ FROM   "siriusv8"."dbo"."ap_creditor" "ap_creditor" INNER JOIN "siriusv8"."dbo"."term_rate" "term_rate" ON "ap_creditor"."term_code"="term_rate"."term_code"
+ WHERE  "ap_creditor"."term_code"<>'0'/;
+
+  $sth = $dbh->prepare($term_sql) or die "can't prepare\n";
+  $sth->execute or die $sth->errstr;
+  my $fields = $sth->{NAME};
+  my $creditors = $sth->fetchall_arrayref({});
+  $sth->finish;
+
+  template 'AP/Creditor Terms', {
+    'servers' => $dat,
+    'databases' => $dbnames,
+    'fields' => $fields,
+    'creditors' => $creditors,
+  };
+
+
+
+#  template 'AP/Creditor Terms';
 };
 
 sub detailedtrialbalance {

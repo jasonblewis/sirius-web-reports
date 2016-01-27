@@ -1,0 +1,35 @@
+test.tt
+<h2>Fields</h2>
+<ul>
+    [% FOREACH field IN fields %]
+        <li>field: [% field %]</li>
+    [% END  %]
+</ul>
+
+
+<table id="example" class="display" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            [% FOREACH field IN fields %]
+                <th>[% field %]</th>
+            [% END  %]
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            [% FOREACH field IN fields %]
+                <th>[% field %]</th>
+            [% END  %]
+        </tr>
+    </tfoot>
+    <tbody>
+        [% FOREACH creditor IN creditors %]
+            <tr>
+                [% FOREACH field IN fields %]
+                    <td>[% creditor.$field %]</td>
+                [% END %]
+            </tr>
+        [% END  %]
+    </tbody>
+</table>
+
