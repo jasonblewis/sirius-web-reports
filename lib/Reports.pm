@@ -22,9 +22,11 @@ get '/' => sub {
 };
 
 
-get '/Accounts Receivable' => \&Reports::AccountsReceivable::menu;
-get '/Accounts Receivable/Outstanding Invoices' => \&Reports::AccountsReceivable::outstandinginvoices;
-get '/Accounts Receivable/Statement Email Addresses' => \&Reports::AccountsReceivable::statementemailaddresses;
+prefix '/Accounts Receivable' => sub {
+  get ''                           => \&Reports::AccountsReceivable::menu;
+  get '/Outstanding Invoices'      => \&Reports::AccountsReceivable::outstandinginvoices;
+  get '/Statement Email Addresses' => \&Reports::AccountsReceivable::statementemailaddresses;
+};
 
 
 get '/database' => sub {
