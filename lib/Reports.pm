@@ -22,12 +22,6 @@ get '/' => sub {
 };
 
 
-prefix '/Accounts Receivable' => sub {
-  get ''                           => \&Reports::AccountsReceivable::menu;
-  get '/Outstanding Invoices'      => \&Reports::AccountsReceivable::outstandinginvoices;
-  get '/Statement Email Addresses' => \&Reports::AccountsReceivable::statementemailaddresses;
-};
-
 
 get '/database' => sub {
   my $dbh = DBI->connect("dbi:ODBC:DSN=demo",***REMOVED***, {PrintError => 1});

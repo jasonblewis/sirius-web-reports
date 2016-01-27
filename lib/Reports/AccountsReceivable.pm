@@ -16,4 +16,13 @@ sub statementemailaddresses {
   template 'AR Statement Email Addresses';
 };
 
+
+
+prefix '/Accounts Receivable' => sub {
+  get ''                           => \&menu;
+  get '/Outstanding Invoices'      => \&outstandinginvoices;
+  get '/Statement Email Addresses' => \&statementemailaddresses;
+};
+
+
 1;
