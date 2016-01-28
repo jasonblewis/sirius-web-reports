@@ -3,7 +3,7 @@
 <head>
   <meta charset="[% settings.charset %]">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>reports</title>
+  <title>[% title %]</title>
   <link rel="stylesheet" href="[% request.uri_base %]/css/style.css">
 
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
@@ -19,7 +19,8 @@
 
 
  $(document).ready(function() {
-     $('#example').DataTable();
+     $('#example').DataTable(
+     );
  } );
 
 

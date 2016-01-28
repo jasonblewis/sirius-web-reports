@@ -1,1 +1,62 @@
-detailed trial balance
+[% USE Dumper %]
+
+<p>longreadlen: [% longreadlen %]</p>
+<p>longrtruncok: [% longtruncok  %]</p>
+
+<ol>
+    [% FOREACH server IN servers %]
+        <li>    server: [% server.name %]</li>
+    [% END  %]
+</ol>
+<ol>
+    [% FOREACH database IN databases %]
+        <li>database: [% database.name %]</li>
+    [% END  %]
+</ol>
+
+[%  Dumper.dump(fields) %]
+
+
+<table data-paging="false" id="example" class="display" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            [% FOREACH field IN fields %]
+                <th>[% field %]</th>
+            [% END  %]
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            [% FOREACH field IN fields %]
+                <th>[% field %]</th>
+            [% END  %]
+        </tr>
+    </tfoot>
+    <tbody>
+        [% FOREACH row IN rows %]
+            <tr>
+                <td>[% row.creditor_code %]</td>
+                <td>[% row.name %]</td>
+                <td>[% row.term_days %]</td>
+                <td>[% row.discount_rate %]</td>
+                <td>[% row.term_code %]</td>
+                <td>[% row.term_method %]</td>
+                <td>[% row.description %]</td>
+                <td>Last Payment Date: [% row.trans_date %]</td>
+            </tr>
+    [% END  %]
+    </tbody>
+</table>
+<table>
+    <tbody>
+        <tr>
+            <td>row 1 col 1</td>
+            <td>row 1 col 2</td>
+        </tr>
+        <tr>
+            <td>row 2 col 1</td>
+            <td>row 2 col 2</td>
+        </tr>
+    </tbody>
+</table>
+

@@ -1,5 +1,6 @@
 [% USE Dumper %]
 database template
+
 <ol>
 [% FOREACH server IN servers %]
     <li>    server: [% server.name %]</li>
@@ -20,7 +21,7 @@ database template
 </ul>
 
 
-<table id="example" class="display" cellspacing="0" width="100%">
+<table data-paging="false" id="example" class="display" cellspacing="0" width="100%">
     <thead>
         <tr>
         [% FOREACH field IN fields %]
