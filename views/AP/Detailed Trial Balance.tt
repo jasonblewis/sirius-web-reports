@@ -1,4 +1,5 @@
 [% USE Dumper %]
+[% USE date(format = '%Y-%m-%d') %]
 
 <p>longreadlen: [% longreadlen %]</p>
 <p>longrtruncok: [% longtruncok  %]</p>
@@ -14,49 +15,32 @@
     [% END  %]
 </ol>
 
-[%  Dumper.dump(fields) %]
+[% # Dumper.dump(fields) %]
 
 
-<table data-paging="false" id="example" class="display" cellspacing="0" width="100%">
-    <thead>
-        <tr>
-            [% FOREACH field IN fields %]
-                <th>[% field %]</th>
-            [% END  %]
-        </tr>
-    </thead>
-    <tfoot>
-        <tr>
-            [% FOREACH field IN fields %]
-                <th>[% field %]</th>
-            [% END  %]
-        </tr>
-    </tfoot>
-    <tbody>
         [% FOREACH row IN rows %]
+            [% IF row.ap_creditor_code != loop.prev.ap_creditor_code %]
+                <h3>[% row.ap_creditor_code %]</h3>
+                
+                [% row.name %], 
+                [% row.description %],
+                Days: [% row.term_days %],
+                Discount: [% row.discount_rate %],
+                Terms code: [% row.term_code %],
+                Terms Method: [% row.term_method %]
+                [% IF row.zz_ap_last_payment_trans_date %]                                        
+                    , Last Payment Date: [% date.format(row.zz_ap_last_payment_trans_date) %]: $[% row.zz_ap_last_payment_trans_amt * -1 %]
+                [% END %]
+                <table>
+            [% END %]
             <tr>
-                <td>[% row.creditor_code %]</td>
-                <td>[% row.name %]</td>
-                <td>[% row.term_days %]</td>
-                <td>[% row.discount_rate %]</td>
-                <td>[% row.term_code %]</td>
-                <td>[% row.term_method %]</td>
-                <td>[% row.description %]</td>
-                <td>Last Payment Date: [% row.trans_date %]</td>
+                <td>[% row.ref_1 %]</td>
+                <td>[% date.format(row.ap_transaction_trans_date) %]</td>
+                <td style="text-align:right">owing: [% row.owing | format('%.2f') %]</td>
+
             </tr>
-    [% END  %]
-    </tbody>
-</table>
-<table>
-    <tbody>
-        <tr>
-            <td>row 1 col 1</td>
-            <td>row 1 col 2</td>
-        </tr>
-        <tr>
-            <td>row 2 col 1</td>
-            <td>row 2 col 2</td>
-        </tr>
-    </tbody>
-</table>
+            [% IF row.ap_creditor_code != loop.next.ap_creditor_code %]
+                </table>
+            [% END  %]
+        [% END  %]
 
