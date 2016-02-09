@@ -19,7 +19,9 @@
 
 
         [% FOREACH row IN rows %]
-            [% IF row.ap_creditor_code != loop.prev.ap_creditor_code %]
+            [% IF row.ap_creditor_code != loop.prev.ap_creditor_code;
+               sum_owing = 0;
+            %]
                 <h3>[% row.ap_creditor_code %]</h3>
                 
                 [% row.name %], 
@@ -32,14 +34,30 @@
                     , Last Payment Date: [% date.format(row.zz_ap_last_payment_trans_date) %]: $[% row.zz_ap_last_payment_trans_amt * -1 %]
                 [% END %]
                 <table>
+                    <thead>
+                        <tr>
+                            <td>Ref</td>
+                            <td>Date</td>
+                            <td>Oustanding</td>
+                        </tr>
+                    </thead>
             [% END %]
-            <tr>
-                <td>[% row.ref_1 %]</td>
-                <td>[% date.format(row.ap_transaction_trans_date) %]</td>
-                <td style="text-align:right">owing: [% row.owing | format('%.2f') %]</td>
-
-            </tr>
+            <tbody>
+                <tr>
+                    <td>[% row.ref_1 %]</td>
+                    <td>[% date.format(row.ap_transaction_trans_date) %]</td>
+                    <td style="text-align:right">[% row.owing | format('%.2f') %]</td>
+                    [%- sum_owing = sum_owing + row.owing -%]
+                </tr>
+            </tbody>
             [% IF row.ap_creditor_code != loop.next.ap_creditor_code %]
+                <tfoot>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td class="total">[% sum_owing | format('%.2f') %]</td>
+                    </tr>
+                </tfoot>
                 </table>
             [% END  %]
         [% END  %]

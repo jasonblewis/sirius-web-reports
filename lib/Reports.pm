@@ -6,6 +6,7 @@ use Dancer2::Plugin::Database;
 use DBI;
 use Reports::AccountsReceivable;
 use Reports::AccountsPayable;
+use Reports::Sales;
 
 set 'logger'       => 'console';
 set 'log'          => 'debug';
