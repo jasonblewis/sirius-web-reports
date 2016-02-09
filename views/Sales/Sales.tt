@@ -1,0 +1,25 @@
+<div id="page">
+
+    <div id="sidebar">
+        <ul id="sidebar-items">
+            <li>
+                <h3>Sales sidebar</h3>
+                <ul class="links">
+                    <li><a href="https://wiki.organictrader.com.au/wiki/Main_Page/">Organic Trader Wiki</a></li>
+                </ul>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div id="content">
+        <div id="header">
+            <h1>Sales</h1>
+        </div>
+        
+        <div id="reports">
+            <h3><a href="/Sales/New Stores Quaterly Sales" >New Stores Quaterly Sales</a></h3>
+        </div>
+    </div>
+
+</div>

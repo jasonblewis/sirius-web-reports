@@ -1,0 +1,49 @@
+[% USE Dumper %]
+New Stores Quaterly Sales, select store
+
+<ol>
+    [% FOREACH server IN servers %]
+        <li>    server: [% server.name %]</li>
+    [% END  %]
+</ol>
+<ol>
+    [% FOREACH database IN databases %]
+        <li>database: [% database.name %]</li>
+    [% END  %]
+</ol>
+
+[% # Dumper.dump(fields) %]
+<h2>Fields</h2>
+<ul>
+    [% FOREACH field IN fields %]
+        <li>field: [% field %]</li>
+    [% END  %]
+</ul>
+
+
+<table data-paging="false" id="example" class="display" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            [% FOREACH field IN fields %]
+                <th>[% field %]</th>
+            [% END  %]
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            [% FOREACH field IN fields %]
+                <th>[% field %]</th>
+            [% END  %]
+        </tr>
+    </tfoot>
+    <tbody>
+        [% FOREACH row IN rows %]
+            <tr>
+                [% FOREACH field IN fields %]
+                    <td>[% row.$field %]</td>
+                [% END %]
+            </tr>
+        [% END  %]
+    </tbody>
+</table>
+

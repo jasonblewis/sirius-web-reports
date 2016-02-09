@@ -1,0 +1,103 @@
+[% USE Dumper %]
+[% USE date(format = '%Y-%m-%d') %]
+<script src="/javascripts/datatablesdisplay.js"></script>
+
+New Stores Quaterly Sales
+
+<ol>
+    [% FOREACH server IN servers %]
+        <li>    server: [% server.name %]</li>
+    [% END  %]
+</ol>
+<ol>
+    [% FOREACH database IN databases %]
+        <li>database: [% database.name %]</li>
+    [% END  %]
+</ol>
+
+[% # Dumper.dump(fields) %]
+<h2>Fields</h2>
+<ul>
+    [% FOREACH field IN fields %]
+        <li>field: [% field %]</li>
+    [% END  %]
+</ul>
+
+[% FOREACH row IN rows %]
+    [% IF row.firstorderquater != loop.prev.firstorderquater;
+       new_stores = 0;
+       sum_gp = 0;
+       sum_sales = 0;
+       q_sum_gp = 0;
+       q_sum_sales = 0;
+    %]
+        <h3>[% date.format(row.firstorderquater) %]</h3> 
+        <table id="" class="display" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <td>Customer Code</td>
+                    <td>name</td>
+                    <td>first order invoice date</td>
+                    <td>sales rep</td>
+                    <td>territory</td>
+                    <td>profit</td>
+                    <td>sales_amt</td>
+                    <td>gross profit</td>
+                </tr>
+            </thead>
+            <tbody>
+    [% END %]
+    [%-
+       sum_gp = sum_gp + row.profit_amt;
+       sum_sales = sum_sales + row.sales_amt;
+       q_sum_gp = q_sum_gp + row.profit_amt;
+       q_sum_sales = q_sum_sales + row.sales_amt;
+    -%]
+    [% IF row.customer_code != loop.next.customer_code;
+       new_stores = new_stores + 1;
+    %]
+        <tr>
+            <td>[% row.customer_code %]</td>
+            <td>[% row.name %]</td>
+            <td>[% date.format(row.first_order_inv_date) %]</td>
+            <td>[% row.sales_rep_code %]</td>
+            <td>[% row.territory_code %]</td>
+            <td>[% sum_gp | format('%.2f') %]</td>
+            <td>[% sum_sales | format('%.2f') %]</td>
+            <td>[% IF (sum_sales > 0) ;
+                   sum_gp / sum_sales * 100 | format('%.0f');
+                   ELSE;
+                   "N/A";
+                END; %]</td>
+        </tr>
+        [% sum_gp = 0;
+           sum_sales = 0;
+        %]
+    [% END %] 
+    
+    [% IF row.firstorderquater != loop.next.firstorderquater; %]
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td></td>
+                    <td>New Stores: [% new_stores %]</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>[% q_sum_gp | format('%.2f') %]</td>
+                    <td>[% q_sum_sales | format('%.2f') %]</td>
+                    <td>[% IF (q_sum_sales > 0) ;
+                               q_sum_gp / q_sum_sales * 100 | format('%.0f');
+                               ELSE;
+                               "N/A";
+                               END; %]</td>
+                </tr>
+            </tfoot>
+        </table>
+        
+        [% new_stores = 0;
+           q_sum_gp = 0;
+           q_sum_sales = 0;
+        %]
+    [% END %]
+[% END %]
