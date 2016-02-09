@@ -94,6 +94,7 @@ New Stores Quaterly Sales
                 </tr>
             </tfoot>
         </table>
+        <button id="export" data-export="export">Export</button>
         
         [% new_stores = 0;
            q_sum_gp = 0;
