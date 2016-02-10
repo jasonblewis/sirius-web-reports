@@ -180,18 +180,26 @@ code, tt {
 }
 
 #footer {
-clear: both;
-padding-top: 2em;
-text-align: center;
-padding-right: 160px;
-font-family: sans-serif;
-font-size: 10px;
+    clear: both;
+    padding-top: 2em;
+    text-align: center;
+    padding-right: 160px;
+    font-family: sans-serif;
+    font-size: 10px;
 }
 
 td.total {
     text-align: right;
     border-top: 1px solid #000;
     font-weight: bold;
+}
+
+td.fp_number {
+    text-align: right;
+}
+
+td.right {
+    text-align: right;
 }
 
 thead {

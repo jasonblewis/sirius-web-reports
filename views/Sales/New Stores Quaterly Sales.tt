@@ -2,7 +2,7 @@
 [% USE date(format = '%Y-%m-%d') %]
 <script src="/javascripts/datatablesdisplay.js"></script>
 
-New Stores Quaterly Sales
+<h1>New Stores Quaterly Sales</h1>
 
 <ol>
     [% FOREACH server IN servers %]
@@ -31,18 +31,18 @@ New Stores Quaterly Sales
        q_sum_gp = 0;
        q_sum_sales = 0;
     %]
-        <h3>[% date.format(row.firstorderquater) %]</h3> 
-        <table id="" class="display" cellspacing="0" width="100%">
+        <h3>Quarter starting [% date.format(row.firstorderquater) %]</h3> 
+        <table id="" class="display compact" cellspacing="0" width="90%">
             <thead>
                 <tr>
                     <td>Customer Code</td>
                     <td>name</td>
-                    <td>first order invoice date</td>
+                    <td class="right">first order<br />invoice date</td>
                     <td>sales rep</td>
                     <td>territory</td>
-                    <td>profit</td>
-                    <td>sales_amt</td>
-                    <td>gross profit</td>
+                    <td class="right">profit</td>
+                    <td class="right">sales_amt</td>
+                    <td class="right">gross profit</td>
                 </tr>
             </thead>
             <tbody>
@@ -59,12 +59,12 @@ New Stores Quaterly Sales
         <tr>
             <td>[% row.customer_code %]</td>
             <td>[% row.name %]</td>
-            <td>[% date.format(row.first_order_inv_date) %]</td>
+            <td class="right">[% date.format(row.first_order_inv_date) %]</td>
             <td>[% row.sales_rep_code %]</td>
             <td>[% row.territory_code %]</td>
-            <td>[% sum_gp | format('%.2f') %]</td>
-            <td>[% sum_sales | format('%.2f') %]</td>
-            <td>[% IF (sum_sales > 0) ;
+            <td class="fp_number">[% sum_gp | format('%.2f') %]</td>
+            <td class="fp_number">[% sum_sales | format('%.2f') %]</td>
+            <td class="right">[% IF (sum_sales > 0) ;
                    sum_gp / sum_sales * 100 | format('%.0f');
                    ELSE;
                    "N/A";
@@ -84,9 +84,9 @@ New Stores Quaterly Sales
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td>[% q_sum_gp | format('%.2f') %]</td>
-                    <td>[% q_sum_sales | format('%.2f') %]</td>
-                    <td>[% IF (q_sum_sales > 0) ;
+                    <td class="total">[% q_sum_gp | format('%.2f') %]</td>
+                    <td class="total">[% q_sum_sales | format('%.2f') %]</td>
+                    <td class="total">[% IF (q_sum_sales > 0) ;
                                q_sum_gp / q_sum_sales * 100 | format('%.0f');
                                ELSE;
                                "N/A";
@@ -94,7 +94,6 @@ New Stores Quaterly Sales
                 </tr>
             </tfoot>
         </table>
-        <button id="export" data-export="export">Export</button>
         
         [% new_stores = 0;
            q_sum_gp = 0;
