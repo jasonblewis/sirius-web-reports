@@ -10,7 +10,7 @@ sub menu {
   template 'Sales/Sales';
 };
 
-sub newstoresquaterlysales {
+sub newstoresquarterlysales {
 
   my $sth;
   my $sth_dbname;
@@ -37,7 +37,7 @@ SELECT "zz_first_order_date"."customer_code",
  "company"."territory_code",
  "ar_customer"."sales_rep_code",
  "company"."name",
- DATEADD(qq, DATEDIFF(qq, 0, "zz_first_order_date"."inv_date"), 0) as firstorderquater
+ DATEADD(qq, DATEDIFF(qq, 0, "zz_first_order_date"."inv_date"), 0) as firstorderquarter
  FROM   ((
         "siriusv8"."dbo"."sh_transaction" "sh_transaction"
  INNER JOIN
@@ -66,8 +66,8 @@ SELECT "zz_first_order_date"."customer_code",
   my $rows = $sth->fetchall_arrayref({});
   $sth->finish;
 
-  template 'Sales/New Stores Quaterly Sales', {
-    'title' => 'New Stores Quaterly Sales',
+  template 'Sales/New Stores Quarterly Sales', {
+    'title' => 'New Stores Quarterly Sales',
     'servers' => $dat,
     'databases' => $dbnames,
     'fields' => $fields,
@@ -117,8 +117,8 @@ on ar_customer.company_code = company.company_code/;
 
   prefix '/Sales' => sub {
     get ''                           => \&menu;
-#    get '/New Stores Quaterly Sales'  => \&liststores;
-    get '/New Stores Quaterly Sales'  => \&newstoresquaterlysales;
+#    get '/New Stores Quarterly Sales'  => \&liststores;
+    get '/New Stores Quarterly Sales'  => \&newstoresquarterlysales;
   };
 
 

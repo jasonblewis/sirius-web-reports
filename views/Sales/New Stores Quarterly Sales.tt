@@ -2,7 +2,7 @@
 [% USE date(format = '%Y-%m-%d') %]
 <script src="/javascripts/datatablesdisplay.js"></script>
 
-<h1>New Stores Quaterly Sales</h1>
+<h1>New Stores Quarterly Sales</h1>
 
 <ol>
     [% FOREACH server IN servers %]
@@ -24,14 +24,14 @@
 </ul>
 
 [% FOREACH row IN rows %]
-    [% IF row.firstorderquater != loop.prev.firstorderquater;
+    [% IF row.firstorderquarter != loop.prev.firstorderquarter;
        new_stores = 0;
        sum_gp = 0;
        sum_sales = 0;
        q_sum_gp = 0;
        q_sum_sales = 0;
     %]
-        <h3>Quarter starting [% date.format(row.firstorderquater) %]</h3> 
+        <h3>Quarter starting [% date.format(row.firstorderquarter) %]</h3> 
         <table id="" class="display compact" cellspacing="0" width="90%">
             <thead>
                 <tr>
@@ -75,7 +75,7 @@
         %]
     [% END %] 
     
-    [% IF row.firstorderquater != loop.next.firstorderquater; %]
+    [% IF row.firstorderquarter != loop.next.firstorderquarter; %]
             </tbody>
             <tfoot>
                 <tr>
