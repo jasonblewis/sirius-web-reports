@@ -1,5 +1,5 @@
 [% USE Dumper %]
-New Stores Quaterly Sales, select store
+New Stores Quarterly Sales, select store
 
 <ol>
     [% FOREACH server IN servers %]
