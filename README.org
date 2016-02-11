@@ -6,3 +6,5 @@
 
 * to launch for production
 DANCER_ENVIRONMENT=production plackup -D -E deployment -s FCGI --listen  /var/run/reports/reports.sock /home/reports/Reports/bin/app.pl
+* authentication via config file
+  generate hashed passwords with /usr/sbin/slappasswd
