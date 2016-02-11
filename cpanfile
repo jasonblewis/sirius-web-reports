@@ -2,6 +2,7 @@ requires "Dancer2" => "0.162000";
 requires 'Dancer2::Plugin::Database';
 requires 'DBD::ODBC';
 requires "Template";
+requires "FCGI::ProcManager";
 
 recommends "YAML"             => "0";
 recommends "URL::Encode::XS"  => "0";
