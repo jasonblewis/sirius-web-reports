@@ -5,6 +5,6 @@
   https://github.com/wyoung/advent-calendar/tree/master/danceradvent/public/articles/2015
 
 * to launch for production
-DANCER_ENVIRONMENT=production plackup -D -E deployment -s FCGI --listen  /var/run/reports/reports.sock /home/reports/Reports/bin/app.pl
+DANCER_ENVIRONMENT=production plackup -D -E deployment -s FCGI --listen  /var/run/reports/reports.sock /home/reports/Reports/bin/app.psgi
 * authentication via config file
   generate hashed passwords with /usr/sbin/slappasswd

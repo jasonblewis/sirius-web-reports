@@ -5,6 +5,7 @@ requires "Template";
 requires "FCGI::ProcManager";
 requires "Dancer2::Plugin::Auth::Extensible";
 requires "Unix::Passwd::File";
+requires "Authen::PAM";
 requires "Authen::Simple::PAM";
 requires "Dancer2::Session::Cookie";
 
