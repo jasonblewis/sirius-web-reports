@@ -3,6 +3,8 @@ use strict;
 use warnings;
 use Dancer2;
 use Dancer2::Plugin::Database;
+use Dancer2::Plugin::Auth::Extensible;
+use Dancer2::Session::Cookie;
 use DBI;
 use Reports::AccountsReceivable;
 use Reports::AccountsPayable;
@@ -20,12 +22,12 @@ set 'warnings'     => 1;
 our $VERSION = '0.1';
 
 
-get '/' => sub {
+get '/' => require_login sub {
   template 'index';
 };
 
 
-get '/test' => sub {
+get '/test' => require_login sub {
   my $sth = database->prepare(
     'select top 10 * from ap_creditor',
   );

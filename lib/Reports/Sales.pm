@@ -3,6 +3,7 @@ use strict;
 use warnings;
 use Dancer2 appname => 'Reports';
 use Dancer2::Plugin::Database;
+use Dancer2::Plugin::Auth::Extensible;
 use Data::Dumper;
 
 
@@ -116,9 +117,8 @@ on ar_customer.company_code = company.company_code/;
 
 
   prefix '/Sales' => sub {
-    get ''                           => \&menu;
-#    get '/New Stores Quarterly Sales'  => \&liststores;
-    get '/New Stores Quarterly Sales'  => \&newstoresquarterlysales;
+    get ''                            => require_login \&menu;
+    get '/New Stores Quarterly Sales' => require_login \&newstoresquarterlysales;
   };
 
 

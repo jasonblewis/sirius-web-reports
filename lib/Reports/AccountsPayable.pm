@@ -3,6 +3,7 @@ use strict;
 use warnings;
 use Dancer2 appname => 'Reports';
 use Dancer2::Plugin::Database;
+use Dancer2::Plugin::Auth::Extensible;
 use Data::Dumper;
 
 sub menu {
@@ -112,10 +113,10 @@ sub detailedtrialbalance {
 
 
 
-prefix '/Accounts Payable' => sub {
-  get ''                           => \&menu;
-  get '/Creditor Terms'      => \&creditorterms;
-  get '/Detailed Trial Balance' => \&detailedtrialbalance;
+prefix '/Accounts Payable' =>  sub {
+  get ''                        => require_login \&menu;
+  get '/Creditor Terms'         => require_login \&creditorterms;
+  get '/Detailed Trial Balance' => require_login \&detailedtrialbalance;
 };
 
 
