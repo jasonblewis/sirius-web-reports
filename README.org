@@ -6,5 +6,7 @@
 
 * to launch for production
 DANCER_ENVIRONMENT=production plackup -D -E deployment -s FCGI --listen  /var/run/reports/reports.sock /home/reports/Reports/bin/app.psgi
+* to launch for development
+DANCER_ENVIRONMENT=development plackup -L Shotgun bin/app.psgi
 * authentication via config file
   generate hashed passwords with /usr/sbin/slappasswd
