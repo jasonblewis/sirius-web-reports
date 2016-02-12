@@ -3,7 +3,7 @@ requires 'Dancer2::Plugin::Database';
 requires 'DBD::ODBC';
 requires "Template";
 requires "FCGI::ProcManager";
-requires "Dancer2::Plugin::Auth::Extensible"=> "0.502";
+requires "Dancer2::Plugin::Auth::Extensible", "0.502";
 requires "Authen::PAM";
 requires "Authen::Simple::PAM";
 requires "Dancer2::Session::Cookie";
