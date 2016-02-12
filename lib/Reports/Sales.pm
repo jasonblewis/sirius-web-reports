@@ -116,9 +116,29 @@ on ar_customer.company_code = company.company_code/;
 
 
 
+sub territory24month {
+
+  my $sql = q/select  
+	ac.customer_code,
+	ac.territory_code,
+	DATEADD(month, DATEDIFF(month, 0, sh.invoice_date), 0) as 'sale month',
+	sum(sh.sales_amt) as sales
+ from sh_transaction sh
+join ar_cust_ex_shipto_view ac on sh.customer_code = ac.customer_code
+where ac.territory_code != sh.territory_code
+and sh.invoice_date >= DATEADD(YEAR, DATEDIFF(YEAR, 0, DATEADD(YEAR, -2, GETDATE())), 0)
+group by ac.territory_code, ac.customer_code, DATEADD(month, DATEDIFF(month, 0, sh.invoice_date), 0)
+
+order by DATEADD(month, DATEDIFF(month, 0, sh.invoice_date), 0)/;
+  template 'Sales/Territory 24 Month';
+};
+
+
+
   prefix '/Sales' => sub {
     get ''                            => require_login \&menu;
     get '/New Stores Quarterly Sales' => require_login \&newstoresquarterlysales;
+    get '/Territory 24 Month'         => require_login \&territory24month;
   };
 
 
