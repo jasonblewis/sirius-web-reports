@@ -161,44 +161,43 @@ sub listterritories {
 
 
 sub territory24month {
+  database->{LongReadLen} = 100000;
+  database->{LongTruncOk} = 0;
+
   if (query_parameters->get('territory_code')) {
     my $sql = q/declare @cols as nvarchar(max),@query as nvarchar(max)
-declare @territory as nvarchar(max);
-set @territory = ?;
-;with cte(intCount,month)
- as
- (
-   Select 0, 	       DATEADD(month, DATEDIFF(month, 0, DATEADD(month, 0,            GETDATE())), 0) as month
- 
-   union all
-    Select intCount+1, DATEADD(month, DATEDIFF(month, 0, DATEADD(month, -(intCount+1), GETDATE())), 0) as month
-	 from cte
-                            where intCount<=24
- )
-Select @cols = coalesce(@cols + ',','') + quotename(convert(varchar(10),month,120))
-from cte
-select @query =
-'select * from 
- (select
-	ac.customer_code,
-	ac.territory_code,
-	DATEADD(month, DATEDIFF(month, 0, sh.invoice_date), 0) as ''month'',
-	sum(sh.sales_amt) as sales
- from sh_transaction sh
-join ar_cust_ex_shipto_view ac on sh.customer_code = ac.customer_code
-where sh.invoice_date >= DATEADD(YEAR, DATEDIFF(YEAR, 0, DATEADD(YEAR, -2, GETDATE())), 0)
-and ltrim(rtrim(ac.territory_code)) = ''' + @territory + '''
-group by ac.territory_code, ac.customer_code, DATEADD(month, DATEDIFF(month, 0, sh.invoice_date), 0) ) x
-pivot
-(
-  sum(sales)
-  for [month] in ( ' + @cols + ' )
-) p'
+                declare @territory as nvarchar(max);
+                set @territory = ?;
+                ;with cte(intCount,month)
+                 as
+                 (
+                   Select 0, 	       DATEADD(month, DATEDIFF(month, 0, DATEADD(month, 0,            GETDATE())), 0) as month
+                   union all
+                    Select intCount+1, DATEADD(month, DATEDIFF(month, 0, DATEADD(month, -(intCount+1), GETDATE())), 0) as month
+                	 from cte
+                                            where intCount<=24
+                 )
+                Select @cols = coalesce(@cols + ',','') + quotename(convert(varchar(10),month,120))
+                from cte
+                select @query =
+                'select * from 
+                 (select
+                	ac.customer_code,
+                	ac.territory_code,
+                	DATEADD(month, DATEDIFF(month, 0, sh.invoice_date), 0) as ''month'',
+                	sum(sh.sales_amt) as sales
+                 from sh_transaction sh
+                join ar_cust_ex_shipto_view ac on sh.customer_code = ac.customer_code
+                where sh.invoice_date >= DATEADD(YEAR, DATEDIFF(YEAR, 0, DATEADD(YEAR, -2, GETDATE())), 0)
+                and ltrim(rtrim(ac.territory_code)) = ''' + @territory + '''
+                group by ac.territory_code, ac.customer_code, DATEADD(month, DATEDIFF(month, 0, sh.invoice_date), 0) ) x
+                pivot
+                (
+                  sum(sales)
+                  for [month] in ( ' + @cols + ' )
+                ) p'
 
-select @query
-
-
-EXEC SP_EXECUTESQL @query
+                EXEC SP_EXECUTESQL @query
 /;
 
     my $sth = database->prepare($sql) or die "can't prepare\n";
