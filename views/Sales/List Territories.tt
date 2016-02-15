@@ -1,0 +1,34 @@
+list territories
+
+target: [% target %]
+
+
+[% USE Dumper %]
+[% USE url(target) %]
+
+
+
+<table data-paging="false" id="example" class="display" cellspacing="0" width="40%">
+    <thead>
+        <tr>
+            <td>[% field.territory_code %]</td>
+            <td>[% field.description %]</td>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <td>[% field.territory_code %]</td>
+            <td>[% field.description %]</td>
+        </tr>
+    </tfoot>
+    <tbody>
+        [% FOREACH row IN rows %]
+            <tr>
+                <td><a href="[% url(territory_code=row.territory_code) %]">[% row.territory_code %]</a></td>
+                <td>[% row.description %]</td>
+            </tr>
+        [% END  %]
+    </tbody>
+</table>
+
+

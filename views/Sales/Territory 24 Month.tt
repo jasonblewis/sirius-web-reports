@@ -1,1 +1,5 @@
+[% USE Dumper %]
 Territory 24 Month
+territory: [% territory_code %]
+
+[% Dumper.dump(rows) %]

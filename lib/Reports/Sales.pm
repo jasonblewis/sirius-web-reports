@@ -12,7 +12,6 @@ sub menu {
 };
 
 sub newstoresquarterlysales {
-
   my $sth;
   my $sth_dbname;
   my $dat;
@@ -77,7 +76,8 @@ SELECT "zz_first_order_date"."customer_code",
 
 };
 
-sub liststores {
+sub listcustomers {
+  my $target = shift;
 
   my $sth;
   my $sth_dbname;
@@ -104,7 +104,8 @@ on ar_customer.company_code = company.company_code/;
   my $rows = $sth->fetchall_arrayref({});
   $sth->finish;
 
-  template 'Sales/List Stores', {
+  template 'Sales/List Customers', {
+    'target' => $target,
     'title' => 'Stores',
     'servers' => $dat,
     'databases' => $dbnames,
@@ -114,32 +115,113 @@ on ar_customer.company_code = company.company_code/;
 
 };
 
+sub listterritories {
 
+  my $target = shift;
 
-sub territory24month {
+  my $sth;
+  my $sth_dbname;
+  my $dat;
+  my $dbnames;
+  $sth = database->prepare("select \@\@servername as name")  or die "Can't prepare: $DBI::errstr\n";
+  $sth->execute or die $sth->errstr;
+  $dat = $sth->fetchall_arrayref({});
+  $sth->finish;
 
-  my $sql = q/select  
-	ac.customer_code,
-	ac.territory_code,
-	DATEADD(month, DATEDIFF(month, 0, sh.invoice_date), 0) as 'sale month',
-	sum(sh.sales_amt) as sales
- from sh_transaction sh
-join ar_cust_ex_shipto_view ac on sh.customer_code = ac.customer_code
-where ac.territory_code != sh.territory_code
-and sh.invoice_date >= DATEADD(YEAR, DATEDIFF(YEAR, 0, DATEADD(YEAR, -2, GETDATE())), 0)
-group by ac.territory_code, ac.customer_code, DATEADD(month, DATEDIFF(month, 0, sh.invoice_date), 0)
+  $sth_dbname = database->prepare("select DB_NAME() as name;") or die "can't prepare\n";
+  $sth_dbname->execute or die $sth_dbname->errstr;
+  $dbnames = $sth_dbname->fetchall_arrayref({});
+  $sth_dbname->finish;
 
-order by DATEADD(month, DATEDIFF(month, 0, sh.invoice_date), 0)/;
-  template 'Sales/Territory 24 Month';
+  my $term_sql = qq/select 
+                     rtrim(territory_code) as territory_code,
+                     rtrim(description) as description
+                    from dbo.territory
+                    where
+                    territory_code not in ('ZCNV','ZUNK')
+                    and
+                    active_flag = 'Y'/;
+
+  $sth = database->prepare($term_sql) or die "can't prepare\n";
+  $sth->execute or die $sth->errstr;
+  my $fields = $sth->{NAME};
+  my $rows = $sth->fetchall_arrayref({});
+  $sth->finish;
+
+  template 'Sales/List Territories', {
+    'target' => $target,
+    'title' => 'Territories',
+    'servers' => $dat,
+    'databases' => $dbnames,
+    'fields' => $fields,
+    'rows' => $rows,
+  };
 };
 
 
 
-  prefix '/Sales' => sub {
-    get ''                            => require_login \&menu;
-    get '/New Stores Quarterly Sales' => require_login \&newstoresquarterlysales;
-    get '/Territory 24 Month'         => require_login \&territory24month;
+sub territory24month {
+  if (query_parameters->get('territory_code')) {
+    my $sql = q/declare @cols as nvarchar(max),@query as nvarchar(max)
+declare @territory as nvarchar(max);
+set @territory = ?;
+;with cte(intCount,month)
+ as
+ (
+   Select 0, 	       DATEADD(month, DATEDIFF(month, 0, DATEADD(month, 0,            GETDATE())), 0) as month
+ 
+   union all
+    Select intCount+1, DATEADD(month, DATEDIFF(month, 0, DATEADD(month, -(intCount+1), GETDATE())), 0) as month
+	 from cte
+                            where intCount<=24
+ )
+Select @cols = coalesce(@cols + ',','') + quotename(convert(varchar(10),month,120))
+from cte
+select @query =
+'select * from 
+ (select
+	ac.customer_code,
+	ac.territory_code,
+	DATEADD(month, DATEDIFF(month, 0, sh.invoice_date), 0) as ''month'',
+	sum(sh.sales_amt) as sales
+ from sh_transaction sh
+join ar_cust_ex_shipto_view ac on sh.customer_code = ac.customer_code
+where sh.invoice_date >= DATEADD(YEAR, DATEDIFF(YEAR, 0, DATEADD(YEAR, -2, GETDATE())), 0)
+and ltrim(rtrim(ac.territory_code)) = ''' + @territory + '''
+group by ac.territory_code, ac.customer_code, DATEADD(month, DATEDIFF(month, 0, sh.invoice_date), 0) ) x
+pivot
+(
+  sum(sales)
+  for [month] in ( ' + @cols + ' )
+) p'
+
+select @query
+
+
+EXEC SP_EXECUTESQL @query
+/;
+
+    my $sth = database->prepare($sql) or die "can't prepare\n";
+    $sth->bind_param(1,query_parameters->get('territory_code'));
+    $sth->execute or die $sth->errstr;
+    my $rows = $sth->fetchall_arrayref({});
+    $sth->finish;
+    template 'Sales/Territory 24 Month', {
+      territory_code => query_parameters->get('territory_code'),
+        'title' => 'Territories',
+        'rows' => $rows,
+    };
+  } else { # don't know which territory the user wants yet, so ask them then redirect to the real report url
+    listterritories('/Sales/Territory 24 Month');
   };
+};
+
+
+prefix '/Sales' => sub {
+  get ''                            => require_login \&menu;
+  get '/New Stores Quarterly Sales' => require_login \&newstoresquarterlysales;
+  get '/Territory 24 Month'         => require_login \&territory24month;
+};
 
 
 1;
