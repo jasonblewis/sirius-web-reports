@@ -28,7 +28,7 @@
             <tr>
                 [% FOREACH field IN fields %]
                     [% IF (field == 'Territory Code' || field == 'description') %]
-                        <td class="left"><a href='[% url(territory_code=row.$field) %]'>[% row.$field %]</a></td>
+                        <td class="left"><a href='[% url(territory_code = row.item('Territory Code')) %]'>[% row.$field %]</a></td>
                     [% ELSE %]
                         <td class="right">
                             [% IF row.$field %]
