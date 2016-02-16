@@ -1,6 +1,5 @@
 [% USE Dumper %]
-Territory 24 Month
-territory: [% territory_code %]
+<h2>Rolling 24 Month sales for Territory [% territory_code %]</h2>
 <script src="/javascripts/datatablesdisplay.js"></script>
 
 <!-- <h2>Fields</h2>
@@ -34,7 +33,12 @@ territory: [% territory_code %]
                             [% IF row.$field %]
                                 [% row.$field | format('%.0f') %]
                                 [% row_total = row_total + row.$field %]
-                                [% set col_total.$field = col_total.$field + row.$field %]
+                                
+                                [% IF ( col_total.$field == '') ; ## col_total.$field not defined yet
+                                     set col_total.$field = row.$field ;
+                                   ELSE;
+                                     set col_total.$field = col_total.$field + row.$field ;
+                                   END %]
                                 [% grand_total = grand_total + row.$field %]
                             [% ELSE %]
                                 -

@@ -211,7 +211,7 @@ sub territory24month {
       'fields' => $fields,
       'rows' => $rows,
     };
-  } else { # don't know which territory the user wants yet, so ask them then redirect to the real report url
+  } else { # don't know which territory the user wants yet, so ask them then redirect to the real report template
     listterritories('/Sales/Territory 24 Month');
   };
 };
