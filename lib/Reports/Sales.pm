@@ -178,12 +178,11 @@ sub territory24month {
                                             where intCount<=24
                  )
                 Select @cols = coalesce(@cols + ',','') + quotename(convert(varchar(10),month,120))
-                from cte
+                from cte order by month
                 select @query =
                 'select * from 
                  (select
-                	ac.customer_code,
-                	ac.territory_code,
+                	ac.customer_code as ''Customer Code'',
                 	DATEADD(month, DATEDIFF(month, 0, sh.invoice_date), 0) as ''month'',
                 	sum(sh.sales_amt) as sales
                  from sh_transaction sh
@@ -203,12 +202,14 @@ sub territory24month {
     my $sth = database->prepare($sql) or die "can't prepare\n";
     $sth->bind_param(1,query_parameters->get('territory_code'));
     $sth->execute or die $sth->errstr;
+    my $fields = $sth->{NAME};
     my $rows = $sth->fetchall_arrayref({});
     $sth->finish;
     template 'Sales/Territory 24 Month', {
       territory_code => query_parameters->get('territory_code'),
-        'title' => 'Territories',
-        'rows' => $rows,
+      'title' => 'Territories',
+      'fields' => $fields,
+      'rows' => $rows,
     };
   } else { # don't know which territory the user wants yet, so ask them then redirect to the real report url
     listterritories('/Sales/Territory 24 Month');

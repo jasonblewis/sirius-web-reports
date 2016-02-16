@@ -1,5 +1,60 @@
 [% USE Dumper %]
 Territory 24 Month
 territory: [% territory_code %]
+<script src="/javascripts/datatablesdisplay.js"></script>
 
-[% Dumper.dump(rows) %]
+<!-- <h2>Fields</h2>
+     <ul>
+     [% FOREACH field IN fields %]
+     <li>field: [% field %]</li>
+     [% END  %]
+     </ul>
+
+     number of rows: [% rows.size %]<br /> -->
+
+<table data-paging="false" id="" class="display compact" cellspacing="0" width="40%">
+    <thead>
+        <tr>
+            [% FOREACH field IN fields %]
+                <td>[% field %]</td>
+            [% END  %]
+            <td>total</td>
+        </tr>
+    </thead>
+    <tbody>
+        [% grand_total = 0 %]
+        [% FOREACH row IN rows %]
+            [% row_total = 0 %]
+            <tr>
+                [% FOREACH field IN fields %]
+                    [% IF (field == 'Customer Code' ) %]
+                        <td class="left">[% row.$field %]</td>
+                    [% ELSE %]
+                        <td class="right">
+                            [% IF row.$field %]
+                                [% row.$field | format('%.0f') %]
+                                [% row_total = row_total + row.$field %]
+                                [% set col_total.$field = col_total.$field + row.$field %]
+                                [% grand_total = grand_total + row.$field %]
+                            [% ELSE %]
+                                -
+                            [% END %]
+                        </td>
+                    [% END # IF %]
+                [% END # FOREACH field %]
+                <td class="right row_total">[% row_total | format('%.0f') %]</td>
+            </tr>
+            
+        [% END  %]
+    </tbody>
+    <tfoot>
+        <tr>
+            [% FOREACH field IN fields %]
+                <td class="right col_total">[% col_total.$field | format('%.0f') %]</td>
+            [% END  %]
+            <td class="right col_total"> [% grand_total | format('%.0f') %]</td>
+        </tr>
+    </tfoot>
+
+</table>
+
