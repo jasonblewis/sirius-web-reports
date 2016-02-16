@@ -18,6 +18,11 @@ font-size: 28px;
 color: #000;
 }
 
+a, u {
+    text-decoration: none;
+}
+
+
 a  {color: #03c}
 a:hover {
 background-color: #03c;
