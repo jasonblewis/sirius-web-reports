@@ -93,7 +93,8 @@ sub listcustomers {
   $dbnames = $sth_dbname->fetchall_arrayref({});
   $sth_dbname->finish;
 
-  my $term_sql = qq/SELECT ar_customer.customer_code, company.name
+  my $term_sql = qq/Set transaction isolation level read uncommitted;
+SELECT ar_customer.customer_code, company.name
                  from ar_customer
 join company
 on ar_customer.company_code = company.company_code/;
@@ -133,7 +134,8 @@ sub listterritories {
   $dbnames = $sth_dbname->fetchall_arrayref({});
   $sth_dbname->finish;
 
-  my $term_sql = qq/select 
+  my $term_sql = qq/Set transaction isolation level read uncommitted;
+                    select 
                      rtrim(territory_code) as territory_code,
                      rtrim(description) as description
                     from dbo.territory
@@ -165,7 +167,8 @@ sub territory24month {
   database->{LongTruncOk} = 0;
 
   if (query_parameters->get('territory_code')) {
-    my $sql = q/declare @cols as nvarchar(max),@query as nvarchar(max)
+    my $sql = q/Set transaction isolation level read uncommitted;
+                declare @cols as nvarchar(max),@query as nvarchar(max)
                 declare @territory as nvarchar(max);
                 set @territory = ?;
                 ;with cte(intCount,month)
