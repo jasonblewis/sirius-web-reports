@@ -162,7 +162,7 @@ sub listterritories {
 
 
 
-sub territory24month {
+sub territory24monthdetail {
   database->{LongReadLen} = 100000;
   database->{LongTruncOk} = 0;
 
@@ -208,9 +208,9 @@ sub territory24month {
     my $fields = $sth->{NAME};
     my $rows = $sth->fetchall_arrayref({});
     $sth->finish;
-    template 'Sales/Territory 24 Month', {
+    template 'Sales/Territory 24 Month Detail', {
       territory_code => query_parameters->get('territory_code'),
-      'title' => 'Territories',
+      'title' => 'Territory Detail',
       'fields' => $fields,
       'rows' => $rows,
     };
@@ -219,11 +219,61 @@ sub territory24month {
   };
 };
 
+sub territory24monthsummary {
+  database->{LongReadLen} = 100000;
+  database->{LongTruncOk} = 0;
+
+  my $sql = q/Set transaction isolation level read uncommitted;
+declare @cols as nvarchar(max),@query as nvarchar(max)
+;with cte(intCount,month)
+ as
+ (
+   Select 0, 	       DATEADD(month, DATEDIFF(month, 0, DATEADD(month, 0,            GETDATE())), 0) as month
+   union all
+    Select intCount+1, DATEADD(month, DATEDIFF(month, 0, DATEADD(month, -(intCount+1), GETDATE())), 0) as month
+	 from cte
+                            where intCount<=24
+ )
+Select @cols = coalesce(@cols + ',','') + quotename(convert(varchar(10),month,120))
+from cte order by month
+select @query =
+'select * from 
+ (select
+	ac.territory_code as ''Territory Code'',
+	t.description,	
+	DATEADD(month, DATEDIFF(month, 0, sh.invoice_date), 0) as ''month'',
+	sum(sh.sales_amt) as sales
+ from sh_transaction sh
+join ar_cust_ex_shipto_view ac on sh.customer_code = ac.customer_code
+join territory t on ac.territory_code = t.territory_code
+where sh.invoice_date >= DATEADD(YEAR, DATEDIFF(YEAR, 0, DATEADD(YEAR, -2, GETDATE())), 0)
+group by ac.territory_code, t.description, DATEADD(month, DATEDIFF(month, 0, sh.invoice_date), 0) ) x
+pivot
+(
+  sum(sales)
+  for [month] in ( ' + @cols + ' )
+) p'
+EXEC SP_EXECUTESQL @query/;
+
+  my $sth = database->prepare($sql) or die "can't prepare\n";
+  $sth->execute or die $sth->errstr;
+  my $fields = $sth->{NAME};
+  my $rows = $sth->fetchall_arrayref({});
+  $sth->finish;
+  template 'Sales/Territory 24 Month Summary', {
+    'title' => 'Territory Summary',
+    'detail_url' => '/Sales/Territory 24 Month Detail',
+    'fields' => $fields,
+    'rows' => $rows,
+  };
+};
+
 
 prefix '/Sales' => sub {
-  get ''                            => require_login \&menu;
-  get '/New Stores Quarterly Sales' => require_login \&newstoresquarterlysales;
-  get '/Territory 24 Month'         => require_login \&territory24month;
+  get ''                             => require_login \&menu;
+  get '/New Stores Quarterly Sales'  => require_login \&newstoresquarterlysales;
+  get '/Territory 24 Month Detail'          => require_login \&territory24monthdetail;
+  get '/Territory 24 Month Summary' => require_login \&territory24monthsummary;
 };
 
 

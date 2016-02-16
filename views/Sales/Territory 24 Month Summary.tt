@@ -1,0 +1,65 @@
+[% USE Dumper %]
+[% USE url(detail_url) %]
+<h2>Rolling 24 Month Summary Sales</h2>
+<script src="/javascripts/datatablesdisplay.js"></script>
+
+<!-- <h2>Fields</h2>
+     <ul>
+     [% FOREACH field IN fields %]
+     <li>field: [% field %]</li>
+     [% END  %]
+     </ul>
+
+     number of rows: [% rows.size %]<br /> -->
+
+<table data-paging="false" id="" class="display compact" cellspacing="0" width="40%">
+    <thead>
+        <tr>
+            [% FOREACH field IN fields %]
+                <td>[% field %]</td>
+            [% END  %]
+            <td>total</td>
+        </tr>
+    </thead>
+    <tbody>
+        [% grand_total = 0 %]
+        [% FOREACH row IN rows %]
+            [% row_total = 0 %]
+            <tr>
+                [% FOREACH field IN fields %]
+                    [% IF (field == 'Territory Code' || field == 'description') %]
+                        <td class="left"><a href='[% url(territory_code=row.$field) %]'>[% row.$field %]</a></td>
+                    [% ELSE %]
+                        <td class="right">
+                            [% IF row.$field %]
+                                [% row.$field | format('%.0f') %]
+                                [% row_total = row_total + row.$field %]
+                                
+                                [% IF ( col_total.$field == '') ; ## col_total.$field not defined yet
+                                     set col_total.$field = row.$field ;
+                                   ELSE;
+                                     set col_total.$field = col_total.$field + row.$field ;
+                                   END %]
+                                [% grand_total = grand_total + row.$field %]
+                            [% ELSE %]
+                                -
+                            [% END %]
+                        </td>
+                    [% END # IF %]
+                [% END # FOREACH field %]
+                <td class="right row_total">[% row_total | format('%.0f') %]</td>
+            </tr>
+            
+        [% END  %]
+    </tbody>
+    <tfoot>
+        <tr>
+            [% FOREACH field IN fields %]
+                <td class="right col_total">[% col_total.$field | format('%.0f') %]</td>
+            [% END  %]
+            <td class="right col_total"> [% grand_total | format('%.0f') %]</td>
+        </tr>
+    </tfoot>
+
+</table>
+

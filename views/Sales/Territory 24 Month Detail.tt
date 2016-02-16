@@ -1,5 +1,5 @@
 [% USE Dumper %]
-<h2>Rolling 24 Month sales for Territory [% territory_code %]</h2>
+<h2>Rolling 24 Month Detailed Sales for Territory [% territory_code %]</h2>
 <script src="/javascripts/datatablesdisplay.js"></script>
 
 <!-- <h2>Fields</h2>

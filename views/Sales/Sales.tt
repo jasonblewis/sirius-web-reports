@@ -19,7 +19,8 @@
         
         <div id="reports">
             <h3><a href="/Sales/New Stores Quarterly Sales" >New Stores Quarterly Sales</a></h3>
-            <h3><a href="/Sales/Territory 24 Month" >Territory 24 Month</a></h3>
+            <h3><a href="/Sales/Territory 24 Month Summary" >Territory 24 Month Summary</a></h3>
+            <h3><a href="/Sales/Territory 24 Month Detail" >Territory 24 Month Detail</a></h3>
         </div>
     </div>
 
