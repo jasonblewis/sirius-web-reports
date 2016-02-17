@@ -26,81 +26,63 @@ primary_supplier: [% primary_supplier %]
 </ul>
 
     <h3></h3> 
+    [% BLOCK table_head_foot %]
+    <tr>
+        <td class="dt-head-right [% position %]">Product Code</td>
+        <td class="dt-head-left  [% position %]" >Description</td>
+        <td class="dt-head-right [% position %]">On Hand</td>
+        <td class="dt-head-right [% position %]">On Order</td>
+        <td class="dt-head-right [% position %]">Committed</td>
+        <td class="dt-head-right [% position %]">Return bin</td>
+        <td class="dt-head-right [% position %]">Available</td>
+        <td class="dt-head-right [% position %]">5</td>
+        <td class="dt-head-right [% position %]">4</td>
+        <td class="dt-head-right [% position %]">3</td>
+        <td class="dt-head-right [% position %]">2</td>
+        <td class="dt-head-right [% position %]">1</td>
+        <td class="dt-head-right [% position %]">Current<br />Month</td>
+        <td class="dt-head-right [% position %]">Max</td>
+        <td class="dt-head-right [% position %]">Ratio %<br />on hand<br />to max</td>
+        <td class="dt-head-right [% position %]">Lead Time</td>
+        <td class="dt-head-right [% position %]">Min</td>
+        <td class="dt-head-right [% position %]">Max</td>
+        <td class="dt-head-right [% position %]">T</td>
+        <td class="dt-head-right [% position %]">C</td>
+    </tr>
+            [% END # BLOCK table_head_foot %]
     <table id="" class="display compact" cellspacing="0" width="90%">
         <thead>
-            <tr>
-                <td>Product Code</td>
-                <td>Description</td>
-                <td>On Hand</td>
-                <td>On Order</td>
-                <td>Committed</td>
-                <td>Return bin</td>
-                <td>Available</td>
-                <td>5</td>
-                <td>4</td>
-                <td>3</td>
-                <td>2</td>
-                <td>1</td>
-                <td>Current Month</td>
-                <td>Max</td>
-                <td>Ratio %</td>
-                <td>Lead Time</td>
-                <td>Min</td>
-                <td>Max</td>
-                <td>T</td>
-                <td>C</td>
-            </tr>
+            [% PROCESS table_head_foot %]
         </thead>
         <tbody>
             [% FOREACH row IN rows %]
                 <tr>
-                    <td>[% row.product_code   %]</td>
-                    <td>[% row.description    %]</td>
-                    <td>[% row.on_hand        %]</td>
-                    <td>[% row.on_order       %]</td>
-                    <td>[% row.committed      %]</td>
-                    <td>[% row.return_bin_qty %]</td>
-                    <td>[% row.available      %]</td>
-                    <td>[% row.ms_5 %]</td>
-                    <td>[% row.ms_4 %]</td>
-                    <td>[% row.ms_3 %]</td>
-                    <td>[% row.ms_2 %]</td>
-                    <td>[% row.ms_1 %]</td>
-                    <td>[% row.ms_0 %]</td>
-                    <td>[% row.maximum %]</td>
-                    <td>[% row.available_ratio | format('%.0f') %]</td>
-                    <td>[% row.lead_time_days %]</td>
-                    <td>[% row.min_days_stock %]</td>
-                    <td>[% row.max_days_stock %]</td>
-                    <td>[% row.reorder_type %]</td>
-                    <td>[% row.class %]</td>
+                    <td class="dt-body-right">[% row.product_code   %]</td>
+                    <td class="dt-body-left">[% row.description    %]</td>
+                    <td class="dt-body-right">[% row.on_hand        %]</td>
+                    <td class="dt-body-right">[% row.on_order       %]</td>
+                    <td class="dt-body-right">[% row.committed      %]</td>
+                    <td class="dt-body-right">[% row.return_bin_qty %]</td>
+                    <td class="dt-body-right">[% row.available      %]</td>
+                    <td class="dt-body-right">[% row.ms_5 %]</td>
+                    <td class="dt-body-right">[% row.ms_4 %]</td>
+                    <td class="dt-body-right">[% row.ms_3 %]</td>
+                    <td class="dt-body-right">[% row.ms_2 %]</td>
+                    <td class="dt-body-right">[% row.ms_1 %]</td>
+                    <td class="dt-body-right">[% row.ms_0 %]</td>
+                    <td class="dt-body-right">[% row.maximum %]</td>
+                    <td class="dt-body-right">[% row.available_ratio | format('%.0f') %]</td>
+                    <td class="dt-body-right">[% row.lead_time_days %]</td>
+                    <td class="dt-body-right">[% row.min_days_stock %]</td>
+                    <td class="dt-body-right">[% row.max_days_stock %]</td>
+                    <td class="dt-body-right">[% row.reorder_type %]</td>
+                    <td class="dt-body-right">[% row.reorder_class %]</td>
 
                 </tr>
             [% END %]
         </tbody>
         <tfoot>
-            <tr>
-                <td>Product Code</td>
-                <td>Description</td>
-                <td>On Hand</td>
-                <td>On Order</td>
-                <td>Committed</td>
-                <td>Return bin</td>
-                <td>Available</td>
-                <td>5</td>
-                <td>4</td>
-                <td>3</td>
-                <td>2</td>
-                <td>1</td>
-                <td>Current Month</td>
-                <td>Max</td>
-                <td>Ratio</td>
-                <td>Lead Time</td>
-                <td></td>
-                <td></td>
-                <td>T</td>
-                <td>C</td>
-            </tr>
+            [% PROCESS table_head_foot position='top' %]
         </tfoot>
     </table>
     

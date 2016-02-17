@@ -216,6 +216,14 @@ td.left {
     text-align: left;
 }
 
+td.top {
+    vertical-align: top;
+}
+
+td.bottom {
+    vertical-align: bottom;
+}
+
 
 thead {
     font-weight: bold;
