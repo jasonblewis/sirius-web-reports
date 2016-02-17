@@ -1,15 +1,25 @@
 use strict;
 use warnings;
 
-use reports;
-use Test::More tests => 2;
-use Plack::Test;
-use HTTP::Request::Common;
+use Test::More tests => 4;
 
-my $app = reports->to_app;
-is( ref $app, 'CODE', 'Got app' );
+use Test::WWW::Mechanize::PSGI;
 
-my $test = Plack::Test->create($app);
-my $res  = $test->request( GET '/' );
+use_ok 'Reports';
 
-ok( $res->is_success, '[GET /] successful' );
+my $app = Reports->to_app;
+
+isa_ok( $app, 'CODE' );
+
+my $mech = Test::WWW::Mechanize::PSGI->new(
+  app => $app,
+  max_redirect => 0
+);
+
+
+$mech->get('/');
+ok $mech->status eq '302', "/" or diag $mech->status;
+my $loc = $mech->response->header('Location');
+is $loc, 'http://localhost/login?return_url=%2F', '/ redirects to /login' or diag "Location header: $loc";
+
+
