@@ -1,0 +1,107 @@
+Sales History.tt<br />
+primary_supplier: [% primary_supplier %]
+[% USE Dumper %]
+[% USE date(format = '%Y-%m-%d') %]
+<script src="/javascripts/datatablesdisplay.js"></script>
+
+<h1>New Stores Quarterly Sales</h1>
+
+<ol>
+    [% FOREACH server IN servers %]
+        <li>    server: [% server.name %]</li>
+    [% END  %]
+</ol>
+<ol>
+    [% FOREACH database IN databases %]
+        <li>database: [% database.name %]</li>
+    [% END  %]
+</ol>
+
+[% # Dumper.dump(fields) %]
+<h2>Fields</h2>
+<ul>
+    [% FOREACH field IN fields %]
+        <li>field: [% field %]</li>
+    [% END  %]
+</ul>
+
+    <h3></h3> 
+    <table id="" class="display compact" cellspacing="0" width="90%">
+        <thead>
+            <tr>
+                <td>Product Code</td>
+                <td>Description</td>
+                <td>On Hand</td>
+                <td>On Order</td>
+                <td>Committed</td>
+                <td>Return bin</td>
+                <td>Available</td>
+                <td>5</td>
+                <td>4</td>
+                <td>3</td>
+                <td>2</td>
+                <td>1</td>
+                <td>Current Month</td>
+                <td>Max</td>
+                <td>Ratio %</td>
+                <td>Lead Time</td>
+                <td>Min</td>
+                <td>Max</td>
+                <td>T</td>
+                <td>C</td>
+            </tr>
+        </thead>
+        <tbody>
+            [% FOREACH row IN rows %]
+                <tr>
+                    <td>[% row.product_code   %]</td>
+                    <td>[% row.description    %]</td>
+                    <td>[% row.on_hand        %]</td>
+                    <td>[% row.on_order       %]</td>
+                    <td>[% row.committed      %]</td>
+                    <td>[% row.return_bin_qty %]</td>
+                    <td>[% row.available      %]</td>
+                    <td>[% row.ms_5 %]</td>
+                    <td>[% row.ms_4 %]</td>
+                    <td>[% row.ms_3 %]</td>
+                    <td>[% row.ms_2 %]</td>
+                    <td>[% row.ms_1 %]</td>
+                    <td>[% row.ms_0 %]</td>
+                    <td>[% row.maximum %]</td>
+                    <td>[% row.available_ratio | format('%.0f') %]</td>
+                    <td>[% row.lead_time_days %]</td>
+                    <td>[% row.min_days_stock %]</td>
+                    <td>[% row.max_days_stock %]</td>
+                    <td>[% row.reorder_type %]</td>
+                    <td>[% row.class %]</td>
+
+                </tr>
+            [% END %]
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>Product Code</td>
+                <td>Description</td>
+                <td>On Hand</td>
+                <td>On Order</td>
+                <td>Committed</td>
+                <td>Return bin</td>
+                <td>Available</td>
+                <td>5</td>
+                <td>4</td>
+                <td>3</td>
+                <td>2</td>
+                <td>1</td>
+                <td>Current Month</td>
+                <td>Max</td>
+                <td>Ratio</td>
+                <td>Lead Time</td>
+                <td></td>
+                <td></td>
+                <td>T</td>
+                <td>C</td>
+            </tr>
+        </tfoot>
+    </table>
+    
+    

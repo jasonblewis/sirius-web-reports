@@ -9,6 +9,7 @@ use DBI;
 use Reports::AccountsReceivable;
 use Reports::AccountsPayable;
 use Reports::Sales;
+use Reports::Purchasing;
 
 set 'logger'       => 'console';
 set 'log'          => 'debug';
