@@ -10,3 +10,7 @@ DANCER_ENVIRONMENT=production plackup -D -E deployment -s FCGI --listen  /var/ru
 DANCER_ENVIRONMENT=development plackup -L Shotgun bin/app.psgi
 * authentication via config file
   generate hashed passwords with /usr/sbin/slappasswd
+* to test the app
+#+BEGIN_SRC 
+DANCER_ENVIRONMENT=test prove -l t/002_index_route.t
+#+END_SRC
