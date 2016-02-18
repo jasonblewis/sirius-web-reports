@@ -4,14 +4,36 @@ use warnings;
 use Test::More tests => 7;
 
 use Test::WWW::Mechanize::PSGI;
+use Data::Dumper qw(Dumper);
 
 use_ok 'Reports';
 
-my @routes = ('/',
-              'accounts-receivable',
-              'accounts-payable',
-              'business-metrics',
-              '/sales');
+my %routes = ('/'                    => {},
+              '/accounts-receivable' => {},
+              '/accounts-receivable/outstanding-invoices' => {},
+              '/accounts-receivable/statement-email-addresses' => {},
+              '/accounts-payable'    => {},
+              '/business-metrics'    => {TODO => 'not implemented yet' },
+              '/business-reports'    => {TODO => 'not implemented yet'},
+              '/cashflow'            => {TODO   => 'not implemented yet'},
+              '/cc-reconciliation-reports' => {TODO => 'not implemented yet'},
+              '/database-maintenance' => {TODO => 'not implemented yet'},
+              '/general-ledger'       => {TODO => 'not implemented yet'},
+              '/gl-checking'          => {TODO => 'not implemented yet'},
+              '/gl-reconciliation reports' => {TODO => 'not implemented yet'},
+              '/history'              => {TODO => 'not implemented yet'},
+              '/old-reports'          => {TODO => 'not implemented yet'},
+              '/price-lists and catalogues' => {TODO => 'not implemented yet'},
+              '/sales'                => {},
+              '/sales/new-stores-quarterly-sales' => {},
+              '/sales/territory-24-month-summary' => {},
+              '/sales/territory-24-month-detail' => {},
+              '/sales-history'           => {TODO => 'not implemented yet'},
+              '/sales-reports-for-reps'  => {TODO => 'not implemented yet'},
+              '/sirius8test'             => {TODO => 'not implemented yet'},
+              '/stockist-reports'        => {TODO => 'not implemented yet'},
+              '/stocktake'               => {TODO => 'not implemented yet'},
+              );
 
 my $app = Reports->to_app;
 
@@ -47,8 +69,11 @@ $mech->get_ok($loc);
 my $base = $mech->base;
 diag "base: $base";
 subtest 'all routes work' => sub {
-  plan tests => scalar @routes;
-  for my $route (@routes) {
+  plan tests => scalar keys %routes;
+  for my $route (keys %routes) {
+    local $TODO = $routes{$route}{TODO}; # tests are marked as TODO when $TODO is true
     $mech->get_ok($base->new_abs($route,$base));
   };
 };
+
+

@@ -11,7 +11,7 @@ sub menu {
   template 'sales/sales';
 };
 
-sub newstoresquarterlysales {
+sub new_stores_quarterly_sales {
   my $sth;
   my $sth_dbname;
   my $dat;
@@ -66,7 +66,7 @@ SELECT "zz_first_order_date"."customer_code",
   my $rows = $sth->fetchall_arrayref({});
   $sth->finish;
 
-  template 'Sales/New Stores Quarterly Sales', {
+  template 'sales/new-stores-quarterly-sales', {
     'title' => 'New Stores Quarterly Sales',
     'servers' => $dat,
     'databases' => $dbnames,
@@ -76,7 +76,7 @@ SELECT "zz_first_order_date"."customer_code",
 
 };
 
-sub listcustomers {
+sub list_customers {
   my $target = shift;
 
   my $sth;
@@ -116,7 +116,7 @@ on ar_customer.company_code = company.company_code/;
 
 };
 
-sub listterritories {
+sub list_territories {
 
   my $target = shift;
 
@@ -162,7 +162,7 @@ sub listterritories {
 
 
 
-sub territory24monthdetail {
+sub territory_24_month_detail {
   database->{LongReadLen} = 100000;
   database->{LongTruncOk} = 0;
 
@@ -215,11 +215,11 @@ sub territory24monthdetail {
       'rows' => $rows,
     };
   } else { # don't know which territory the user wants yet, so ask them then redirect to the real report template
-    listterritories('/Sales/Territory 24 Month');
+    list_territories('/sales/territory-24-month-detail');
   };
 };
 
-sub territory24monthsummary {
+sub territory_24_month_summary {
   database->{LongReadLen} = 100000;
   database->{LongTruncOk} = 0;
 
@@ -262,7 +262,7 @@ EXEC SP_EXECUTESQL @query/;
   $sth->finish;
   template 'sales/territory-24-month-summary', {
     'title' => 'Territory Summary',
-    'detail_url' => '/Sales/Territory 24 Month Detail',
+    'detail_url' => '/sales/territory-24-month-detail',
     'fields' => $fields,
     'rows' => $rows,
   };
