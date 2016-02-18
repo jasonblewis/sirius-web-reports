@@ -239,7 +239,7 @@ from cte order by month
 select @query =
 'select * from 
  (select
-	ac.territory_code as ''Territory Code'',
+	rtrim(ac.territory_code) as ''Territory Code'',
 	t.description,	
 	DATEADD(month, DATEDIFF(month, 0, sh.invoice_date), 0) as ''month'',
 	sum(sh.sales_amt) as sales

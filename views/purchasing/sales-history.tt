@@ -1,9 +1,8 @@
-primary_supplier: [% primary_supplier %]
 [% USE Dumper %]
 [% USE date(format = '%Y-%m-%d') %]
 <script src="/javascripts/datatablesdisplay.js"></script>
 
-<h1>New Stores Quarterly Sales</h1>
+<h1>Sales History</h1>
 
 <ol>
     [% FOREACH server IN servers %]

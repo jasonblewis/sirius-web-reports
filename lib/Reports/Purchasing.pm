@@ -16,17 +16,20 @@ sub sales_history {
   my $sth_dbname;
   my $dat;
   my $dbnames;
-  $sth = database->prepare("select \@\@servername as name")  or die "Can't prepare: $DBI::errstr\n";
-  $sth->execute or die $sth->errstr;
-  $dat = $sth->fetchall_arrayref({});
-  $sth->finish;
-
-  $sth_dbname = database->prepare("select DB_NAME() as name;") or die "can't prepare\n";
-  $sth_dbname->execute or die $sth_dbname->errstr;
-  $dbnames = $sth_dbname->fetchall_arrayref({});
-  $sth_dbname->finish;
-
-  my $sql = q{Set transaction isolation level read uncommitted;
+  unless  (query_parameters->get('primary_supplier')) {
+    get_selection('/purchasing/sales-history'); # get the user selection of which supplier they want
+  } else {
+    $sth = database->prepare("select \@\@servername as name")  or die "Can't prepare: $DBI::errstr\n";
+    $sth->execute or die $sth->errstr;
+    $dat = $sth->fetchall_arrayref({});
+    $sth->finish;
+    
+    $sth_dbname = database->prepare("select DB_NAME() as name;") or die "can't prepare\n";
+    $sth_dbname->execute or die $sth_dbname->errstr;
+    $dbnames = $sth_dbname->fetchall_arrayref({});
+    $sth_dbname->finish;
+    
+    my $sql = q{Set transaction isolation level read uncommitted;
 SELECT
   p.product_code,
   p.description,
@@ -83,26 +86,23 @@ join in_reorder_class rc
   on
     rc.class = wp.reorder_class and
     rc.reorder_type = wp.reorder_type
-    
-  
 where ltrim(rtrim(p.primary_supplier)) = ? ;
 };
-
-
-  $sth = database->prepare($sql) or die "can't prepare\n";
-  $sth->bind_param(1,query_parameters->get('primary_supplier'));
-  $sth->execute or die $sth->errstr;
-  my $fields = $sth->{NAME};
-  my $rows = $sth->fetchall_arrayref({});
-  $sth->finish;
-
-  template 'purchasing/sales-history.tt', {
-    'title' => 'Sales History',
-    'servers' => $dat,
-    'databases' => $dbnames,
-    'fields' => $fields,
-    'rows' => $rows,
-  };
+    $sth = database->prepare($sql) or die "can't prepare\n";
+    $sth->bind_param(1,query_parameters->get('primary_supplier'));
+    $sth->execute or die $sth->errstr;
+    my $fields = $sth->{NAME};
+    my $rows = $sth->fetchall_arrayref({});
+    $sth->finish;
+    
+    template 'purchasing/sales-history.tt', {
+      'title' => 'Sales History',
+      'servers' => $dat,
+      'databases' => $dbnames,
+      'fields' => $fields,
+      'rows' => $rows,
+    };
+  }; #if
 };
 
 prefix '/purchasing' => sub {
