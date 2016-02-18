@@ -9,6 +9,8 @@ requires "Authen::Simple::PAM";
 requires "Dancer2::Session::Cookie";
 requires "FCGI";
 
+requires "Test::WWW::Mechanize::PSGI";
+
 recommends "YAML"             => "0";
 recommends "URL::Encode::XS"  => "0";
 recommends "CGI::Deurl::XS"   => "0";
