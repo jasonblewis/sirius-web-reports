@@ -6,23 +6,23 @@ use Dancer2::Plugin::Auth::Extensible;
 
 
 sub menu {
-  template 'Accounts Receivable';
+  template 'ar/accounts-receivable';
 };
 
-sub outstandinginvoices {
-  template 'AR Outstanding Invoices';
+sub outstanding_invoices {
+  template 'ar/ar-outstanding-invoices';
 };
 
-sub statementemailaddresses {
-  template 'AR Statement Email Addresses';
+sub statement_email_addresses {
+  template 'ar/ar-statement-email-addresses';
 };
 
 
 
-prefix '/Accounts Receivable' => sub {
+prefix '/accounts-receivable' => sub {
   get ''                           => require_login \&menu;
-  get '/Outstanding Invoices'      => require_login \&outstandinginvoices;
-  get '/Statement Email Addresses' => require_login \&statementemailaddresses;
+  get '/outstanding-invoices'      => require_login \&outstanding_invoices;
+  get '/statement-email-addresses' => require_login \&statement_email_addresses;
 };
 
 

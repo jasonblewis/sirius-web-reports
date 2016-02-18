@@ -24,6 +24,6 @@ session: Cookie
 engines:
   logger:
     Console:
-      log_level: debug
+      log_level: error
 
           

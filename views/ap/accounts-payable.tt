@@ -30,8 +30,8 @@
         </div>
         
         <div id="reports">
-            <h3><a href="/Accounts Payable/Creditor Terms" >Creditor Terms</a></h3>
-            <h3><a href="/Accounts Payable/Detailed Trial Balance" >Detailed Trial Balance</a></h3>
+            <h3><a href="/accounts-payable/creditor-terms" >Creditor Terms</a></h3>
+            <h3><a href="/accounts-payable/detailed-trial-balance" >Detailed Trial Balance</a></h3>
         </div>
     </div>
 

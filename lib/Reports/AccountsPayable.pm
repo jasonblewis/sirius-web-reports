@@ -7,10 +7,10 @@ use Dancer2::Plugin::Auth::Extensible;
 use Data::Dumper;
 
 sub menu {
-  template 'AP/Accounts Payable';
+  template 'ap/accounts-payable';
 };
 
-sub creditorterms {
+sub creditor_terms {
 
   my $sth;
   my $sth_dbname;
@@ -36,7 +36,7 @@ sub creditorterms {
   my $creditors = $sth->fetchall_arrayref({});
   $sth->finish;
 
-  template 'AP/Creditor Terms', {
+  template 'ap/creditor-terms', {
     'title' => 'Creditor Terms',
     'servers' => $dat,
     'databases' => $dbnames,
@@ -49,7 +49,7 @@ sub creditorterms {
 #  template 'AP/Creditor Terms';
 };
 
-sub detailedtrialbalance {
+sub detailed_trial_balance {
 
   my $sth;
   my $sth_dbname;
@@ -99,7 +99,7 @@ sub detailedtrialbalance {
   #print Dumper($rows);
   $sth->finish;
 
-  template 'AP/Detailed Trial Balance', {
+  template 'ap/detailed-trial-balance', {
     'title' => 'Detailed Trial Balance',
     'servers' => $dat,
     'databases' => $dbnames,
@@ -113,10 +113,10 @@ sub detailedtrialbalance {
 
 
 
-prefix '/Accounts Payable' =>  sub {
+prefix '/accounts-payable' =>  sub {
   get ''                        => require_login \&menu;
-  get '/Creditor Terms'         => require_login \&creditorterms;
-  get '/Detailed Trial Balance' => require_login \&detailedtrialbalance;
+  get '/creditor-terms'         => require_login \&creditor_terms;
+  get '/detailed-trial-balance' => require_login \&detailed_trial_balance;
 };
 
 

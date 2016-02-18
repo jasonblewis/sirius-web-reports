@@ -8,7 +8,7 @@ use Data::Dumper;
 
 
 sub menu {
-  template 'Sales/Sales';
+  template 'sales/sales';
 };
 
 sub newstoresquarterlysales {
@@ -105,7 +105,7 @@ on ar_customer.company_code = company.company_code/;
   my $rows = $sth->fetchall_arrayref({});
   $sth->finish;
 
-  template 'Sales/List Customers', {
+  template 'sales/list-customers', {
     'target' => $target,
     'title' => 'Stores',
     'servers' => $dat,
@@ -150,7 +150,7 @@ sub listterritories {
   my $rows = $sth->fetchall_arrayref({});
   $sth->finish;
 
-  template 'Sales/List Territories', {
+  template 'sales/list-territories', {
     'target' => $target,
     'title' => 'Territories',
     'servers' => $dat,
@@ -208,7 +208,7 @@ sub territory24monthdetail {
     my $fields = $sth->{NAME};
     my $rows = $sth->fetchall_arrayref({});
     $sth->finish;
-    template 'Sales/Territory 24 Month Detail', {
+    template 'sales/territory-24-month-detail', {
       territory_code => query_parameters->get('territory_code'),
       'title' => 'Territory Detail',
       'fields' => $fields,
@@ -260,7 +260,7 @@ EXEC SP_EXECUTESQL @query/;
   my $fields = $sth->{NAME};
   my $rows = $sth->fetchall_arrayref({});
   $sth->finish;
-  template 'Sales/Territory 24 Month Summary', {
+  template 'sales/territory-24-month-summary', {
     'title' => 'Territory Summary',
     'detail_url' => '/Sales/Territory 24 Month Detail',
     'fields' => $fields,
@@ -269,11 +269,11 @@ EXEC SP_EXECUTESQL @query/;
 };
 
 
-prefix '/Sales' => sub {
-  get ''                             => require_login \&menu;
-  get '/New Stores Quarterly Sales'  => require_login \&newstoresquarterlysales;
-  get '/Territory 24 Month Detail'          => require_login \&territory24monthdetail;
-  get '/Territory 24 Month Summary' => require_login \&territory24monthsummary;
+prefix '/sales' => sub {
+  get ''                            => require_login \&menu;
+  get '/new-stores-quarterly-sales' => require_login \&new_stores_quarterly_sales;
+  get '/territory-24-month-detail'  => require_login \&territory_24_month_detail;
+  get '/territory-24-month-summary' => require_login \&territory_24_month_summary;
 };
 
 

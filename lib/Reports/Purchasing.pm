@@ -8,7 +8,7 @@ use Data::Dumper;
 
 
 sub menu {
-  template 'Purchasing/Purchasing';
+  template 'purchasing/purchasing';
 };
 
 sub sales_history {
@@ -96,7 +96,7 @@ where ltrim(rtrim(p.primary_supplier)) = ? ;
   my $rows = $sth->fetchall_arrayref({});
   $sth->finish;
 
-  template 'Purchasing/Sales History.tt', {
+  template 'purchasing/sales-history.tt', {
     'title' => 'Sales History',
     'servers' => $dat,
     'databases' => $dbnames,
@@ -105,9 +105,9 @@ where ltrim(rtrim(p.primary_supplier)) = ? ;
   };
 };
 
-prefix '/Purchasing' => sub {
+prefix '/purchasing' => sub {
   get ''                             => require_login \&menu;
-  get '/Sales History'  => require_login \&sales_history;
+  get '/sales-history'  => require_login \&sales_history;
 };
 
 1;

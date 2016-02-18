@@ -31,8 +31,8 @@
         </div>
 
         <div id="reports">
-            <h3><a href="/Accounts Receivable/Outstanding Invoices" >Outstanding Invoices</a></h3>
-            <h3><a href="/Accounts Receivable/Statement Email Addresses" >Statement Email Addresses</a></h3>
+            <h3><a href="/accounts-receivable/outstanding-invoices" >Outstanding Invoices</a></h3>
+            <h3><a href="/accounts-receivable/statement-email-addresses" >Statement Email Addresses</a></h3>
  
         </div>
       </div>

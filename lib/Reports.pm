@@ -12,7 +12,7 @@ use Reports::Sales;
 use Reports::Purchasing;
 
 set 'logger'       => 'console';
-set 'log'          => 'debug';
+#set 'log'          => 'error';
 set 'show_errors'  => 1;
 set 'startup_info' => 1;
 set 'warnings'     => 1;

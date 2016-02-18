@@ -1,4 +1,3 @@
-Sales History.tt<br />
 primary_supplier: [% primary_supplier %]
 [% USE Dumper %]
 [% USE date(format = '%Y-%m-%d') %]
