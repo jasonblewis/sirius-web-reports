@@ -1,0 +1,32 @@
+get selection.tt<br />
+path: [% path %] <br />
+target: [% target %] <br />
+[% USE url(target) %]
+<script src="/javascripts/datatablesdisplay.js"></script>
+
+[% USE Dumper %]
+
+[% BLOCK table_head_foot %]
+<tr>
+    <td class="dt-head-right [% position %]">supplier_code</td>
+    <td class="dt-head-lef [% position %]">name</td>
+</tr>
+[% END # BLOCK table_head_foot %]
+            
+<table id="" class="display compact" cellspacing="0" width="30%">
+    <thead>
+        [% PROCESS table_head_foot %]
+    </thead>
+    <tbody>
+        [% FOREACH row IN rows %]
+            <tr>
+                <td class="dt-body-right"><a href=[% url(primary_supplier = row.supplier_code) %]>[% row.supplier_code   %]</a></td>
+                <td class="dt-body-left" >[% row.name   %]</td>
+
+            </tr>
+        [% END %]
+    </tbody>
+    <tfoot>
+        [% PROCESS table_head_foot position='top' %]
+    </tfoot>
+</table>
