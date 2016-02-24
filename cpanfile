@@ -8,6 +8,13 @@ requires "Authen::PAM";
 requires "Authen::Simple::PAM";
 requires "Dancer2::Session::Cookie";
 requires "FCGI";
+requires "Dancer2::Plugin::Ajax";
+
+requires "DBIx::Class";
+requires "Dancer2::Plugin::DBIC";
+requires "Config::Any";
+requires "Config::General";
+requires "DBIx::Class::TimeStamp";
 
 requires "Test::WWW::Mechanize::PSGI";
 

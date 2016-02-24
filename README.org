@@ -14,3 +14,8 @@ DANCER_ENVIRONMENT=development plackup -L Shotgun bin/app.psgi
 #+BEGIN_SRC 
 DANCER_ENVIRONMENT=test prove -l t/002_index_route.t
 #+END_SRC
+* curl ajax
+  to do an ajax request with curl:
+#+BEGIN_SRC bash
+curl -H 'X-Requested-With: XMLHttpRequest' -d"message=hello" localhost:5000/time
+#+END_SRC

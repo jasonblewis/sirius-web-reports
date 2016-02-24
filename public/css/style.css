@@ -228,3 +228,7 @@ td.bottom {
 thead {
     font-weight: bold;
 }
+
+p.content-one {
+    display: none;
+}

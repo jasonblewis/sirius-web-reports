@@ -2,19 +2,18 @@
 [% USE date(format = '%Y-%m-%d') %]
 <script src="/javascripts/datatablesdisplay.js"></script>
 
-<h1>Sales History</h1>
-
-<ol>
-    [% FOREACH server IN servers %]
-        <li>    server: [% server.name %]</li>
-    [% END  %]
-</ol>
-<ol>
-    [% FOREACH database IN databases %]
-        <li>database: [% database.name %]</li>
-    [% END  %]
-</ol>
-
+<h1>Sales History for [% primary_supplier %]</h1>
+<!-- 
+     <ol>
+     [% FOREACH server IN servers %]
+     <li>    server: [% server.name %]</li>
+     [% END  %]
+     </ol>
+     <ol>
+     [% FOREACH database IN databases %]
+     <li>database: [% database.name %]</li>
+     [% END  %]
+     </ol>
 [% # Dumper.dump(fields) %]
 <h2>Fields</h2>
 <ul>
@@ -22,30 +21,47 @@
         <li>field: [% field %]</li>
     [% END  %]
 </ul>
+-->
+<script type='text/javascript'>
+ $(document).ready(function(){
+     $('.expand-one').click(function(){
+         $('.content-one').slideToggle();
+     });
+ });
+</script>
+
+<p class="expand-one"><a href="#">notes</a></p>
+<p class="content-one">[% rows.0.notes | html | html_line_break %]</p>
+
+
+
+[% FOREACH poemail IN poemails %]
+    <a href="mailto:[% poemail.phone_no %]" target="_top" >[% poemail.phone_no %]</a>
+[% END  %]
 
     <h3></h3> 
     [% BLOCK table_head_foot %]
     <tr>
-        <td class="dt-head-right [% position %]">Product Code</td>
-        <td class="dt-head-left  [% position %]" >Description</td>
-        <td class="dt-head-right [% position %]">On Hand</td>
-        <td class="dt-head-right [% position %]">On Order</td>
-        <td class="dt-head-right [% position %]">Committed</td>
-        <td class="dt-head-right [% position %]">Return bin</td>
-        <td class="dt-head-right [% position %]">Available</td>
-        <td class="dt-head-right [% position %]">5</td>
-        <td class="dt-head-right [% position %]">4</td>
-        <td class="dt-head-right [% position %]">3</td>
-        <td class="dt-head-right [% position %]">2</td>
-        <td class="dt-head-right [% position %]">1</td>
-        <td class="dt-head-right [% position %]">Current<br />Month</td>
-        <td class="dt-head-right [% position %]">Max</td>
-        <td class="dt-head-right [% position %]">Ratio %<br />on hand<br />to max</td>
-        <td class="dt-head-right [% position %]">Lead Time</td>
-        <td class="dt-head-right [% position %]">Min</td>
-        <td class="dt-head-right [% position %]">Max</td>
-        <td class="dt-head-right [% position %]">T</td>
-        <td class="dt-head-right [% position %]">C</td>
+        <td class="dt-head-right [% position %]">[% heading.0 %]</td>
+        <td class="dt-head-left  [% position %]">[% heading.1 %]</td>
+        <td class="dt-head-right [% position %]">[% heading.2 %]</td>
+        <td class="dt-head-right [% position %]">[% heading.3 %]</td>
+        <td class="dt-head-right [% position %]">[% heading.4 %]</td>
+        <td class="dt-head-right [% position %]">[% heading.5 %]</td>
+        <td class="dt-head-right [% position %]">[% heading.6 %]</td>
+        <td class="dt-head-right [% position %]">[% heading.7 %]</td>
+        <td class="dt-head-right [% position %]">[% heading.8 %]</td>
+        <td class="dt-head-right [% position %]">[% heading.9 %]</td>
+        <td class="dt-head-right [% position %]">[% heading.10 %]</td>
+        <td class="dt-head-right [% position %]">[% heading.11 %]</td>
+        <td class="dt-head-right [% position %]">[% heading.12 %]</td>
+        <td class="dt-head-right [% position %]">[% heading.13 %]</td>
+        <td class="dt-head-right [% position %]">[% heading.14 %]</td>
+        <td class="dt-head-right [% position %]">[% heading.15 %]</td>
+        <td class="dt-head-right [% position %]">[% heading.16 %]</td>
+        <td class="dt-head-right [% position %]">[% heading.17 %]</td>
+        <td class="dt-head-right [% position %]">[% heading.18 %]</td>
+        <td class="dt-head-right [% position %]">[% heading.19 %]</td>
     </tr>
             [% END # BLOCK table_head_foot %]
     <table id="" class="display compact" cellspacing="0" width="90%">
