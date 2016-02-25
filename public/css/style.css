@@ -236,3 +236,7 @@ p.content-one {
 td.green {
     color: green;
 }
+
+td.nowrap {
+    white-space: nowrap;
+}

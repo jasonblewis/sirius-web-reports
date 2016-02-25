@@ -185,14 +185,14 @@ sub territory_24_month_detail {
                 select @query =
                 'select * from 
                  (select
-                	ac.customer_code as ''Customer Code'',
+                	ac.customer_code as ''Customer Code'', ac.name,
                 	DATEADD(month, DATEDIFF(month, 0, sh.invoice_date), 0) as ''month'',
                 	sum(sh.sales_amt) as sales
                  from sh_transaction sh
                 join ar_cust_ex_shipto_view ac on sh.customer_code = ac.customer_code
                 where sh.invoice_date >= DATEADD(YEAR, DATEDIFF(YEAR, 0, DATEADD(YEAR, -2, GETDATE())), 0)
                 and ltrim(rtrim(ac.territory_code)) = ''' + @territory + '''
-                group by ac.territory_code, ac.customer_code, DATEADD(month, DATEDIFF(month, 0, sh.invoice_date), 0) ) x
+                group by ac.territory_code, ac.customer_code, ac.name, DATEADD(month, DATEDIFF(month, 0, sh.invoice_date), 0) ) x
                 pivot
                 (
                   sum(sales)
