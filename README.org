@@ -26,6 +26,8 @@ curl -H 'X-Requested-With: XMLHttpRequest' -d"message=hello" localhost:5000/time
 git pull
 # install any new dependencies
 cpanm --installdeps .
+# run tests
+DANCER_ENVIRONMENT=test prove -l t/002_index_route.t
 # kill old instance
 pkill fcgi
 # start new instance
