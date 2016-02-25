@@ -1,9 +1,11 @@
+var table;
 $(document).ready(function() {
-    $('table.display').DataTable( {
+    table = $('table.display').DataTable( {
         "paging": false,
         dom: 'Bfrtip',
         buttons: [
             'copy', 'csv', 'excel', 'pdf', 'print'
         ]
     } );
+
 } );

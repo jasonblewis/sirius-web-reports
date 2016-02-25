@@ -8,6 +8,8 @@
 
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.1.1/css/buttons.dataTables.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.1.1/css/fixedHeader.dataTables.min.css">
+  
   
 
 <!-- Grab jQuery from a CDN, fall back to local if necessary -->
@@ -20,25 +22,19 @@
 <script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
 <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.1.1/js/buttons.html5.min.js"></script>
 <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.1.1/js/buttons.print.min.js"></script>
-
-<script type="text/javascript" class="init">
-
-
- $(document).ready(function() {
-     $('#example').DataTable(
-     );
- } );
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/fixedheader/3.1.1/js/dataTables.fixedHeader.min.js"></script>
 
 
-</script>
 
 
 </head>
 <body>
-[% content %]
-
-    <div id="footer">
-Powered by <a href="http://perldancer.org/">Dancer2</a> [% dancer_version %]
-</div>
+    <div id="content">
+        [% content %]
+        
+        <div id="footer">
+            Powered by <a href="http://perldancer.org/">Dancer2</a> [% dancer_version %]
+        </div>
+    </div>
 </body>
 </html>

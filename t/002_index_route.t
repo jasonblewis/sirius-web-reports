@@ -24,7 +24,10 @@ my %routes = ('/'                    => {},
               '/history'              => {TODO => 'not implemented yet'},
               '/old-reports'          => {TODO => 'not implemented yet'},
               '/price-lists and catalogues' => {TODO => 'not implemented yet'},
-              '/sales'                => {},
+              '/purchasing'               => {},
+              '/purchasing/sales-history' => {},
+              '/purchasing/sales-history?primary_supplier=PUKHER' =>  {},
+              '/sales'                    => {},
               '/sales/new-stores-quarterly-sales' => {},
               '/sales/territory-24-month-summary' => {},
               '/sales/territory-24-month-detail' => {},
@@ -66,6 +69,7 @@ $loc = $mech->response->header('Location');
 diag "loc: $loc";
 $mech->get_ok($loc);
 
+# test all routes accessible
 my $base = $mech->base;
 diag "base: $base";
 subtest 'all routes work' => sub {

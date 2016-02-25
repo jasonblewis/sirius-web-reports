@@ -3,34 +3,20 @@
 <script src="/javascripts/datatablesdisplay.js"></script>
 
 <h1>Sales History for [% primary_supplier %]</h1>
-<!-- 
-     <ol>
-     [% FOREACH server IN servers %]
-     <li>    server: [% server.name %]</li>
-     [% END  %]
-     </ol>
-     <ol>
-     [% FOREACH database IN databases %]
-     <li>database: [% database.name %]</li>
-     [% END  %]
-     </ol>
-[% # Dumper.dump(fields) %]
-<h2>Fields</h2>
-<ul>
-    [% FOREACH field IN fields %]
-        <li>field: [% field %]</li>
-    [% END  %]
-</ul>
--->
 <script type='text/javascript'>
  $(document).ready(function(){
-     $('.expand-one').click(function(){
+     $('#toggle-notes').click(function(){
          $('.content-one').slideToggle();
      });
+     new $.fn.dataTable.FixedHeader( table, {
+         // options
+     } );
+
+
  });
 </script>
 
-<p class="expand-one"><a href="#">notes</a></p>
+<button id="toggle-notes" type="button">Notes</button>
 <p class="content-one">[% rows.0.notes | html | html_line_break %]</p>
 
 
@@ -42,29 +28,29 @@
     <h3></h3> 
     [% BLOCK table_head_foot %]
     <tr>
-        <td class="dt-head-right [% position %]">[% heading.0 %]</td>
-        <td class="dt-head-left  [% position %]">[% heading.1 %]</td>
-        <td class="dt-head-right [% position %]">[% heading.2 %]</td>
-        <td class="dt-head-right [% position %]">[% heading.3 %]</td>
-        <td class="dt-head-right [% position %]">[% heading.4 %]</td>
-        <td class="dt-head-right [% position %]">[% heading.5 %]</td>
-        <td class="dt-head-right [% position %]">[% heading.6 %]</td>
-        <td class="dt-head-right [% position %]">[% heading.7 %]</td>
-        <td class="dt-head-right [% position %]">[% heading.8 %]</td>
-        <td class="dt-head-right [% position %]">[% heading.9 %]</td>
-        <td class="dt-head-right [% position %]">[% heading.10 %]</td>
-        <td class="dt-head-right [% position %]">[% heading.11 %]</td>
-        <td class="dt-head-right [% position %]">[% heading.12 %]</td>
-        <td class="dt-head-right [% position %]">[% heading.13 %]</td>
-        <td class="dt-head-right [% position %]">[% heading.14 %]</td>
-        <td class="dt-head-right [% position %]">[% heading.15 %]</td>
-        <td class="dt-head-right [% position %]">[% heading.16 %]</td>
-        <td class="dt-head-right [% position %]">[% heading.17 %]</td>
-        <td class="dt-head-right [% position %]">[% heading.18 %]</td>
-        <td class="dt-head-right [% position %]">[% heading.19 %]</td>
+        <td class="dt-head-right" [% position %]">[% heading.0 %]</td>
+        <td class="dt-head-left"  [% position %]">[% heading.1 %]</td>
+        <td class="dt-head-right" [% position %]">[% heading.2 %]</td>
+        <td class="dt-head-right" [% position %]">[% heading.3 %]</td>
+        <td class="dt-head-right" [% position %]">[% heading.4 %]</td>
+        <td class="dt-head-right" [% position %]">[% heading.5 %]</td>
+        <td class="dt-head-right" [% position %]">[% heading.6 %]</td>
+        <td class="dt-head-right" [% position %]">[% heading.7 %]</td>
+        <td class="dt-head-right" [% position %]">[% heading.8 %]</td>
+        <td class="dt-head-right" [% position %]">[% heading.9 %]</td>
+        <td class="dt-head-right" [% position %]">[% heading.10 %]</td>
+        <td class="dt-head-right" [% position %]">[% heading.11 %]</td>
+        <td class="dt-head-right green" [% position %]">[% heading.12 %]</td>
+        <td class="dt-head-right" [% position %]">[% heading.13 %]</td>
+        <td class="dt-head-right" [% position %]">[% heading.14 %]</td>
+        <td class="dt-head-right" [% position %]">[% heading.15 %]</td>
+        <td class="dt-head-right" [% position %]">[% heading.16 %]</td>
+        <td class="dt-head-right" [% position %]">[% heading.17 %]</td>
+        <td class="dt-head-right" [% position %]">[% heading.18 %]</td>
+        <td class="dt-head-right" [% position %]">[% heading.19 %]</td>
     </tr>
             [% END # BLOCK table_head_foot %]
-    <table id="" class="display compact" cellspacing="0" width="90%">
+    <table id="" class="display compact" cellspacing="0" >
         <thead>
             [% PROCESS table_head_foot %]
         </thead>
@@ -83,7 +69,7 @@
                     <td class="dt-body-right">[% row.ms_3 %]</td>
                     <td class="dt-body-right">[% row.ms_2 %]</td>
                     <td class="dt-body-right">[% row.ms_1 %]</td>
-                    <td class="dt-body-right">[% row.ms_0 %]</td>
+                    <td class="dt-body-right green">[% row.ms_0 %]</td>
                     <td class="dt-body-right">[% row.maximum %]</td>
                     <td class="dt-body-right">[% row.available_ratio | format('%.0f') %]</td>
                     <td class="dt-body-right">[% row.lead_time_days %]</td>
@@ -100,4 +86,6 @@
         </tfoot>
     </table>
     
-    
+    <script type='text/javascript'>
+     
+    </script>
