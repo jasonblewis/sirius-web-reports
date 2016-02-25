@@ -146,7 +146,8 @@ join in_reorder_class rc
   on
     rc.class = wp.reorder_class and
     rc.reorder_type = wp.reorder_type
-where ltrim(rtrim(p.primary_supplier)) = ? ;
+where ltrim(rtrim(p.primary_supplier)) = ?
+and (p.spare_flag_03 is null or p.spare_flag_03 = 'Y');
 };
     $sth = database->prepare($sql) or die "can't prepare\n";
     $sth->bind_param(1, $primary_supplier);
