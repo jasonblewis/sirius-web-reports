@@ -237,6 +237,11 @@ td.green {
     color: green;
 }
 
+td.red {
+    color: red;
+}
+
+
 td.nowrap {
     white-space: nowrap;
 }

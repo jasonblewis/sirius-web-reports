@@ -62,7 +62,7 @@
                     <td class="dt-body-right">[% row.on_hand        %]</td>
                     <td class="dt-body-right">[% row.on_order       %]</td>
                     <td class="dt-body-right">[% row.committed      %]</td>
-                    <td class="dt-body-right">[% row.return_bin_qty %]</td>
+                    <td class="dt-body-right red">[% row.return_bin_qty %]</td>
                     <td class="dt-body-right">[% row.available      %]</td>
                     <td class="dt-body-right">[% row.ms_5 %]</td>
                     <td class="dt-body-right">[% row.ms_4 %]</td>
