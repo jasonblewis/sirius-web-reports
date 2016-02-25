@@ -5,7 +5,7 @@
   https://github.com/wyoung/advent-calendar/tree/master/danceradvent/public/articles/2015
 
 * to launch for production
-DANCER_ENVIRONMENT=production plackup -D -E deployment -s FCGI --listen  /var/run/reports/reports.sock /home/reports/Reports/bin/app.psgi
+pkill fcgi && DANCER_ENVIRONMENT=production plackup -D -E deployment -s FCGI --listen  /var/run/reports/reports.sock /home/reports/Reports/bin/app.psgi
 * to launch for development
 DANCER_ENVIRONMENT=development plackup -L Shotgun bin/app.psgi
 * authentication via config file
