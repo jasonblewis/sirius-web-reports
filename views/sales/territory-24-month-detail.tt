@@ -1,5 +1,5 @@
 [% USE Dumper %]
-<h2>Rolling 24 Month Detailed Sales for Territory [% territory_code %]</h2>
+<h2>Rolling 24 Month Detailed Sales for Territory [% territory_code %] - [% territory_row.0.description %]</h2>
 <script src="/javascripts/datatablesdisplay.js"></script>
 
 <!-- <h2>Fields</h2>
@@ -15,7 +15,11 @@
     <thead>
         <tr>
             [% FOREACH field IN fields %]
-                <td>[% field %]</td>
+                [% IF (field == 'Customer Code' || field == 'name') %]
+                    <td>[% field %]</td>
+                [% ELSE %]
+                    <td class="smaller-font">[% field %]</td>
+                [% END #IF %]                    
             [% END  %]
             <td>total</td>
         </tr>
@@ -26,8 +30,10 @@
             [% row_total = 0 %]
             <tr>
                 [% FOREACH field IN fields %]
-                    [% IF (field == 'Customer Code' || field == 'name') %]
+                    [% IF (field == 'Customer Code' ) %]
                         <td class="left nowrap">[% row.$field %]</td>
+                    [% ELSIF (field == 'name') %]
+                            <td class="left nowrap smaller-font">[% row.$field %]</td>
                     [% ELSE %]
                         <td class="right">
                             [% IF row.$field %]

@@ -165,8 +165,12 @@ sub list_territories {
 sub territory_24_month_detail {
   database->{LongReadLen} = 100000;
   database->{LongTruncOk} = 0;
-
-  if (query_parameters->get('territory_code')) {
+  my $territory_code = query_parameters->get('territory_code');
+  
+  unless ($territory_code)   {
+    list_territories('/sales/territory-24-month-detail');
+  } else { # don't know which territory the user wants yet, so ask them then redirect to the real report template
+    
     my $sql = q/Set transaction isolation level read uncommitted;
                 declare @cols as nvarchar(max),@query as nvarchar(max)
                 declare @territory as nvarchar(max);
@@ -203,19 +207,26 @@ sub territory_24_month_detail {
 /;
 
     my $sth = database->prepare($sql) or die "can't prepare\n";
-    $sth->bind_param(1,query_parameters->get('territory_code'));
+    $sth->bind_param(1,$territory_code);
     $sth->execute or die $sth->errstr;
     my $fields = $sth->{NAME};
     my $rows = $sth->fetchall_arrayref({});
     $sth->finish;
+
+    $sth = database->prepare(q/select top 1 * from territory where territory_code = ?/) or die "can't prepare\n";
+    $sth->bind_param(1,$territory_code);
+    $sth->execute or die $sth->errstr;
+    my $territory = $sth->fetchall_arrayref({});
+    $sth->finish;
+    
+    
     template 'sales/territory-24-month-detail', {
-      territory_code => query_parameters->get('territory_code'),
+      territory_code => $territory_code,
+      territory_row => $territory,
       'title' => 'Territory Detail',
       'fields' => $fields,
       'rows' => $rows,
     };
-  } else { # don't know which territory the user wants yet, so ask them then redirect to the real report template
-    list_territories('/sales/territory-24-month-detail');
   };
 };
 

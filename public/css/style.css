@@ -240,3 +240,8 @@ td.green {
 td.nowrap {
     white-space: nowrap;
 }
+
+td.smaller-font {
+    font-size: 80%;
+}
+
