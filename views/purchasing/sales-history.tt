@@ -56,27 +56,28 @@
         </thead>
         <tbody>
             [% FOREACH row IN rows %]
+                [% rowcolour = ( row.reorder_type == 'Q' ? 'highlight1' : '' )%]
                 <tr>
-                    <td class="dt-body-right">[% row.product_code   %]</td>
-                    <td class="dt-body-left">[% row.description    %]</td>
-                    <td class="dt-body-right">[% row.on_hand        %]</td>
-                    <td class="dt-body-right">[% row.on_order       %]</td>
-                    <td class="dt-body-right">[% row.committed      %]</td>
+                    <td class="dt-body-right [% rowcolour %]">[% row.product_code   %]</td>
+                    <td class="dt-body-left  [% rowcolour %]">[% row.description    %]</td>
+                    <td class="dt-body-right [% rowcolour %]">[% row.on_hand        %]</td>
+                    <td class="dt-body-right [% rowcolour %]">[% row.on_order       %]</td>
+                    <td class="dt-body-right [% rowcolour %]">[% row.committed      %]</td>
                     <td class="dt-body-right red">[% row.return_bin_qty %]</td>
-                    <td class="dt-body-right">[% row.available      %]</td>
-                    <td class="dt-body-right">[% row.ms_5 %]</td>
-                    <td class="dt-body-right">[% row.ms_4 %]</td>
-                    <td class="dt-body-right">[% row.ms_3 %]</td>
-                    <td class="dt-body-right">[% row.ms_2 %]</td>
-                    <td class="dt-body-right">[% row.ms_1 %]</td>
+                    <td class="dt-body-right [% rowcolour %]">[% row.available      %]</td>
+                    <td class="dt-body-right [% rowcolour %]">[% row.ms_5 %]</td>
+                    <td class="dt-body-right [% rowcolour %]">[% row.ms_4 %]</td>
+                    <td class="dt-body-right [% rowcolour %]">[% row.ms_3 %]</td>
+                    <td class="dt-body-right [% rowcolour %]">[% row.ms_2 %]</td>
+                    <td class="dt-body-right [% rowcolour %]">[% row.ms_1 %]</td>
                     <td class="dt-body-right green">[% row.ms_0 %]</td>
-                    <td class="dt-body-right">[% row.maximum %]</td>
-                    <td class="dt-body-right">[% row.available_ratio | format('%.0f') %]</td>
-                    <td class="dt-body-right">[% row.lead_time_days %]</td>
-                    <td class="dt-body-right">[% row.min_days_stock %]</td>
-                    <td class="dt-body-right">[% row.max_days_stock %]</td>
-                    <td class="dt-body-right">[% row.reorder_type %]</td>
-                    <td class="dt-body-right">[% row.reorder_class %]</td>
+                    <td class="dt-body-right [% rowcolour %]">[% row.maximum %]</td>
+                    <td class="dt-body-right [% rowcolour %]">[% row.available_ratio | format('%.0f') %]</td>
+                    <td class="dt-body-right [% rowcolour %]">[% row.lead_time_days %]</td>
+                    <td class="dt-body-right [% rowcolour %]">[% row.min_days_stock %]</td>
+                    <td class="dt-body-right [% rowcolour %]">[% row.max_days_stock %]</td>
+                    <td class="dt-body-right [% rowcolour %]">[% row.reorder_type %]</td>
+                    <td class="dt-body-right [% rowcolour %]">[% row.reorder_class %]</td>
 
                 </tr>
             [% END %]

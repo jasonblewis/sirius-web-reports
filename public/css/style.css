@@ -241,6 +241,10 @@ td.red {
     color: red;
 }
 
+td.highlight1 {
+    color: rgb(88, 142, 224);
+}
+
 
 td.nowrap {
     white-space: nowrap;
@@ -250,3 +254,4 @@ td.smaller-font {
     font-size: 80%;
 }
 
+td
