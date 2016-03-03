@@ -163,7 +163,7 @@ sub list_territories {
 
 
 sub territory_24_month_detail {
-  database->{LongReadLen} = 100000;
+  database->{LongReadLen} = 1000000;
   database->{LongTruncOk} = 0;
   my $territory_code = query_parameters->get('territory_code');
   
@@ -205,7 +205,8 @@ sub territory_24_month_detail {
 
                 EXEC SP_EXECUTESQL @query
 /;
-
+    warn $sql;
+    
     my $sth = database->prepare($sql) or die "can't prepare\n";
     $sth->bind_param(1,$territory_code);
     $sth->execute or die $sth->errstr;
