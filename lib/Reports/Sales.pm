@@ -165,7 +165,7 @@ sub list_territories {
 sub territory_24_month_detail {
   my $dbh = database(); 
   $dbh->{LongReadLen} = 100000;
-  $dbh->{LongTrunkOk} = 0;
+  $dbh->{LongTruncOk} = 0;
  
 
   my $territory_code = query_parameters->get('territory_code');
