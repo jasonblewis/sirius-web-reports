@@ -15,6 +15,7 @@ requires "Dancer2::Plugin::DBIC";
 requires "Config::Any";
 requires "Config::General";
 requires "DBIx::Class::TimeStamp";
+requires "DBIx::Class::Helper::ResultSet::Shortcut";
 
 requires "Test::WWW::Mechanize::PSGI";
 

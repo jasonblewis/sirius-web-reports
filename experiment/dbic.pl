@@ -22,12 +22,23 @@ my $password = $config->{plugins}->{DBIC}->{default}->{password};
 
 my $schema = Reports::Schema->connect($dsn,$username,$password);
 
-my $rs = $schema->resultset('ArTransaction')->search_rs({
+my $transactions = $schema->resultset('ArTransaction')->search_rs({
   trans_type => 'INV',
   completed_date => undef,
 });
 
+# while (my $tr = $transactions->next) {
+#   say $tr->batch_nr;
+# }
 
 
+# my $invoices = $schema->resultset('ArTransaction')->invoices->search({completed_date => undef});
+# while (my $tr = $invoices->next) {
+#   say "batch_nr: ", $tr->batch_nr, "debtor: ", $tr->debtor_code;
+# }
 
-  
+my $invoices = $schema->resultset('ArTransaction')->invoices->not_completed;
+while (my $tr = $invoices->next) {
+  say "batch_nr: ", $tr->batch_nr, "debtor: ", $tr->debtor_code;
+}
+
