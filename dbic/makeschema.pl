@@ -14,11 +14,12 @@ make_schema_at(
           [ qr/\Adbo\z/ => qr/\A(?:
                                   ap_supplier|
                                   company|
-                                  in_product)\z/x ],
+                                  in_product|
+				  ar_transaction)\z/x ],
       ],
       
   },
-    [ 'dbi:ODBC:DSN=sirius', ***REMOVED***,
+    [ 'dbi:ODBC:driver=ODBC Driver 11 for SQL Server;server=tcp:10.0.2.3;database=siriusv8;MARS_Connection=yes', 'dancer2reports', '***REMOVED***',
 #      { loader_class => 'MyLoader' } # optionally
     ],
 );
