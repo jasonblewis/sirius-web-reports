@@ -1,12 +1,34 @@
 #!/usr/bin/env perl
+use 5.12.0;
+use strict;
+use warnings;
+
+use FindBin;
+use lib "$FindBin::Bin/../lib";
+
+use Config::Any;
+use Carp 'croak';
+ 
+use Data::Dumper;
+
 use DBIx::Class::Schema::Loader qw/ make_schema_at /;
+
+my $tmpcfg =  Config::Any->load_files( { files => ["$FindBin::Bin/../environments/development.yml" ], use_ext => 1} )->[0]; 
+
+my ($filename, $config) = %$tmpcfg;
+my $dsn = $config->{plugins}->{DBIC}->{default}->{dsn};
+my $username = $config->{plugins}->{DBIC}->{default}->{username};
+my $password = $config->{plugins}->{DBIC}->{default}->{password};
+
 
 make_schema_at(
     'Reports::Schema',
     {
         #debug => 1,
-        #      db_schema => [qw(dbo)],
+      db_schema => [qw(dbo)],
+      naming => 'v8',
       moniker_parts => [qw(schema name)],
+      moniker_map => sub { my $name = $_[0]; $name =~ s/^dbo//; join '', map ucfirst, split '_', $name },
       dump_directory => './lib',
       components =>     'InflateColumn::DateTime',
       components =>     'TimeStamp',
@@ -19,7 +41,7 @@ make_schema_at(
       ],
       
   },
-    [ 'dbi:ODBC:driver=ODBC Driver 11 for SQL Server;server=tcp:10.0.2.3;database=siriusv8;MARS_Connection=yes', 'dancer2reports', '***REMOVED***',
+    [ $dsn, $username, $password,
 #      { loader_class => 'MyLoader' } # optionally
     ],
 );

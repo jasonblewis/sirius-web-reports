@@ -22,6 +22,10 @@ my $password = $config->{plugins}->{DBIC}->{default}->{password};
 
 my $schema = Reports::Schema->connect($dsn,$username,$password);
 
+my $rs = $schema->resultset('ArTransaction')->search_rs({
+  trans_type => 'INV',
+  completed_date => undef,
+});
 
 
 

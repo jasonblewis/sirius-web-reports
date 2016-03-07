@@ -1,12 +1,12 @@
 use utf8;
-package Reports::Schema::Result::DboInProduct;
+package Reports::Schema::Result::InProduct;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
 
 =head1 NAME
 
-Reports::Schema::Result::DboInProduct
+Reports::Schema::Result::InProduct
 
 =cut
 
@@ -792,10 +792,10 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("product_code");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-02-23 16:14:41
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:teuZAfgYtvpLoZDxgmN4NA
+# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-03-07 13:29:35
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:pzOwMLlOtmoBdDAn2Hjyaw
 
-#__PACKAGE__->belongs_to('ap_supplier' => 'Reports::Schema::DboApSupplier','primary_supplier');
+#__PACKAGE__->belongs_to('ap_supplier' => 'Reports::Schema::ApSupplier','primary_supplier');
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 1;

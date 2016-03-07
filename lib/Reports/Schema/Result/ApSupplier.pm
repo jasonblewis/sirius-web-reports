@@ -1,12 +1,12 @@
 use utf8;
-package Reports::Schema::Result::DboApSupplier;
+package Reports::Schema::Result::ApSupplier;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
 
 =head1 NAME
 
-Reports::Schema::Result::DboApSupplier
+Reports::Schema::Result::ApSupplier
 
 =cut
 
@@ -605,8 +605,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("supplier_code");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-02-23 16:09:20
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:8efPOXHJX4iKsE4OiQhphg
+# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-03-07 13:29:35
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:YfEO/gyRNeNugh2+PjNrSg
 
 #__PACKAGE__->has_many('supplier_code' => 'Reports::Schema::DboInProduct','primary_supplier');
 

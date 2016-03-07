@@ -1,12 +1,12 @@
 use utf8;
-package Reports::Schema::Result::DboCompany;
+package Reports::Schema::Result::Company;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
 
 =head1 NAME
 
-Reports::Schema::Result::DboCompany
+Reports::Schema::Result::Company
 
 =cut
 
@@ -180,14 +180,15 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("company_code");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-02-24 10:07:48
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:imBzPdI6JMiV7G3fwUrEkg
+# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-03-07 13:29:35
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:RpGQJg5a1n7UKaszxgm68g
 
 __PACKAGE__->has_many(
     suppliers =>
-        'Reports::Schema::DboApSupplier',
+        'Reports::Schema::ApSupplier',
     'company_code',
 );
+
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 1;

@@ -1,12 +1,12 @@
 use utf8;
-package Reports::Schema::Result::DboArTransaction;
+package Reports::Schema::Result::ArTransaction;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
 
 =head1 NAME
 
-Reports::Schema::Result::DboArTransaction
+Reports::Schema::Result::ArTransaction
 
 =cut
 
@@ -349,8 +349,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("batch_nr", "batch_line_nr");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-03-07 11:12:50
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:dK5bM50U6AwSY5pN2/VcXA
+# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-03-07 13:29:35
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:2iH4Hb+hmIL2qt9WVC9fPQ
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
