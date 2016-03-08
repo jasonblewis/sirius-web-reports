@@ -17,8 +17,8 @@ my $tmpcfg =  Config::Any->load_files( { files => ["$FindBin::Bin/../environment
 
 my ($filename, $config) = %$tmpcfg;
 my $dsn = $config->{plugins}->{DBIC}->{default}->{dsn};
-my $username = $config->{plugins}->{DBIC}->{default}->{username};
-my $password = $config->{plugins}->{DBIC}->{default}->{password};
+my $username = $config->{plugins}->{DBIC}->{default}->{user};
+my $password = $config->{plugins}->{DBIC}->{default}->{pass};
 
 
 make_schema_at(
@@ -30,8 +30,7 @@ make_schema_at(
       moniker_parts => [qw(schema name)],
       moniker_map => sub { my $name = $_[0]; $name =~ s/^dbo//; join '', map ucfirst, split '_', $name },
       dump_directory => './lib',
-      components =>     'InflateColumn::DateTime',
-      components =>     'TimeStamp',
+      components =>     ['InflateColumn::DateTime', 'TimeStamp'],
       constraint => [
           [ qr/\Adbo\z/ => qr/\A(?:
                                   ap_supplier|

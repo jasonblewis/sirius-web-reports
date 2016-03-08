@@ -37,7 +37,7 @@ my $transactions = $schema->resultset('ArTransaction')->search_rs({
 #   say "batch_nr: ", $tr->batch_nr, "debtor: ", $tr->debtor_code;
 # }
 
-my $invoices = $schema->resultset('ArTransaction')->invoices->not_completed;
+my $invoices = $schema->resultset('ArTransaction')->invoices->outstanding;
 while (my $tr = $invoices->next) {
   say "batch_nr: ", $tr->batch_nr, "debtor: ", $tr->debtor_code;
 }

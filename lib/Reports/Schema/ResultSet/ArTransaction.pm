@@ -36,14 +36,14 @@ sub reverse_cash_receipts {
    })
 }
 
-sub not_completed {
+sub outstanding {
    my $self = shift;
    $self->search({
       $self->current_source_alias . '.completed_date' => { '=' => undef }
    })
 }
 
-sub completed {
+sub not_outstanding {
    my $self = shift;
    $self->search({
       $self->current_source_alias . '.completed_date' => { '!=' => undef }

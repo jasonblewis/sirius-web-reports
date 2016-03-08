@@ -19,13 +19,15 @@ use base 'DBIx::Class::Core';
 
 =over 4
 
+=item * L<DBIx::Class::InflateColumn::DateTime>
+
 =item * L<DBIx::Class::TimeStamp>
 
 =back
 
 =cut
 
-__PACKAGE__->load_components("TimeStamp");
+__PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp");
 
 =head1 TABLE: C<in_product>
 
@@ -792,8 +794,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("product_code");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-03-07 13:29:35
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:pzOwMLlOtmoBdDAn2Hjyaw
+# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-03-08 12:20:44
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:sqE/1FvhxkD23P9yyDPT+g
 
 #__PACKAGE__->belongs_to('ap_supplier' => 'Reports::Schema::ApSupplier','primary_supplier');
 

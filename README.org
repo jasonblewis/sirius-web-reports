@@ -15,9 +15,14 @@ DANCER_ENVIRONMENT=development plackup -L Shotgun bin/app.psgi
 DANCER_ENVIRONMENT=test prove -l t/002_index_route.t
 #+END_SRC
 * curl ajax
-  to do an ajax request with curl:
+** to login with curl:
 #+BEGIN_SRC bash
-curl -H 'X-Requested-With: XMLHttpRequest' -d"message=hello" localhost:5000/time
+curl --cookie-jar ~/.curl-cookies --data 'username=test;password=test' localhost:5000/login
+
+#+END_SRC
+**  to do an ajax request with curl and cookies:
+#+BEGIN_SRC bash
+curl -b ~/.curl-cookies -H 'X-Requested-With: XMLHttpRequest' -d"message=hello" localhost:5000/time
 #+END_SRC
   
 * deployment steps

@@ -19,13 +19,15 @@ use base 'DBIx::Class::Core';
 
 =over 4
 
+=item * L<DBIx::Class::InflateColumn::DateTime>
+
 =item * L<DBIx::Class::TimeStamp>
 
 =back
 
 =cut
 
-__PACKAGE__->load_components("TimeStamp");
+__PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp");
 
 =head1 TABLE: C<ar_transaction>
 
@@ -349,8 +351,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("batch_nr", "batch_line_nr");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-03-07 13:29:35
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:2iH4Hb+hmIL2qt9WVC9fPQ
+# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-03-08 12:20:44
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:VoNAlIyusIHIQeotv9CN+A
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
