@@ -50,7 +50,7 @@ my $ar_customers = $schema->resultset('ArCustomer')->search_rs(undef,
    prefetch => 'company',
 #   prefetch => { company => 'name'},
  }
-)->rows(10);
+)->rows(100);
 
 while (my $ar_customer = $ar_customers->next) {
   say "customer_code: ",$ar_customer->customer_code, " company name: ",$ar_customer->company->name;

@@ -17,7 +17,10 @@ sub outstanding_invoices {
 
 sub outstanding_invoices_json {
 
-  my @invoices  = schema->resultset('ArTransaction')->invoices->outstanding->hri;
+  my @invoices  = schema->resultset('ArTransaction')->invoices->outstanding(
+   {
+   prefetch => { ar_customer => 'company' }
+ })->rows(30)->hri;
 
   to_json {data => [@invoices]};
 
