@@ -22,7 +22,18 @@ sub outstanding_invoices_json {
    prefetch => { ar_customer => 'company' }
  })->rows(30)->hri;
 
-  to_json {data => [@invoices]};
+  to_json {
+    columns => [
+         { data => "batch_nr"},
+         { data => "debtor_code"},
+         { data => "customer_code"},
+	 { data => "trans_date"},
+	 { data => "trans_amt"},
+	 { data => "ref_1"},
+	 { data => "ref_2"},
+	 { data => "due_date"},
+       ],
+    data => [@invoices]};
 
 };
 

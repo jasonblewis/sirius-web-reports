@@ -1,39 +1,26 @@
 Outstanding Invoices
 
-[% BLOCK thead_tfoot %]
-<tr>
-    <th>batch_nr</th>
-    <th>debtor_code</th>
-    <th>customer_code</th>
-    <th>trans_date</th>
-    <th>trans_amt</th>
-    <th>ref_1</th>
-    <th>ref_2</th>
-    <th>dute_date</th>
-</tr>
-[% END # BLOCK thead_tfoot %]
-<table id="example" class="display" cellspacing="0" width="80%">
-    <thead>
-	[% PROCESS thead_tfoot %]
-    </thead>
-    <tfoot>
-	[% PROCESS thead_tfoot %]
-    </tfoot>
-</table>
-
 <script>
- $('#example').dataTable( {
-     "ajax": "/accounts-receivable/outstanding-invoices.json",
-     "columns": [
-         { "data": "batch_nr", className: "dt-body-right"},
-         { "data": "debtor_code"},
-         { "data": "customer_code"},
-	 { "data": "trans_date"},
-	 { "data": "trans_amt"},
-	 { "data": "ref_1"},
-	 { "data": "ref_2"},
-	 { "data": "due_date"},
-
-     ]
- } );
+ $( document ).ready( function( $ ) {
+     $.ajax({
+         "url": '/accounts-receivable/outstanding-invoices.json',
+         "success": function(json) {
+             var tableHeaders;
+             $.each(json.columns, function(i, val){
+		 //console.log(val.data);
+                 tableHeaders += "<th>" + val.data + "</th>";
+             });
+             
+             $("#tableDiv").empty();
+            $("#tableDiv").append('<table id="displayTable" class="display" cellspacing="0" width="100%"><thead><tr>' + tableHeaders + '</tr></thead></table>');
+            //$("#tableDiv").find("table thead tr").append(tableHeaders);  
+            // console.log(json);
+             $('#displayTable').dataTable(json);
+         },
+         "dataType": "json"
+     });
+ });
 </script>
+
+
+<div id="tableDiv"></div>
