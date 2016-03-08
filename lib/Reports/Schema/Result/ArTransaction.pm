@@ -21,13 +21,11 @@ use base 'DBIx::Class::Core';
 
 =item * L<DBIx::Class::InflateColumn::DateTime>
 
-=item * L<DBIx::Class::TimeStamp>
-
 =back
 
 =cut
 
-__PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp");
+__PACKAGE__->load_components("InflateColumn::DateTime");
 
 =head1 TABLE: C<ar_transaction>
 
@@ -351,9 +349,20 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("batch_nr", "batch_line_nr");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-03-08 12:20:44
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:VoNAlIyusIHIQeotv9CN+A
+# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-03-08 12:25:11
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:TN2fWg2GIPdzig9GfBMYDQ
 
+__PACKAGE__->belongs_to(
+  ar_customer =>
+    'Reports::Schema::Result::ArCustomer',
+  'customer_code',
+);
+
+__PACKAGE__->belongs_to(
+  ar_debtor =>
+    'Reports::Schema::Result::ArDebtor',
+  'debtor_code',
+);
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 1;
