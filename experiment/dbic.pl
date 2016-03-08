@@ -57,4 +57,19 @@ while (my $ar_customer = $ar_customers->next) {
 };
 
 
+### get ar_transactions
+
+my $ar_transactions = $schema->resultset('ArTransaction')->search_rs(undef,
+ {
+#   prefetch => 'ar_customer',
+   prefetch => { ar_customer => 'company' }
+ }
+)->rows(10);
+
+while (my $ar_transaction = $ar_transactions->next) {
+  say "batch_number: ",$ar_transaction->batch_nr,
+    " customer_code: ",$ar_transaction->customer_code,
+    " company_code: ",$ar_transaction->ar_customer->company_code,
+    " company name: ",$ar_transaction->ar_customer->company->name;
+};
 
