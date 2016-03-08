@@ -1,5 +1,6 @@
 #!/usr/bin/env perl
 use 5.12.0;
+use Smart::Comments;
 use strict;
 use warnings;
 
@@ -16,7 +17,7 @@ my $tmpcfg =  Config::Any->load_files( { files => ["$FindBin::Bin/../environment
 
 my ($filename, $config) = %$tmpcfg;
 my $dsn = $config->{plugins}->{DBIC}->{default}->{dsn};
-my $username = $config->{plugins}->{DBIC}->{default}->{username};
+my $username = $config->{plugins}->{DBIC}->{default}->{user};
 my $password = $config->{plugins}->{DBIC}->{default}->{password};
 
 
@@ -37,8 +38,23 @@ my $transactions = $schema->resultset('ArTransaction')->search_rs({
 #   say "batch_nr: ", $tr->batch_nr, "debtor: ", $tr->debtor_code;
 # }
 
-my $invoices = $schema->resultset('ArTransaction')->invoices->outstanding;
-while (my $tr = $invoices->next) {
-  say "batch_nr: ", $tr->batch_nr, "debtor: ", $tr->debtor_code;
-}
+# my $invoices = $schema->resultset('ArTransaction')->invoices->outstanding;
+# while (my $tr = $invoices->next) {
+#   say "batch_nr: ", $tr->batch_nr, "debtor: ", $tr->debtor_code;
+# }
+
+### get ar_customer codes and company names
+my $ar_customers = $schema->resultset('ArCustomer')->search_rs(undef,
+ {
+#   join => { company => 'name'},
+   prefetch => 'company',
+#   prefetch => { company => 'name'},
+ }
+)->rows(10);
+
+while (my $ar_customer = $ar_customers->next) {
+  say "customer_code: ",$ar_customer->customer_code, " company name: ",$ar_customer->company->name;
+};
+
+
 
