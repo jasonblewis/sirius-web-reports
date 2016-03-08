@@ -30,13 +30,15 @@ make_schema_at(
       moniker_parts => [qw(schema name)],
       moniker_map => sub { my $name = $_[0]; $name =~ s/^dbo//; join '', map ucfirst, split '_', $name },
       dump_directory => './lib',
-      components =>     ['InflateColumn::DateTime', 'TimeStamp'],
+      components =>     ['InflateColumn::DateTime'],
       constraint => [
           [ qr/\Adbo\z/ => qr/\A(?:
                                   ap_supplier|
                                   company|
                                   in_product|
-				  ar_transaction)\z/x ],
+				  ar_transaction|
+				  ar_customer|
+				  ar_debtor)\z/x ],
       ],
       
   },
