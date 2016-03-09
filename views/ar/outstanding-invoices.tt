@@ -12,7 +12,7 @@ Outstanding Invoices
              });
              
              $("#tableDiv").empty();
-            $("#tableDiv").append('<table id="displayTable" class="display" cellspacing="0" width="100%"><thead><tr>' + tableHeaders + '</tr></thead></table>');
+            $("#tableDiv").append('<table id="displayTable" class="display compact" cellspacing="0" width="90%"><thead><tr>' + tableHeaders + '</tr></thead></table>');
             //$("#tableDiv").find("table thead tr").append(tableHeaders);  
             // console.log(json);
              $('#displayTable').dataTable(json);

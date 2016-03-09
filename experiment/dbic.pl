@@ -73,3 +73,27 @@ while (my $ar_transaction = $ar_transactions->next) {
     " company name: ",$ar_transaction->ar_customer->company->name;
 };
 
+
+### get ar_transactions use select to format columns
+
+$ar_transactions = $schema->resultset('ArTransaction')->search({},
+ {
+   prefetch => { ar_customer => 'company' },
+   '+select' => [
+     { '' => \'round(trans_amt,1)', '-as' => 'trans_amt_rounded'}
+     ],
+#   '+as'     => [qw/one/],
+#   '+columns' => [  foo =>   \[ 'convert(varchar,trans_date,103)'  ],
+   #ROUND ( numeric_expression , length [ ,function ] )
+ }
+)->rows(10);
+
+while (my $ar_transaction = $ar_transactions->next) {
+  say "batch_number: ",$ar_transaction->batch_nr,
+    " customer_code: ",$ar_transaction->customer_code,
+    " company_code: ",$ar_transaction->ar_customer->company_code,
+    " company name: ",$ar_transaction->ar_customer->company->name,
+    " foo: "      ,$ar_transaction->get_column('trans_amt_rounded');
+#     " mydate: "      ,$ar_transaction->get_column('mydate'); 
+};
+
