@@ -191,7 +191,13 @@ __PACKAGE__->has_many(
 
 __PACKAGE__->has_many(
     ar_customers =>
-        'Reports::Schema::Arstomer',
+        'Reports::Schema::ArCustomer',
+    'company_code',
+);
+
+__PACKAGE__->has_many(
+    ar_debtors =>
+        'Reports::Schema::ArDebtor',
     'company_code',
 );
 

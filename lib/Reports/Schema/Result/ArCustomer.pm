@@ -718,4 +718,10 @@ __PACKAGE__->belongs_to(
   'company_code',
 );
 
+__PACKAGE__->belongs_to(
+  "ar_debtor" =>
+    'Reports::Schema::Result::ArDebtor',
+  'debtor_code',
+);
+
 1;
