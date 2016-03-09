@@ -1,5 +1,3 @@
-Outstanding Invoices
-
 <script>
  $( document ).ready( function( $ ) {
      $.ajax({
