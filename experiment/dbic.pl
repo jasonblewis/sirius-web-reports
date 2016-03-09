@@ -97,3 +97,19 @@ while (my $ar_transaction = $ar_transactions->next) {
 #     " mydate: "      ,$ar_transaction->get_column('mydate'); 
 };
 
+
+### multi step prefetch
+  my @invoices  = $schema->resultset('ArTransaction')->invoices->outstanding()->search(undef,
+   {
+     prefetch => [{ ar_customer => 'company' },
+		{ 'ar_debtor' => 'company'}],
+     '+select' => [
+       { '' => \'ltrim(str(trans_amt,25,2))', '-as' => 'trans_amt_rounded'},
+       { '' => \'CONVERT(VARCHAR(10),trans_date,103)', '-as' => 'trans_date_datepart'},
+       { '' => \'CONVERT(VARCHAR(10),due_date,103)', '-as' => 'due_date_datepart'}
+     ],
+
+ })->rows(30)->hri;
+
+  print Dumper(@invoices);
+
