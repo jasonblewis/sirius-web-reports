@@ -113,3 +113,12 @@ while (my $ar_transaction = $ar_transactions->next) {
 
   print Dumper(@invoices);
 
+
+
+my @phones  = $schema->resultset('Phones')->search(undef,
+						   {
+						     prefetch => ['company' ],
+						   })->hri;
+
+  print Dumper(@phones);
+  

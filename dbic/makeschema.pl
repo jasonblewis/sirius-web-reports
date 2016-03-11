@@ -18,7 +18,7 @@ my $tmpcfg =  Config::Any->load_files( { files => ["$FindBin::Bin/../environment
 my ($filename, $config) = %$tmpcfg;
 my $dsn = $config->{plugins}->{DBIC}->{default}->{dsn};
 my $username = $config->{plugins}->{DBIC}->{default}->{user};
-my $password = $config->{plugins}->{DBIC}->{default}->{pass};
+my $password = $config->{plugins}->{DBIC}->{default}->{password};
 
 
 make_schema_at(
@@ -35,6 +35,7 @@ make_schema_at(
           [ qr/\Adbo\z/ => qr/\A(?:
                                   ap_supplier|
                                   company|
+				  phone|
                                   in_product|
 				  ar_transaction|
 				  ar_customer|

@@ -22,3 +22,9 @@ logger: Console
 
 
 session: Cookie
+
+engines:
+  template:
+    template_toolkit:
+      include_path: views/parts
+      

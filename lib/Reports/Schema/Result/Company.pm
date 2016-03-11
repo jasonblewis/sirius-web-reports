@@ -201,6 +201,13 @@ __PACKAGE__->has_many(
     'company_code',
 );
 
+__PACKAGE__->has_many(
+    phones =>
+        'Reports::Schema::Phone',
+    'company_code',
+);
+
+
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 1;

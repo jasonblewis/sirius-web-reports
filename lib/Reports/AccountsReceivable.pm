@@ -14,7 +14,9 @@ sub menu {
 };
 
 sub outstanding_invoices {
-  template 'ar/outstanding-invoices';
+  template 'ar/outstanding-invoices', {
+    json_data_url => '/accounts-receivable/outstanding-invoices.json'
+  }
 };
 
 sub outstanding_invoices_json {
@@ -35,23 +37,41 @@ sub outstanding_invoices_json {
   
   to_json {
     pageLength => 50,
-    columns => [
-         { data => "batch_nr",                 title => 'Batch<br />Number',       className => "dt-right"},          
-	 { data => "ar_debtor.company.name",   title => 'Debtor',                  className => "dt-left"},
-	 { data => "ar_customer.company.name", title => 'Customer',                className => "dt-left"},
-	 { data => "trans_date_datepart",      title => 'Transaction<br />Date',   className=> "dt-right"},
-	 { data => "trans_amt_rounded",        title => 'Transaction<br />Amount', className => "dt-right"},
-	 { data => "ref_1",                    title => 'Ref1',                    className => "dt-left"},
-	 { data => "ref_2",                    title => 'Ref2',                    className => "dt-left"},
-	 { data => "due_date_datepart",        title => 'Due Date',                className => "dt-left"},
-       ],
-    data => [@invoices]};
-
+      columns => [
+	{ data => "batch_nr",                 title => 'Batch<br />Number',       className => "dt-right"},          
+	{ data => "ar_debtor.company.name",   title => 'Debtor',                  className => "dt-left"},
+	{ data => "ar_customer.company.name", title => 'Customer',                className => "dt-left"},
+	{ data => "trans_date_datepart",      title => 'Transaction<br />Date',   className=> "dt-right"},
+	{ data => "trans_amt_rounded",        title => 'Transaction<br />Amount', className => "dt-right"},
+	{ data => "ref_1",                    title => 'Ref1',                    className => "dt-left"},
+	{ data => "ref_2",                    title => 'Ref2',                    className => "dt-left"},
+	{ data => "due_date_datepart",        title => 'Due Date',                className => "dt-left"},
+      ],
+	data => [@invoices],
+      };
+  
 };
 
 
 sub statement_email_addresses {
   template 'ar/statement-email-addresses';
+};
+
+sub statement_email_addresses_json {
+  my @phones  = schema->resultset('Phones')->search(undef,
+   {
+     prefetch => ['company' ],
+
+ })->hri;
+
+   to_json {
+     pageLength => 50,
+     columns => [
+       className => "dt-left",
+   	 { data => "phone_no",        title => 'Phone Nimber',                className => "dt-left"},
+        ],
+     data => [@phones]
+   }
 };
 
 

@@ -9,6 +9,7 @@ requires "Authen::Simple::PAM";
 requires "Dancer2::Session::Cookie";
 requires "FCGI";
 requires "Dancer2::Plugin::Ajax";
+requires "Daemon::Control";
 
 requires "DBIx::Class";
 requires "Dancer2::Plugin::DBIC";
