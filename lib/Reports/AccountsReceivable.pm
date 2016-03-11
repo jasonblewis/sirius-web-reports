@@ -15,7 +15,7 @@ sub menu {
 
 sub outstanding_invoices {
   template 'ar/outstanding-invoices', {
-    json_data_url => '/accounts-receivable/outstanding-invoices.json'
+    json_data_url => '/accounts-receivable/outstanding-invoices'
   }
 };
 
@@ -77,8 +77,8 @@ sub statement_email_addresses_json {
 
 prefix '/accounts-receivable' => sub {
   get  ''                           => require_login \&menu;
+  ajax '/outstanding-invoices' => require_login \&outstanding_invoices_json;
   get  '/outstanding-invoices'      => require_login \&outstanding_invoices;
-  ajax '/outstanding-invoices.json' => require_login \&outstanding_invoices_json;
   get  '/statement-email-addresses' => require_login \&statement_email_addresses;
 };
 
