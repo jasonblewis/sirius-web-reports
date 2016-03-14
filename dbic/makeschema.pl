@@ -39,7 +39,8 @@ make_schema_at(
                                   in_product|
 				  ar_transaction|
 				  ar_customer|
-				  ar_debtor)\z/x ],
+				  ar_debtor|
+				  sh_transaction)\z/x ],
       ],
       
   },
