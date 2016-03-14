@@ -3,7 +3,7 @@
      $.ajax({
          "url": '[% json_data_url %]',
          "success": function(json) {
-             var tableHeaders;  // should be at least the empty string first time through
+             var tableHeaders = '';  // should be at least the empty string first time through
 	     $.each(json.columns, function(i, val){
                  tableHeaders += "<th>" + val.data + "</th>";
              });
