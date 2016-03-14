@@ -2,7 +2,6 @@ package Reports::AccountsReceivable;
 use strict;
 use warnings;
 use Dancer2 appname => 'Reports';
-#se Dancer2::Plugin::Ajax;
 use Dancer2::Plugin::Auth::Extensible;
 use Dancer2::Plugin::DBIC qw(schema resultset rset);
 
@@ -36,7 +35,7 @@ sub statement_email_addresses_json {
      pageLength => 50,
      columns => [
        className => "dt-left",
-   	 { data => "phone_no",        title => 'Phone Nimber',                className => "dt-left"},
+   	 { data => "phone_no",        title => 'Phone Number',                className => "dt-left"},
         ],
      data => [@phones]
    }
@@ -45,7 +44,6 @@ sub statement_email_addresses_json {
 
 prefix '/accounts-receivable' => sub {
   get  ''                           => require_login \&menu;
-#  ajax '/outstanding-invoices' => require_login \&outstanding_invoices_json;
   get  '/outstanding-invoices'      => require_login \&outstanding_invoices;
   get  '/statement-email-addresses' => require_login \&statement_email_addresses;
 };
