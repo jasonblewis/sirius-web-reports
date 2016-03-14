@@ -185,25 +185,25 @@ __PACKAGE__->set_primary_key("company_code");
 
 __PACKAGE__->has_many(
     ap_suppliers =>
-        'Reports::Schema::ApSupplier',
+        'Reports::Schema::Result::ApSupplier',
     'company_code',
 );
 
 __PACKAGE__->has_many(
     ar_customers =>
-        'Reports::Schema::ArCustomer',
+        'Reports::Schema::Result::ArCustomer',
     'company_code',
 );
 
 __PACKAGE__->has_many(
     ar_debtors =>
-        'Reports::Schema::ArDebtor',
+        'Reports::Schema::Result::ArDebtor',
     'company_code',
 );
 
 __PACKAGE__->has_many(
     phones =>
-        'Reports::Schema::Phone',
+        'Reports::Schema::Result::Phone',
     'company_code',
 );
 

@@ -115,10 +115,12 @@ while (my $ar_transaction = $ar_transactions->next) {
 
 
 
-my @phones  = $schema->resultset('Phones')->search(undef,
-						   {
-						     prefetch => ['company' ],
-						   })->hri;
+my $phones_rs = $schema->resultset('Phone')->search(
+  { phone_type => 'STEM', },
+  {prefetch => { company => 'ar_debtors' }, },
+)->hri;
+
+my @phones  = $phones_rs->all;
 
   print Dumper(@phones);
   
