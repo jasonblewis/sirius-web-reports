@@ -612,7 +612,7 @@ __PACKAGE__->set_primary_key("supplier_code");
 
 # __PACKAGE__->belongs_to(
 #     company =>
-#         'Reports::Schema::Company',
+#         'Reports::Schema::Result::Company',
 #     'company_code',
 # );
 

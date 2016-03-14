@@ -795,7 +795,7 @@ __PACKAGE__->set_primary_key("product_code");
 # Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-03-08 12:25:11
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:7jf9JP9TmBYado6hhal8YA
 
-#__PACKAGE__->belongs_to('ap_supplier' => 'Reports::Schema::ApSupplier','primary_supplier');
+#__PACKAGE__->belongs_to('ap_supplier' => 'Reports::Schema::Result::ApSupplier','primary_supplier');
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 1;
