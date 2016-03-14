@@ -797,5 +797,9 @@ __PACKAGE__->set_primary_key("product_code");
 
 #__PACKAGE__->belongs_to('ap_supplier' => 'Reports::Schema::Result::ApSupplier','primary_supplier');
 
-# You can replace this text with custom code or comments, and it will be preserved on regeneration
+__PACKAGE__->has_many(
+  sh_transactions =>
+    'Reports::Schema::Result::ShTransaction',
+  'product_code',
+);
 1;

@@ -40,7 +40,9 @@ make_schema_at(
 				  ar_transaction|
 				  ar_customer|
 				  ar_debtor|
-				  sh_transaction)\z/x ],
+				  sh_transaction|
+				  gst_tax_table|
+				  in_department)\z/x ],
       ],
       
   },

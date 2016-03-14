@@ -115,27 +115,59 @@ while (my $ar_transaction = $ar_transactions->next) {
 
 ### get debtor statement email addresses
 
-my $phones_rs = $schema->resultset('Phone')->search(
-  { phone_type => 'STEM',
-    'debtor_code' => { '!=', undef } },
-  { collapse => 1,
-    prefetch => { company => 'ar_debtors' },
-  }
+# my $phones_rs = $schema->resultset('Phone')->search(
+#   { phone_type => 'STEM',
+#     'debtor_code' => { '!=', undef } },
+#   { collapse => 1,
+#     prefetch => { company => 'ar_debtors' },
+#   }
+# );
+
+
+# my $phoneslist = [];
+
+# while (my $phone = $phones_rs->next) {
+#   # say
+#   #   "debtor code: ", $phone->company->ar_debtors->first->debtor_code,
+#   #   " company name: ", $phone->company->name,
+#   #   " phone: ", $phone->phone_no;
+#   push @$phoneslist, {debtor_code => $phone->company->ar_debtors->first->debtor_code,
+# 		     company_name => $phone->company->name,
+# 		     phone => $phone->phone_no}
+  
+# }
+
+# print Dumper($phoneslist);
+
+
+# ### select most recent transactions for a given customer1 
+# $transactions = $schema->resultset('ShTransaction')->search(
+#   {customer_code => 'BOUREH'},
+#   {
+#     select => ['customer_code','product_code',{max => 'invoice_date', -as => 'max_invoice_date'} ],
+#     as     => [qw/ customer_code product_code max_invoice_date/],
+#     group_by => [qw/ me.customer_code me.product_code /],
+#     prefetch => 'product',
+#       }
+# )->rows(3);
+# while (my $transaction = $transactions->next) {
+#   say
+#     'product code: ',  $transaction->product_code,
+#     'invoice date: ',  $transaction->get_column('max_invoice_date'),
+#     ' product description: ', $transaction->product->description;
+# }
+
+
+### select most recent transactions for a given customer2 
+my $customer = $schema->resultset('ArCustomer')->find(
+  {customer_code => 'IGACRE'}
 );
 
 
-my $phoneslist = [];
-
-while (my $phone = $phones_rs->next) {
-  # say
-  #   "debtor code: ", $phone->company->ar_debtors->first->debtor_code,
-  #   " company name: ", $phone->company->name,
-  #   " phone: ", $phone->phone_no;
-  push $phoneslist, {debtor_code => $phone->company->ar_debtors->first->debtor_code,
-		     company_name => $phone->company->name,
-		     phone => $phone->phone_no}
-  
+say
+  "customer code: ", $customer->customer_code,
+  "company name: " , $customer->company->name;
+my $phones = $customer->company->phones->buyer_phone_numbers;
+while (my $phone = $phones->next) {
+  say "   phone: ", $phone->phone_no;
 }
-
-print Dumper($phoneslist);
-  

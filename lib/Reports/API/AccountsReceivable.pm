@@ -57,9 +57,9 @@ sub statement_email_addresses {
 		       phone => $phone->phone_no}
   }
   return { columns => [
-    { data => 'debtor_code', title => 'Debtor Code', className => 'dt-right'},
-    { data => 'company_name', title => 'Debtor Name', className => 'dt-right'},
-    { data => 'phone', title => 'Statement Email Address', className => 'dt-right'},
+    { data => 'debtor_code',  title => 'Debtor Code',             className => 'dt-right'},
+    { data => 'company_name', title => 'Debtor Name',             className => 'dt-left'},
+    { data => 'phone',        title => 'Statement Email Address', className => 'dt-left'},
   ],
     data => $phoneslist}
 };
