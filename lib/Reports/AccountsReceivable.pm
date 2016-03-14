@@ -21,25 +21,11 @@ sub outstanding_invoices {
 
 
 sub statement_email_addresses {
-  template 'ar/statement-email-addresses';
+  template 'ar/statement-email-addresses', {
+    json_data_url => '/api/accounts-receivable/statement-email-addresses'
+  } ;
 };
 
-sub statement_email_addresses_json {
-  my @phones  = schema->resultset('Phones')->search(undef,
-   {
-     prefetch => ['company' ],
-
- })->hri;
-
-   to_json {
-     pageLength => 50,
-     columns => [
-       className => "dt-left",
-   	 { data => "phone_no",        title => 'Phone Number',                className => "dt-left"},
-        ],
-     data => [@phones]
-   }
-};
 
 
 prefix '/accounts-receivable' => sub {

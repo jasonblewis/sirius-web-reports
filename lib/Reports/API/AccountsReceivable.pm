@@ -2,7 +2,7 @@ package Reports::API::AccountsReceivable;
 
 use strict;
 use warnings;
-
+use 5.22.0;
 use Dancer2 appname => 'Reports::API';
 
 use Dancer2::Plugin::Auth::Extensible;
@@ -37,7 +37,35 @@ sub outstanding_invoices {
       };
   
 };
+
+
+
+sub statement_email_addresses {
+  my $phones_rs = schema->resultset('Phone')->search_rs(
+    { phone_type => 'STEM',
+      'debtor_code' => { '!=', undef } },
+    { collapse => 1,
+      prefetch => { company => 'ar_debtors' },
+    }
+  );
+  
+  my $phoneslist = [];
+  
+  while (my $phone = $phones_rs->next) {
+    push @$phoneslist, {debtor_code => $phone->company->ar_debtors->first->debtor_code,
+		       company_name => $phone->company->name,
+		       phone => $phone->phone_no}
+  }
+  return { columns => [
+    { data => 'debtor_code', title => 'Debtor Code', className => 'dt-right'},
+    { data => 'company_name', title => 'Debtor Name', className => 'dt-right'},
+    { data => 'phone', title => 'Statement Email Address', className => 'dt-right'},
+  ],
+    data => $phoneslist}
+};
+
+
 # app is mounted onder /api
 get '/accounts-receivable/outstanding-invoices' => require_login \&outstanding_invoices;
-
+get '/accounts-receivable/statement-email-addresses' => require_login \&statement_email_addresses;
 1;

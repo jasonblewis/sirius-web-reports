@@ -1,1 +1,3 @@
 statement email addresses
+[% INCLUDE json_table.tt %]
+

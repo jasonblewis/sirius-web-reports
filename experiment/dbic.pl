@@ -113,14 +113,29 @@ while (my $ar_transaction = $ar_transactions->next) {
 
   print Dumper(@invoices);
 
-
+### get debtor statement email addresses
 
 my $phones_rs = $schema->resultset('Phone')->search(
-  { phone_type => 'STEM', },
-  {prefetch => { company => 'ar_debtors' }, },
-)->hri;
+  { phone_type => 'STEM',
+    'debtor_code' => { '!=', undef } },
+  { collapse => 1,
+    prefetch => { company => 'ar_debtors' },
+  }
+);
 
-my @phones  = $phones_rs->all;
 
-  print Dumper(@phones);
+my $phoneslist = [];
+
+while (my $phone = $phones_rs->next) {
+  # say
+  #   "debtor code: ", $phone->company->ar_debtors->first->debtor_code,
+  #   " company name: ", $phone->company->name,
+  #   " phone: ", $phone->phone_no;
+  push $phoneslist, {debtor_code => $phone->company->ar_debtors->first->debtor_code,
+		     company_name => $phone->company->name,
+		     phone => $phone->phone_no}
+  
+}
+
+print Dumper($phoneslist);
   
