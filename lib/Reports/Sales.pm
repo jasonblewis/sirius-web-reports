@@ -283,12 +283,17 @@ EXEC SP_EXECUTESQL @query/;
   };
 };
 
+sub order_form_w_pricecode {
+  template 'sales/order-form-w-pricecode',
+    {json_data_url => '/api/sales/order-form-w-pricecode'};
+};
 
 prefix '/sales' => sub {
   get ''                            => require_login \&menu;
   get '/new-stores-quarterly-sales' => require_login \&new_stores_quarterly_sales;
   get '/territory-24-month-detail'  => require_login \&territory_24_month_detail;
   get '/territory-24-month-summary' => require_login \&territory_24_month_summary;
+  get '/order-form-w-pricecode'     => require_login \&order_form_w_pricecode;
 };
 
 

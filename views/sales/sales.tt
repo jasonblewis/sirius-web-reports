@@ -1,4 +1,4 @@
-<div id="page">
+2<div id="page">
 
     <div id="sidebar">
         <ul id="sidebar-items">
@@ -21,6 +21,7 @@
             <h3><a href="/sales/new-stores-quarterly-sales" >New Stores Quarterly Sales</a></h3>
             <h3><a href="/sales/territory-24-month-summary" >Territory 24 Month Summary</a></h3>
             <h3><a href="/sales/territory-24-month-detail" >Territory 24 Month Detail</a></h3>
+            <h3><a href="/sales/order-form-w-pricecode" >Order Form W Price code</a></h3>
         </div>
     </div>
 

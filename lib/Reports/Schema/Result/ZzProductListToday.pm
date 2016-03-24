@@ -217,4 +217,24 @@ __PACKAGE__->belongs_to(
   'product_code',
 );
 
+sub cartonprice_2dp {
+  my ($self, $col_data) = @_;
+  return sprintf("%.2f",$self->cartonprice);
+};
+
+sub unitpice_2dp {
+  my ($self, $col_data) = @_;
+  return sprintf("%.2f",$self->unitprice);
+};
+
+sub unitprice_2dp_na {
+  my ($self, $col_data) = @_;
+
+  if (length($self->cartononly)) {
+    return "N/A";
+  } else {
+    return sprintf("%.2f",$self->unitprice);
+  }
+}
+
 1;

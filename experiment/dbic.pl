@@ -220,9 +220,14 @@ say "most recent purcahses count: ", $mrpcount;
 my $mrps = $customer->most_recent_purchases->search(
   { 'sh_transaction.sales_qty' => { '>=' => 0},
   },
-  { prefetch => { sh_transaction => 'product_list_today'},
-    order_by => [qw( sh_transaction.department sh_transaction.product_code)],
-  });
+  { prefetch => { sh_transaction => ['product_list_today', {product => 'gst_tax_table'} ] } ,
+    order_by => [ 'sh_transaction.department','sh_transaction.product_code' ],
+     '+select' => [
+       { '' => \'CONVERT(VARCHAR(10),sh_transaction.invoice_date,103)', '-as' => 'invoice_date_datepart'},
+       { '' => \"case when cartononly is not null then 'N/A' ELSE ( convert(varchar,convert(decimal(8,2),product_list_today.unitprice)) ) end", '-as' => 'unitprice_2dp_na'},
+     ],
+  }
+ );
 while (my $mrp = $mrps->next ) {
   my $unitprice;
   if (length ($mrp->sh_transaction->product->spare_flag_02)) {
@@ -236,8 +241,8 @@ while (my $mrp = $mrps->next ) {
     ' ', rtrim($mrp->sh_transaction->product->gst_tax_table->tax_rate),
     '        ', $mrp->invoice_date->strftime('%d/%m/%G'),
     '       ' , $mrp->sh_transaction->sales_qty,
-    ' ', $unitprice,
-    ' ', sprintf("%.2f",$mrp->sh_transaction->product_list_today->cartonprice),
+    ' ', $mrp->sh_transaction->product_list_today->unitprice_2dp_na,
+    ' ', $mrp->sh_transaction->product_list_today->cartonprice_2dp,
     ' ', $mrp->sh_transaction->product_list_today->cartonsize,
     ' ', $mrp->sh_transaction->product_list_today->barcode;
 }
