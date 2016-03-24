@@ -42,7 +42,11 @@ make_schema_at(
 				  ar_debtor|
 				  sh_transaction|
 				  gst_tax_table|
-				  in_department)\z/x ],
+				  in_department|
+				  zz_most_recent_purchase|
+				  zz_product_list_today|
+				  pr_price|
+				  pr_qty_break)\z/x ],
       ],
       
   },
