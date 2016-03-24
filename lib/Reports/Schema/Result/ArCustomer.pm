@@ -724,4 +724,18 @@ __PACKAGE__->belongs_to(
   'debtor_code',
 );
 
+__PACKAGE__->has_many(
+  'most_recent_purchases' =>
+    'Reports::Schema::Result::ZzMostRecentPurchase',
+  'customer_code',
+);
+
+__PACKAGE__->has_many(
+  "sh_transactions" =>
+    'Reports::Schema::Result::ShTransaction',
+  'customer_code',
+);
+
+
+
 1;

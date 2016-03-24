@@ -278,4 +278,26 @@ __PACKAGE__->belongs_to(
   'product_code'
 );
 
+__PACKAGE__->belongs_to(
+  "product_list_today" =>
+    'Reports::Schema::Result::ZzProductListToday',
+  'product_code'
+);
+
+
+__PACKAGE__->belongs_to(
+  "ar_customer" =>
+    'Reports::Schema::Result::ArCustomer',
+  'customer_code'
+);
+
+__PACKAGE__->has_many(
+    "most_recent_transactions" =>
+    'Reports::Schema::Result::ZzMostRecentTrasaction',
+  {'foreign.customer_code' => 'self.customer_code',
+   'foreign.product_code' => 'self.product_code',
+   'foreign.invoice_date' => 'self.invoice_date',
+ }
+);
+
 1;

@@ -800,6 +800,25 @@ __PACKAGE__->set_primary_key("product_code");
 __PACKAGE__->has_many(
   sh_transactions =>
     'Reports::Schema::Result::ShTransaction',
-  'product_code',
+  'product_code'
 );
+
+__PACKAGE__->has_many(
+  prices =>
+    'Reports::Schema::Result::PrPrice',
+  'product_code'
+);
+
+__PACKAGE__->has_many(
+  product_list_today =>
+    'Reports::Schema::Result::ZzProductListToday',
+  'product_code'
+);
+
+__PACKAGE__->belongs_to(
+  gst_tax_table =>
+    'Reports::Schema::Result::GstTaxTable',
+  'gst_code'
+);
+
 1;

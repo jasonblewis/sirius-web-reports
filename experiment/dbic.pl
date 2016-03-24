@@ -13,6 +13,10 @@ use Carp 'croak';
 use Data::Dumper;
 use Reports::Schema;
 
+sub ltrim { my $s = shift; $s =~ s/^\s+//;       return $s };
+sub rtrim { my $s = shift; $s =~ s/\s+$//;       return $s };
+sub  trim { my $s = shift; $s =~ s/^\s+|\s+$//g; return $s };
+
 my $tmpcfg =  Config::Any->load_files( { files => ["$FindBin::Bin/../environments/development.yml" ], use_ext => 1} )->[0]; 
 
 my ($filename, $config) = %$tmpcfg;
@@ -99,19 +103,19 @@ while (my $ar_transaction = $ar_transactions->next) {
 
 
 ### multi step prefetch
-  my @invoices  = $schema->resultset('ArTransaction')->invoices->outstanding()->search(undef,
-   {
-     prefetch => [{ ar_customer => 'company' },
-		{ 'ar_debtor' => 'company'}],
-     '+select' => [
-       { '' => \'ltrim(str(trans_amt,25,2))', '-as' => 'trans_amt_rounded'},
-       { '' => \'CONVERT(VARCHAR(10),trans_date,103)', '-as' => 'trans_date_datepart'},
-       { '' => \'CONVERT(VARCHAR(10),due_date,103)', '-as' => 'due_date_datepart'}
-     ],
+ #  my @invoices  = $schema->resultset('ArTransaction')->invoices->outstanding()->search(undef,
+ #   {
+ #     prefetch => [{ ar_customer => 'company' },
+ # 		{ 'ar_debtor' => 'company'}],
+ #     '+select' => [
+ #       { '' => \'ltrim(str(trans_amt,25,2))', '-as' => 'trans_amt_rounded'},
+ #       { '' => \'CONVERT(VARCHAR(10),trans_date,103)', '-as' => 'trans_date_datepart'},
+ #       { '' => \'CONVERT(VARCHAR(10),due_date,103)', '-as' => 'due_date_datepart'}
+ #     ],
 
- })->rows(30)->hri;
+ # })->rows(30)->hri;
 
-  print Dumper(@invoices);
+ #  print Dumper(@invoices);
 
 ### get debtor statement email addresses
 
@@ -159,15 +163,123 @@ while (my $ar_transaction = $ar_transactions->next) {
 
 
 ### select most recent transactions for a given customer2 
-my $customer = $schema->resultset('ArCustomer')->find(
-  {customer_code => 'IGACRE'}
-);
+# my $customer = $schema->resultset('ArCustomer')->find(
+#   {customer_code => 'IGACRE'}
+# );
 
 
-say
-  "customer code: ", $customer->customer_code,
-  "company name: " , $customer->company->name;
-my $phones = $customer->company->phones->buyer_phone_numbers;
-while (my $phone = $phones->next) {
-  say "   phone: ", $phone->phone_no;
+# say
+#   "customer code: ", $customer->customer_code,
+#   "company name: " , $customer->company->name;
+# my $phones = $customer->company->phones->buyer_phone_numbers;
+# while (my $phone = $phones->next) {
+#   say "   phone: ", $phone->phone_no;
+# }
+# my $faxs = $customer->company->phones->buyer_fax_numbers;
+# while (my $fax = $faxs->next) {
+#   say "   fax: ", $fax->phone_no;
+# }
+
+# my $purchases = $customer->most_recent_purchases;
+# while (my $purchase  = $purchases->next) {
+#   say "   product_code: ", rtrim($purchase->product_code),
+#       " invoice_date: ", $purchase->invoice_date->strftime('%d/%m/%G');
+# }
+
+### grouping results
+# my $customers  = $schema->resultset('ArCustomer')->search(
+#   { 'me.customer_code' => 'IGACRO'},
+#   {
+#     join     => [qw/ sh_transactions /],
+#     select   => [ 'sh_transactions.product_code',
+# 		  { max => 'sh_transactions.invoice_date', -as => 'max_invoice_date' } ],
+#     as       => [qw/ 
+# 		     sh_transactions.product_code
+# 		     max_invoice_date /],
+#     group_by => [qw/ me.customer_code sh_transactions.product_code/]
+#   }
+# );
+
+
+
+# while (my $customer = $customers->next) {
+#   say "Customer code: ", ltrim($customer->customer_code),
+#     " max_invoice_date: ", $customer->get_column('max_invoice_date');
+  
+#   # while (my $recentpurchase = $customer->sh_transactions->next) {
+#   #   say "product_code: ", rtrim($recentpurchase->product_code),
+#   #     " most recent purchase date: ", $recentpurchase->get_column('max_invoice_date');
+#   #}
+# }
+
+### get customer and transactions by customer id
+my $customer  = $schema->resultset('ArCustomer')->find('IGACRO');
+my $mrpcount = $customer->most_recent_purchases->count;
+say "most recent purcahses count: ", $mrpcount;
+
+my $mrps = $customer->most_recent_purchases->search(
+  { 'sh_transaction.sales_qty' => { '>=' => 0},
+  },
+  { prefetch => { sh_transaction => 'product_list_today'},
+    order_by => [qw( sh_transaction.department sh_transaction.product_code)],
+  });
+while (my $mrp = $mrps->next ) {
+  my $unitprice;
+  if (length ($mrp->sh_transaction->product->spare_flag_02)) {
+    $unitprice = "N/A";
+  } else {
+    $unitprice = sprintf("%.2f",$mrp->sh_transaction->product_list_today->unitprice);
+  };
+
+  say rtrim($mrp->product_code),
+    ' ', rtrim($mrp->sh_transaction->product_list_today->description),
+    ' ', rtrim($mrp->sh_transaction->product->gst_tax_table->tax_rate),
+    '        ', $mrp->invoice_date->strftime('%d/%m/%G'),
+    '       ' , $mrp->sh_transaction->sales_qty,
+    ' ', $unitprice,
+    ' ', sprintf("%.2f",$mrp->sh_transaction->product_list_today->cartonprice),
+    ' ', $mrp->sh_transaction->product_list_today->cartonsize,
+    ' ', $mrp->sh_transaction->product_list_today->barcode;
 }
+
+
+# my $recentpurchases = $customer->most_recent_purchases->search_related('sh_trasaction',{
+#   sales_qty => { '>=' => 0}
+# });
+
+# say "customer code: ", $customer->customer_code;
+# say "product code | last purchased | qty | carton_only";
+# while (my $recentpurchase = $recentpurchases->next) {
+#   my $cartononly;
+#   if (length ($recentpurchase->sh_transaction->product->spare_flag_02)) {
+#     $cartononly = $recentpurchase->sh_transaction->product->spare_flag_02;
+#   } else {
+#     $cartononly = 'N';
+#   };
+#   say rtrim($recentpurchase->product_code),
+#     '        ', $recentpurchase->invoice_date->strftime('%d/%m/%G'),
+#     '       ' , $recentpurchase->sh_transaction->sales_qty,
+#     '         ' , $cartononly;
+  
+# }
+
+
+# my $transactions = $customer->sh_transactions->search({
+#   invoice_date => {
+#     '=' => 
+#   }},
+# );
+
+
+
+# while (my $customer = $customers->next) {
+#   say "Customer code: ", ltrim($customer->customer_code),
+#     " max_invoice_date: ", $customer->get_column('max_invoice_date');
+  
+#   # while (my $recentpurchase = $customer->sh_transactions->next) {
+  #   say "product_code: ", rtrim($recentpurchase->product_code),
+  #     " most recent purchase date: ", $recentpurchase->get_column('max_invoice_date');
+  #}
+
+
+
