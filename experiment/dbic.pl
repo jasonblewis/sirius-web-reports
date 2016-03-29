@@ -237,6 +237,8 @@ while (my $mrp = $mrps->next ) {
   };
 
   say rtrim($mrp->product_code),
+    ' ', rtrim($mrp->sh_transaction->department),
+    ' ', rtrim($mrp->sh_transaction->product->department->description),
     ' ', rtrim($mrp->sh_transaction->product_list_today->description),
     ' ', rtrim($mrp->sh_transaction->product->gst_tax_table->tax_rate),
     '        ', $mrp->invoice_date->strftime('%d/%m/%G'),

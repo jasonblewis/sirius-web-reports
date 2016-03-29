@@ -821,4 +821,11 @@ __PACKAGE__->belongs_to(
   'gst_code'
 );
 
+__PACKAGE__->belongs_to(
+  department =>
+    'Reports::Schema::Result::InDepartment',
+  'department'
+);
+
+
 1;

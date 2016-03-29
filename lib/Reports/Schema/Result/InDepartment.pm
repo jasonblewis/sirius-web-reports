@@ -80,6 +80,11 @@ __PACKAGE__->set_primary_key("department");
 # Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-03-14 15:52:08
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:iaQmNH87YVTIVNMbQrLV/A
 
+__PACKAGE__->has_many(
+  'products' =>
+    'Reports::Schema::Result::InProduct',
+  'department',
+);
 
-# You can replace this text with custom code or comments, and it will be preserved on regeneration
+
 1;

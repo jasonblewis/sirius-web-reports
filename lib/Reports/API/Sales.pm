@@ -16,7 +16,8 @@ sub order_form_w_pricecode {
   my @mrps = $customer->most_recent_purchases->search(
     { 'sh_transaction.sales_qty' => { '>=' => 0},
     },
-    { prefetch => { sh_transaction =>  ['product_list_today', {product => 'gst_tax_table'} ] } ,
+    { prefetch => { sh_transaction =>  ['product_list_today',
+					{product => ['gst_tax_table', 'department']} ] } ,
       order_by => [qw( sh_transaction.department sh_transaction.product_code)],
      '+select' => [
        { '' => \'CONVERT(VARCHAR(10),sh_transaction.invoice_date,103)', '-as' => 'invoice_date_datepart'},
@@ -30,15 +31,16 @@ sub order_form_w_pricecode {
   return {
     pageLength => 50,
     columns => [
-      { data => 'product_code', title => 'Product Code'},
-      { data => 'sh_transaction.product_list_today.description', title => 'Description'},
-      { data => 'unitprice_2dp_na', title => 'Unit Price'},
-      { data => 'cartonprice_2dp', title => 'Carton Price'},
-      { data => 'sh_transaction.product_list_today.cartonsize', title => 'U/C'},
-      { data => 'sh_transaction.product.gst_tax_table.tax_rate', title => 'GST'},
-      { data => 'invoice_date_datepart', title => 'Last Purchased'},
-      { data => 'sh_transaction.sales_qty', title => 'Last Purch. Qty'},
-      { data => 'sh_transaction.product_list_today.barcode', title => 'Barcode'},
+      { className => 'dt-right', data => 'product_code', title => 'Product Code'},
+      { className => 'dt-right', data => 'sh_transaction.product.department.description', title => 'Department'},
+      { className => 'dt-left',  data => 'sh_transaction.product_list_today.description', title => 'Description'},
+      { className => 'dt-right', data => 'unitprice_2dp_na', title => 'Unit Price'},
+      { className => 'dt-right', data => 'cartonprice_2dp', title => 'Carton Price'},
+      { className => 'dt-right', data => 'sh_transaction.product_list_today.cartonsize', title => 'U/C'},
+      { className => 'dt-right', data => 'sh_transaction.product.gst_tax_table.tax_rate', title => 'GST %'},
+      { className => 'dt-right', data => 'invoice_date_datepart', title => 'Last Purchased'},
+      { className => 'dt-right', data => 'sh_transaction.sales_qty', title => 'Last Purch. Qty'},
+      { className => 'dt-right', data => 'sh_transaction.product_list_today.barcode', title => 'Barcode'},
     ],
     data => [@mrps],
   };
