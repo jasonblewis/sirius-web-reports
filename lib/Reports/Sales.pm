@@ -283,9 +283,19 @@ EXEC SP_EXECUTESQL @query/;
   };
 };
 
+sub select_customer {
+  template 'ar/select-customer',
+    {json_data_url => '/api/accounts-receivable/customers'}
+}
+
 sub order_form_w_pricecode {
-  template 'sales/order-form-w-pricecode',
-    {json_data_url => '/api/sales/order-form-w-pricecode'};
+  my $customer = query_parameters->get('customer');
+  unless ($customer) {
+    select_customer('/sales/order-form-w-pricecode');
+  } else {
+    template 'sales/order-form-w-pricecode',
+      {json_data_url => '/api/sales/order-form-w-pricecode'};
+  }
 };
 
 prefix '/sales' => sub {

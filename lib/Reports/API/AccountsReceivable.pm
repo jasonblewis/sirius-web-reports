@@ -8,6 +8,12 @@ use Dancer2 appname => 'Reports::API';
 use Dancer2::Plugin::Auth::Extensible;
 use Dancer2::Plugin::DBIC qw(schema resultset rset);
 
+use Data::Dumper;
+
+sub ltrim { my $s = shift; $s =~ s/^\s+//;       return $s };
+sub rtrim { my $s = shift; $s =~ s/\s+$//;       return $s };
+sub  trim { my $s = shift; $s =~ s/^\s+|\s+$//g; return $s };
+
 sub outstanding_invoices {
   my @invoices  = schema->resultset('ArTransaction')->invoices->outstanding()->search(undef,
    {
@@ -65,7 +71,44 @@ sub statement_email_addresses {
 };
 
 
+sub customers {
+  my @customers = schema->resultset('ArCustomer')->search(undef, {
+    prefetch => 'company',
+    collapse => 1,
+    columns => ['customer_code','company.name']},
+							)->hri;
+  if (my $target_url = body_parameters->get('target_url')) {
+    foreach my $customer (@customers) {
+      #say '$customer: ',Dumper($customer);
+      $customer->{'url'} = $target_url . rtrim($customer->{'customer_code'}) . '">' . rtrim($customer->{company}->{name}) ;
+    }
+  }
+  
+  return {
+    pageLength => 30,
+    columns => [
+     { data => 'customer_code'},
+     { data => 'company.name'},
+   ],
+    data => [@customers],
+  }
+};
+
+sub customers_customer_code {
+  my $customer_code = route_parameters->get('customer_code');
+  my @customers = schema->resultset('ArCustomer')->search({customer_code => $customer_code}, {
+    prefetch => 'company',
+    collapse => 1,
+    columns => ['customer_code','company_code','company.name']},
+							)->hri;
+  return {
+    data => [@customers],
+  }
+};
+
 # app is mounted onder /api
 get '/accounts-receivable/outstanding-invoices' => require_login \&outstanding_invoices;
 get '/accounts-receivable/statement-email-addresses' => require_login \&statement_email_addresses;
+any ['get','post'] => '/accounts-receivable/customers' => require_login \&customers;
+get '/accounts-receivable/customers/:customer_code' => require_login \&customers_customer_code;
 1;
