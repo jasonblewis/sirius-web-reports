@@ -28,6 +28,10 @@ curl --cookie-jar ~/.curl-cookies --data 'username=test;password=test' localhost
 curl -b ~/.curl-cookies -H 'X-Requested-With: XMLHttpRequest' -d"message=hello" localhost:5000/time
 #+END_SRC
   
+* run the dbic.pl experiments program
+#+BEGIN_SRC 
+  DANCER_ENVIRONMENT=home perl experiment/dbic.pl
+#+END_SRC
 * deployment steps
 #+BEGIN_SRC bash
 # get the latest version
