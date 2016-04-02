@@ -1,0 +1,28 @@
+select customer
+
+<script>
+ $(document).ready(function() {
+     console.log('before include');
+ });
+</script>
+
+
+[% include json_table.tt %]
+
+
+<script>
+ $(document).ready(function() {
+     console.log('after include');
+ });
+</script>
+
+
+<script>
+
+ $( document ).ready( function( $ ) {
+     var table = $('#displayTable').DataTable();
+     
+     console.log( 'Column index 0 is '+	(table.column( 0 ).visible() === true ? 'visible' : 'not visible'));
+     console.log ('colvis: ' + JSON.stringify(table.column( 0 ).visible()));     
+ });
+</script>
