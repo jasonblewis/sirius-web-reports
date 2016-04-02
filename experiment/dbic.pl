@@ -3,6 +3,7 @@ use 5.12.0;
 use Smart::Comments;
 use strict;
 use warnings;
+use Env;
 
 use FindBin;
 use lib "$FindBin::Bin/../lib";
@@ -17,8 +18,15 @@ sub ltrim { my $s = shift; $s =~ s/^\s+//;       return $s };
 sub rtrim { my $s = shift; $s =~ s/\s+$//;       return $s };
 sub  trim { my $s = shift; $s =~ s/^\s+|\s+$//g; return $s };
 
-my $tmpcfg =  Config::Any->load_files( { files => ["$FindBin::Bin/../environments/development.yml" ], use_ext => 1} )->[0]; 
+my $tmpcfg;
 
+if (my $d2env = $ENV{'DANCER_ENVIRONMENT'} ) {
+  say "environment is ",$d2env;
+  $tmpcfg =  Config::Any->load_files( { files => ["$FindBin::Bin/../environments/$d2env.yml" ], use_ext => 1} )->[0];
+} else {
+  say "using development config";
+  $tmpcfg =  Config::Any->load_files( { files => ["$FindBin::Bin/../environments/development.yml" ], use_ext => 1} )->[0]; 
+}
 my ($filename, $config) = %$tmpcfg;
 my $dsn = $config->{plugins}->{DBIC}->{default}->{dsn};
 my $username = $config->{plugins}->{DBIC}->{default}->{user};
