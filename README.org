@@ -1,4 +1,7 @@
 * Sirius web reports app
+* Copyright
+ Copyright 2016 Jason Lewis
+
 * License
 This file is part of Sirius Web Reports.
 

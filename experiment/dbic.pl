@@ -1,4 +1,7 @@
 #!/usr/bin/env perl
+
+# Copyright 2016 Jason Lewis
+
 # This file is part of Sirius Web Reports.
 
 #     Sirius Web Reports is free software: you can redistribute it and/or modify

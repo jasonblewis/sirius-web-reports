@@ -98,6 +98,22 @@ __PACKAGE__->set_primary_key("product_code", "price_code", "start_date");
 # Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-03-23 15:46:05
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:6mv5d64Z6x7SwB6RWl2uNQ
 
+# Copyright 2016 Jason Lewis
+
+# This file is part of Sirius Web Reports.
+
+#     Sirius Web Reports is free software: you can redistribute it and/or modify
+#     it under the terms of the GNU Affero Public License as published by
+#     the Free Software Foundation, either version 3 of the License, or
+#     (at your option) any later version.
+
+#     Sirius Web Reports is distributed in the hope that it will be useful,
+#     but WITHOUT ANY WARRANTY; without even the implied warranty of
+#     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#     GNU Affero Public License for more details.
+
+#     You should have received a copy of the GNU Affero Public License
+#     along with Sirius Web Reports.  If not, see <http://www.gnu.org/licenses/>.
 
 __PACKAGE__->belongs_to(
   product =>
