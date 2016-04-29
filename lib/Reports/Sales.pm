@@ -208,7 +208,6 @@ sub territory_24_month_detail {
 
                 EXEC SP_EXECUTESQL @query
 /;
-    warn $sql;
     
     my $sth = database->prepare($sql) or die "can't prepare\n";
     $sth->bind_param(1,$territory_code);
