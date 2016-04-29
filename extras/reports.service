@@ -1,0 +1,24 @@
+[Unit]
+Description=Start the Reports dancer2 program
+After=network.target
+
+[Service]
+Type=simple
+User=jason
+Group=www-data
+
+# create /var/run/Reports
+# for systemd pre v211
+#PermissionsStartOnly=true
+#ExecStartPre=-/bin/mkdir -p /var/run/Reports
+#ExecStartPre=/bin/chown -R jason:jason /var/run/Reports/
+# on systemd post v211
+UMask=0002
+RuntimeDirectory=Reports
+
+Environment=DANCER_ENVIRONMENT=production
+PIDFile=/var/run/Reports/Reports.pid
+ExecStart=/home/jason/perl5/perlbrew/perls/perl-5.22.0/bin/plackup -E deployment -s Starman --workers=2 --listen /var/run/Reports/Reports.sock --pid /var/run/Reports/Reports.pid /home/jason/projects/Reports/bin/app.psgi
+
+[Install]
+WantedBy=multi-user.target
