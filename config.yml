@@ -18,7 +18,7 @@ template: "template_toolkit"
 
 show_errors: true
 
-logger: Console
+#logger: console
 
 
 session: Cookie
