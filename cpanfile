@@ -3,14 +3,14 @@ requires 'Dancer2::Plugin::Database';
 requires 'DBD::ODBC';
 requires "Template";
 requires "FCGI::ProcManager";
-requires "Dancer2::Plugin::Auth::Extensible", "0.502";
+requires "Dancer2::Plugin::Auth::Extensible";
 requires "Authen::PAM";
 requires "Authen::Simple::PAM";
 requires "Dancer2::Session::Cookie";
 requires "FCGI";
 requires "Dancer2::Plugin::Ajax";
 requires "Daemon::Control";
-
+reauires "Starman";
 requires "DBIx::Class";
 requires "Dancer2::Plugin::DBIC";
 requires "Config::Any";
