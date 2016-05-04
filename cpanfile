@@ -10,7 +10,7 @@ requires "Dancer2::Session::Cookie";
 requires "FCGI";
 requires "Dancer2::Plugin::Ajax";
 requires "Daemon::Control";
-reauires "Starman";
+requires "Starman";
 requires "DBIx::Class";
 requires "Dancer2::Plugin::DBIC";
 requires "Config::Any";
