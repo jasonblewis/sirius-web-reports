@@ -17,6 +17,7 @@ requires "Config::Any";
 requires "Config::General";
 requires "DBIx::Class::TimeStamp";
 requires "DBIx::Class::Helper::ResultSet::Shortcut";
+requires "Smart::Comments";
 
 requires "Test::WWW::Mechanize::PSGI";
 
