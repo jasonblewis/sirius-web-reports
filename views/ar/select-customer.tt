@@ -1,4 +1,5 @@
-select customer
+select customer<br>
+target url: [% target_url %]
 
 <script>
  $(document).ready(function() {
@@ -25,4 +26,30 @@ select customer
      console.log( 'Column index 0 is '+	(table.column( 0 ).visible() === true ? 'visible' : 'not visible'));
      console.log ('colvis: ' + JSON.stringify(table.column( 0 ).visible()));     
  });
+</script>
+<script>
+ 
+ console.log( 'Table initialisation start: '+new Date().getTime() );
+ 
+ $('table#tableDiv').on( 'click', 'tr', function (event) {
+
+     alert ($(this).text());
+     
+  } ); 
+
+ /* 
+  * $('#tableDiv').on( 'init.dt', function () {
+  *     console.log( 'Table initialisation complete: '+new Date().getTime() );
+  * } ).dataTable;*/
+ 
+ /* var table = document.getElementById("displayTable");
+  * for (var i = 0, row; row = table.rows[i]; i++) {
+  *     //iterate through rows
+  *     //rows would be accessed using the "row" variable assigned in the for loop
+  *     console.log('row:' + row.value);
+  *     for (var j = 0, col; col = row.cells[j]; j++) {
+    //iterate through columns
+    //columns would be accessed using the "col" variable assigned in the for loop
+  *     }  
+  * }*/
 </script>

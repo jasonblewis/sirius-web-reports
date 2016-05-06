@@ -28,7 +28,8 @@ use Dancer2::Plugin::DBIC qw(schema resultset rset);
 
 # curl -b ~/.curl-cookies localhost:5000/api/sales/order-form-w-pricecode
 sub order_form_w_pricecode {
-  my $customer  = schema->resultset('ArCustomer')->find('IGACRO');
+  my $customer_code = route_parameters->get('customer_code');
+  my $customer  = schema->resultset('ArCustomer')->find($customer_code);
   
   my @mrps = $customer->most_recent_purchases->search(
     { 'sh_transaction.sales_qty' => { '>=' => 0},
@@ -65,6 +66,6 @@ sub order_form_w_pricecode {
 };
 
 # app is mounted onder /api
-get '/sales/order-form-w-pricecode' => require_login \&order_form_w_pricecode;
+get '/sales/order-form-w-pricecode/:customer_code' => require_login \&order_form_w_pricecode;
 
 1;

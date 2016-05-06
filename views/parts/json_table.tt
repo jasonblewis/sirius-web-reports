@@ -1,7 +1,10 @@
 <script>
  $( document ).ready( function( $ ) {
      $.ajax({
+	 "processing": true,
          "url": '[% json_data_url %]',
+	 "data": '{"target_url":"[% target_url %]"}',
+	 "type": "POST",
          "success": function(json) {
              var tableHeaders = '';  // should be at least the empty string first time through
 	     $.each(json.columns, function(i, val){

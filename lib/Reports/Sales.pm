@@ -300,17 +300,19 @@ EXEC SP_EXECUTESQL @query/;
 };
 
 sub select_customer {
+  my ($target_url) = @_;
   template 'ar/select-customer',
-    {json_data_url => '/api/accounts-receivable/customers'}
+    {json_data_url => '/api/accounts-receivable/customers',
+     target_url => $target_url}
 }
 
 sub order_form_w_pricecode {
-  my $customer = query_parameters->get('customer');
+  my $customer = query_parameters->get('customer_code');
   unless ($customer) {
     select_customer('/sales/order-form-w-pricecode');
   } else {
     template 'sales/order-form-w-pricecode',
-      {json_data_url => '/api/sales/order-form-w-pricecode'};
+      {json_data_url => "/api/sales/order-form-w-pricecode/$customer"};
   }
 };
 

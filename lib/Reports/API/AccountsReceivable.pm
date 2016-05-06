@@ -26,6 +26,7 @@ use Dancer2::Plugin::Auth::Extensible;
 use Dancer2::Plugin::DBIC qw(schema resultset rset);
 
 use Data::Dumper;
+use URI;
 
 sub ltrim { my $s = shift; $s =~ s/^\s+//;       return $s };
 sub rtrim { my $s = shift; $s =~ s/\s+$//;       return $s };
@@ -97,15 +98,19 @@ sub customers {
   if (my $target_url = body_parameters->get('target_url')) {
     foreach my $customer (@customers) {
       #say '$customer: ',Dumper($customer);
-      $customer->{'url'} = $target_url . rtrim($customer->{'customer_code'}) . '">' . rtrim($customer->{company}->{name}) ;
+      my $full_target_url = new URI $target_url;
+      $full_target_url->query_form(customer_code => rtrim($customer->{'customer_code'}));
+#      $customer->{'url'} = $target_url . rtrim($customer->{'customer_code'}) . '">' . rtrim($customer->{company}->{name}) ;
+      $customer->{'url'} = "<a href='" . $full_target_url->as_string . "'>" . rtrim($customer->{company}->{name}) . "</a>";
     }
   }
   
   return {
     pageLength => 30,
     columns => [
-     { data => 'customer_code'},
-     { data => 'company.name'},
+      { data => 'url', title => "Customer Name"},
+      { data => 'customer_code'},
+      { data => 'company.name'},
    ],
     data => [@customers],
   }
