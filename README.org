@@ -52,6 +52,10 @@ curl -b ~/.curl-cookies -H 'X-Requested-With: XMLHttpRequest' -d"message=hello" 
 #+BEGIN_SRC 
   DANCER_ENVIRONMENT=home perl experiment/dbic.pl
 #+END_SRC
+* test deployment from cli
+DANCER_ENVIRONMENT=production plackup -E deployment -s Starman --workers=2 --listen /var/run/Reports/Reports.sock --pid /var/run/Reports/Reports.pid /home/reports/Reports/bin/app.psgi
+sudo mkdir -p /var/run/Reports && sudo chown -R reports:www-data /var/run/Reports && sudo chmod -R g+w /var/run/Reports
+curl -b ~/.curl-cookies https://reports.organictrader.com.au/api/accounts-receivable/customers
 * deployment steps
 #+BEGIN_SRC bash
 # get the latest version
@@ -60,8 +64,6 @@ git pull
 cpanm --installdeps .
 # run tests
 DANCER_ENVIRONMENT=test prove -l t/002_index_route.t
-# kill old instance
-pkill fcgi
-# start new instance
-DANCER_ENVIRONMENT=production plackup -D -E deployment -s FCGI --listen  /var/run/reports/reports.sock /home/reports/Reports/bin/app.psgi
+# restart systemd service
+
 #+END_SRC
