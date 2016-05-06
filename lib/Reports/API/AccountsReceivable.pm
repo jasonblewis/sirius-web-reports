@@ -90,7 +90,7 @@ sub statement_email_addresses {
 
 
 sub customers {
-  schema->dbh->{LongReadLen} = 512*1024;
+  schema->dbh->{LongReadLen} = 10000;
   schema->dbh->{LongTruncOk} = 1;
   my @customers = schema->resultset('ArCustomer')->search(undef, {
     prefetch => 'company',
