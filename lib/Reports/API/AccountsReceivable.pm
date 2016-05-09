@@ -129,8 +129,8 @@ sub customers_customer_code {
 };
 
 # app is mounted onder /api
-get '/accounts-receivable/outstanding-invoices' => require_login \&outstanding_invoices;
-get '/accounts-receivable/statement-email-addresses' => require_login \&statement_email_addresses;
+any ['get','post'] => '/accounts-receivable/outstanding-invoices' => require_login \&outstanding_invoices;
+any ['get','post'] => '/accounts-receivable/statement-email-addresses' => require_login \&statement_email_addresses;
 any ['get','post'] => '/accounts-receivable/customers' => require_login \&customers;
-get '/accounts-receivable/customers/:customer_code' => require_login \&customers_customer_code;
+any ['get','post'] => '/accounts-receivable/customers/:customer_code' => require_login \&customers_customer_code;
 1;
