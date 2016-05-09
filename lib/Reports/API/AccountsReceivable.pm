@@ -91,8 +91,7 @@ sub statement_email_addresses {
 
 sub customers {
 
-  my @return_columns = [
-#      { data => 'url', title => "Customer Name"},
+  my $return_columns = [
       { data => 'customer_code'},
       { data => 'company.name'},
    ];
@@ -102,22 +101,25 @@ sub customers {
     collapse => 1,
     columns => ['customer_code','company.name']},
 							)->hri;
-  if (my $target_url = body_parameters->get('target_url')) {
+
+  my $params = request->body_parameters;
+
+
+  my $target_url = body_parameters->get('target_url');
+  if ($target_url) {
+    say "target_url = ",$target_url;
     foreach my $customer (@customers) {
-      #say '$customer: ',Dumper($customer);
       my $full_target_url = new URI $target_url;
       $full_target_url->query_form(customer_code => rtrim($customer->{'customer_code'}));
-#      $customer->{'url'} = $target_url . rtrim($customer->{'customer_code'}) . '">' . rtrim($customer->{company}->{name}) ;
       $customer->{'url'} = "<a href='" . $full_target_url->as_string . "'>" . rtrim($customer->{company}->{name}) . "</a>";
     };
-    my %extra_column =  ( data => 'url', title => 'Customer Name' );
-    my $extra_column_ref = \%extra_column;
-    push(@return_columns, $extra_column_ref); 
+    my $extra_column =  { data => 'url', title => 'Customer Name' };
+    unshift(@$return_columns, $extra_column); 
   }
-  
+
   return {
     pageLength => 30,
-    columns => @return_columns,
+    columns => $return_columns,
     data => [@customers],
   }
 };
