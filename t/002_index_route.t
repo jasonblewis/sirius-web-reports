@@ -7,36 +7,46 @@ use Test::WWW::Mechanize::PSGI;
 use Data::Dumper qw(Dumper);
 
 use_ok 'Reports';
+use_ok 'Reports::API';
 
-my %routes = ('/'                    => {},
-              '/accounts-receivable' => {},
-              '/accounts-receivable/outstanding-invoices' => {},
-              '/accounts-receivable/statement-email-addresses' => {},
-              '/accounts-payable'    => {},
-              '/business-metrics'    => {TODO => 'not implemented yet' },
-              '/business-reports'    => {TODO => 'not implemented yet'},
-              '/cashflow'            => {TODO   => 'not implemented yet'},
-              '/cc-reconciliation-reports' => {TODO => 'not implemented yet'},
-              '/database-maintenance' => {TODO => 'not implemented yet'},
-              '/general-ledger'       => {TODO => 'not implemented yet'},
-              '/gl-checking'          => {TODO => 'not implemented yet'},
-              '/gl-reconciliation reports' => {TODO => 'not implemented yet'},
-              '/history'              => {TODO => 'not implemented yet'},
-              '/old-reports'          => {TODO => 'not implemented yet'},
-              '/price-lists and catalogues' => {TODO => 'not implemented yet'},
-              '/purchasing'               => {},
-              '/purchasing/sales-history' => {},
-              '/purchasing/sales-history?primary_supplier=PUKHER' =>  {},
-              '/sales'                    => {},
-              '/sales/new-stores-quarterly-sales' => {},
-              '/sales/territory-24-month-summary' => {},
-              '/sales/territory-24-month-detail' => {},
-              '/sales-history'           => {TODO => 'not implemented yet'},
-              '/sales-reports-for-reps'  => {TODO => 'not implemented yet'},
-              '/sirius8test'             => {TODO => 'not implemented yet'},
-              '/stockist-reports'        => {TODO => 'not implemented yet'},
-              '/stocktake'               => {TODO => 'not implemented yet'},
-              );
+my %routes = (
+  '/'                    => {},
+  '/accounts-receivable' => {},
+  '/accounts-receivable/outstanding-invoices' => {},
+  '/accounts-receivable/statement-email-addresses' => {},
+  '/accounts-payable'    => {},
+  '/business-metrics'    => {TODO => 'not implemented yet' },
+  '/business-reports'    => {TODO => 'not implemented yet'},
+  '/cashflow'            => {TODO   => 'not implemented yet'},
+  '/cc-reconciliation-reports' => {TODO => 'not implemented yet'},
+  '/database-maintenance' => {TODO => 'not implemented yet'},
+  '/general-ledger'       => {TODO => 'not implemented yet'},
+  '/gl-checking'          => {TODO => 'not implemented yet'},
+  '/gl-reconciliation reports' => {TODO => 'not implemented yet'},
+  '/history'              => {TODO => 'not implemented yet'},
+  '/old-reports'          => {TODO => 'not implemented yet'},
+  '/price-lists and catalogues' => {TODO => 'not implemented yet'},
+  '/purchasing'               => {},
+  '/purchasing/sales-history' => {},
+  '/purchasing/sales-history?primary_supplier=PUKHER' =>  {},
+  '/sales'                    => {},
+  '/sales/new-stores-quarterly-sales' => {},
+  '/sales/territory-24-month-summary' => {},
+  '/sales/territory-24-month-detail' => {},
+  '/sales-history'           => {TODO => 'not implemented yet'},
+  '/sales-reports-for-reps'  => {TODO => 'not implemented yet'},
+  '/sirius8test'             => {TODO => 'not implemented yet'},
+  '/stockist-reports'        => {TODO => 'not implemented yet'},
+  '/stocktake'               => {TODO => 'not implemented yet'},
+);
+
+my %api_routes = (
+  '/api/accounts-receivable/outstanding-invoices'                     => {},
+  '/api/accounts-receivable/statement-email-addresses'                => {},
+  '/api/accounts-receivable/customers'                                => {},
+  '/api/accounts-receivable/customers/AKAGRO'                         => {},
+
+		);
 
 my $app = Reports->to_app;
 
@@ -78,6 +88,18 @@ subtest 'all routes work' => sub {
     local $TODO = $routes{$route}{TODO}; # tests are marked as TODO when $TODO is true
     $mech->get_ok($base->new_abs($route,$base));
   };
+};
+
+
+# test all api routes
+subtest 'all api routes work' => sub {
+  plan tests => scalar keys %api_routes;
+  for my $api_route (keys %api_routes) {
+    local $TODO = $api_routes{$api_route}{TODO}; # tests are marked as TODO when $TODO is true
+    $mech->get_ok($base->new_abs($api_route,$base));
+  };
+  
+  
 };
 
 

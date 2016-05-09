@@ -90,6 +90,13 @@ sub statement_email_addresses {
 
 
 sub customers {
+
+  my @return_columns = [
+#      { data => 'url', title => "Customer Name"},
+      { data => 'customer_code'},
+      { data => 'company.name'},
+   ];
+  
   my @customers = schema->resultset('ArCustomer')->search(undef, {
     prefetch => 'company',
     collapse => 1,
@@ -102,16 +109,15 @@ sub customers {
       $full_target_url->query_form(customer_code => rtrim($customer->{'customer_code'}));
 #      $customer->{'url'} = $target_url . rtrim($customer->{'customer_code'}) . '">' . rtrim($customer->{company}->{name}) ;
       $customer->{'url'} = "<a href='" . $full_target_url->as_string . "'>" . rtrim($customer->{company}->{name}) . "</a>";
-    }
+    };
+    my %extra_column =  ( data => 'url', title => 'Customer Name' );
+    my $extra_column_ref = \%extra_column;
+    push(@return_columns, $extra_column_ref); 
   }
   
   return {
     pageLength => 30,
-    columns => [
-      { data => 'url', title => "Customer Name"},
-      { data => 'customer_code'},
-      { data => 'company.name'},
-   ],
+    columns => @return_columns,
     data => [@customers],
   }
 };
