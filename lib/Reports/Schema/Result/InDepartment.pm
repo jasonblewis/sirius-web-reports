@@ -77,8 +77,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("department");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-03-14 15:52:08
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:iaQmNH87YVTIVNMbQrLV/A
+# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-05-09 12:00:11
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:VBYx0n4OoCLNy0ymZa4UNw
 
 # Copyright 2016 Jason Lewis
 

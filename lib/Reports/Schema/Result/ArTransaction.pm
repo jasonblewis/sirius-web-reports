@@ -349,8 +349,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("batch_nr", "batch_line_nr");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-03-08 12:25:11
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:TN2fWg2GIPdzig9GfBMYDQ
+# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-05-09 12:00:11
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:uqp0rASqRqTDlBOdV9MMsA
 
 # Copyright 2016 Jason Lewis
 

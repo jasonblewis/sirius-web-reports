@@ -180,8 +180,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("company_code");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-03-08 12:25:11
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:GAWN7t28tBz0mmm5eHQnmA
+# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-05-09 12:00:11
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:qBtx/GE3HBoZK7EQEpodPQ
 
 # Copyright 2016 Jason Lewis
 

@@ -30,7 +30,10 @@ make_schema_at(
       moniker_parts => [qw(schema name)],
       moniker_map => sub { my $name = $_[0]; $name =~ s/^dbo//; join '', map ucfirst, split '_', $name },
       dump_directory => './lib',
-      components =>     ['InflateColumn::DateTime'],
+      components =>     [
+	'InflateColumn::DateTime',
+#	'Schema::Config',
+      ],
       constraint => [
           [ qr/\Adbo\z/ => qr/\A(?:
                                   ap_supplier|
@@ -47,7 +50,8 @@ make_schema_at(
 				  zz_product_list_today|
 				  pr_price|
 				  pr_qty_break)\z/x ],
-      ],
+	],
+#      overwrite_modifications => 1,
       
   },
     [ $dsn, $username, $password,

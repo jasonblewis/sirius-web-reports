@@ -792,8 +792,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("product_code");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-03-08 12:25:11
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:7jf9JP9TmBYado6hhal8YA
+# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-05-09 12:00:11
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:BxjO9q17iPa53R6Xgc6K5A
 
 # Copyright 2016 Jason Lewis
 

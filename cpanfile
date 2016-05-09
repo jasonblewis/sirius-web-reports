@@ -17,6 +17,8 @@ requires "Config::Any";
 requires "Config::General";
 requires "DBIx::Class::TimeStamp";
 requires "DBIx::Class::Helper::ResultSet::Shortcut";
+requires "DBIx::Class::Schema::Config";
+
 requires "Smart::Comments";
 requires "URI";
 

@@ -95,8 +95,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("product_code", "price_code", "start_date");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-03-23 15:46:05
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:6mv5d64Z6x7SwB6RWl2uNQ
+# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-05-09 12:00:11
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:czJcvLcWn2pIHbIa4Mey4Q
 
 # Copyright 2016 Jason Lewis
 
