@@ -6,12 +6,13 @@ use Test::More tests => 10;
 use Test::WWW::Mechanize::PSGI;
 use Data::Dumper qw(Dumper);
 
-use Plack::Builder;
+use FindBin;
 use lib "$FindBin::Bin/../lib";
-
 
 use_ok 'Reports';
 use_ok 'Reports::API';
+
+use Plack::Builder;
 
 my %routes = (
   '/'                    => {},
