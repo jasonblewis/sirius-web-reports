@@ -1,10 +1,14 @@
 use strict;
 use warnings;
 
-use Test::More tests => 7;
+use Test::More tests => 10;
 
 use Test::WWW::Mechanize::PSGI;
 use Data::Dumper qw(Dumper);
+
+use Plack::Builder;
+use lib "$FindBin::Bin/../lib";
+
 
 use_ok 'Reports';
 use_ok 'Reports::API';
@@ -49,11 +53,16 @@ my %api_routes = (
 		);
 
 my $app = Reports->to_app;
+my $api_app = Reports::API->to_app;
 
 isa_ok( $app, 'CODE' );
+isa_ok( $api_app, 'CODE' );
 
 my $mech = Test::WWW::Mechanize::PSGI->new(
-  app => $app,
+  app => builder {
+    mount '/' =>  $app;
+    mount '/api' => $api_app;
+  },
   max_redirect => 0
 );
 
