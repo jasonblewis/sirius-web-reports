@@ -2,3 +2,4 @@ environments/
 environments/*.yml
 /t/config.yml
 /Reports.pid
+/trace

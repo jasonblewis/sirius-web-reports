@@ -47,7 +47,8 @@ curl --cookie-jar ~/.curl-cookies --data 'username=test;password=test' localhost
 #+BEGIN_SRC bash
 curl -b ~/.curl-cookies -H 'X-Requested-With: XMLHttpRequest' -d"message=hello" localhost:5000/time
 #+END_SRC
-  
+** to post 
+curl -s -b ~/.curl-cookies -X POST --data '{"target_url":"/abc/def"}' http://localhost:5000/api/accounts-receivable/customers  | json_pp
 * run the dbic.pl experiments program
 #+BEGIN_SRC 
   DANCER_ENVIRONMENT=home perl experiment/dbic.pl

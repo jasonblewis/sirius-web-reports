@@ -1,7 +1,9 @@
 use strict;
 use warnings;
 
-use Test::More tests => 10;
+use 5.12.0;
+
+use Test::More tests => 12;
 
 use Test::WWW::Mechanize::PSGI;
 use Data::Dumper qw(Dumper);
@@ -115,7 +117,19 @@ subtest 'all api routes work' => sub {
     $mech->get_ok($base->new_abs($api_route,$base));
   };
   
-  
+
 };
+# can't work out how to use post_ok here so use post
+#  the issue is I couldn't work out how to pass the content and content-type in post_ok
+$mech->post(
+  $base->new_abs("/api/accounts-receivable/customers",$base),
+  (
+    Content => '{"target_url":"/abc/def"}',
+    'Content-Type' => 'application/json',
 
+  ));
+  
+ok($mech->success, "able to post to /api/accounts-receivable/customers");
+$mech->content_contains( qq(/abc/def?customer_code) );
 
+#say $mech->content;
