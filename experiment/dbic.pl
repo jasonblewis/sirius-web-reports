@@ -50,9 +50,10 @@ my ($filename, $config) = %$tmpcfg;
 my $dsn = $config->{plugins}->{DBIC}->{default}->{dsn};
 my $username = $config->{plugins}->{DBIC}->{default}->{user};
 my $password = $config->{plugins}->{DBIC}->{default}->{password};
+my $options = $config->{plugins}->{DBIC}->{default}->{options};
 
 
-my $schema = Reports::Schema->connect($dsn,$username,$password);
+my $schema = Reports::Schema->connect($dsn,$username,$password,$options);
 
 my $transactions = $schema->resultset('ArTransaction')->search_rs({
   trans_type => 'INV',
