@@ -3,7 +3,7 @@ use warnings;
 
 use 5.12.0;
 
-use Test::More tests => 12;
+use Test::More tests => 14;
 
 use Test::WWW::Mechanize::PSGI;
 use Data::Dumper qw(Dumper);
@@ -133,3 +133,6 @@ ok($mech->success, "able to post to /api/accounts-receivable/customers");
 $mech->content_contains( qq(/abc/def?customer_code) );
 
 #say $mech->content;
+
+$mech->get_ok($base->new_abs('/sales/order-form-w-pricecode?customer_code=ALBOND',$base));
+$mech->content_contains('/api/sales/order-form-w-pricecode/ALBOND');
