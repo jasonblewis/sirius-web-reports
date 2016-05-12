@@ -33,6 +33,9 @@ use Carp 'croak';
 use Data::Dumper;
 use Reports::Schema;
 
+use DateTime::Format::Strptime;
+use DateTime::Duration;
+
 sub ltrim { my $s = shift; $s =~ s/^\s+//;       return $s };
 sub rtrim { my $s = shift; $s =~ s/\s+$//;       return $s };
 sub  trim { my $s = shift; $s =~ s/^\s+|\s+$//g; return $s };
@@ -241,12 +244,20 @@ while (my $ar_transaction = $ar_transactions->next) {
 # }
 
 ### get customer and transactions by customer id
-my $customer  = $schema->resultset('ArCustomer')->find('IGACRO');
+my $dtf = $schema->storage->datetime_parser;
+my $customer  = $schema->resultset('ArCustomer')->find('777SUP');
 my $mrpcount = $customer->most_recent_purchases->count;
 say "most recent purcahses count: ", $mrpcount;
 
+my $duration = DateTime::Duration->new( months => 6 );
+my $start_date = DateTime->now - $duration;
+say $start_date;
+
+
 my $mrps = $customer->most_recent_purchases->search(
-  { 'sh_transaction.sales_qty' => { '>=' => 0},
+  {
+    'sh_transaction.sales_qty' => { '>=' => 0},
+    'sh_transaction.invoice_date' => { '>=' => $dtf->format_datetime($start_date)},
   },
   { prefetch => { sh_transaction => ['product_list_today', {product => 'gst_tax_table'} ] } ,
     order_by => [ 'sh_transaction.department','sh_transaction.product_code' ],

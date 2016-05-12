@@ -25,14 +25,25 @@ use Dancer2 appname => 'Reports::API';
 use Dancer2::Plugin::Auth::Extensible;
 use Dancer2::Plugin::DBIC qw(schema resultset rset);
 
+use DateTime::Duration;
+
 
 # curl -b ~/.curl-cookies localhost:5000/api/sales/order-form-w-pricecode
 sub order_form_w_pricecode {
   my $customer_code = route_parameters->get('customer_code');
   my $customer  = schema->resultset('ArCustomer')->find($customer_code);
+
+  my $dtf = schema->storage->datetime_parser;
+
   
+  my $duration = DateTime::Duration->new( months => 6 );
+  my $start_date = DateTime->now - $duration;
+
+
   my @mrps = $customer->most_recent_purchases->search(
     { 'sh_transaction.sales_qty' => { '>=' => 0},
+      'sh_transaction.invoice_date' => { '>=' => $dtf->format_datetime($start_date)},
+
     },
     { prefetch => { sh_transaction =>  ['product_list_today',
 					{product => ['gst_tax_table', 'department']} ] } ,
