@@ -1,65 +1,30 @@
-order form w pricecode
+<script src="/javascripts/datatablesdisplay.js"></script>
+<h2>Order Form W Pricecode</h2>
 <br />
-json_data_url: [% json_data_url %]
 
 
 <script>
  $( document ).ready( function( $ ) {
      $.ajax({
          "url": '[% json_data_url %]',
-         "success": function(json) {
+         "success": function(myjson) {
              var tableHeaders = '';  // should be at least the empty string first time through
-	     $.each(json.columns, function(i, val){
+	     $.each(myjson.columns, function(i, val){
                  tableHeaders += "<th>" + val.data + "</th>";
              });
-             
              $("#tableDiv").html('<table id="displayTable" class="display compact" cellspacing="0" width="90%"><thead><tr>' + tableHeaders + '</tr></thead></table>');
-             //$("#tableDiv").find("table thead tr").append(tableHeaders);  
-             console.log(json);
-             $('#displayTable').dataTable(json);
+	     
+	     myjson.dom = 'Bfrtip';
+	     myjson.buttons = ['copy','csv','excel','pdf','print'];
+
+             console.log(myjson);
+
+             $('#displayTable').DataTable(myjson);
          },
-         "dataType": "json"
+         "dataType": "json",
      });
  });
 </script>
 
-<script>
- $(document).ready(function( ) {
-     var table = $('#displayTable').DataTable({
-         "columnDefs": [
-             { "visible": false, "targets": 2 }
-         ],
-         "order": [[ 1, 'asc' ]],
-         "displayLength": 25,
-         "drawCallback": function ( settings ) {
-             var api = this.api();
-             var rows = api.rows( {page:'current'} ).nodes();
-             var last=null;
-	     
-             api.column(1, {page:'current'} ).data().each( function ( group, i ) {
-                 if ( last !== group ) {
-                     $(rows).eq( i ).before(
-                         '<tr class="group"><td colspan="5">'+group+'</td></tr>'
-                     );
-		     
-                     last = group;
-                 }
-             } );
-         }
-     } );
-     
-     // Order by the grouping
-     $('#displayTable tbody').on( 'click', 'tr.group', function () {
-         var currentOrder = table.order()[0];
-         if ( currentOrder[0] === 2 && currentOrder[1] === 'asc' ) {
-             table.order( [ 2, 'desc' ] ).draw();
-         }
-         else {
-             table.order( [ 2, 'asc' ] ).draw();
-         }
-     } );
- });
-
-</script>
 
 <div id="tableDiv"></div>

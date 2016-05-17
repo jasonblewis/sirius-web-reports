@@ -312,7 +312,10 @@ sub order_form_w_pricecode {
     select_customer('/sales/order-form-w-pricecode');
   } else {
     template 'sales/order-form-w-pricecode',
-      {json_data_url => "/api/sales/order-form-w-pricecode/$customer"};
+      {
+	json_data_url => "/api/sales/order-form-w-pricecode/$customer",
+	'title' => "Order Form $customer",
+      };
   }
 };
 
