@@ -25,7 +25,7 @@ use Dancer2::Plugin::Auth::Extensible;
 use Data::Dumper;
 use Dancer2::Plugin::DBIC qw(schema resultset rset);
 use Dancer2::Plugin::Ajax;
-use Devel::Peek;
+#use Devel::Peek;
 
 #use Reports::Schema;
 #use Reports::Schema::Result::DboApSupplier;
@@ -172,8 +172,8 @@ and (p.spare_flag_03 is null or p.spare_flag_03 = 'Y');
     $sth->execute or die $sth->errstr;
     my $fields = $sth->{NAME};
     my $rows = $sth->fetchall_arrayref({});
-    say Dumper $rows;
-    Dump($rows->[0]{on_hand});
+    #say Dumper $rows;
+    #Dump($rows->[0]{on_hand});
     
     $sth->finish;
 
