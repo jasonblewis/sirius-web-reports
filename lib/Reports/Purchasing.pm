@@ -16,6 +16,7 @@
 #     along with Sirius Web Reports.  If not, see <http://www.gnu.org/licenses/>.
 
 package Reports::Purchasing;
+use 5.12.0;
 use strict;
 use warnings;
 use Dancer2 appname => 'Reports';
@@ -24,7 +25,7 @@ use Dancer2::Plugin::Auth::Extensible;
 use Data::Dumper;
 use Dancer2::Plugin::DBIC qw(schema resultset rset);
 use Dancer2::Plugin::Ajax;
-
+use Devel::Peek;
 
 #use Reports::Schema;
 #use Reports::Schema::Result::DboApSupplier;
@@ -106,17 +107,17 @@ SELECT
   p.product_code,
   p.description,
   s.notes,
-  [oh].[on_hand],
-  po.on_order,
-  c.committed,
-  rb.qty as return_bin_qty,
-  oh.on_hand + po.on_order - coalesce(c.committed,0) - coalesce(rb.qty,0) as available,
-  coalesce(ms.[5],0) as ms_5,
-  coalesce(ms.[4],0) as ms_4,
-  coalesce(ms.[3],0) as ms_3,
-  coalesce(ms.[2],0) as ms_2,
-  coalesce(ms.[1],0) as ms_1,
-  coalesce(ms.[0],0) as ms_0,
+  convert(int,round([oh].[on_hand],0,0)) as on_hand,
+  convert(int,round(po.on_order,0,0)) as on_order,
+  convert(int,round(c.committed,0,0)) as committed,
+  convert(int,round(rb.qty,0,0)) as return_bin_qty,
+  convert(int,round(oh.on_hand + po.on_order - coalesce(c.committed,0) - coalesce(rb.qty,0),0,0)) as available,
+  convert(int,round(coalesce(ms.[5],0),0,0)) as ms_5,
+  convert(int,round(coalesce(ms.[4],0),0,0)) as ms_4,
+  convert(int,round(coalesce(ms.[3],0),0,0)) as ms_3,
+  convert(int,round(coalesce(ms.[2],0),0,0)) as ms_2,
+  convert(int,round(coalesce(ms.[1],0),0,0)) as ms_1,
+  convert(int,round(coalesce(ms.[0],0),0,0)) as ms_0,
   wp.maximum,
   (oh.on_hand + po.on_order - coalesce(c.committed,0) - coalesce(rb.qty,0)) / nullif(wp.maximum, 0) * 100 as available_ratio,
   pc.lead_time_days,
@@ -171,6 +172,9 @@ and (p.spare_flag_03 is null or p.spare_flag_03 = 'Y');
     $sth->execute or die $sth->errstr;
     my $fields = $sth->{NAME};
     my $rows = $sth->fetchall_arrayref({});
+    say Dumper $rows;
+    Dump($rows->[0]{on_hand});
+    
     $sth->finish;
 
     my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);

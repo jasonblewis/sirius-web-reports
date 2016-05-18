@@ -59,6 +59,8 @@ sudo mkdir -p /var/run/Reports && sudo chown -R reports:www-data /var/run/Report
 curl -b ~/.curl-cookies https://reports.organictrader.com.au/api/accounts-receivable/customers
 * deployment steps
 #+BEGIN_SRC bash
+# 
+ssh reports@debian
 # get the latest version
 git pull
 # install any new dependencies
@@ -66,5 +68,5 @@ cpanm --installdeps .
 # run tests
 DANCER_ENVIRONMENT=test prove -l t/002_index_route.t
 # restart systemd service
-
+sudo systemctl restart reports
 #+END_SRC
