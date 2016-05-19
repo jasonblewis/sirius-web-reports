@@ -2,6 +2,7 @@
 <h2>Order Form W Pricecode</h2>
 <br />
 
+[% INCLUDE datatables_buttons.tt %]    
 
 <script>
  $( document ).ready( function( $ ) {
@@ -15,7 +16,16 @@
              $("#tableDiv").html('<table id="displayTable" class="display compact" cellspacing="0" width="90%"><thead><tr>' + tableHeaders + '</tr></thead></table>');
 	     
 	     myjson.dom = 'Bfrtip';
-	     myjson.buttons = ['copy','csv','excel','pdf','print'];
+	     myjson.buttons = ['copy',
+			       'csv',
+			       'excel',
+			       {extend: 'pdf',
+				text: 'PDF',
+				orientation: 'landscape',
+				pageSize: 'A4',
+				download: 'open',
+			       },
+			       'print'];
 
              console.log(myjson);
 
