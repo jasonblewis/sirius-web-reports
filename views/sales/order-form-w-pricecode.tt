@@ -5,6 +5,16 @@
 [% INCLUDE datatables_buttons.tt %]    
 
 <script>
+ $(document).ajaxStart(function ()
+     {
+	 $('body').addClass('wait');
+	 
+     }).ajaxComplete(function () {
+	 
+	 $('body').removeClass('wait');
+	 
+     });
+ 
  $( document ).ready( function( $ ) {
      $.ajax({
          "url": '[% json_data_url %]',

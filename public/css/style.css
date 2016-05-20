@@ -258,3 +258,7 @@ td.border-right {
     border-right-style: solid;
     border-right-width: 1px;
 }
+
+body.wait *, body.wait {
+    cursor: progress !important;
+}
