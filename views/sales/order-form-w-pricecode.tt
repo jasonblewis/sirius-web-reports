@@ -29,11 +29,13 @@
 	     myjson.buttons = ['copy',
 			       'csv',
 			       'excel',
-			       {extend: 'pdf',
+			       {extend: 'pdfHtml5',
 				text: 'PDF',
 				orientation: 'landscape',
 				pageSize: 'A4',
-				download: 'open',
+				download: 'download',
+				filename: '*',
+				extension: 'pdf'
 			       },
 			       'print'];
 
