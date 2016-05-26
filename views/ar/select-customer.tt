@@ -19,6 +19,15 @@ target url: [% target_url %]
 
 
 <script>
+ $(document).ajaxStart(function ()
+     {
+	 $('body').addClass('wait');
+	 
+     }).ajaxComplete(function () {
+	 
+	 $('body').removeClass('wait');
+	 
+     });
 
  $( document ).ready( function( $ ) {
      var table = $('#displayTable').DataTable();
@@ -29,7 +38,6 @@ target url: [% target_url %]
 </script>
 <script>
  
- console.log( 'Table initialisation start: '+new Date().getTime() );
  
  $('table#tableDiv').on( 'click', 'tr', function (event) {
 
@@ -37,19 +45,4 @@ target url: [% target_url %]
      
   } ); 
 
- /* 
-  * $('#tableDiv').on( 'init.dt', function () {
-  *     console.log( 'Table initialisation complete: '+new Date().getTime() );
-  * } ).dataTable;*/
- 
- /* var table = document.getElementById("displayTable");
-  * for (var i = 0, row; row = table.rows[i]; i++) {
-  *     //iterate through rows
-  *     //rows would be accessed using the "row" variable assigned in the for loop
-  *     console.log('row:' + row.value);
-  *     for (var j = 0, col; col = row.cells[j]; j++) {
-    //iterate through columns
-    //columns would be accessed using the "col" variable assigned in the for loop
-  *     }  
-  * }*/
 </script>
