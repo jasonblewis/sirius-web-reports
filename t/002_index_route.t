@@ -3,7 +3,7 @@ use warnings;
 
 use 5.12.0;
 
-use Test::More tests => 14;
+use Test::More tests => 12;
 
 use Test::WWW::Mechanize::PSGI;
 use Data::Dumper qw(Dumper);
@@ -11,8 +11,8 @@ use Data::Dumper qw(Dumper);
 use FindBin;
 use lib "$FindBin::Bin/../lib";
 
-use_ok 'Reports';
-use_ok 'Reports::API';
+use Reports;
+use Reports::API;
 
 use Plack::Builder;
 
@@ -43,6 +43,9 @@ my %routes = (
   '/sales/new-stores-quarterly-sales' => {},
   '/sales/territory-24-month-summary' => {},
   '/sales/territory-24-month-detail' => {},
+  '/sales/customer-24-month-detail' => {},
+  '/sales/customer-24-month-detail?customer_code=777SUP' => {},
+  
   '/sales/order-form-w-pricecode' => {},
   '/sales/order-form-w-pricecode?customer_code=ALLANE' => {},
   '/sales-history'           => {TODO => 'not implemented yet'},

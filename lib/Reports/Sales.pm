@@ -244,6 +244,7 @@ sub territory_24_month_detail {
       territory_code => $territory_code,
       territory_row => $territory,
       'title' => 'Territory Detail',
+      'detail_url' => '/sales/customer-24-month-detail',
       'fields' => $fields,
       'rows' => $rows,
     };
@@ -299,6 +300,92 @@ EXEC SP_EXECUTESQL @query/;
   };
 };
 
+
+sub customer_24_month_detail {
+  my $dbh = database(); 
+  $dbh->{LongReadLen} = 100000;
+  $dbh->{LongTruncOk} = 1;
+ 
+
+  my $customer_code = query_parameters->get('customer_code');
+
+  unless ($customer_code) {
+    select_customer('/sales/customer-24-month-detail');
+  } else { # don't know which customer the user wants yet, so ask them then redirect to the real report template
+    
+    my $sql = q/Set transaction isolation level read uncommitted;
+
+Declare @debug bit
+set @debug = 0
+
+
+declare @cols as nvarchar(max),@query as nvarchar(max)
+declare @customer as nvarchar(max);
+set @customer = ?;
+;with cte(intCount,month)
+as
+(
+Select 0, 	       DATEADD(month, DATEDIFF(month, 0, DATEADD(month, 0,            GETDATE())), 0) as month
+union all
+Select intCount+1, DATEADD(month, DATEDIFF(month, 0, DATEADD(month, -(intCount+1), GETDATE())), 0) as month
+from cte
+where intCount<=24
+)
+Select @cols = coalesce(@cols + ',','') + quotename(convert(varchar(10),month,120))
+from cte order by month
+select @query =
+'select * from 
+(select
+sh.product_code,
+sh.description,
+DATEADD(month, DATEDIFF(month, 0, sh.invoice_date), 0) as ''month'',
+sum(sh.sales_qty) as sales_qty
+from
+ sh_select_trans_view sh
+
+where sh.invoice_date >= DATEADD(YEAR, DATEDIFF(YEAR, 0, DATEADD(YEAR, -2, GETDATE())), 0)
+and ltrim(rtrim(sh.customer_code)) = ''' + @customer + '''
+group by sh.product_code, sh.description, DATEADD(month, DATEDIFF(month, 0, sh.invoice_date), 0)   ) x
+pivot
+(
+sum(sales_qty)
+for [month] in ( ' + @cols + ' )
+) p'
+
+if @debug = 1 Begin     Print @query End
+Else 
+Begin Exec SP_EXECUTESQL @query End
+
+
+/;
+    
+    my $sth = database->prepare($sql) or die "can't prepare\n";
+    $sth->bind_param(1,$customer_code);
+    $sth->execute or die $sth->errstr;
+    my $fields = $sth->{NAME};
+    my $rows = $sth->fetchall_arrayref({});
+    $sth->finish;
+
+    $sth = database->prepare(q/select top 1 * from ar_customer_select_view where customer_code = ?/) or die "can't prepare\n";
+    $sth->bind_param(1,$customer_code);
+    $sth->execute or die $sth->errstr;
+    my $customer = $sth->fetchall_arrayref({});
+    $sth->finish;
+    
+    
+    template 'sales/customer-24-month-detail', {
+      customer_code => $customer_code,
+      customer_row => $customer,
+      'title' => 'Customer 24 Month Detail',
+      'fields' => $fields,
+      'rows' => $rows,
+    };
+  };
+};
+
+
+
+
 sub select_customer {
   my ($target_url) = @_;
   template 'ar/select-customer',
@@ -322,8 +409,9 @@ sub order_form_w_pricecode {
 prefix '/sales' => sub {
   get ''                            => require_login \&menu;
   get '/new-stores-quarterly-sales' => require_login \&new_stores_quarterly_sales;
-  get '/territory-24-month-detail'  => require_login \&territory_24_month_detail;
   get '/territory-24-month-summary' => require_login \&territory_24_month_summary;
+  get '/territory-24-month-detail'  => require_login \&territory_24_month_detail;
+  get '/customer-24-month-detail'   => require_login \&customer_24_month_detail;
   get '/order-form-w-pricecode'     => require_login \&order_form_w_pricecode;
 };
 

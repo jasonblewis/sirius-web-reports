@@ -7,12 +7,10 @@
 <script>
  $(document).ajaxStart(function ()
      {
-//	 $('body').addClass('wait');
 	 $('#loader').addClass('loader');
 
      }).ajaxComplete(function () {
 	 
-//	 $('body').removeClass('wait');
 	 $('#loader').removeClass('loader');
 	 
      });

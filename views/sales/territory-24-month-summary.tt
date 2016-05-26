@@ -1,6 +1,6 @@
 [% USE Dumper %]
 [% USE url(detail_url) %]
-<h2>Rolling 24 Month Summary Sales</h2>
+<h1>Rolling 24 Month Summary Sales Amount Territory</h1>
 <script src="/javascripts/datatablesdisplay.js"></script>
 
 <!-- <h2>Fields</h2>
@@ -12,11 +12,15 @@
 
      number of rows: [% rows.size %]<br /> -->
 
-<table data-paging="false" id="" class="display compact" cellspacing="0" width="40%">
+<table data-paging="false" id="" class="display compact" cellspacing="0" width="100%">
     <thead>
         <tr>
             [% FOREACH field IN fields %]
-                <td>[% field %]</td>
+                [% IF (field == 'Territory Code' || field == 'description') %]
+                    <td>[% field %]</td>
+                [% ELSE %]
+                    <td class="smaller-font">[% field %]</td>
+                [% END #IF %]                    
             [% END  %]
             <td>total</td>
         </tr>
@@ -27,8 +31,10 @@
             [% row_total = 0 %]
             <tr>
                 [% FOREACH field IN fields %]
-                    [% IF (field == 'Territory Code' || field == 'description') %]
+                    [% IF (field == 'Territory Code')  %]
                         <td class="left"><a href='[% url(territory_code = row.item('Territory Code')) %]'>[% row.$field %]</a></td>
+                    [% ELSIF (field == 'description') %]
+                        <td class="left nowrap smaller-font"><a href='[% url(territory_code = row.item('Territory Code')) %]'>[% row.$field %]</a></td>
                     [% ELSE %]
                         <td class="right">
                             [% IF row.$field %]
