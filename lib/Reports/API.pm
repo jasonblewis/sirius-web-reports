@@ -26,6 +26,7 @@ use Reports::API::AccountsReceivable;
 use Reports::API::AccountsReceivable::Customers;
 use Reports::API::AccountsReceivable::Debtors;
 use Reports::API::Sales;
+use Reports::API::Sales::Rolling24;
 
 # use Dancer2::Plugin::Auth::Extensible;
 # use Dancer2::Plugin::DBIC qw(schema resultset rset);
