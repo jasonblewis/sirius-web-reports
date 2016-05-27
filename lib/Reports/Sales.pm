@@ -191,7 +191,12 @@ sub territory_24_month_detail {
     list_territories('/sales/territory-24-month-detail');
   } else { # don't know which territory the user wants yet, so ask them then redirect to the real report template
     
-    my $sql = q/Set transaction isolation level read uncommitted;
+    my $sql = q/
+Set transaction isolation level read uncommitted;
+Declare @debug bit
+set @debug = 0
+
+
                 declare @cols as nvarchar(max),@query as nvarchar(max)
                 declare @territory as nvarchar(max);
                 set @territory = ?;
@@ -209,21 +214,27 @@ sub territory_24_month_detail {
                 select @query =
                 'select * from 
                  (select
-                	ac.customer_code as ''Customer Code'', ac.name,
+                	ac.customer_code as ''Customer Code'',
+			ac.name,
+			ac.debtor_code,
+	                d.stop_flag,
                 	DATEADD(month, DATEDIFF(month, 0, sh.invoice_date), 0) as ''month'',
                 	sum(sh.sales_amt) as sales
                  from sh_transaction sh
                 join ar_cust_ex_shipto_view ac on sh.customer_code = ac.customer_code
+				join ar_debtor d on ac.debtor_code = d.debtor_code
                 where sh.invoice_date >= DATEADD(YEAR, DATEDIFF(YEAR, 0, DATEADD(YEAR, -2, GETDATE())), 0)
                 and ltrim(rtrim(ac.territory_code)) = ''' + @territory + '''
-                group by ac.territory_code, ac.customer_code, ac.name, DATEADD(month, DATEDIFF(month, 0, sh.invoice_date), 0) ) x
+                group by ac.territory_code, ac.customer_code, ac.name,ac.debtor_code,d.stop_flag, DATEADD(month, DATEDIFF(month, 0, sh.invoice_date), 0) ) x
                 pivot
                 (
                   sum(sales)
                   for [month] in ( ' + @cols + ' )
                 ) p'
 
-                EXEC SP_EXECUTESQL @query
+if @debug = 1 Begin     Print @query End
+Else 
+Begin Exec SP_EXECUTESQL @query End
 /;
     
     my $sth = database->prepare($sql) or die "can't prepare\n";

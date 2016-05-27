@@ -1,4 +1,15 @@
+<div id="loader" class="loader">Loading...</div>
 <script>
+ $(document).ajaxStart(function ()
+     {
+	 $('#loader').addClass('loader');
+
+     }).ajaxComplete(function () {
+	 
+	 $('#loader').removeClass('loader');
+	 
+     });
+ 
  $( document ).ready( function( $ ) {
      $.ajax({
 	 "processing": true,
@@ -14,7 +25,7 @@
              $("#tableDiv").html('<table id="displayTable" class="display compact" cellspacing="0" width="90%"><thead><tr>' + tableHeaders + '</tr></thead></table>');
              //$("#tableDiv").find("table thead tr").append(tableHeaders);  
              console.log(json);
-             $('#displayTable').dataTable(json);
+             $('#displayTable').DataTable(json);
          },
          "dataType": "json"
      });

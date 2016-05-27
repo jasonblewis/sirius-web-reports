@@ -23,7 +23,7 @@
 	     $.each(myjson.columns, function(i, val){
                  tableHeaders += "<th>" + val.data + "</th>";
              });
-             $("#tableDiv").html('<table id="displayTable" class="display compact" cellspacing="0"><thead><tr>' + tableHeaders + '</tr></thead></table>');
+             $("#tableDiv").html('<table id="displayTable" class="display compact" cellspacing="0" style="width: 100%;"><thead><tr>' + tableHeaders + '</tr></thead></table>');
 	     
 	     myjson.dom = 'Bfrtip';
 	     myjson.buttons = ['copy',

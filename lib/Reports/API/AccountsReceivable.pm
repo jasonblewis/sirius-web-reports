@@ -89,56 +89,8 @@ sub statement_email_addresses {
 };
 
 
-sub customers {
-
-  my $return_columns = [
-      { data => 'customer_code'},
-      { data => 'company.name'},
-   ];
-  
-  my @customers = schema->resultset('ArCustomer')->search(undef, {
-    prefetch => 'company',
-    collapse => 1,
-    columns => ['customer_code','company.name']},
-							)->hri;
-
-  my $params = request->body_parameters;
-
-
-  my $target_url = body_parameters->get('target_url');
-  if ($target_url) {
-    say "target_url = ",$target_url;
-    foreach my $customer (@customers) {
-      my $full_target_url = new URI $target_url;
-      $full_target_url->query_form(customer_code => rtrim($customer->{'customer_code'}));
-      $customer->{'url'} = "<a href='" . $full_target_url->as_string . "'>" . rtrim($customer->{company}->{name}) . "</a>";
-    };
-    my $extra_column =  { data => 'url', title => 'Customer Name' };
-    unshift(@$return_columns, $extra_column); 
-  }
-
-  return {
-    pageLength => 30,
-    columns => $return_columns,
-    data => [@customers],
-  }
-};
-
-sub customers_customer_code {
-  my $customer_code = route_parameters->get('customer_code');
-  my @customers = schema->resultset('ArCustomer')->search({customer_code => $customer_code}, {
-    prefetch => 'company',
-    collapse => 1,
-    columns => ['customer_code','company_code','company.name']},
-							)->hri;
-  return {
-    data => [@customers],
-  }
-};
 
 # app is mounted onder /api
 any ['get','post'] => '/accounts-receivable/outstanding-invoices' => require_login \&outstanding_invoices;
 any ['get','post'] => '/accounts-receivable/statement-email-addresses' => require_login \&statement_email_addresses;
-any ['get','post'] => '/accounts-receivable/customers' => require_login \&customers;
-any ['get','post'] => '/accounts-receivable/customers/:customer_code' => require_login \&customers_customer_code;
 1;
