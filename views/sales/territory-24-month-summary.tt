@@ -1,71 +1,54 @@
-[% USE Dumper %]
-[% USE url(detail_url) %]
 <h1>Rolling 24 Month Summary Sales Amount Territory</h1>
 <script src="/javascripts/datatablesdisplay.js"></script>
 
-<!-- <h2>Fields</h2>
-     <ul>
-     [% FOREACH field IN fields %]
-     <li>field: [% field %]</li>
-     [% END  %]
-     </ul>
+[% INCLUDE datatables_buttons.tt %]    
 
-     number of rows: [% rows.size %]<br /> -->
+<div id="loader" class="loader"></div>
+<script>
+ $(document).ajaxStart(function ()
+     {
+	 $('#loader').addClass('loader');
 
-<table data-paging="false" id="" class="display compact" cellspacing="0" width="100%">
-    <thead>
-        <tr>
-            [% FOREACH field IN fields %]
-                [% IF (field == 'Territory Code' || field == 'description') %]
-                    <td>[% field %]</td>
-                [% ELSE %]
-                    <td class="smaller-font">[% field %]</td>
-                [% END #IF %]                    
-            [% END  %]
-            <td>total</td>
-        </tr>
-    </thead>
-    <tbody>
-        [% grand_total = 0 %]
-        [% FOREACH row IN rows %]
-            [% row_total = 0 %]
-            <tr>
-                [% FOREACH field IN fields %]
-                    [% IF (field == 'Territory Code')  %]
-                        <td class="left"><a href='[% url(territory_code = row.item('Territory Code')) %]'>[% row.$field %]</a></td>
-                    [% ELSIF (field == 'description') %]
-                        <td class="left nowrap smaller-font"><a href='[% url(territory_code = row.item('Territory Code')) %]'>[% row.$field %]</a></td>
-                    [% ELSE %]
-                        <td class="right">
-                            [% IF row.$field %]
-                                [% row.$field | format('%.0f') %]
-                                [% row_total = row_total + row.$field %]
-                                
-                                [% IF ( col_total.$field == '') ; ## col_total.$field not defined yet
-                                     set col_total.$field = row.$field ;
-                                   ELSE;
-                                     set col_total.$field = col_total.$field + row.$field ;
-                                   END %]
-                                [% grand_total = grand_total + row.$field %]
-                            [% ELSE %]
-                                -
-                            [% END %]
-                        </td>
-                    [% END # IF %]
-                [% END # FOREACH field %]
-                <td class="right row_total">[% row_total | format('%.0f') %]</td>
-            </tr>
-            
-        [% END  %]
-    </tbody>
-    <tfoot>
-        <tr>
-            [% FOREACH field IN fields %]
-                <td class="right col_total">[% col_total.$field | format('%.0f') %]</td>
-            [% END  %]
-            <td class="right col_total"> [% grand_total | format('%.0f') %]</td>
-        </tr>
-    </tfoot>
+     }).ajaxComplete(function () {
+	 
+	 $('#loader').removeClass('loader');
+	 
+     });
+ 
+ $( document ).ready( function( $ ) {
+     $.ajax({
+         "url": '[% json_data_url %]',
+	 "data": '{"detail_url":"[% detail_url %]"}',
+	 "type": "POST",
+         "success": function(myjson) {
+             var tableHeaders = '';  // should be at least the empty string first time through
+	     $.each(myjson.columns, function(i, val){
+                 tableHeaders += "<th>" + val.data + "</th>";
+             });
+             $("#tableDiv").html('<table id="displayTable" class="display compact" cellspacing="0" style="width: 100%;"><thead><tr>' + tableHeaders + '</tr></thead></table>');
+	     
+	     myjson.dom = 'Bfrtip';
+	     myjson.buttons = ['copy',
+			       'csv',
+			       'excel',
+			       {extend: 'pdfHtml5',
+				text: 'PDF',
+				orientation: 'landscape',
+				pageSize: 'A4',
+				download: 'download',
+				filename: '*',
+				extension: 'pdf'
+			       },
+			       'print'];
 
-</table>
+             console.log(myjson);
 
+             $('#displayTable').DataTable(myjson);
+         },
+         "dataType": "json",
+     });
+ });
+</script>
+
+
+<div id="tableDiv"></div>

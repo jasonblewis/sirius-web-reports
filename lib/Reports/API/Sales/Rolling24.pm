@@ -24,33 +24,67 @@ use Dancer2 appname => 'Reports::API';
 
 use Dancer2::Plugin::Auth::Extensible;
 use Dancer2::Plugin::Database;
+use Data::Dumper;
+
+use List::MoreUtils;
+
+use URI;
+
+sub ltrim { my $s = shift; $s =~ s/^\s+//;       return $s };
+sub rtrim { my $s = shift; $s =~ s/\s+$//;       return $s };
+sub  trim { my $s = shift; $s =~ s/^\s+|\s+$//g; return $s };
+
 
 sub territory_24_month_summary {
 
+  my $params = request->body_parameters;
 
   database->{LongReadLen} = 100000;
   database->{LongTruncOk} = 0;
   
   my $sql = q/Set transaction isolation level read uncommitted;
-declare @cols as nvarchar(max),@query as nvarchar(max)
+Declare @debug bit
+set @debug = 0
+
+declare @cols as nvarchar(max)
+declare @sumcols as nvarchar(max)
+
+declare @query as nvarchar(max)
+
 ;with cte(intCount,month)
  as
  (
-   Select 0, 	       DATEADD(month, DATEDIFF(month, 0, DATEADD(month, 0,            GETDATE())), 0) as month
+   Select 0, 	       convert(char(10),DATEADD(month, DATEDIFF(month, 0, DATEADD(month, 0,            GETDATE())), 0),126) as month
    union all
-    Select intCount+1, DATEADD(month, DATEDIFF(month, 0, DATEADD(month, -(intCount+1), GETDATE())), 0) as month
+    Select intCount+1, convert(char(10),DATEADD(month, DATEDIFF(month, 0, DATEADD(month, -(intCount+1), GETDATE())), 0),126) as month
 	 from cte
                             where intCount<=24
  )
 Select @cols = coalesce(@cols + ',','') + quotename(convert(varchar(10),month,120))
+
 from cte order by month
+
+;with cte(intCount,month)
+ as
+ (
+   Select 0, 	       convert(char(10),DATEADD(month, DATEDIFF(month, 0, DATEADD(month, 0,            GETDATE())), 0),126) as month
+   union all
+    Select intCount+1, convert(char(10),DATEADD(month, DATEDIFF(month, 0, DATEADD(month, -(intCount+1), GETDATE())), 0),126) as month
+	 from cte
+                            where intCount<=24
+ )
+Select @sumcols = coalesce(@sumcols + '+','') + 'coalesce(' +  quotename(convert(varchar(10),month,120)) + ',0)'
+
+from cte order by month
+
 select @query =
-'select * from 
+'select *,
+' + @sumcols + ' as [total] from 
  (select
 	rtrim(ac.territory_code) as ''Territory Code'',
 	t.description,	
-	DATEADD(month, DATEDIFF(month, 0, sh.invoice_date), 0) as ''month'',
-	sum(sh.sales_amt) as sales
+	convert(char(10),DATEADD(month, DATEDIFF(month, 0, sh.invoice_date), 0),126) as ''month'',
+	convert(int,round(sum(sh.sales_amt),0,0)) as sales
  from sh_transaction sh
 join ar_cust_ex_shipto_view ac on sh.customer_code = ac.customer_code
 join territory t on ac.territory_code = t.territory_code
@@ -61,7 +95,15 @@ pivot
   sum(sales)
   for [month] in ( ' + @cols + ' )
 ) p'
-EXEC SP_EXECUTESQL @query/;
+
+if @debug = 1 Begin  
+   Print @query End
+Else 
+Begin
+
+Exec SP_EXECUTESQL @query
+
+End/;
 
   my $sth = database->prepare($sql) or die "can't prepare\n";
   $sth->execute or die $sth->errstr;
@@ -69,30 +111,49 @@ EXEC SP_EXECUTESQL @query/;
   my $rows = $sth->fetchall_arrayref({});
   $sth->finish;
 
+  say Dumper( $fields);
   
+  my $columns = [];
+  # push @$columns, (
+  #     { className => 'dt-right', data => 'Territory Code'},
+  #     { className => 'dt-left', data => 'description', title => 'description'},
+  #   );
+  foreach my $field (@$fields) {
+    if (List::MoreUtils::any { $_ eq $field} ('Territory Code') ) {
+      push @$columns, { data => $field, className => 'dt-left' }; 
+    } elsif (List::MoreUtils::any { $_ eq $field} ('description') ) {
+      push @$columns, { data => $field, className => 'dt-left nowrap smaller-font' }; 
+    } elsif (List::MoreUtils::any { $_ eq $field} ('total') ) {
+      push @$columns, { data => $field, className => 'dt-right row_total' }; 
+    } else {
+      push @$columns, { data => $field, className => 'dt-right' }; 
+    }
+  }
 
+  my $detail_url = body_parameters->get('detail_url');
+  if ($detail_url) {
+    say "detail_url = ",$detail_url;
+    foreach my $row (@$rows) {
+      my $full_detail_url = new URI $detail_url;
+      $full_detail_url->query_form(territory_code => rtrim($row->{'Territory Code'}));
+      $row->{'Territory Code'} = "<a href='" . $full_detail_url->as_string . "'>" . rtrim($row->{'Territory Code'}) . "</a>";
+      $row->{'description'} = "<a href='" . $full_detail_url->as_string . "'>" . rtrim($row->{'description'}) . "</a>";
+    };
+    #my $extra_column =  { data => 'url', title => 'Row Name' };
+    #unshift(@$columns, $extra_column); 
+  }
+  
 
   return {
     pageLength => 50,
-    columns => [
-      { className => 'dt-right', data => 'product_code', title => 'Product Code'},
-      { className => 'dt-right', data => 'sh_transaction.product.department.description', title => 'Department'},
-      { className => 'dt-left',  data => 'sh_transaction.product_list_today.description', title => 'Description'},
-      { className => 'dt-right', data => 'unitprice_2dp_na', title => 'Unit Price'},
-      { className => 'dt-right', data => 'cartonprice_2dp', title => 'Carton Price'},
-      { className => 'dt-right', data => 'sh_transaction.product_list_today.cartonsize', title => 'U/C'},
-      { className => 'dt-right', data => 'sh_transaction.product.gst_tax_table.tax_rate', title => 'GST %'},
-      { className => 'dt-right', data => 'invoice_date_datepart', title => 'Last Purchased'},
-      { className => 'dt-right', data => 'sh_transaction.sales_qty', title => 'Last Purch. Qty'},
-      { className => 'dt-right', data => 'sh_transaction.product_list_today.barcode', title => 'Barcode'},
-    ],
+    columns => $columns,
     data => [@$rows],
   };
   
 };
 
 
-get '/sales/territory-24-month-summary' => require_login \&territory_24_month_summary;
+any ['get','post'] => '/sales/territory-24-month-summary' => require_login \&territory_24_month_summary;
 
 
 1;

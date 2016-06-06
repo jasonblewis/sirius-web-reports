@@ -235,7 +235,7 @@ set @debug = 0
 if @debug = 1 Begin     Print @query End
 Else 
 Begin Exec SP_EXECUTESQL @query End
-/;
+ /;
     
     my $sth = database->prepare($sql) or die "can't prepare\n";
     $sth->bind_param(1,$territory_code);
@@ -263,52 +263,12 @@ Begin Exec SP_EXECUTESQL @query End
 };
 
 sub territory_24_month_summary {
-  database->{LongReadLen} = 100000;
-  database->{LongTruncOk} = 0;
-
-  my $sql = q/Set transaction isolation level read uncommitted;
-declare @cols as nvarchar(max),@query as nvarchar(max)
-;with cte(intCount,month)
- as
- (
-   Select 0, 	       DATEADD(month, DATEDIFF(month, 0, DATEADD(month, 0,            GETDATE())), 0) as month
-   union all
-    Select intCount+1, DATEADD(month, DATEDIFF(month, 0, DATEADD(month, -(intCount+1), GETDATE())), 0) as month
-	 from cte
-                            where intCount<=24
- )
-Select @cols = coalesce(@cols + ',','') + quotename(convert(varchar(10),month,120))
-from cte order by month
-select @query =
-'select * from 
- (select
-	rtrim(ac.territory_code) as ''Territory Code'',
-	t.description,	
-	DATEADD(month, DATEDIFF(month, 0, sh.invoice_date), 0) as ''month'',
-	sum(sh.sales_amt) as sales
- from sh_transaction sh
-join ar_cust_ex_shipto_view ac on sh.customer_code = ac.customer_code
-join territory t on ac.territory_code = t.territory_code
-where sh.invoice_date >= DATEADD(YEAR, DATEDIFF(YEAR, 0, DATEADD(YEAR, -2, GETDATE())), 0)
-group by ac.territory_code, t.description, DATEADD(month, DATEDIFF(month, 0, sh.invoice_date), 0) ) x
-pivot
-(
-  sum(sales)
-  for [month] in ( ' + @cols + ' )
-) p'
-EXEC SP_EXECUTESQL @query/;
-
-  my $sth = database->prepare($sql) or die "can't prepare\n";
-  $sth->execute or die $sth->errstr;
-  my $fields = $sth->{NAME};
-  my $rows = $sth->fetchall_arrayref({});
-  $sth->finish;
-  template 'sales/territory-24-month-summary', {
-    'title' => 'Territory Summary',
-    'detail_url' => '/sales/territory-24-month-detail',
-    'fields' => $fields,
-    'rows' => $rows,
-  };
+  template 'sales/territory-24-month-summary',
+    {
+      json_data_url => "/api/sales/territory-24-month-summary",
+      'title' => "Territory 24 Month Rolling summary",
+      'detail_url' => '/sales/territory-24-month-detail',
+    };
 };
 
 
