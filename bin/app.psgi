@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 
+use 5.24.0;
 use strict;
-use diagnostics;
 use warnings;
 use FindBin;
 use lib "$FindBin::Bin/../lib";

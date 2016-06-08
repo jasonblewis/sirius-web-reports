@@ -23,7 +23,7 @@ use 5.22.0;
 use Dancer2 appname => 'Reports::API';
 
 use Dancer2::Plugin::Auth::Extensible;
-use Dancer2::Plugin::DBIC qw(schema resultset rset);
+use Dancer2::Plugin::DBIC;
 
 use DateTime::Duration;
 

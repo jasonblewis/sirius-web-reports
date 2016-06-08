@@ -23,7 +23,7 @@ use Dancer2 appname => 'Reports';
 use Dancer2::Plugin::Database;
 use Dancer2::Plugin::Auth::Extensible;
 use Data::Dumper;
-use Dancer2::Plugin::DBIC qw(schema resultset rset);
+use Dancer2::Plugin::DBIC;
 use Dancer2::Plugin::Ajax;
 #use Devel::Peek;
 

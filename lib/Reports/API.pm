@@ -17,7 +17,7 @@
 
 package Reports::API;
 
-use 5.22.0;
+use 5.24.0;
 use strict;
 use warnings;
 
@@ -29,7 +29,7 @@ use Reports::API::Sales;
 use Reports::API::Sales::Rolling24;
 
 # use Dancer2::Plugin::Auth::Extensible;
-# use Dancer2::Plugin::DBIC qw(schema resultset rset);
+# use Dancer2::Plugin::DBIC;
 set serializer => 'JSON';
 
 1;
