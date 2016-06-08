@@ -1,16 +1,16 @@
 switch a list item to a check box:  C-u C-c C-x C-b
 
 * Reports to do next:
-  - [ ] Could we get a 24 month sales by warehouse report with total sales at bottom? 
-  - [X] pdf button on order form w price code
-  - [ ] spare column on w price code for hand written ordering
   - [ ] show if customer is stopped on various sales reports
     eg: https://reports.organictrader.com.au/sales/order-form-w-pricecode?customer_code=777SUP
     and https://reports.organictrader.com.au/sales/territory-24-month-detail?territory_code=01
+  - [ ] Could we get a 24 month sales by warehouse report with total sales at bottom? 
   - [ ] on https://reports.organictrader.com.au/sales/territory-24-month-detail?territory_code=01
        make customer code clickable and takes you to a customer ballances (for that debtor)
   - [ ] in sirius, show line notes for EPS entered orders
   - [ ] show individual customer invoices
+  - [ ] spare column on w price code for hand written ordering
+  - [X] pdf button on order form w price code
   - [X] report that shows individual customer history 
   - [X] limit line data for customer order form to max 12 months
   - [X] login for sonia

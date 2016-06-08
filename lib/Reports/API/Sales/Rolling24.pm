@@ -44,9 +44,11 @@ sub territory_24_month_summary {
   
   my $sql = q/Set transaction isolation level read uncommitted;
 Declare @debug bit
-set @debug = 0
+set @debug = 1
 
 declare @cols as nvarchar(max)
+declare @colheads as nvarchar(max)
+
 declare @sumcols as nvarchar(max)
 
 declare @query as nvarchar(max)
@@ -77,8 +79,22 @@ Select @sumcols = coalesce(@sumcols + '+','') + 'coalesce(' +  quotename(convert
 
 from cte order by month
 
+;with cte(intCount,month)
+ as
+ (
+   Select 0, 	       convert(char(10),DATEADD(month, DATEDIFF(month, 0, DATEADD(month, 0,            GETDATE())), 0),126) as month
+   union all
+    Select intCount+1, convert(char(10),DATEADD(month, DATEDIFF(month, 0, DATEADD(month, -(intCount+1), GETDATE())), 0),126) as month
+	 from cte
+                            where intCount<=24
+ )
+Select @colheads = coalesce(@colheads + ',','') + 'coalesce(' +  quotename(convert(varchar(10),month,120)) + ',0) as ' + quotename(convert(varchar(10),month,120))
+
+from cte order by month
+print @colheads
+
 select @query =
-'select *,
+'select [Territory Code], description, ' + @colheads + ',
 ' + @sumcols + ' as [total] from 
  (select
 	rtrim(ac.territory_code) as ''Territory Code'',
@@ -96,8 +112,12 @@ pivot
   for [month] in ( ' + @cols + ' )
 ) p'
 
-if @debug = 1 Begin  
-   Print @query End
+if @debug = 1 
+Begin  
+
+   Print @query
+      exec SP_EXECUTESQL @query
+    End
 Else 
 Begin
 

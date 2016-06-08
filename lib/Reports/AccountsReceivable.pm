@@ -20,7 +20,7 @@ use strict;
 use warnings;
 use Dancer2 appname => 'Reports';
 use Dancer2::Plugin::Auth::Extensible;
-use Dancer2::Plugin::DBIC qw(schema resultset rset);
+use Dancer2::Plugin::DBIC;
 
 #use Data::Dumper;
 #local $Data::Dumper::Freezer = '_dumper_hook';
