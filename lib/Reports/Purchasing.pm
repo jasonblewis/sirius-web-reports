@@ -104,6 +104,7 @@ sub sales_history {
     
     my $sql = q{Set transaction isolation level read uncommitted;
 SELECT
+  wp.warehouse_code,
   p.product_code,
   p.description,
   s.notes,
@@ -165,7 +166,7 @@ join in_reorder_class rc
     rc.class = wp.reorder_class and
     rc.reorder_type = wp.reorder_type
 where ltrim(rtrim(p.primary_supplier)) = ?
-and (p.spare_flag_03 is null or p.spare_flag_03 = 'Y');
+and (p.spare_flag_03 is null or p.spare_flag_03 = 'Y') order by p.product_code, wp.warehouse_code
 };
     $sth = database->prepare($sql) or die "can't prepare\n";
     $sth->bind_param(1, $primary_supplier);
@@ -222,11 +223,12 @@ and (p.spare_flag_03 is null or p.spare_flag_03 = 'Y');
       'databases' => $dbnames,
       'heading' => [
         'Product Code',
+	'Ware-<br />house',
         'Description',
-        'On Hand',
-        'On Order',
+        'On<br /> Hand',
+        'On<br />Order',
         'Committed',
-        'Return bin',
+        'Return<br />bin',
         'Available',
         "$abbr[$monthnum[5]-1]<br />$monthnum[5]<br />$fmmonthnum[5]",
         "$abbr[$monthnum[4]-1]<br />$monthnum[4]<br />$fmmonthnum[4]",
@@ -245,6 +247,7 @@ and (p.spare_flag_03 is null or p.spare_flag_03 = 'Y');
       'fields' => $fields,
       'rows' => $rows,
       'poemails' => $poemails,
+      'order' => (2,"desc")
     }
   }
 };

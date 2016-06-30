@@ -8,11 +8,11 @@
      $('#toggle-notes').click(function(){
          $('.content-one').slideToggle();
      });
-     new $.fn.dataTable.FixedHeader( table, {
+     new $.fn.DataTable.FixedHeader( table, {
          // options
      } );
 
-
+     
  });
 </script>
 
@@ -29,8 +29,8 @@
     [% BLOCK table_head_foot %]
     <tr>
         <td class="dt-head-right" [% position %]">[% heading.0 %]</td>
-        <td class="dt-head-left"  [% position %]">[% heading.1 %]</td>
-        <td class="dt-head-right" [% position %]">[% heading.2 %]</td>
+        <td class="dt-head-right" [% position %]">[% heading.1 %]</td>
+        <td class="dt-head-left"  [% position %]">[% heading.2 %]</td>
         <td class="dt-head-right" [% position %]">[% heading.3 %]</td>
         <td class="dt-head-right" [% position %]">[% heading.4 %]</td>
         <td class="dt-head-right" [% position %]">[% heading.5 %]</td>
@@ -40,17 +40,18 @@
         <td class="dt-head-right" [% position %]">[% heading.9 %]</td>
         <td class="dt-head-right" [% position %]">[% heading.10 %]</td>
         <td class="dt-head-right" [% position %]">[% heading.11 %]</td>
-        <td class="dt-head-right green" [% position %]">[% heading.12 %]</td>
-        <td class="dt-head-right" [% position %]">[% heading.13 %]</td>
+        <td class="dt-head-right" [% position %]">[% heading.12 %]</td>
+        <td class="dt-head-right green" [% position %]">[% heading.13 %]</td>
         <td class="dt-head-right" [% position %]">[% heading.14 %]</td>
         <td class="dt-head-right" [% position %]">[% heading.15 %]</td>
         <td class="dt-head-right" [% position %]">[% heading.16 %]</td>
         <td class="dt-head-right" [% position %]">[% heading.17 %]</td>
         <td class="dt-head-right" [% position %]">[% heading.18 %]</td>
         <td class="dt-head-right" [% position %]">[% heading.19 %]</td>
+        <td class="dt-head-right" [% position %]">[% heading.20 %]</td>
     </tr>
             [% END # BLOCK table_head_foot %]
-    <table id="" class="display compact" cellspacing="0" >
+    <table id="sh" class="display compact" cellspacing="0" >
         <thead>
             [% PROCESS table_head_foot %]
         </thead>
@@ -59,6 +60,7 @@
                 [% rowcolour = ( row.reorder_type == 'Q' ? 'highlight1' : '' )%]
                 <tr>
                     <td class="dt-body-right [% rowcolour %]">[% row.product_code   %]</td>
+                    <td class="dt-body-right [% rowcolour %]">[% row.warehouse_code %]</td>
                     <td class="dt-body-left border-right [% rowcolour %]">[% row.description    %]</td>
                     <td class="dt-body-right [% rowcolour %]">[% row.on_hand        %]</td>
                     <td class="dt-body-right [% rowcolour %]">[% row.on_order       %]</td>
