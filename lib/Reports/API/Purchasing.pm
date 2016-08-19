@@ -15,22 +15,17 @@
 #     You should have received a copy of the GNU Affero Public License
 #     along with Sirius Web Reports.  If not, see <http://www.gnu.org/licenses/>.
 
-package Reports::API;
+package Reports::API::Purchasing;
 
-use 5.24.0;
 use strict;
 use warnings;
+use 5.22.0;
+use Dancer2 appname => 'Reports::API';
 
-use Dancer2;
-use Reports::API::AccountsReceivable;
-use Reports::API::AccountsReceivable::Customers;
-use Reports::API::AccountsReceivable::Debtors;
-use Reports::API::Sales;
-use Reports::API::Sales::Rolling24;
-use Reports::API::Purchasing::MultiWarehouseSalesHistory;
+use Dancer2::Plugin::Auth::Extensible;
+use Dancer2::Plugin::DBIC;
 
-# use Dancer2::Plugin::Auth::Extensible;
-# use Dancer2::Plugin::DBIC;
-set serializer => 'JSON';
+use DateTime::Duration;
+
 
 1;

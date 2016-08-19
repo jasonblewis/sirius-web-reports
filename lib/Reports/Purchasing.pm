@@ -25,6 +25,9 @@ use Dancer2::Plugin::Auth::Extensible;
 use Data::Dumper;
 use Dancer2::Plugin::DBIC;
 use Dancer2::Plugin::Ajax;
+
+use Reports::Purchasing::MultiWarehouseSalesHistory;
+
 #use Devel::Peek;
 
 #use Reports::Schema;
