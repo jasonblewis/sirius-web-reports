@@ -19,6 +19,7 @@
         
         <div id="reports">
             <h3><a href="/purchasing/sales-history" >Sales History</a></h3>
+            <h3><a href="/purchasing/multi-warehouse-sales-history" >Multi Warehouse Sales History</a></h3>
         </div>
     </div>
 
