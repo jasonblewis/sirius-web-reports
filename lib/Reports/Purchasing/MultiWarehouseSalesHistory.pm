@@ -33,12 +33,6 @@ sub multi_warehouse_sales_history {
 };
 
 
-# sub outstanding_invoices {
-#   template 'ar/outstanding-invoices', {
-#     json_data_url => '/api/accounts-receivable/outstanding-invoices'
-#   }
-# };
-
 
 prefix '/purchasing' => sub {
   get '/multi-warehouse-sales-history' => require_login \&multi_warehouse_sales_history;
