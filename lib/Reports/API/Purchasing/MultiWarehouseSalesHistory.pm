@@ -42,7 +42,13 @@ sub multi_warehouse_sales_history {
   
   my $sql = q/SET TRANSACTION ISOLATION LEVEL READ uncommitted;  
 
-select oh.warehouse_code, p.product_code, p.description, oh.on_hand, c.committed, [0],[1],[2],[3],[4],[5],[6],[7],[8],[9]
+select 
+  oh.warehouse_code as 'Warehouse',
+  p.product_code as 'Product Code',
+  p.description as 'Description',
+  oh.on_hand as 'On Hand',
+  c.committed as 'Committed',
+  [0],[1],[2],[3],[4],[5],[6],[7],[8],[9]
 from in_product p
 left join
 	zz_in_stock_on_hand_warehouse_all oh
@@ -69,19 +75,21 @@ where oh.warehouse_code is not null
   my $rows = $sth->fetchall_arrayref({});
   $sth->finish;
   
-  say Dumper $fields;
+#  say Dumper $fields;
   
   my $columns = [];
   foreach my $field (@$fields) {
-    # if (List::MoreUtils::any { $_ eq $field} ('Territory Code') ) {
-    #   push @$columns, { data => $field, className => 'dt-left' }; 
-    # } elsif (List::MoreUtils::any { $_ eq $field} ('description') ) {
-    #   push @$columns, { data => $field, className => 'dt-left nowrap smaller-font' }; 
-    # } elsif (List::MoreUtils::any { $_ eq $field} ('total') ) {
-    #   push @$columns, { data => $field, className => 'dt-right row_total' }; 
-    # } else {
+    if (List::MoreUtils::any { $_ eq $field} ('Warehouse') ) {
+      push @$columns, { data => $field, className => 'warehouse' }; 
+    } elsif (List::MoreUtils::any { $_ eq $field} ('Product Code') ) {
+      push @$columns, { data => $field, className => 'product-code' }; 
+    } elsif (List::MoreUtils::any { $_ eq $field} ('Description') ) {
+      push @$columns, { data => $field, className => 'dt-left nowrap smaller-font description' }; 
+    } elsif (List::MoreUtils::any { $_ eq $field} ('total') ) {
+      push @$columns, { data => $field, className => 'dt-right row_total' }; 
+    } else {
       push @$columns, { data => $field, className => 'dt-right' }; 
-    #}
+    }
   }
 
   # my $detail_url = body_parameters->get('detail_url');
@@ -102,6 +110,10 @@ where oh.warehouse_code is not null
     pageLength => 50,
     columns => $columns,
     data => [@$rows],
+    order => [[1,"asc"]],
+    # columnDefs => [
+    #   { width => "5%", "targets" => 0}
+    # ],
   };
 
 };
