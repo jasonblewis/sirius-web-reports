@@ -22,7 +22,7 @@
                  tableHeaders += "<th>" + val.data + "</th>";
              });
              
-             $("#tableDiv").html('<table id="displayTable" class="display compact" cellspacing="0" width="90%"><thead><tr>' + tableHeaders + '</tr></thead></table>');
+             $("#tableDiv").html('<table id="displayTable" class="display compact" cellspacing="0"><thead><tr>' + tableHeaders + '</tr></thead></table>');
              //$("#tableDiv").find("table thead tr").append(tableHeaders);  
              console.log(json);
              $('#displayTable').DataTable(json);
