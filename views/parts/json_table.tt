@@ -1,4 +1,4 @@
-<div id="loader" class="loader">Loading...</div>
+<div id="loader" class="loader"></div>
 <script>
  $(document).ajaxStart(function ()
      {
