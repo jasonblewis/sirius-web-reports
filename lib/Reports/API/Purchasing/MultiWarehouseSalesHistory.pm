@@ -28,6 +28,8 @@ use Data::Dumper;
 
 use List::MoreUtils;
 
+use DateTime;
+
 use URI;
 
 sub ltrim { my $s = shift; $s =~ s/^\s+//;       return $s };
@@ -76,7 +78,11 @@ where oh.warehouse_code is not null
   $sth->finish;
   
 #  say Dumper $fields;
-  
+
+  sub month_name {
+    my $deltamonth = shift(@_);
+    return DateTime->now->subtract(months => $deltamonth)->strftime('%b %g');
+  }  
   my $columns = [];
   foreach my $field (@$fields) {
     if (List::MoreUtils::any { $_ eq $field} ('Warehouse') ) {
@@ -87,6 +93,8 @@ where oh.warehouse_code is not null
       push @$columns, { data => $field, className => 'dt-left nowrap smaller-font description' }; 
     } elsif (List::MoreUtils::any { $_ eq $field} ('total') ) {
       push @$columns, { data => $field, className => 'dt-right row_total' }; 
+    } elsif (List::MoreUtils::any { $_ eq $field} (0 .. 12) ) {
+      push @$columns, { data => $field, className => 'qty', "title" => month_name($field) }; 
     } else {
       push @$columns, { data => $field, className => 'dt-right' }; 
     }
@@ -111,9 +119,6 @@ where oh.warehouse_code is not null
     columns => $columns,
     data => [@$rows],
     order => [[1,"asc"]],
-    # columnDefs => [
-    #   { width => "5%", "targets" => 0}
-    # ],
   };
 
 };
