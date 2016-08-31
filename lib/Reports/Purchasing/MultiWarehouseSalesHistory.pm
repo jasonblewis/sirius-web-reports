@@ -32,7 +32,12 @@ sub multi_warehouse_sales_history {
    }
 };
 
-
+sub get_primary_supplier {
+  template 'utils/get-selection', {
+    'target' => request->uri,
+    'rows'   => $rows,
+  }
+}
 
 prefix '/purchasing' => sub {
   get '/multi-warehouse-sales-history' => require_login \&multi_warehouse_sales_history;

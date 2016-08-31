@@ -268,6 +268,36 @@ body.wait *, body.wait {
     cursor: progress !important;
 }
 
+td.warehouse {
+    text-align: center;
+    width: 60px;
+}
+
+td.product-code {
+    text-align: left;
+    width: 45px;
+}
+
+td.description {
+    text-align: left;
+    white-space: nowrap;
+    font-size: 80%;
+}
+
+td.on-hand {
+    text-align: right;
+    width: 55px;
+}
+
+td.committed {
+    text-align: right;
+    width: 55px;
+}
+
+td.qty {
+    text-align: right;
+    width: 55px;
+}
 
 .loader {
     color: #000000;

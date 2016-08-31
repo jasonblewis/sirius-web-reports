@@ -32,9 +32,7 @@ use DateTime;
 
 use URI;
 
-sub ltrim { my $s = shift; $s =~ s/^\s+//;       return $s };
-sub rtrim { my $s = shift; $s =~ s/\s+$//;       return $s };
-sub  trim { my $s = shift; $s =~ s/^\s+|\s+$//g; return $s };
+#use ReportUtils qw(rtrim);
 
 sub multi_warehouse_sales_history {
   my $params = request->body_parameters;
@@ -90,7 +88,11 @@ where oh.warehouse_code is not null
     } elsif (List::MoreUtils::any { $_ eq $field} ('Product Code') ) {
       push @$columns, { data => $field, className => 'product-code' }; 
     } elsif (List::MoreUtils::any { $_ eq $field} ('Description') ) {
-      push @$columns, { data => $field, className => 'dt-left nowrap smaller-font description' }; 
+      push @$columns, { data => $field, className => 'description' }; 
+    } elsif (List::MoreUtils::any { $_ eq $field} ('On Hand') ) {
+      push @$columns, { data => $field, className => 'on-hand' }; 
+    } elsif (List::MoreUtils::any { $_ eq $field} ('Committed') ) {
+      push @$columns, { data => $field, className => 'committed' }; 
     } elsif (List::MoreUtils::any { $_ eq $field} ('total') ) {
       push @$columns, { data => $field, className => 'dt-right row_total' }; 
     } elsif (List::MoreUtils::any { $_ eq $field} (0 .. 12) ) {
@@ -119,6 +121,7 @@ where oh.warehouse_code is not null
     columns => $columns,
     data => [@$rows],
     order => [[1,"asc"]],
+    columnDefs => [{visible=> "false", targets => ".product-code"}]
   };
 
 };

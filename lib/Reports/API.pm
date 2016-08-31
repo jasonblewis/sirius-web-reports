@@ -25,6 +25,7 @@ use Dancer2;
 use Reports::API::AccountsReceivable;
 use Reports::API::AccountsReceivable::Customers;
 use Reports::API::AccountsReceivable::Debtors;
+use Reports::API::AccountsPayable::Supplier;
 use Reports::API::Sales;
 use Reports::API::Sales::Rolling24;
 use Reports::API::Purchasing::MultiWarehouseSalesHistory;

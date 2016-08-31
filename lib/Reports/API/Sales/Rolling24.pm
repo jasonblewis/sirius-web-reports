@@ -30,10 +30,7 @@ use List::MoreUtils;
 
 use URI;
 
-sub ltrim { my $s = shift; $s =~ s/^\s+//;       return $s };
-sub rtrim { my $s = shift; $s =~ s/\s+$//;       return $s };
-sub  trim { my $s = shift; $s =~ s/^\s+|\s+$//g; return $s };
-
+use ReportUtils qw(rtrim);
 
 sub territory_24_month_summary {
 

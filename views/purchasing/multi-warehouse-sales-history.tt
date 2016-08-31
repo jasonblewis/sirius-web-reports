@@ -1,5 +1,5 @@
 <script src="/javascripts/datatablesdisplay.js"></script>
-<h2>multi warehouse sales history</h2>
+<h2>Multi Warehouse Sales History</h2>
 <br />
 
 [% INCLUDE datatables_buttons.tt %]    
