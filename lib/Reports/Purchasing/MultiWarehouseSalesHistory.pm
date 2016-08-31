@@ -27,20 +27,29 @@ use Dancer2::Plugin::DBIC;
 use Dancer2::Plugin::Ajax;
 
 sub multi_warehouse_sales_history {
+  my $supplier_code;
+  
+  if (params->{supplier_code}) {
+    $supplier_code = params->{supplier_code}
+  } else {
+    warn "supplier_code not supplied";
+  }
+  
    template 'purchasing/multi-warehouse-sales-history', {
-     json_data_url => '/api/purchasing/multi-warehouse-sales-history'
+     json_data_url => "/api/purchasing/multi-warehouse-sales-history/$supplier_code"
    }
 };
 
 sub get_primary_supplier {
-  template 'utils/get-selection', {
-    'target' => request->uri,
-    'rows'   => $rows,
+  template 'utils/get-selection-json', {
+    'target_url' => request->uri,
+    json_data_url => "/api/accounts-payable/suppliers",
   }
 }
 
 prefix '/purchasing' => sub {
-  get '/multi-warehouse-sales-history' => require_login \&multi_warehouse_sales_history;
+  get '/multi-warehouse-sales-history' => require_login \&get_primary_supplier;
+  get '/multi-warehouse-sales-history/:supplier_code' => require_login \&multi_warehouse_sales_history;
 };
 
 1;

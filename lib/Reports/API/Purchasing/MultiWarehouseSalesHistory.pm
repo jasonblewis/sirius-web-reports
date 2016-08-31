@@ -35,7 +35,8 @@ use URI;
 #use ReportUtils qw(rtrim);
 
 sub multi_warehouse_sales_history {
-  my $params = request->body_parameters;
+
+  my $qry_supplier_code = route_parameters->get('supplier_code');
   
   database->{LongReadLen} = 100000;
   database->{LongTruncOk} = 0;
@@ -67,10 +68,11 @@ left join zz_sh_monthly_sales_by_warehouse shm
 	oh.warehouse_code = shm.warehouse_code
 
 where oh.warehouse_code is not null
+and p.primary_supplier = ?
 /;
 
   my $sth = database->prepare($sql) or die "can't prepare\n";
-  $sth->execute or die $sth->errstr;
+  $sth->execute($qry_supplier_code) or die $sth->errstr;
   my $fields = $sth->{NAME};
   my $rows = $sth->fetchall_arrayref({});
   $sth->finish;
@@ -127,6 +129,6 @@ where oh.warehouse_code is not null
 };
 
 
-any ['get','post'] => '/purchasing/multi-warehouse-sales-history' => require_login \&multi_warehouse_sales_history;
+get '/purchasing/multi-warehouse-sales-history/:supplier_code' => require_login \&multi_warehouse_sales_history;
 
 1;

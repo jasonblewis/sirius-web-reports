@@ -63,11 +63,10 @@ sub suppliers {
   my $target_url = body_parameters->get('target_url');
   
   if ($target_url) {
-    say "target_url = ",$target_url;
     foreach my $supplier (@$rows) {
       my $full_target_url = new URI $target_url;
       $full_target_url->query_form(supplier_code => rtrim($supplier->{'supplier_code'}));
-      $supplier->{'url'} = "<a href='" . $full_target_url->as_string . "'>" . rtrim($supplier->{company}->{name}) . "</a>";
+      $supplier->{'url'} = "<a href='" . $full_target_url->as_string . "'>" . rtrim($supplier->{name}) . "</a>";
     };
     my $extra_column =  { data => 'url', title => 'Supplier Name' };
     unshift(@$return_columns, $extra_column); 
@@ -76,7 +75,7 @@ sub suppliers {
   
   return {
     columns => $return_columns,
-    data => [$rows],
+    data => $rows,
   }
   
 };
