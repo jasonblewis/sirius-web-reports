@@ -129,6 +129,6 @@ and p.primary_supplier = ?
 };
 
 
-get '/purchasing/multi-warehouse-sales-history/:supplier_code' => require_login \&multi_warehouse_sales_history;
+any ['get','post'] => '/purchasing/multi-warehouse-sales-history/:supplier_code' => require_login \&multi_warehouse_sales_history;
 
 1;

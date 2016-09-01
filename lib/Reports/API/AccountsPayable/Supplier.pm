@@ -56,7 +56,7 @@ sub suppliers {
   my $return_columns = [
       { data => 'supplier_code'},
       { data => 'name'},
-   ];
+    ];
 
 
   my $params = request->body_parameters;
@@ -64,8 +64,8 @@ sub suppliers {
   
   if ($target_url) {
     foreach my $supplier (@$rows) {
-      my $full_target_url = new URI $target_url;
-      $full_target_url->query_form(supplier_code => rtrim($supplier->{'supplier_code'}));
+      my $full_target_url = URI->new($target_url);
+      $full_target_url->path_segments($full_target_url->path_segments,$supplier->{supplier_code});
       $supplier->{'url'} = "<a href='" . $full_target_url->as_string . "'>" . rtrim($supplier->{name}) . "</a>";
     };
     my $extra_column =  { data => 'url', title => 'Supplier Name' };
@@ -76,6 +76,7 @@ sub suppliers {
   return {
     columns => $return_columns,
     data => $rows,
+    pageLength => 50,
   }
   
 };
