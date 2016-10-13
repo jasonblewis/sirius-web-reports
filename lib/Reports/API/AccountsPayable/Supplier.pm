@@ -77,6 +77,13 @@ sub suppliers {
     columns => $return_columns,
     data => $rows,
     pageLength => 50,
+    columnDefs => [
+      {
+	targets => 2,
+	visible => false,
+	searchable => false,
+      },
+    ],
   }
   
 };
