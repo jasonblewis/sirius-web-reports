@@ -81,9 +81,9 @@ sub sales_history {
     $dbnames = $sth_dbname->fetchall_arrayref({});
     $sth_dbname->finish;
     
-    my $sql = q{Set transaction isolation level read uncommitted;
+    my $sql = q{
+Set transaction isolation level read uncommitted;
 SELECT
-  wp.warehouse_code,
   p.product_code,
   p.description,
   s.notes,
@@ -98,8 +98,8 @@ SELECT
   convert(int,round(coalesce(ms.[2],0),0,0)) as ms_2,
   convert(int,round(coalesce(ms.[1],0),0,0)) as ms_1,
   convert(int,round(coalesce(ms.[0],0),0,0)) as ms_0,
+  convert(int,round(coalesce(ms.[0]+ms.[1]+ms.[2]+ms.[3]+ms.[4]+ms.[5],0),0,0)) as [mtotal],
   wp.maximum,
-  (oh.on_hand + po.on_order - coalesce(c.committed,0) - coalesce(rb.qty,0)) / nullif(wp.maximum, 0) * 100 as available_ratio,
   pc.lead_time_days,
   rc.min_days_stock,
   rc.max_days_stock,
@@ -132,20 +132,21 @@ join
     ms.supplier_code = p.primary_supplier
     and
     ms.product_code = p.product_code
-join
-  in_warehouse_product wp
-  on
-    wp.product_code = p.product_code
 join po_catalogue pc
   on
     pc.supplier_code = p.primary_supplier and
     pc.our_product_code = p.product_code
+
+
+left join in_warehouse_product wp
+	on p.product_code = wp.product_code
+	and wp.warehouse_code = 'M'
 join in_reorder_class rc
   on
     rc.class = wp.reorder_class and
     rc.reorder_type = wp.reorder_type
-where ltrim(rtrim(p.primary_supplier)) = ?
-and (p.spare_flag_03 is null or p.spare_flag_03 = 'Y') order by p.product_code, wp.warehouse_code
+  where ltrim(rtrim(p.primary_supplier)) = ?
+and (p.spare_flag_03 is null or p.spare_flag_03 = 'Y') order by p.product_code
 };
     $sth = database->prepare($sql) or die "can't prepare\n";
     $sth->bind_param(1, $primary_supplier);
@@ -202,7 +203,6 @@ and (p.spare_flag_03 is null or p.spare_flag_03 = 'Y') order by p.product_code, 
       'databases' => $dbnames,
       'heading' => [
         'Product Code',
-	'Ware-<br />house',
         'Description',
         'On<br /> Hand',
         'On<br />Order',
@@ -215,11 +215,10 @@ and (p.spare_flag_03 is null or p.spare_flag_03 = 'Y') order by p.product_code, 
         "$abbr[$monthnum[2]-1]<br />$monthnum[2]<br />$fmmonthnum[2]",
         "$abbr[$monthnum[1]-1]<br />$monthnum[1]<br />$fmmonthnum[1]",
         "$abbr[$monthnum[0]-1]<br />$monthnum[0]<br />$fmmonthnum[0]",
-        'Max',
-        'Ratio %<br />on hand<br />to max',
-        'Lead Time',
-        'Min',
-        'Max',
+	'6 Month<br />Total',
+        'Max<br />O/H',
+        'Min<br />days',
+        'Max<br />days',
         'T',
         'C',
       ],

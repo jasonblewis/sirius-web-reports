@@ -29,8 +29,8 @@
     [% BLOCK table_head_foot %]
     <tr>
         <td class="dt-head-right" [% position %]">[% heading.0 %]</td>
-        <td class="dt-head-right" [% position %]">[% heading.1 %]</td>
-        <td class="dt-head-left"  [% position %]">[% heading.2 %]</td>
+        <td class="dt-head-left" [% position %]">[% heading.1 %]</td>
+        <td class="dt-head-right"  [% position %]">[% heading.2 %]</td>
         <td class="dt-head-right" [% position %]">[% heading.3 %]</td>
         <td class="dt-head-right" [% position %]">[% heading.4 %]</td>
         <td class="dt-head-right" [% position %]">[% heading.5 %]</td>
@@ -60,7 +60,6 @@
                 [% rowcolour = ( row.reorder_type == 'Q' ? 'highlight1' : '' )%]
                 <tr>
                     <td class="dt-body-right [% rowcolour %]">[% row.product_code   %]</td>
-                    <td class="dt-body-right [% rowcolour %]">[% row.warehouse_code %]</td>
                     <td class="dt-body-left border-right [% rowcolour %]">[% row.description    %]</td>
                     <td class="dt-body-right [% rowcolour %]">[% row.on_hand        %]</td>
                     <td class="dt-body-right [% rowcolour %]">[% row.on_order       %]</td>
@@ -73,8 +72,8 @@
                     <td class="dt-body-right [% rowcolour %]">[% row.ms_2 %]</td>
                     <td class="dt-body-right [% rowcolour %]">[% row.ms_1 %]</td>
                     <td class="dt-body-right border-right green">[% row.ms_0 %]</td>
+                    <td class="dt-body-right border-right green">[% row.mtotal %]</td>
                     <td class="dt-body-right [% rowcolour %]">[% row.maximum %]</td>
-                    <td class="dt-body-right [% rowcolour %]">[% row.available_ratio | format('%.0f') %]</td>
                     <td class="dt-body-right [% rowcolour %]">[% row.lead_time_days %]</td>
                     <td class="dt-body-right [% rowcolour %]">[% row.min_days_stock %]</td>
                     <td class="dt-body-right [% rowcolour %]">[% row.max_days_stock %]</td>
