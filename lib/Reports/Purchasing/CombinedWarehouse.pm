@@ -194,8 +194,6 @@ and (p.spare_flag_03 is null or p.spare_flag_03 = 'Y') order by p.product_code
     my $poemails = $sth->fetchall_arrayref({});
     $sth->finish;
 
-
-
     template 'purchasing/sales-history.tt', {
       'title' => 'Sales History',
       'primary_supplier' => $primary_supplier,
@@ -226,7 +224,7 @@ and (p.spare_flag_03 is null or p.spare_flag_03 = 'Y') order by p.product_code
       'fields' => $fields,
       'rows' => $rows,
       'poemails' => $poemails,
-      'order' => (2,"desc")
+      'order' => [2,"desc"],
     }
   }
 };
