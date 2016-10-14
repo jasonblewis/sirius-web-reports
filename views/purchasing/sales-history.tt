@@ -40,15 +40,14 @@
         <td class="dt-head-right" [% position %]">[% heading.9 %]</td>
         <td class="dt-head-right" [% position %]">[% heading.10 %]</td>
         <td class="dt-head-right" [% position %]">[% heading.11 %]</td>
-        <td class="dt-head-right" [% position %]">[% heading.12 %]</td>
-        <td class="dt-head-right green" [% position %]">[% heading.13 %]</td>
+        <td class="dt-head-right green" [% position %]">[% heading.12 %]</td>
+        <td class="dt-head-right" [% position %]">[% heading.13 %]</td>
         <td class="dt-head-right" [% position %]">[% heading.14 %]</td>
         <td class="dt-head-right" [% position %]">[% heading.15 %]</td>
         <td class="dt-head-right" [% position %]">[% heading.16 %]</td>
         <td class="dt-head-right" [% position %]">[% heading.17 %]</td>
         <td class="dt-head-right" [% position %]">[% heading.18 %]</td>
         <td class="dt-head-right" [% position %]">[% heading.19 %]</td>
-        <td class="dt-head-right" [% position %]">[% heading.20 %]</td>
     </tr>
             [% END # BLOCK table_head_foot %]
     <table id="sh" class="display compact" cellspacing="0" >
@@ -72,7 +71,7 @@
                     <td class="dt-body-right [% rowcolour %]">[% row.ms_2 %]</td>
                     <td class="dt-body-right [% rowcolour %]">[% row.ms_1 %]</td>
                     <td class="dt-body-right border-right green">[% row.ms_0 %]</td>
-                    <td class="dt-body-right border-right green">[% row.mtotal %]</td>
+                    <td class="dt-body-right [% rowcolour %]">[% row.mtotal %]</td>
                     <td class="dt-body-right [% rowcolour %]">[% row.maximum %]</td>
                     <td class="dt-body-right [% rowcolour %]">[% row.lead_time_days %]</td>
                     <td class="dt-body-right [% rowcolour %]">[% row.min_days_stock %]</td>

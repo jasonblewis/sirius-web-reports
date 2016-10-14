@@ -217,6 +217,7 @@ and (p.spare_flag_03 is null or p.spare_flag_03 = 'Y') order by p.product_code
         "$abbr[$monthnum[0]-1]<br />$monthnum[0]<br />$fmmonthnum[0]",
 	'6 Month<br />Total',
         'Max<br />O/H',
+	'Lead Time',
         'Min<br />days',
         'Max<br />days',
         'T',
