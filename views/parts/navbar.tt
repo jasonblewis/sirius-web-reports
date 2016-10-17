@@ -1,0 +1,14 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">[% title %]</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li [% IF request.path == '/' %]class="active"[% END %]><a href="/">Home</a></li>
+      <li [% IF request.path == '/accounts-receivable' %]class="active"[% END %]><a href="/accounts-receivable">AR</a></li>
+      <li [% IF request.path == '/accounts-payable' %]class="active"[% END %]><a href="/accounts-payable">AP</a></li>
+      <li [% IF request.path == '/purchasing' %]class="active"[% END %]><a href="/purchasing">purchasing</a></li>
+    </ul>
+  </div>
+</nav>
+request: [% request.path %]
