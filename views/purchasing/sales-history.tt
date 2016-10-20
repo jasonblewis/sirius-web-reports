@@ -28,7 +28,7 @@
     <h3></h3> 
     [% BLOCK table_head_foot %]
     <tr>
-        <td class="text-right" [% position %]">[% heading.0 %]</td>
+        <td class="text-left product-code" [% position %]">[% heading.0 %]</td>
         <td class="text-left description" [% position %]">[% heading.1 %]</td>
         <td class="text-right"  [% position %]">[% heading.2 %]</td>
         <td class="text-right" [% position %]">[% heading.3 %]</td>
@@ -50,14 +50,14 @@
         <td class="text-right" [% position %]">[% heading.19 %]</td>
     </tr>
             [% END # BLOCK table_head_foot %]
-    <table id="sh" class="display table table-striped table-xtra-condensed" cellspacing="0" >
+    <table id="sh" class="table table-striped table-xtra-condensed" cellspacing="0" >
         <thead>
             [% PROCESS table_head_foot %]
         </thead>
         <tbody>
             [% FOREACH row IN rows %]
                 <tr class="[% (row.reorder_type == 'Q' ? 'warning' : '') %]">
-                    <td class="text-right">[% row.product_code   %]</td>
+                    <td class="text-left">[% row.product_code   %]</td>
                     <td class="text-left border-right description">[% row.description    %]</td>
                     <td class="text-right">[% row.on_hand        %]</td>
                     <td class="text-right">[% row.on_order       %]</td>
