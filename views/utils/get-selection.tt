@@ -1,6 +1,3 @@
-get selection.tt<br />
-path: [% path %] <br />
-target: [% target %] <br />
 [% USE url(target) %]
 <script src="/javascripts/datatablesdisplay.js"></script>
 
@@ -13,7 +10,7 @@ target: [% target %] <br />
 </tr>
 [% END # BLOCK table_head_foot %]
             
-<table id="" class="display compact" cellspacing="0" width="30%">
+<table id="" class="table table-striped table-xtra-condensed " cellspacing="0" width="30%">
     <thead>
         [% PROCESS table_head_foot %]
     </thead>

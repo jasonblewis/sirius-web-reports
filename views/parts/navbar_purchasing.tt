@@ -1,0 +1,10 @@
+<ul class="nav navbar-nav">
+    <li class="dropdown [% IF request.path.replace('(/[^/]+.*?)/.*', '$1') == '/purchasing' %]active[% END %]">
+	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Purchasing<span class="caret"></span></a>
+	<ul class="dropdown-menu">
+	    <li class="[% IF request.path == '/purchasing/sales-history' %]active[% END %]"><a href="/purchasing/sales-history">Sales History</a></li>
+	    <li class="[% IF request.path == '/purchasing/multi-warehouse-sales-history' %]active[% END %]"><a href="/purchasing/multi-warehouse-sales-history">Multi Warehouse Sales History</a></li>
+	</ul>
+    </li>
+</ul>
+

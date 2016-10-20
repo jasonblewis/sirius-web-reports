@@ -1,0 +1,10 @@
+<ul class="nav navbar-nav">
+    <li class="dropdown [% IF request.path.replace('(/[^/]+.*)/.*', '$1') == '/accounts-payable' %]active[% END %]">
+	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">AP<span class="caret"></span></a>
+	<ul class="dropdown-menu">
+	    <li class="[% IF request.path == '/accounts-payable/creditor-terms' %]active[% END %]"><a href="/accounts-payable/creditor-terms">Creditor Terms</a></li>
+	    <li class="[% IF request.path == '/accounts-payable/detailed-trial-balance' %]active[% END %]"><a href="/accounts-payable/detailed-trial-balance">Detailed Trail Balance</a></li>
+	</ul>
+    </li>
+</ul>
+

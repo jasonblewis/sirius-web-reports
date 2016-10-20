@@ -21,7 +21,7 @@ database template
 </ul>
 
 
-<table data-paging="false" id="example" class="display" cellspacing="0" width="100%">
+<table data-paging="true" id="example" class="table table-striped table-xtra-condensed" cellspacing="0" width="100%">
     <thead>
         <tr>
         [% FOREACH field IN fields %]

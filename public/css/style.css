@@ -281,7 +281,6 @@ td.product-code {
 td.description {
     text-align: left;
     white-space: nowrap;
-    font-size: 80%;
 }
 
 td.on-hand {
@@ -297,6 +296,15 @@ td.committed {
 td.qty {
     text-align: right;
     width: 55px;
+}
+
+.table-xtra-condensed > thead > tr > th,
+.table-xtra-condensed > tbody > tr > th,
+.table-xtra-condensed > tfoot > tr > th,
+.table-xtra-condensed > thead > tr > td,
+.table-xtra-condensed > tbody > tr > td,
+.table-xtra-condensed > tfoot > tr > td {
+    padding: 2px !important;
 }
 
 .loader {
@@ -369,3 +377,4 @@ td.qty {
 	box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
     }
 }
+

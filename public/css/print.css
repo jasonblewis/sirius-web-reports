@@ -1,0 +1,15 @@
+table {
+	width: 100%;
+}
+
+.DataTables_sort_wrapper {
+	font-weight: bold;
+}
+
+tr, td, th {
+    font-size: 85%;
+}
+
+.description {
+    white-space: nowrap;
+}

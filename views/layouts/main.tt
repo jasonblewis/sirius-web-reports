@@ -4,27 +4,24 @@
   <meta charset="[% settings.charset %]">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>[% title %]</title>
+  <!-- we set the media type to "print" for our special print CSS, and give it and ID. -->
+  <link rel="stylesheet" href="[% request.uri_base %]/css/print.css" type="text/css" media="print" id="css_print" />
   <link rel="stylesheet" href="[% request.uri_base %]/css/style.css">
 
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.1.1/css/buttons.dataTables.min.css">
+  <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css"> -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css">
+  <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css"> -->
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.1.1/css/fixedHeader.dataTables.min.css">
-  
-  
 
 <!-- Grab jQuery from a CDN, fall back to local if necessary -->
 <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">/* <![CDATA[ */
     !window.jQuery && document.write('<script type="text/javascript" src="[% request.uri_base %]/javascripts/jquery.js"><\/script>')
 /* ]]> */</script>
-<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.1.1/js/dataTables.buttons.min.js"></script>
-<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
-<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.1.1/js/buttons.html5.min.js"></script>
-<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.1.1/js/buttons.print.min.js"></script>
-<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/fixedheader/3.1.1/js/dataTables.fixedHeader.min.js"></script>
 
-<!-- bootstrap -->
+  
+
+<!-- bootstrap css -->
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
@@ -34,6 +31,18 @@
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <!-- end bootstrap -->
+
+  
+
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.bootstrap.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/fixedheader/3.1.1/js/dataTables.fixedHeader.min.js"></script>
+
 
 
 
