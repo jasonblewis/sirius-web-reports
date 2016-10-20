@@ -10,51 +10,8 @@
     http://www.rubyonrails.org/
 -->
 
-<div id="page">
-      <div id="sidebar">
-        <ul id="sidebar-items">
-          <li>
-            <h3>Organic Trader Reports sidebar</h3>
-            <ul class="links">
-
-                <li><a href="https://wiki.organictrader.com.au/wiki/Main_Page/">Organic Trader Wiki</a></li>
-                <li><a href="/logout">Log Out</a></li>
-            </ul>
-          </li>
-
-        </ul>
-
-      </div>
-
-      <div id="content">
-        <div id="header">
-          <h1>Organic Trader Reports Main Menu</h1>
-          <h2>Select your report below</h2>
-        </div>
-
-        <div id="reports">
-            <h3><a href="/accounts-receivable" >Accounts Receivable</a></h3>
-            <h3><a href="/accounts-payable" >Accounts Payable</a></h3>
-            <h3>Business Metrics</h3>
-            <h3>Business Reports</h3>
-            <h3>Cashflow</h3>
-            <h3>CC Reconciliation Reports</h3>
-            <h3>Database Maintenance</h3>
-            <h3>General Ledger</h3>
-            <h3>GL Checking</h3>
-            <h3>GL Reconciliation Reports</h3>
-            <h3>History</h3>
-            <h3>Old reports</h3>
-            <h3>Price Lists and Catalogues</h3>
-            <h3><a href="/purchasing" >Purchasing</h3>
-            <h3><a href="/sales" >Sales</a></h3>
-            <h3>Sales History</h3>
-            <h3>Sales Reports for Reps</h3>
-            <h3>sirius8test</h3>
-            <h3>Stockist Reports</h3>
-            <h3>Stocktake</h3>
-            <h3>wip</h3>
- 
-        </div>
-      </div>
+<div class="row">
+    <div class="page-header">
+	<h1>Organic Trader Reports</h1>
     </div>
+</div >

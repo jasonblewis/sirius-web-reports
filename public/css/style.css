@@ -238,18 +238,9 @@ p.content-one {
     display: none;
 }
 
-td.green {
-    color: green;
-}
-
 td.red {
     color: red;
 }
-
-td.highlight1 {
-    color: rgb(88, 142, 224);
-}
-
 
 td.nowrap {
     white-space: nowrap;

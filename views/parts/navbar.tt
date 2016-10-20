@@ -18,6 +18,11 @@
       [% INCLUDE navbar_accounts_payable.tt %]
       [% INCLUDE navbar_purchasing.tt %]
 
+      <li><a target="_blank" href="https://wiki.organictrader.com.au/wiki/Main_Page/">OT Wiki</a></li>
+      
+      <ul class="nav navbar-nav navbar-right">
+	  <li><a href="/logout">Log Out</a></li>
+      </ul>
     </ul>
     </div>
   </div><!--/.navbar-collapse-->

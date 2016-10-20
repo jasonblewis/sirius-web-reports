@@ -46,14 +46,14 @@ sub outstanding_invoices {
   return {
     pageLength => 50,
       columns => [
-	{ data => "batch_nr",                 title => 'Batch<br />Number',       className => "dt-right"},          
-	{ data => "ar_debtor.company.name",   title => 'Debtor',                  className => "dt-left"},
-	{ data => "ar_customer.company.name", title => 'Customer',                className => "dt-left"},
-	{ data => "trans_date_datepart",      title => 'Transaction<br />Date',   className => "dt-right"},
-	{ data => "trans_amt_rounded",        title => 'Transaction<br />Amount', className => "dt-right"},
-	{ data => "ref_1",                    title => 'Ref1',                    className => "dt-left"},
-	{ data => "ref_2",                    title => 'Ref2',                    className => "dt-left"},
-	{ data => "due_date_datepart",        title => 'Due Date',                className => "dt-left"},
+	{ data => "batch_nr",                 title => 'Batch<br />Number',       className => "text-right"},          
+	{ data => "ar_debtor.company.name",   title => 'Debtor',                  className => "text-left"},
+	{ data => "ar_customer.company.name", title => 'Customer',                className => "text-left"},
+	{ data => "trans_date_datepart",      title => 'Transaction<br />Date',   className => "text-right"},
+	{ data => "trans_amt_rounded",        title => 'Transaction<br />Amount', className => "text-right"},
+	{ data => "ref_1",                    title => 'Ref1',                    className => "text-left"},
+	{ data => "ref_2",                    title => 'Ref2',                    className => "text-left"},
+	{ data => "due_date_datepart",        title => 'Due Date',                className => "text-left"},
       ],
 	data => [@invoices],
       };
@@ -79,9 +79,9 @@ sub statement_email_addresses {
 		       phone => $phone->phone_no}
   }
   return { columns => [
-    { data => 'debtor_code',  title => 'Debtor Code',             className => 'dt-right'},
-    { data => 'company_name', title => 'Debtor Name',             className => 'dt-left'},
-    { data => 'phone',        title => 'Statement Email Address', className => 'dt-left'},
+    { data => 'debtor_code',  title => 'Debtor Code',             className => 'text-right'},
+    { data => 'company_name', title => 'Debtor Name',             className => 'text-left'},
+    { data => 'phone',        title => 'Statement Email Address', className => 'text-left'},
   ],
     data => $phoneslist}
 };
