@@ -126,7 +126,7 @@ left join
   zz_in_stock_in_return_bin rb
   on
     rb.product_code = p.product_code
-join
+left join
   zz_sh_monthly_sales_2 ms
   on
     ms.supplier_code = p.primary_supplier
