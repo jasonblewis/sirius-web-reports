@@ -272,6 +272,7 @@ td.product-code {
 td.description {
     text-align: left;
     white-space: nowrap;
+    width: 320px;
 }
 
 td.on-hand {
