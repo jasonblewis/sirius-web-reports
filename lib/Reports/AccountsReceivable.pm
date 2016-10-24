@@ -31,6 +31,7 @@ sub menu {
 
 sub outstanding_invoices {
   template 'ar/outstanding-invoices', {
+    title => 'Outstanding Invoices',
     json_data_url => '/api/accounts-receivable/outstanding-invoices'
   }
 };
