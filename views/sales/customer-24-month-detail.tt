@@ -1,6 +1,7 @@
 [% USE Dumper %]
-<h1>Rolling 24 Month Detailed Sales Quantity</h1>
-<h2>[% customer_row.0.name %] ([% customer_code %])</h2>
+<div class="page-header">
+  <h1>Rolling 24 Month Detailed Sales Quantity<br ><small>[% customer_row.0.name %] ([% customer_code %])</small></h1>
+</div>
 <script src="/javascripts/datatablesdisplay.js"></script>
 
 <!-- <h2>Fields</h2>
@@ -12,14 +13,14 @@
 
      number of rows: [% rows.size %]<br />  -->
 
-<table data-paging="false" id="" class="display compact" cellspacing="0" >
+<table data-paging="false" id="" class="table table-striped table-xtra-condensed" cellspacing="0" >
     <thead>
         <tr>
             [% FOREACH field IN fields %]
-                [% IF (field == 'Customer Code' || field == 'name') %]
-                    <td>[% field %]</td>
+                [% IF (field == 'product_code' || field == 'description') %]
+                    <td class="text-left small">[% field %]</td>
                 [% ELSE %]
-                    <td class="smaller-font">[% field %]</td>
+                    <td class="text-right small">[% field %]</td>
                 [% END #IF %]                    
             [% END  %]
             <td>total</td>
@@ -32,11 +33,11 @@
             <tr>
                 [% FOREACH field IN fields %]
                     [% IF (field == 'product_code' ) %]
-                        <td class="left nowrap">[% row.$field %]</td>
+                        <td class="text-left nowrap small">[% row.$field %]</td>
                     [% ELSIF (field == 'description') %]
-                            <td class="left nowrap smaller-font">[% row.$field %]</td>
+                            <td class="text-left nowrap small">[% row.$field %]</td>
                     [% ELSE %]
-                        <td class="right">
+                        <td class="text-right small">
                             [% IF row.$field %]
                                 [% row.$field | format('%.0f') %]
                                 [% row_total = row_total + row.$field %]
@@ -48,7 +49,7 @@
                         </td>
                     [% END # IF %]
                 [% END # FOREACH field %]
-                <td class="right row_total">[% row_total | format('%.0f') %]</td>
+                <td class="text-right row_total small">[% row_total | format('%.0f') %]</td>
             </tr>
             
         [% END  %]

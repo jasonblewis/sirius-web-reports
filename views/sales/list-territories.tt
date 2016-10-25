@@ -1,14 +1,9 @@
-list territories
-
-target: [% target %]
-
-
 [% USE Dumper %]
 [% USE url(target) %]
 
 
 
-<table data-paging="false" id="example" class="display" cellspacing="0" width="40%">
+<table data-paging="false" id="example" class="table table-striped" cellspacing="0" width="40%">
     <thead>
         <tr>
             <td>[% field.territory_code %]</td>

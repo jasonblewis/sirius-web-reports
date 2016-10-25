@@ -1,6 +1,6 @@
 var table;
 $(document).ready(function() {
-    table = $('table.display').DataTable( {
+    table = $('table.table').DataTable( {
         "paging": false,
         dom: 'Bfrtip',
         buttons: [

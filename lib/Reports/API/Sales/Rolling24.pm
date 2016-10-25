@@ -137,13 +137,13 @@ End/;
   #   );
   foreach my $field (@$fields) {
     if (List::MoreUtils::any { $_ eq $field} ('Territory Code') ) {
-      push @$columns, { data => $field, className => 'dt-left' }; 
+      push @$columns, { data => $field, className => 'text-left small' }; 
     } elsif (List::MoreUtils::any { $_ eq $field} ('description') ) {
-      push @$columns, { data => $field, className => 'dt-left nowrap smaller-font' }; 
+      push @$columns, { data => $field, className => 'text-left nowrap small' }; 
     } elsif (List::MoreUtils::any { $_ eq $field} ('total') ) {
-      push @$columns, { data => $field, className => 'dt-right row_total' }; 
+      push @$columns, { data => $field, className => 'text-right row_total small' }; 
     } else {
-      push @$columns, { data => $field, className => 'dt-right' }; 
+      push @$columns, { data => $field, className => 'text-right small' }; 
     }
   }
 

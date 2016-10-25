@@ -254,7 +254,8 @@ Begin Exec SP_EXECUTESQL @query End
     template 'sales/territory-24-month-detail', {
       territory_code => $territory_code,
       territory_row => $territory,
-      'title' => 'Territory Detail',
+      'title' => 'Rolling 24 Month Detailed Territory Sales ($)',
+
       'detail_url' => '/sales/customer-24-month-detail',
       'fields' => $fields,
       'rows' => $rows,
@@ -360,8 +361,9 @@ Begin Exec SP_EXECUTESQL @query End
 sub select_customer {
   my ($target_url) = @_;
   template 'ar/select-customer',
-    {json_data_url => '/api/accounts-receivable/customers',
-     target_url => $target_url}
+    { title => 'Select Customer',
+      json_data_url => '/api/accounts-receivable/customers',
+      target_url => $target_url}
 }
 
 sub order_form_w_pricecode {

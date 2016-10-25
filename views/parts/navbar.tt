@@ -17,6 +17,7 @@
       [% INCLUDE navbar_accounts_receivable.tt %]
       [% INCLUDE navbar_accounts_payable.tt %]
       [% INCLUDE navbar_purchasing.tt %]
+      [% INCLUDE navbar_sales.tt %]
 
       <li><a target="_blank" href="https://wiki.organictrader.com.au/wiki/Main_Page/">OT Wiki</a></li>
       

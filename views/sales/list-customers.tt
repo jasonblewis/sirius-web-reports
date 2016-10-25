@@ -12,7 +12,6 @@ select Customer
     [% END  %]
 </ol>
 
-[% # Dumper.dump(fields) %]
 <h2>Fields</h2>
 <ul>
     [% FOREACH field IN fields %]

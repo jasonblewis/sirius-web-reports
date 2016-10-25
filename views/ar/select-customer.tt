@@ -1,22 +1,5 @@
-select customer<br>
-target url: [% target_url %]
-
-<script>
- $(document).ready(function() {
-     console.log('before include');
- });
-</script>
-
-
-[% include json_table.tt %]
-
-
-<script>
- $(document).ready(function() {
-     console.log('after include');
- });
-</script>
-
+[% INCLUDE page_header.tt %]
+[% INCLUDE json_table.tt %]
 
 <script>
  $(document).ajaxStart(function ()

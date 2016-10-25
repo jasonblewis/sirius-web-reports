@@ -1,9 +1,9 @@
 <script src="/javascripts/datatablesdisplay.js"></script>
-<h2>Order Form W Pricecode</h2>
-<br />
-
+<div class="page-header">
+  <h1>Order Form W Pricecode</h1>
+</div>
 [% INCLUDE datatables_buttons.tt %]    
-<div id="loader" class="loader">Loading...</div>
+<div id="loader" class="loader"></div>
 <script>
  $(document).ajaxStart(function ()
      {
@@ -23,7 +23,7 @@
 	     $.each(myjson.columns, function(i, val){
                  tableHeaders += "<th>" + val.data + "</th>";
              });
-             $("#tableDiv").html('<table id="displayTable" class="display compact" cellspacing="0" style="width: 100%;"><thead><tr>' + tableHeaders + '</tr></thead></table>');
+             $("#tableDiv").html('<table id="displayTable" class="table table-striped table-xtra-condensed" style="width: 100%;"><thead><tr>' + tableHeaders + '</tr></thead></table>');
 	     
 	     myjson.dom = 'Bfrtip';
 	     myjson.buttons = ['copy',
@@ -47,6 +47,4 @@
      });
  });
 </script>
-
-
 <div id="tableDiv"></div>

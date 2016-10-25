@@ -30,7 +30,7 @@
     <tr>
         <td class="text-left product-code" [% position %]">[% heading.0 %]</td>
         <td class="text-left description" [% position %]">[% heading.1 %]</td>
-        <td class="text-right"  [% position %]">[% heading.2 %]</td>
+        <td class="text-right" [% position %]">[% heading.2 %]</td>
         <td class="text-right" [% position %]">[% heading.3 %]</td>
         <td class="text-right" [% position %]">[% heading.4 %]</td>
         <td class="text-right" [% position %]">[% heading.5 %]</td>

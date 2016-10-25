@@ -1,28 +1,7 @@
 [% USE Dumper %]
 [% USE date(format = '%Y-%m-%d') %]
 <script src="/javascripts/datatablesdisplay.js"></script>
-
-<h1>New Stores Quarterly Sales</h1>
-
-<ol>
-    [% FOREACH server IN servers %]
-        <li>    server: [% server.name %]</li>
-    [% END  %]
-</ol>
-<ol>
-    [% FOREACH database IN databases %]
-        <li>database: [% database.name %]</li>
-    [% END  %]
-</ol>
-
-[% # Dumper.dump(fields) %]
-<h2>Fields</h2>
-<ul>
-    [% FOREACH field IN fields %]
-        <li>field: [% field %]</li>
-    [% END  %]
-</ul>
-
+[% INCLUDE page_header.tt %]
 [% FOREACH row IN rows %]
     [% IF row.firstorderquarter != loop.prev.firstorderquarter;
        new_stores = 0;
@@ -32,17 +11,17 @@
        q_sum_sales = 0;
     %]
         <h3>Quarter starting [% date.format(row.firstorderquarter) %]</h3> 
-        <table id="" class="display compact" cellspacing="0" width="90%">
+        <table id="" class="table table-striped" cellspacing="0" width="90%">
             <thead>
                 <tr>
                     <td>Customer Code</td>
                     <td>name</td>
-                    <td class="right">first order<br />invoice date</td>
+                    <td class="text-right">first order<br />invoice date</td>
                     <td>sales rep</td>
                     <td>territory</td>
-                    <td class="right">profit</td>
-                    <td class="right">sales_amt</td>
-                    <td class="right">gross profit</td>
+                    <td class="text-right">profit</td>
+                    <td class="text-right">sales_amt</td>
+                    <td class="text-right">gross profit</td>
                 </tr>
             </thead>
             <tbody>
@@ -59,12 +38,12 @@
         <tr>
             <td>[% row.customer_code %]</td>
             <td>[% row.name %]</td>
-            <td class="right">[% date.format(row.first_order_inv_date) %]</td>
+            <td class="text-right">[% date.format(row.first_order_inv_date) %]</td>
             <td>[% row.sales_rep_code %]</td>
             <td>[% row.territory_code %]</td>
             <td class="fp_number">[% sum_gp | format('%.2f') %]</td>
             <td class="fp_number">[% sum_sales | format('%.2f') %]</td>
-            <td class="right">[% IF (sum_sales > 0) ;
+            <td class="text-right">[% IF (sum_sales > 0) ;
                    sum_gp / sum_sales * 100 | format('%.0f');
                    ELSE;
                    "N/A";
@@ -84,9 +63,9 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td class="total">[% q_sum_gp | format('%.2f') %]</td>
-                    <td class="total">[% q_sum_sales | format('%.2f') %]</td>
-                    <td class="total">[% IF (q_sum_sales > 0) ;
+                    <td class="total text-right">[% q_sum_gp | format('%.2f') %]</td>
+                    <td class="total text-right">[% q_sum_sales | format('%.2f') %]</td>
+                    <td class="total text-right">[% IF (q_sum_sales > 0) ;
                                q_sum_gp / q_sum_sales * 100 | format('%.0f');
                                ELSE;
                                "N/A";
