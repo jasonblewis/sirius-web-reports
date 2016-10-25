@@ -39,7 +39,6 @@ my %routes = (
   '/purchasing/sales-history' => {},
   '/purchasing/sales-history?primary_supplier=PUKHER' =>  {},
 
-  '/sales'                    => {},
   '/sales/new-stores-quarterly-sales' => {},
   '/sales/territory-24-month-summary' => {},
   '/sales/territory-24-month-detail' => {},
