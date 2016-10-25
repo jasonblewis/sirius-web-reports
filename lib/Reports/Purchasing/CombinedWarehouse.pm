@@ -104,12 +104,17 @@ SELECT
   rc.min_days_stock,
   rc.max_days_stock,
   wp.reorder_class,
-  wp.reorder_type
+  wp.reorder_type,
+   ssv.name
 from in_product p
 join
   ap_supplier s
   on
     s.supplier_code = p.primary_supplier
+join
+	ap_supplier_select_view ssv
+	on
+	s.supplier_code = ssv.supplier_code
 join 
   zz_in_stock_on_hand_all [oh]
   on 
@@ -197,7 +202,7 @@ and not ((wp.reorder_type = 'Q' and wp.reorder_class = 'Q'))
     $sth->finish;
 
     template 'purchasing/sales-history.tt', {
-      'title' => 'Sales History',
+      'title' => 'Combined Warehouse Sales History',
       'primary_supplier' => $primary_supplier,
       'servers' => $dat,
       'databases' => $dbnames,

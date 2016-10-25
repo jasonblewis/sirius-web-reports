@@ -42,6 +42,7 @@ sub multi_warehouse_sales_history {
 
 sub get_primary_supplier {
   template 'utils/get-selection-json', {
+    title => 'Multi Warehouse Sales History <br /><small>Select a primary Supplier</small>',
     'target_url' => request->uri,
     json_data_url => "/api/accounts-payable/suppliers",
   }

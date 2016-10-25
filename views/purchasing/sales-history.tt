@@ -1,8 +1,9 @@
 [% USE Dumper %]
 [% USE date(format = '%Y-%m-%d') %]
+[% INCLUDE page_header.tt %]
 <script src="/javascripts/datatablesdisplay.js"></script>
 
-<h1>[% primary_supplier %]</h1>
+<h2>[% rows.0.name | html %]<small>([% primary_supplier %])</small></h2>
 <script type='text/javascript'>
  $(document).ready(function(){
      $('#toggle-notes').click(function(){

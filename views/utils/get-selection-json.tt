@@ -1,7 +1,5 @@
 <script src="/javascripts/datatablesdisplay.js"></script>
-<h2>get selection</h2>
-<br />
-
+[% INCLUDE page_header.tt %]
 [% INCLUDE datatables_buttons.tt %]    
 
 [% INCLUDE json_table.tt %]
