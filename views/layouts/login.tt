@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+	<meta charset="[% settings.charset %]">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+	<title>[% title %]</title>
+	<link rel="shortcut icon" type="image/png" href="col-light-earth-logo-earth-only32x32.png" />
+	<!-- we set the media type to "print" for our special print CSS, and give it and ID. -->
+	<link rel="stylesheet" href="[% request.uri_base %]/css/print.css" type="text/css" media="print" id="css_print" />
+	<link rel="stylesheet" href="[% request.uri_base %]/css/style.css">
+	
+	<!-- Grab jQuery from a CDN, fall back to local if necessary -->
+	<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript">/* <![CDATA[ */
+	 !window.jQuery && document.write('<script type="text/javascript" src="[% request.uri_base %]/javascripts/jquery.js"><\/script>')
+	 /* ]]> */</script>
+	
+	
+	
+	<!-- bootstrap css -->
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	<!-- Custom styles for this template -->
+	<link rel="stylesheet" href="/css/signin.css" >
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<!-- end bootstrap -->
+	
+    </head>
+    <body>
+	<div class="container">
+            [% content %]
+            <div id="footer">
+		Powered by <a href="http://perldancer.org/">Dancer2</a> [% dancer_version %]
+            </div>
+	</div>
+    </body>
+</html>

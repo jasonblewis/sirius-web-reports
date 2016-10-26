@@ -28,3 +28,7 @@ engines:
     template_toolkit:
       include_path: views/parts
       
+plugins:
+  Auth::Extensible:
+    login_page_handler: 'Reports::Login::login_page_handler'
+    permission_denied_page_handler: 'Reports::Login::permission_denied_page_handler'

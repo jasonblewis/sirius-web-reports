@@ -15,46 +15,18 @@
 #     You should have received a copy of the GNU Affero Public License
 #     along with Sirius Web Reports.  If not, see <http://www.gnu.org/licenses/>.
 
-package Reports;
+package Reports::Login;
 use strict;
 use warnings;
-use Dancer2;
-use Dancer2::Plugin::Database;
+use Dancer2 appname => 'Reports';
 use Dancer2::Plugin::Auth::Extensible;
-use Dancer2::Session::Cookie;
-use DBI;
-use Reports::AccountsReceivable;
-use Reports::AccountsPayable;
-use Reports::Sales;
-use Reports::Purchasing;
-use Reports::Login;
 
-set 'logger'       => 'console';
-#set 'log'          => 'error';
-set 'show_errors'  => 1;
-set 'startup_info' => 1;
-set 'warnings'     => 1;
-set 'show_errors'  => 1;
-set 'startup_info' => 1;
-set 'warnings'     => 1;
-
-our $VERSION = '0.1';
-
-get '/' => require_login sub {
-  template 'index';
-};
-
-get '/test' => require_login sub {
-  my $sth = database->prepare(
-    'select top 10 * from ap_creditor',
-  );
-  $sth->execute();
-  my $fields = $sth->{NAME};
-
-  template 'test',{
-    'fields' => $fields,
-    'creditors' => $sth->fetchall_arrayref({}),
-  };
-};
+sub login_page_handler {
+  template
+    'account/login',
+    {title => 'Sign in OT Reports'
+  },
+    { layout => 'login.tt' };
+}
 
 1;
