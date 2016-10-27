@@ -1,6 +1,9 @@
 [% IF vars.login_failed %]
-<div class="alert alert-danger">
-  <strong>Login Failed</strong> Try again
+<div class="alert alert-danger fade in">
+    <strong>Login Failed</strong> Try again
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	<span aria-hidden="true">&times;</span>
+    </button>
 </div>
 [% END %]
 <form method = "post" lpformnum="1" class="form-signin">
