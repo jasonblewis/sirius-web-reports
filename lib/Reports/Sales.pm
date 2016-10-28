@@ -347,7 +347,7 @@ Begin Exec SP_EXECUTESQL @query End
     template 'sales/customer-24-month-detail', {
       customer_code => $customer_code,
       customer_row => $customer,
-      'title' => 'Customer 24 Month Detail',
+      'title' => "Customer 24 Month Detail $customer_code",
       'fields' => $fields,
       'rows' => $rows,
     };
