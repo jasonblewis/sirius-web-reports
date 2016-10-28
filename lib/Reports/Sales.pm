@@ -254,7 +254,7 @@ Begin Exec SP_EXECUTESQL @query End
     template 'sales/territory-24-month-detail', {
       territory_code => $territory_code,
       territory_row => $territory,
-      'title' => 'Rolling 24 Month Detailed Territory Sales ($)',
+      'title' => "Rolling 24 Month Detailed Territory Sales $territory->[0]{description}",
 
       'detail_url' => '/sales/customer-24-month-detail',
       'fields' => $fields,
