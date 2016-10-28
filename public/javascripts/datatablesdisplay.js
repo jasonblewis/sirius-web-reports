@@ -1,6 +1,7 @@
 var table;
 $(document).ready(function() {
     table = $('table.table').DataTable( {
+	fixedHeader: true,
         "paging": false,
         dom: 'Bfrtip',
         buttons: [

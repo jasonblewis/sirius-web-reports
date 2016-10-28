@@ -215,9 +215,8 @@ set @debug = 0
                 'select * from 
                  (select
                 	ac.customer_code as ''Customer Code'',
-			ac.name,
-			ac.debtor_code,
-	                d.stop_flag,
+			ac.name as [Customer Name],
+	                d.stop_flag as [On Hold],
                 	DATEADD(month, DATEDIFF(month, 0, sh.invoice_date), 0) as ''month'',
                 	sum(sh.sales_amt) as sales
                  from sh_transaction sh

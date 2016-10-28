@@ -30,12 +30,15 @@
         [% grand_total = 0 %]
         [% FOREACH row IN rows %]
             [% row_total = 0 %]
-            <tr>
+            <tr [% IF row.item('On Hold') == 'Y' %]class="danger"[% END %]>
                 [% FOREACH field IN fields %]
                     [% IF (field == 'Customer Code' ) %]
                         <td class="text-left small"><a href='[% url(customer_code = row.item('Customer Code')) %]'>[% row.$field %]</a></td>
-                    [% ELSIF (field == 'name') %]
+                    [% ELSIF (field == 'Customer Name') %]
                         <td class="text-left nowrap small"><a href='[% url(customer_code = row.item('Customer Code')) %]'>[% row.$field %]</a></td>
+		    [% ELSIF (field == 'debtor_code' || field == 'On Hold' ) %]
+			<td class="text-left nowrap small">[% row.$field %]</td>
+
                     [% ELSE %]
                         <td class="text-right small">
                             [% IF row.$field %]
