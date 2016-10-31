@@ -44,17 +44,4 @@ get '/' => require_login sub {
   template 'index';
 };
 
-get '/test' => require_login sub {
-  my $sth = database->prepare(
-    'select top 10 * from ap_creditor',
-  );
-  $sth->execute();
-  my $fields = $sth->{NAME};
-
-  template 'test',{
-    'fields' => $fields,
-    'creditors' => $sth->fetchall_arrayref({}),
-  };
-};
-
 1;
