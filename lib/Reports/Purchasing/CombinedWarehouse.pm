@@ -105,7 +105,8 @@ SELECT
   rc.max_days_stock,
   wp.reorder_class,
   wp.reorder_type,
-   ssv.name
+  ssv.name,
+  cc.catalogue_count
 from in_product p
 join
   ap_supplier s
@@ -150,11 +151,17 @@ join in_reorder_class rc
   on
     rc.class = wp.reorder_class and
     rc.reorder_type = wp.reorder_type
+
+left join (select our_product_code, count(our_product_code) as catalogue_count  from po_catalogue_view group by our_product_code) as cc
+on cc.our_product_code = p.product_code
+
   where ltrim(rtrim(p.primary_supplier)) = ?
 and (p.spare_flag_03 is null or p.spare_flag_03 = 'Y')
 and not ((wp.reorder_type = 'Q' and wp.reorder_class = 'Q'))
- order by p.product_code
+order by p.product_code
 };
+
+############# end SQL
     $sth = database->prepare($sql) or die "can't prepare\n";
     $sth->bind_param(1, $primary_supplier);
     $sth->execute or die $sth->errstr;

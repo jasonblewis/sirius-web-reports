@@ -57,7 +57,8 @@
         </thead>
         <tbody>
             [% FOREACH row IN rows %]
-                <tr class="[% (row.reorder_type == 'Q' ? 'warning' : '') %]">
+                <tr class="[% (row.reorder_type == 'Q' ? 'warning' : '') %] [% (row.catalogue_count > '1' ? 'danger' : '') %]"
+		    [% (row.catalogue_count > '1' ? "data-toggle=\"tooltip\" title=\"Warning: there is more than one catalogue for product $row.product_code\"" : '') %]>
                     <td class="text-left">[% row.product_code   %]</td>
                     <td class="text-left border-right description">[% row.description    %]</td>
                     <td class="text-right">[% row.on_hand        %]</td>
