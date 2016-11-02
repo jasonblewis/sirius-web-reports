@@ -22,6 +22,7 @@
 	    <ul class="nav navbar-nav navbar-right">
 		<li><a target="_blank" href="https://sirius-web.organictrader.com.au">Sirius Web</a></li>
 		<li><a target="_blank" href="https://wiki.organictrader.com.au/wiki/Main_Page">OT Wiki</a></li>
+		<li><a target="_blank" href="https://owncloud.organictrader.com.au">ownCloud</a></li>
 		<li><a href="/logout">Log Out</a></li>
 	    </ul>
 	</div>
