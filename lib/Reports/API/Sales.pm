@@ -36,7 +36,7 @@ sub order_form_w_pricecode {
   my $dtf = schema->storage->datetime_parser;
 
   
-  my $duration = DateTime::Duration->new( months => 6 );
+  my $duration = DateTime::Duration->new( months => 12 );
   my $start_date = DateTime->now - $duration;
 
 
