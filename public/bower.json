@@ -1,0 +1,22 @@
+{
+    "name": "OT Reports",
+  "homepage": "https://github.com/jasonblewis/sirius-web-reports",
+  "authors": [
+    "Jason Lewis <jason@dickson.st>"
+  ],
+  "description": "Reporting system for OT",
+  "main": "",
+  "license": "GPL3",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "moment": "^2.15.2",
+    "pdfmake": "^0.1.20"
+  }
+}
