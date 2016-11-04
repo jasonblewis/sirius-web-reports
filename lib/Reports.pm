@@ -28,7 +28,6 @@ use Reports::AccountsPayable;
 use Reports::Sales;
 use Reports::Purchasing;
 use Reports::Login;
-use JSON;
 
 set 'logger'       => 'console';
 #set 'log'          => 'error';
@@ -41,7 +40,7 @@ set 'warnings'     => 1;
 
 our $VERSION = '0.1';
 
-  my $order_columns = JSON->new->encode([
+  my $order_columns = encode_json([
     {  data => 'name',       title=>'Store Name', className => 'text-left',      },
     {  data => 'order_nr',   title=>'Order Number', className => 'text-left',      },
     {  data => 'amount',     title=>'Total', className => 'text-right', formatfn => 'round2dp',   },
@@ -49,7 +48,7 @@ our $VERSION = '0.1';
 
   ],);
 
-  my $credit_columns = JSON->new->encode([
+  my $credit_columns = encode_json([
     {  data => 'name',       title=>'Store Name', className => 'text-left',      },
     {  data => 'order_nr',   title=>'Credit Number', className => 'text-left',      },
     {  data => 'amount',     title=>'Total', className => 'text-right', formatfn => 'round2dp',   },
