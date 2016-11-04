@@ -28,6 +28,7 @@ use Reports::AccountsPayable;
 use Reports::Sales;
 use Reports::Purchasing;
 use Reports::Login;
+use JSON;
 
 set 'logger'       => 'console';
 #set 'log'          => 'error';
@@ -40,8 +41,18 @@ set 'warnings'     => 1;
 
 our $VERSION = '0.1';
 
+  my $columns = JSON->new->encode([
+    {  data => 'name',     className => 'text-left',      },
+    {  data => 'order_nr', className => 'text-left',      },
+    {  data => 'amount',   className => 'text-right',     },
+  ],);
+
+
 get '/' => require_login sub {
-  template 'index';
+  template 'index', {
+    columns => $columns,
+    outstanding_sales_orders_url => '/api/sales/outstanding-sales-orders'
+  };
 };
 
 1;
