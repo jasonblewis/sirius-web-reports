@@ -1,3 +1,4 @@
 <div class="page-header">
   <h1>[% title %]</h1>
 </div>
+[% IF sub_title %]<h2>[% sub_title %]</h2>[% END %]

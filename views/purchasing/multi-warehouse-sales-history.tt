@@ -1,6 +1,4 @@
-<script src="/javascripts/datatablesdisplay.js"></script>
-<h2>Multi Warehouse Sales History</h2>
-<br />
+[% INCLUDE page_header.tt %]
 
 [% INCLUDE datatables_buttons.tt %]    
 

@@ -2,47 +2,54 @@
 
  // json.columnDefs[0].render = new Function ("data","type","row", "return data.substring(0,6)" );
 
- function formatdateold(data,type,row) {
-     return data.substring(0,4);
- };
- 
- function formatdate(data,type,row) {
-     return moment(data).format('DD-MMM-YYYY');
- };
-
- function round2dp(data,type,row){
-     return Number(Math.round(data+'e'+ '2')+'e-'+ '2');
- }
- 
  $( document ).ready( function( $ ) {
-     var mycols = [% columns %];
+     var order_cols = [% order_columns %];
+     var credit_cols = [% credit_columns %]
      $.ajax({
          "url": '[% outstanding_sales_orders_url %]',
          "success": function(json) {
              var tableHeaders = ''; 
-	     $.each(mycols, function(i, val){
+	     $.each(order_cols, function(i, val){
 		 tableHeaders += "<th>" + val.data + "</th>";
 		 if(val.formatfn){ // check if we have a formatter for this column
-		     mycols[i].render = window[val.formatfn]; // get the name of the formatting function to use
+		     order_cols[i].render = window[val.formatfn]; // get the name of the formatting function to use
 		 };
              });
-             $("#tableDiv").html('<table id="displayTable" class="small table table-striped table-xtra-condensed dataTable" cellspacing="0"><thead><tr>' + tableHeaders + '</tr></thead></table>');
-	     json.columns = mycols;
+             $("#outstandingOrders").html('<table id="orderDisplayTable" class="small table table-striped table-xtra-condensed dataTable" cellspacing="0"><caption class="text-success">[% order_table_caption %]</caption><thead><tr>' + tableHeaders + '</tr></thead></table>');
+	     json.columns = order_cols;
 	     json.dom = 'rt'; // customise the table
-             $('#displayTable').DataTable(json);
+             $('#orderDisplayTable').DataTable(json);
          },
          "dataType": "json"
      });
+     $.ajax({
+         "url": '[% outstanding_sales_credits_url %]',
+         "success": function(json) {
+             var tableHeaders = ''; 
+	     $.each(credit_cols, function(i, val){
+		 tableHeaders += "<th>" + val.data + "</th>";
+		 if(val.formatfn){ // check if we have a formatter for this column
+		     credit_cols[i].render = window[val.formatfn]; // get the name of the formatting function to use
+		 };
+             });
+             $("#outstandingCredits").html('<table id="creditDisplayTable" class="small table table-striped table-xtra-condensed dataTable" cellspacing="0"><caption class="text-warning">[% credit_table_caption %]</caption><thead><tr>' + tableHeaders + '</tr></thead></table>');
+	     json.columns = credit_cols;
+	     json.dom = 'rt'; // customise the table
+             $('#creditDisplayTable').DataTable(json);
+         },
+         "dataType": "json"
+     });
+
+     
  });
+
 </script>
 
 <div class="row">
     <div class="col-sm-4 col-md-4">
-	<h2>Outstanding Orders</h2>
-	<div id="tableDiv"></div>
+	<div id="outstandingOrders"></div>
     </div>
     <div class="col-sm-4 col-md-4">
-	<h2>Outstanding Credits</h2>
-	second col
+	<div id="outstandingCredits"></div>
     </div>
 </div>

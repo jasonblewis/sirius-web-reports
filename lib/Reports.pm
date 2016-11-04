@@ -41,17 +41,33 @@ set 'warnings'     => 1;
 
 our $VERSION = '0.1';
 
-  my $columns = JSON->new->encode([
-    {  data => 'name',     className => 'text-left',      },
-    {  data => 'order_nr', className => 'text-left',      },
-    {  data => 'amount',   className => 'text-right',     },
+  my $order_columns = JSON->new->encode([
+    {  data => 'name',       title=>'Store Name', className => 'text-left',      },
+    {  data => 'order_nr',   title=>'Order Number', className => 'text-left',      },
+    {  data => 'amount',     title=>'Total', className => 'text-right', formatfn => 'round2dp',   },
+    {  data => 'order_date', title=>'Date', className => 'text-right', formatfn => 'formatdate' },
+
+  ],);
+
+  my $credit_columns = JSON->new->encode([
+    {  data => 'name',       title=>'Store Name', className => 'text-left',      },
+    {  data => 'order_nr',   title=>'Credit Number', className => 'text-left',      },
+    {  data => 'amount',     title=>'Total', className => 'text-right', formatfn => 'round2dp',   },
+    {  data => 'order_date', title=>'Date', className => 'text-right', formatfn => 'formatdate' },
+
   ],);
 
 
 get '/' => require_login sub {
   template 'index', {
-    columns => $columns,
-    outstanding_sales_orders_url => '/api/sales/outstanding-sales-orders'
+    order_columns => $order_columns,
+    outstanding_sales_orders_url => '/api/sales/outstanding-sales-orders',
+    order_table_caption => 'Outstanding Orders',
+
+    credit_columns => $credit_columns,
+    outstanding_sales_credits_url => '/api/sales/outstanding-sales-credits',
+    credit_table_caption => 'Outstanding Credits',
+
   };
 };
 

@@ -26,6 +26,15 @@ use Data::Dumper;
 use Dancer2::Plugin::DBIC;
 use Dancer2::Plugin::Ajax;
 
+
+sub get_primary_supplier {
+  template 'utils/get-selection-json', {
+    title => 'Multi Warehouse Sales History <small>Select a primary Supplier</small>',
+    'target_url' => request->uri,
+    json_data_url => "/api/accounts-payable/suppliers",
+  }
+}
+
 sub multi_warehouse_sales_history {
   my $supplier_code;
   
@@ -35,18 +44,11 @@ sub multi_warehouse_sales_history {
     warn "supplier_code not supplied";
   }
   
-   template 'purchasing/multi-warehouse-sales-history', {
-     json_data_url => "/api/purchasing/multi-warehouse-sales-history/$supplier_code"
+  template 'purchasing/multi-warehouse-sales-history', {
+    title => "Multi Warehouse Sales History $supplier_code",
+    json_data_url => "/api/purchasing/multi-warehouse-sales-history/$supplier_code"
    }
 };
-
-sub get_primary_supplier {
-  template 'utils/get-selection-json', {
-    title => 'Multi Warehouse Sales History <br /><small>Select a primary Supplier</small>',
-    'target_url' => request->uri,
-    json_data_url => "/api/accounts-payable/suppliers",
-  }
-}
 
 prefix '/purchasing' => sub {
   get '/multi-warehouse-sales-history' => require_login \&get_primary_supplier;

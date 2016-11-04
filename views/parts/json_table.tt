@@ -23,8 +23,20 @@
              });
              
              $("#tableDiv").html('<table id="displayTable" class="table table-striped table-xtra-condensed"><thead><tr>' + tableHeaders + '</tr></thead></table>');
-             //$("#tableDiv").find("table thead tr").append(tableHeaders);  
-	     /*              console.log(json);*/
+	     json.dom = 'Bfrtip';
+	     json.buttons = ['copy',
+			       'csv',
+			       'excel',
+			       {extend: 'pdfHtml5',
+				text: 'PDF',
+				orientation: 'landscape',
+				pageSize: 'A4',
+				download: 'download',
+				filename: '*',
+				extension: 'pdf'
+			       },
+			       'print'];
+
              $('#displayTable').DataTable(json);
          },
          "dataType": "json"
