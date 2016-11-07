@@ -42,30 +42,31 @@ our $VERSION = '0.1';
 
   my $order_columns = encode_json([
     {  data => 'name',       title=>'Store Name', className => 'text-left',      },
-    {  data => 'order_nr',   title=>'Order Number', className => 'text-left',      },
+    {  data => 'order_nr',   title=>'Order<br>Number', className => 'text-right',      },
     {  data => 'amount',     title=>'Total', className => 'text-right', formatfn => 'round2dp',   },
-    {  data => 'order_date', title=>'Date', className => 'text-right', formatfn => 'formatdate' },
-
+    {  data => 'order_date', title=>'Date', className => 'text-right', formatfn => 'fromnow' },
+    {  data => 'order_status', title=>'Order<br>Status', className => 'text-right'},
+    
   ],);
 
   my $credit_columns = encode_json([
     {  data => 'name',       title=>'Store Name', className => 'text-left',      },
-    {  data => 'order_nr',   title=>'Credit Number', className => 'text-left',      },
+    {  data => 'order_nr',   title=>'Credit<br>Number', className => 'text-right',      },
     {  data => 'amount',     title=>'Total', className => 'text-right', formatfn => 'round2dp',   },
-    {  data => 'order_date', title=>'Date', className => 'text-right', formatfn => 'formatdate' },
+    {  data => 'order_date', title=>'Date', className => 'text-right', formatfn => 'fromnow' },
+    {  data => 'order_status', title=>'Order<br>Status', className => 'text-right'},
 
   ],);
-
 
 get '/' => require_login sub {
   template 'index', {
     order_columns => $order_columns,
     outstanding_sales_orders_url => '/api/sales/outstanding-sales-orders',
-    order_table_caption => 'Outstanding Orders',
+    order_table_caption => '<h4>Outstanding Orders</h4>',
 
     credit_columns => $credit_columns,
     outstanding_sales_credits_url => '/api/sales/outstanding-sales-credits',
-    credit_table_caption => 'Outstanding Credits',
+    credit_table_caption => '<h4>Outstanding Credits</h4>',
 
   };
 };

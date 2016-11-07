@@ -43,7 +43,7 @@ sub outstanding_sales_orders {
   select customer_code,name,order_status,sale_or_credit,order_nr,order_date,sum(unit_price * ordered_qty) as amount from so_order_and_lines_view 
 
 where
- order_status not in ( 'F','C','H')
+ order_status not in ( 'F','C')
  and sale_or_credit = 'S'
  and order_date >= dateadd(d,-1,getdate())
  group by customer_code,name,order_status,sale_or_credit,order_nr,order_date
@@ -77,7 +77,7 @@ sub outstanding_sales_credits {
   select customer_code,name,order_status,sale_or_credit,order_nr,order_date,sum(unit_price * ordered_qty) as amount from so_order_and_lines_view 
 
 where
- order_status not in ( 'F','C','H')
+ order_status not in ( 'F','C')
  and sale_or_credit = 'C'
  and order_date >= dateadd(d,-1,getdate())
  group by customer_code,name,order_status,sale_or_credit,order_nr,order_date
