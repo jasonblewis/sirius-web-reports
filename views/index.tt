@@ -3,8 +3,8 @@
  // json.columnDefs[0].render = new Function ("data","type","row", "return data.substring(0,6)" );
 
  $( document ).ready( function( $ ) {
+	 
      var order_cols = [% order_columns %];
-     var credit_cols = [% credit_columns %]
      $.ajax({
          "url": '[% outstanding_sales_orders_url %]',
          "success": function(json) {
@@ -22,6 +22,7 @@
          },
          "dataType": "json"
      });
+     var credit_cols = [% credit_columns %];
      $.ajax({
          "url": '[% outstanding_sales_credits_url %]',
          "success": function(json) {
@@ -39,7 +40,24 @@
          },
          "dataType": "json"
      });
-
+     var invoice_cols = [% invoice_columns %];
+     $.ajax({
+         "url": '[% sales_invoices_url %]',
+         "success": function(json) {
+             var tableHeaders = ''; 
+	     $.each(invoice_cols, function(i, val){
+		 tableHeaders += "<th>" + val.data + "</th>";
+		 if(val.formatfn){ // check if we have a formatter for this column
+		     invoice_cols[i].render = window[val.formatfn]; // get the name of the formatting function to use
+		 };
+             });
+             $("#Invoices").html('<table id="invoiceDisplayTable" class="small table table-striped table-xtra-condensed dataTable" cellspacing="0"><caption class="text-success">[% invoice_table_caption %]</caption><thead><tr>' + tableHeaders + '</tr></thead></table>');
+	     json.columns = invoice_cols;
+	     json.dom = 'rt'; // customise the table
+             $('#invoiceDisplayTable').DataTable(json);
+         },
+         "dataType": "json"
+     });
      
  });
 
@@ -51,5 +69,13 @@
     </div>
     <div class="col-sm-6 col-md-6">
 	<div id="outstandingCredits"></div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6 col-md-6">
+	<div id="Invoices"></div>
+    </div>
+    <div class="col-sm-6 col-md-6">
+	<div id="Credits"></div>
     </div>
 </div>

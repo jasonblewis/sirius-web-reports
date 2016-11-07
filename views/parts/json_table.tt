@@ -22,7 +22,7 @@
                  tableHeaders += "<th>" + val.data + "</th>";
              });
              
-             $("#tableDiv").html('<table id="displayTable" class="table table-striped table-xtra-condensed"><thead><tr>' + tableHeaders + '</tr></thead></table>');
+             $("#tableDiv").html('<table id="displayTable" class="table table-striped table-xtra-condensed"><caption class="text-success">[% caption %]</caption><thead><tr>' + tableHeaders + '</tr></thead></table>');
 	     json.dom = 'Bfrtip';
 	     json.buttons = ['copy',
 			       'csv',

@@ -46,6 +46,7 @@ sub multi_warehouse_sales_history {
   
   template 'purchasing/multi-warehouse-sales-history', {
     title => "Multi Warehouse Sales History $supplier_code",
+    caption => "<h4>Multi Warehouse Sales History $supplier_code</h4>",
     json_data_url => "/api/purchasing/multi-warehouse-sales-history/$supplier_code"
    }
 };

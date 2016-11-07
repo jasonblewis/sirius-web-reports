@@ -57,6 +57,13 @@ our $VERSION = '0.1';
     {  data => 'order_status', title=>'Order<br>Status', className => 'text-right'},
 
   ],);
+  my $invoice_columns = encode_json([
+    {  data => 'name',       title=>'Store Name', className => 'text-left',      },
+    {  data => 'invoice_nr',   title=>'Invoice<br>Number', className => 'text-right',      },
+    {  data => 'total inc gst',     title=>'Total', className => 'text-right', formatfn => 'round2dp',   },
+    {  data => 'invoice_date', title=>'Date', className => 'text-right', formatfn => 'fromnow' },
+
+  ],);
 
 get '/' => require_login sub {
   template 'index', {
@@ -67,6 +74,10 @@ get '/' => require_login sub {
     credit_columns => $credit_columns,
     outstanding_sales_credits_url => '/api/sales/outstanding-sales-credits',
     credit_table_caption => '<h4>Outstanding Credits</h4>',
+
+    invoice_columns => $invoice_columns,
+    sales_invoices_url => '/api/sales/sales-invoices',
+    invoice_table_caption => '<h4>Invoices</h4>',
 
   };
 };

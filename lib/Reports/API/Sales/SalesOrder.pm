@@ -100,8 +100,45 @@ where
 };
 
 
+sub sales_invoices {
+  # returns todays invoices only
+my $sql = q{select 
+  name,
+  invoice_nr,
+  invoice_date,
+  sum(round(round(unit_price,2)*shipped_qty*(1-discount_rate/100),2)) as [summary total],
+sum(round(round(unit_price,2)*shipped_qty*(1-discount_rate/100) * (tax_rate/100),2)) as [gst],
+  
+  sum(round(round(unit_price,2)*shipped_qty*(1-discount_rate/100),2) + (round(round(unit_price,2)*shipped_qty*(1-discount_rate/100) * (tax_rate/100),2))) as [total inc gst]
+  
+  from so_invoice_view 
+  
+  where 
+  invoice_date >= dateadd(d,-1,getdate())
+  group by 
+  name,invoice_nr,invoice_date
+    
+  };
+
+  my $sth = database->prepare($sql) or die "can't prepare\n";
+  $sth->execute or die $sth->errstr;
+  my $fields = $sth->{NAME};
+  my $rows = $sth->fetchall_arrayref({});
+  $sth->finish;
+
+  say Dumper( $fields);
+
+  return {
+    data => [@$rows],
+  };
+
+};
+
+
 any ['get','post'] => '/sales/outstanding-sales-orders' => require_login \&outstanding_sales_orders;
 any ['get','post'] => '/sales/outstanding-sales-credits' => require_login \&outstanding_sales_credits;
+any ['get','post'] => '/sales/sales-invoices' => require_login \&sales_invoices;
+
 
 
 1;
