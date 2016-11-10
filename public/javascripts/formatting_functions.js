@@ -11,6 +11,6 @@
  };
 
 function fromnow(data,type,row){
-    return moment() < moment(data).add('hours', 22) ? 'today' : moment(data).from(moment());
+    return moment() < moment(data).add(22,'hours') ? 'today' : moment(data).from(moment());
     //return moment(data).fromNow();
 }
