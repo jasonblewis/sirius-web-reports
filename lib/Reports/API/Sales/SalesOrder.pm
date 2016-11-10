@@ -115,6 +115,8 @@ sum(round(round(unit_price,2)*shipped_qty*(1-discount_rate/100) * (tax_rate/100)
   
   where 
   invoice_date >= dateadd(d,-1,getdate())
+  and
+  sale_or_credit = 'S'
   group by 
   name,invoice_nr,invoice_date
     
