@@ -41,15 +41,26 @@ sub multi_warehouse_sales_history {
   database->{LongReadLen} = 100000;
   database->{LongTruncOk} = 0;
   
-  my $sql = q/SET TRANSACTION ISOLATION LEVEL READ uncommitted;  
+  my $sql = q/
+SET TRANSACTION ISOLATION LEVEL READ uncommitted;  
 
 select 
   oh.warehouse_code as 'Warehouse',
   p.product_code as 'Product Code',
   p.description as 'Description',
   oh.on_hand as 'On Hand',
-  c.committed as 'Committed',
-  [0],[1],[2],[3],[4],[5],[6],[7],[8],[9]
+  coalesce(c.committed,0) as 'Committed',
+  coalesce([0],0) as [0],
+  coalesce([1],0) as [1],
+  coalesce([2],0) as [2],
+  coalesce([3],0) as [3],
+  coalesce([4],0) as [4],
+  coalesce([5],0) as [5],
+  coalesce([6],0) as [6],
+  coalesce([7],0) as [7],
+  coalesce([8],0) as [8],
+  coalesce([9],0) as [9]
+
 from in_product p
 left join
 	zz_in_stock_on_hand_warehouse_all oh
@@ -92,15 +103,15 @@ and p.primary_supplier = ?
     } elsif (List::MoreUtils::any { $_ eq $field} ('Description') ) {
       push @$columns, { data => $field, className => 'description' }; 
     } elsif (List::MoreUtils::any { $_ eq $field} ('On Hand') ) {
-      push @$columns, { data => $field, className => 'on-hand' }; 
+      push @$columns, { data => $field, className => 'on-hand', formatfn => 'round0dp'}; 
     } elsif (List::MoreUtils::any { $_ eq $field} ('Committed') ) {
-      push @$columns, { data => $field, className => 'committed' }; 
+      push @$columns, { data => $field, className => 'committed', formatfn => 'round0dp' }; 
     } elsif (List::MoreUtils::any { $_ eq $field} ('total') ) {
-      push @$columns, { data => $field, className => 'dt-right row_total' }; 
+      push @$columns, { data => $field, className => 'text-right row_total' }; 
     } elsif (List::MoreUtils::any { $_ eq $field} (0 .. 12) ) {
-      push @$columns, { data => $field, className => 'qty', "title" => month_name($field) }; 
+      push @$columns, { data => $field, className => 'qty', "title" => month_name($field) , formatfn => 'round0dp' }; 
     } else {
-      push @$columns, { data => $field, className => 'dt-right' }; 
+      push @$columns, { data => $field, className => 'text-right', }; 
     }
   }
 

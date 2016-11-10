@@ -10,6 +10,7 @@
 	 
      });
  
+ 
  $( document ).ready( function( $ ) {
      $.ajax({
 	 "processing": true,
@@ -20,8 +21,13 @@
              var tableHeaders = '';  // should be at least the empty string first time through
 	     $.each(json.columns, function(i, val){
                  tableHeaders += "<th>" + val.data + "</th>";
+		 console.log(val.formatfn);
+		 if(val.formatfn){ // check if we have a formatter for this column
+		     json.columns[i].render = window[val.formatfn]; // get the name of the formatting function to use
+		 };
+
              });
-             
+             console.log(json.columns);
              $("#tableDiv").html('<table id="displayTable" class="table table-striped table-xtra-condensed"><caption class="text-success">[% caption %]</caption><thead><tr>' + tableHeaders + '</tr></thead></table>');
 	     json.dom = 'Bfrtip';
 	     json.buttons = ['copy',
@@ -43,4 +49,4 @@
      });
  });
 </script>
-<div id="tableDiv"></div>
+<div id="tableDiv" class="small"></div>

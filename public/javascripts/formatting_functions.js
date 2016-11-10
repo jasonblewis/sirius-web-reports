@@ -10,6 +10,10 @@
      return parseFloat(data).toFixed(2);
  };
 
+ function round0dp(data,type,row){
+     return parseFloat(data).toFixed(0);
+ };
+
 function fromnow(data,type,row){
     return moment() < moment(data).add(22,'hours') ? 'today' : moment(data).from(moment());
     //return moment(data).fromNow();
