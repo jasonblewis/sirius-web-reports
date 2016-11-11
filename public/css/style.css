@@ -252,33 +252,32 @@ body.wait *, body.wait {
 }
 
 td.warehouse {
-    text-align: center;
     width: 60px;
 }
 
+.table-xtra-condensed > thead > tr > th.product-code,
+.table-xtra-condensed > tbody > tr > td.product-code {
+    padding-right: 8px !important;
+}
+
 td.product-code {
-    text-align: left;
-    width: 45px;
+    width: auto;
 }
 
 td.description {
-    text-align: left;
     white-space: nowrap;
     width: 320px;
 }
 
 td.on-hand {
-    text-align: right;
     width: 55px;
 }
 
 td.committed {
-    text-align: right;
     width: 55px;
 }
 
 td.qty {
-    text-align: right;
     width: 55px;
 }
 

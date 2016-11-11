@@ -97,19 +97,19 @@ and p.primary_supplier = ?
   my $columns = [];
   foreach my $field (@$fields) {
     if (List::MoreUtils::any { $_ eq $field} ('Warehouse') ) {
-      push @$columns, { data => $field, className => 'warehouse' }; 
+      push @$columns, { data => $field, className => 'warehouse text-center' }; 
     } elsif (List::MoreUtils::any { $_ eq $field} ('Product Code') ) {
-      push @$columns, { data => $field, className => 'product-code' }; 
+      push @$columns, { data => $field, className => 'product-code text-right' }; 
     } elsif (List::MoreUtils::any { $_ eq $field} ('Description') ) {
-      push @$columns, { data => $field, className => 'description' }; 
+      push @$columns, { data => $field, className => 'description text-left' }; 
     } elsif (List::MoreUtils::any { $_ eq $field} ('On Hand') ) {
-      push @$columns, { data => $field, className => 'on-hand', formatfn => 'round0dp'}; 
+      push @$columns, { data => $field, className => 'on-hand text-right', formatfn => 'round0dp'}; 
     } elsif (List::MoreUtils::any { $_ eq $field} ('Committed') ) {
-      push @$columns, { data => $field, className => 'committed', formatfn => 'round0dp' }; 
+      push @$columns, { data => $field, className => 'committed text-right', formatfn => 'round0dp' }; 
     } elsif (List::MoreUtils::any { $_ eq $field} ('total') ) {
       push @$columns, { data => $field, className => 'text-right row_total' }; 
     } elsif (List::MoreUtils::any { $_ eq $field} (0 .. 12) ) {
-      push @$columns, { data => $field, className => 'qty', "title" => month_name($field) , formatfn => 'round0dp' }; 
+      push @$columns, { data => $field, className => 'qty text-right', "title" => month_name($field) , formatfn => 'round0dp' }; 
     } else {
       push @$columns, { data => $field, className => 'text-right', }; 
     }
