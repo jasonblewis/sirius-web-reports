@@ -48,8 +48,10 @@
              });
              $("#outstandingCredits").html('<table id="creditDisplayTable" class="small table table-striped table-xtra-condensed" cellspacing="0" width="100%"><caption class="text-warning">[% credit_table_caption %]</caption><thead><tr>' + tableHeaders + '</tr></thead></table>');
 	     json.columns = credit_cols;
-	     json.dom = 'rt'; // customise the table
+	     json.dom = 'rtp'; // customise the table
 	     json.responsive = true;
+	     json.pageLength = 20;
+	     json.paging = true;
 	     json.order = [[3,"asc"]];
 	     json.createdRow = function (row,mydata,index) {
 		 if (mydata.order_status == "R") {
@@ -74,10 +76,41 @@
 		     invoice_cols[i].render = window[val.formatfn]; // get the name of the formatting function to use
 		 };
              });
-             $("#Invoices").html('<table id="invoiceDisplayTable" class="small table table-striped table-xtra-condensed dataTable" cellspacing="0" width="100%"><caption class="text-success">[% invoice_table_caption %]</caption><thead><tr>' + tableHeaders + '</tr></thead></table>');
+             $("#Invoices").html('<table id="invoiceDisplayTable" \
+                                   class="small table table-striped table-xtra-condensed dataTable" cellspacing="0" width="100%"><caption class="text-success">[% invoice_table_caption %]</caption>\
+                                  <thead><tr>' + tableHeaders + '</tr></thead>\
+                                  <tfoot><tr>\
+                                     <th colspan="4">Total:</th>\
+                                  </tr></tfoot>\
+                                  </table>');
 	     json.columns = invoice_cols;
-	     json.dom = 'rt'; // customise the table
+	     json.dom = 'rtp'; // customise the table
 	     json.responsive = true;
+	     json.pageLength = 20;
+	     json.paging = true;
+	     json.footerCallback = function(row,data,start,end,display) {
+		 var api = this.api(),
+		 total = api
+                     .column( 2 )
+                     .data()
+                     .reduce( function (a, b) {
+			 return Number(a) + Number(b);
+                     }, 0 );
+		 
+		 // Total over this page
+		 pageTotal = api
+                     .column( 2, { page: 'current'} )
+                     .data()
+                     .reduce( function (a, b) {
+			 return Number(a) + Number(b);
+                }, 0 );
+		 
+		 // Update footer
+		 $( api.column( 2 ).footer() ).html(
+                     '$'+pageTotal.toFixed(0) +' ( $'+ total.toFixed(0) +' total)'
+		 );
+
+	     };
              $('#invoiceDisplayTable').DataTable(json);
          },
          "dataType": "json"
