@@ -54,8 +54,9 @@ our $VERSION = '0.1';
     {  data => 'name',       title=>'Store Name', className => 'text-left',      },
     {  data => 'order_nr',   title=>'Credit<br>Number', className => 'text-right',      },
     {  data => 'amount',     title=>'Total', className => 'text-right', formatfn => 'round2dp',   },
-    {  data => 'order_date', title=>'Date', className => 'text-right', formatfn => 'formatdate' },
-    {  data => 'order_status', title=>'Order<br>Status', className => 'text-right'},
+    {  data => 'order_date', title=>'Date', className => 'text-right', formatfn => 'fromnow', orderData => 4, },
+    {  data => 'odts', title=>'Date timestamp', className => 'text-right', 'visible' => false },
+    {  data => 'order_status', title=>'Credit<br>Status', className => 'text-right'},
 
   ],);
   my $invoice_columns = encode_json([

@@ -15,7 +15,7 @@
 		     order_cols[i].render = window[val.formatfn]; // get the name of the formatting function to use
 		 };
              });
-             $("#outstandingOrders").html('<table id="orderDisplayTable" class="small table table-striped table-xtra-condensed dataTable" cellspacing="0" width="100%"><caption class="text-success">[% order_table_caption %]</caption><thead><tr>' + tableHeaders + '</tr></thead></table>');
+             $("#outstandingOrders").html('<table id="orderDisplayTable" class="small table table-striped table-xtra-condensed" cellspacing="0" width="100%"><caption class="text-success">[% order_table_caption %]</caption><thead><tr>' + tableHeaders + '</tr></thead></table>');
 	     json.columns = order_cols;
 	     json.dom = 'rtp'; // customise the table
 	     json.responsive = true;
@@ -46,10 +46,19 @@
 		     credit_cols[i].render = window[val.formatfn]; // get the name of the formatting function to use
 		 };
              });
-             $("#outstandingCredits").html('<table id="creditDisplayTable" class="small table table-striped table-xtra-condensed dataTable" cellspacing="0" width="100%"><caption class="text-warning">[% credit_table_caption %]</caption><thead><tr>' + tableHeaders + '</tr></thead></table>');
+             $("#outstandingCredits").html('<table id="creditDisplayTable" class="small table table-striped table-xtra-condensed" cellspacing="0" width="100%"><caption class="text-warning">[% credit_table_caption %]</caption><thead><tr>' + tableHeaders + '</tr></thead></table>');
 	     json.columns = credit_cols;
 	     json.dom = 'rt'; // customise the table
 	     json.responsive = true;
+	     json.order = [[3,"asc"]];
+	     json.createdRow = function (row,mydata,index) {
+		 if (mydata.order_status == "R") {
+		     $(row).addClass("warning");
+		 };
+		 if (mydata.order_status == "H") {
+		     $(row).addClass("danger");
+		 };
+	     };
              $('#creditDisplayTable').DataTable(json);
          },
          "dataType": "json"
