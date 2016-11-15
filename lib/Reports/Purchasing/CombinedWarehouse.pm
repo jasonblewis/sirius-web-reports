@@ -28,7 +28,8 @@ use Dancer2::Plugin::Ajax;
 
 sub sales_history_get_primary_supplier {
 
-  my $sql = q{Set transaction isolation level read uncommitted;
+  my $sql = q{
+  Set transaction isolation level read uncommitted;
   select  distinct rtrim(s.supplier_code) as 'supplier_code',
           rtrim(c.name) as 'name'
   from ap_supplier s 
@@ -83,6 +84,8 @@ sub sales_history {
     
     my $sql = q{
 Set transaction isolation level read uncommitted;
+--select * from po_catalogue where our_product_code in( '6013401','6013402','6013403')
+--select * from in_warehouse_product where product_code in( '6013401','6013402','6013403')
 SELECT
   p.product_code,
   p.description,
@@ -106,6 +109,7 @@ SELECT
   wp.reorder_class,
   wp.reorder_type,
   ssv.name,
+  pc.active_flag,
   cc.catalogue_count
 from in_product p
 join
@@ -152,13 +156,23 @@ join in_reorder_class rc
     rc.class = wp.reorder_class and
     rc.reorder_type = wp.reorder_type
 
-left join (select our_product_code, count(our_product_code) as catalogue_count  from po_catalogue_view group by our_product_code) as cc
-on cc.our_product_code = p.product_code
+left join (select our_product_code,
+                  supplier_code,
+				  count(our_product_code) as catalogue_count 
+				  
+		   from po_catalogue_view
+		   where active_flag = 'Y'
+		   group by supplier_code,our_product_code
+  ) as cc
+on cc.our_product_code = p.product_code and
+	cc.supplier_code = p.primary_supplier
 
   where ltrim(rtrim(p.primary_supplier)) = ?
+and pc.active_flag = 'Y'
 and (p.spare_flag_03 is null or p.spare_flag_03 = 'Y')
 and not ((wp.reorder_type = 'Q' and wp.reorder_class = 'Q'))
 order by p.product_code
+
 };
 
 ############# end SQL
