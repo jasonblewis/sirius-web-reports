@@ -60,11 +60,11 @@ sub order_form_w_pricecode {
   return {
     pageLength => 50,
     columns => [
-      { className => 'text-right small', data => 'product_code', title => 'Product Code'},
-      { className => 'text-right small', data => 'sh_transaction.product.department.description', title => 'Department'},
+      { className => 'text-left small', data => 'product_code', title => 'Product<br>Code'},
+      { className => 'text-left small', data => 'sh_transaction.product.department.description', title => 'Department'},
       { className => 'text-left small',  data => 'sh_transaction.product_list_today.description', title => 'Description'},
-      { className => 'text-right small', data => 'unitprice_2dp_na', title => 'Unit Price'},
-      { className => 'text-right small', data => 'cartonprice_2dp', title => 'Carton Price'},
+      { className => 'text-right small', data => 'unitprice_2dp_na', title => 'Unit<br>Price'},
+      { className => 'text-right small', data => 'cartonprice_2dp', title => 'Carton<br>Price'},
       { className => 'text-right small', data => 'sh_transaction.product_list_today.cartonsize', title => 'U/C'},
       { className => 'text-right small', data => 'sh_transaction.product.gst_tax_table.tax_rate', title => 'GST %'},
       { className => 'text-right small', data => 'invoice_date_datepart', title => 'Last Purchased'},

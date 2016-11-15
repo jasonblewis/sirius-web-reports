@@ -99,7 +99,7 @@ and p.primary_supplier = ?
     if (List::MoreUtils::any { $_ eq $field} ('Warehouse') ) {
       push @$columns, { data => $field, className => 'warehouse text-center' }; 
     } elsif (List::MoreUtils::any { $_ eq $field} ('Product Code') ) {
-      push @$columns, { data => $field, className => 'product-code text-right' }; 
+      push @$columns, { data => $field, className => 'product-code text-left', title => 'Product Code', }; 
     } elsif (List::MoreUtils::any { $_ eq $field} ('Description') ) {
       push @$columns, { data => $field, className => 'description text-left' }; 
     } elsif (List::MoreUtils::any { $_ eq $field} ('On Hand') ) {

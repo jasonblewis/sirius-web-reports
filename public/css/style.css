@@ -261,12 +261,12 @@ td.warehouse {
 }
 
 td.product-code {
-    width: auto;
+    /* width: auto; */
 }
 
 td.description {
     white-space: nowrap;
-    width: 320px;
+    /* width: 320px; */
 }
 
 td.on-hand {

@@ -40,12 +40,15 @@ sub outstanding_sales_orders {
   database->{LongTruncOk} = 0;
   
   my $sql = q/Set transaction isolation level read uncommitted;
-  select customer_code,name,order_status,sale_or_credit,order_nr,order_date,sum(unit_price * ordered_qty) as amount from so_order_and_lines_view 
+  select 
+    customer_code,
+    name,order_status,sale_or_credit,order_nr,order_date,
+    DATEDIFF(s, '1970-01-01 00:00:00', order_date) as odts,
+    sum(unit_price * ordered_qty) as amount from so_order_and_lines_view 
 
 where
  order_status not in ( 'F','C')
  and sale_or_credit = 'S'
- and order_date >= dateadd(d,-1,getdate())
  group by customer_code,name,order_status,sale_or_credit,order_nr,order_date
  order by order_date
   /;
