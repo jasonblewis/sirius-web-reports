@@ -23,17 +23,13 @@
 	     json.paging = true;
 	     json.order = [[3,"asc"]];
 	     json.createdRow = function (row,mydata,index) {
-		 console.log(mydata);
 		 if (mydata.order_status == "R") {
-		     console.log(mydata.order_status);
 		     $(row).addClass("warning");
 		 };
 		 if (mydata.order_status == "H") {
-		     console.log(mydata.order_status);
 		     $(row).addClass("danger");
 		 };
 	     };
-	     console.log(json);
              $('#orderDisplayTable').DataTable(json);
          },
          "dataType": "json",
