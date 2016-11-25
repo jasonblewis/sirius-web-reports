@@ -18,6 +18,7 @@
 package Reports::AccountsPayable;
 use strict;
 use warnings;
+use 5.22.0;
 use Dancer2 appname => 'Reports';
 use Dancer2::Plugin::Database;
 use Dancer2::Plugin::Auth::Extensible;

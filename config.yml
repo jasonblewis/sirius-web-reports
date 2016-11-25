@@ -15,7 +15,7 @@ layout: "main"
 charset: "UTF-8"
 
 template: "template_toolkit"
-
+  
 show_errors: true
 
 #logger: console
@@ -27,6 +27,11 @@ engines:
   template:
     template_toolkit:
       include_path: views/parts
+#      STRICT: 1
+#      DEBUG: 'undef'
+
+#      DEBUG: 'undef,dirs'
+#      DEBUG_FORMAT: '<!-- $file line $line : [% $text %] -->'
       
 plugins:
   Auth::Extensible:

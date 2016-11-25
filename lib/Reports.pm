@@ -18,6 +18,7 @@
 package Reports;
 use strict;
 use warnings;
+use 5.22.0;
 use Dancer2;
 use Dancer2::Plugin::Database;
 use Dancer2::Plugin::Auth::Extensible;
@@ -28,6 +29,8 @@ use Reports::AccountsPayable;
 use Reports::Sales;
 use Reports::Purchasing;
 use Reports::Login;
+use Reports::GeneralLedger::CreditCard;
+use Reports::Utils qw(compare_url_segments);
 
 set 'logger'       => 'console';
 #set 'log'          => 'error';
@@ -40,35 +43,43 @@ set 'warnings'     => 1;
 
 our $VERSION = '0.1';
 
-  my $order_columns = encode_json([
-    {  data => 'name',       title=>'Store Name', className => 'text-left',      },
-    {  data => 'order_nr',   title=>'Order<br>Number', className => 'text-right',      },
-    {  data => 'amount',     title=>'Total', className => 'text-right', formatfn => 'round2dp',   },
-    {  data => 'order_date', title=>'Date', className => 'text-right', formatfn => 'fromnow', orderData => 4, },
-    {  data => 'odts', title=>'Date timestamp', className => 'text-right', 'visible' => false },
-    {  data => 'order_status', title=>'Order<br>Status', className => 'text-right'},
-    
-  ],);
+Reports::Utils::set_logger( sub {debug @_});
 
-  my $credit_columns = encode_json([
-    {  data => 'name',       title=>'Store Name', className => 'text-left',      },
-    {  data => 'order_nr',   title=>'Credit<br>Number', className => 'text-right',      },
-    {  data => 'amount',     title=>'Total', className => 'text-right', formatfn => 'round2dp',   },
-    {  data => 'order_date', title=>'Date', className => 'text-right', formatfn => 'fromnow', orderData => 4, },
-    {  data => 'odts', title=>'Date timestamp', className => 'text-right', 'visible' => false },
-    {  data => 'order_status', title=>'Credit<br>Status', className => 'text-right'},
+my $order_columns = encode_json([
+  {  data => 'name',       title=>'Store Name', className => 'text-left',      },
+  {  data => 'order_nr',   title=>'Order<br>Number', className => 'text-right',      },
+  {  data => 'amount',     title=>'Total', className => 'text-right', formatfn => 'round2dp',   },
+  {  data => 'order_date', title=>'Date', className => 'text-right', formatfn => 'fromnow', orderData => 4, },
+  {  data => 'odts', title=>'Date timestamp', className => 'text-right', 'visible' => false },
+  {  data => 'order_status', title=>'Order<br>Status', className => 'text-right'},
+  {  data => 'branch_code', title=>'Branch', className => 'text-right'},
+  
+],);
 
-  ],);
-  my $invoice_columns = encode_json([
-    {  data => 'name',       title=>'Store Name', className => 'text-left',      },
-    {  data => 'invoice_nr',   title=>'Invoice<br>Number', className => 'text-right',      },
-    {  data => 'total inc gst',     title=>'Total', className => 'text-right', formatfn => 'round2dp',   },
-    {  data => 'invoice_date', title=>'Date', className => 'text-right', formatfn => 'fromnow' },
+my $credit_columns = encode_json([
+  {  data => 'name',       title=>'Store Name', className => 'text-left',      },
+  {  data => 'order_nr',   title=>'Credit<br>Number', className => 'text-right',      },
+  {  data => 'amount',     title=>'Total', className => 'text-right', formatfn => 'round2dp',   },
+  {  data => 'order_date', title=>'Date', className => 'text-right', formatfn => 'fromnow', orderData => 4, },
+  {  data => 'odts', title=>'Date timestamp', className => 'text-right', 'visible' => false },
+  {  data => 'order_status', title=>'Credit<br>Status', className => 'text-right'},
+  
+],);
+my $invoice_columns = encode_json([
+  {  data => 'name',       title=>'Store Name', className => 'text-left',      },
+  {  data => 'invoice_nr',   title=>'Invoice<br>Number', className => 'text-right',      },
+  {  data => 'total inc gst',     title=>'Total', className => 'text-right', formatfn => 'round2dp',   },
+  {  data => 'invoice_date', title=>'Date', className => 'text-right', formatfn => 'fromnow' },
+  
+],);
 
-  ],);
+hook before => sub {
+  var compare_url_segments => \&Reports::Utils::compare_url_segments;
+};
 
 get '/' => require_login sub {
   template 'index', {
+    title => 'OT Reports',
     order_columns => $order_columns,
     outstanding_sales_orders_url => '/api/sales/outstanding-sales-orders',
     order_table_caption => '<h4>Outstanding Orders</h4>',

@@ -45,7 +45,11 @@ curl --cookie-jar ~/.curl-cookies --data 'username=test;password=test' localhost
 #+END_SRC
 **  to do an ajax request with curl and cookies:
 #+BEGIN_SRC bash
-curl -b ~/.curl-cookies -H 'X-Requested-With: XMLHttpRequest' -d"message=hello" localhost:5000/time
+curl -b ~/.curl-cookies -d"message=hello" localhost:5000/time
+#+END_SRC
+** simple api request
+#+BEGIN_SRC bash
+curl -b ~/.curl-cookies 'localhost:5000/api/general-ledger/credit-cards' | json_pp | less
 #+END_SRC
 ** to post 
 curl -s -b ~/.curl-cookies -X POST --data '{"target_url":"/abc/def"}' http://localhost:5000/api/accounts-receivable/customers  | json_pp

@@ -30,7 +30,10 @@ use List::MoreUtils;
 
 use URI;
 
-use ReportUtils qw(rtrim);
+use Reports::Utils qw(rtrim);
+
+Reports::Utils::set_logger( sub {debug @_});
+
 
 sub outstanding_sales_orders {
 
@@ -42,14 +45,17 @@ sub outstanding_sales_orders {
   my $sql = q/Set transaction isolation level read uncommitted;
   select 
     customer_code,
-    name,order_status,sale_or_credit,order_nr,order_date,
+    name,
+    order_status,
+    branch_code,
+    sale_or_credit,order_nr,order_date,
     DATEDIFF(s, '1970-01-01 00:00:00', order_date) as odts,
     sum(unit_price * ordered_qty) as amount from so_order_and_lines_view 
 
 where
  order_status not in ( 'F','C')
  and sale_or_credit = 'S'
- group by customer_code,name,order_status,sale_or_credit,order_nr,order_date
+ group by customer_code,name,order_status,branch_code,sale_or_credit,order_nr,order_date
  order by order_date
   /;
   
@@ -59,8 +65,6 @@ where
   my $fields = $sth->{NAME};
   my $rows = $sth->fetchall_arrayref({});
   $sth->finish;
-
-  say Dumper( $fields);
 
   return {
     data => [@$rows],
@@ -97,8 +101,6 @@ where
   my $rows = $sth->fetchall_arrayref({});
   $sth->finish;
 
-  say Dumper( $fields);
-
   return {
     data => [@$rows],
   };
@@ -133,8 +135,6 @@ sum(round(round(unit_price,2)*shipped_qty*(1-discount_rate/100) * (tax_rate/100)
   my $fields = $sth->{NAME};
   my $rows = $sth->fetchall_arrayref({});
   $sth->finish;
-
-  say Dumper( $fields);
 
   return {
     data => [@$rows],

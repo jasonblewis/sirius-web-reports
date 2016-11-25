@@ -28,7 +28,7 @@ use Dancer2::Plugin::DBIC;
 use Data::Dumper;
 use URI;
 
-use ReportUtils qw(rtrim);
+use Reports::Utils qw(rtrim);
 
 sub customers {
 
@@ -51,8 +51,8 @@ sub customers {
     say "target_url = ",$target_url;
     foreach my $customer (@customers) {
       my $full_target_url = new URI $target_url;
-      $full_target_url->query_form(customer_code => rtrim($customer->{'customer_code'}));
-      $customer->{'url'} = "<a href='" . $full_target_url->as_string . "'>" . rtrim($customer->{company}->{name}) . "</a>";
+      $full_target_url->query_form(customer_code => Reports::Utils::rtrim($customer->{'customer_code'}));
+      $customer->{'url'} = "<a href='" . $full_target_url->as_string . "'>" . Reports::Utils::rtrim($customer->{company}->{name}) . "</a>";
     };
     my $extra_column =  { data => 'url', title => 'Customer Name' };
     unshift(@$return_columns, $extra_column); 

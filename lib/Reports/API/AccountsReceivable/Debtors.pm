@@ -28,7 +28,7 @@ use Dancer2::Plugin::DBIC;
 use Data::Dumper;
 use URI;
 
-use ReportUtils qw(rtrim);
+use Reports::Utils qw(rtrim);
 
 sub debtors {
 

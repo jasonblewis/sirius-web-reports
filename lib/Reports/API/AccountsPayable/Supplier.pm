@@ -24,7 +24,7 @@ use Dancer2 appname => 'Reports::API';
 
 use Dancer2::Plugin::Auth::Extensible;
 use Dancer2::Plugin::Database;
-use ReportUtils qw(rtrim);
+use Reports::Utils qw(rtrim);
 use Data::Dumper;
 use URI;
 

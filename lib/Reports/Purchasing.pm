@@ -16,7 +16,7 @@
 #     along with Sirius Web Reports.  If not, see <http://www.gnu.org/licenses/>.
 
 package Reports::Purchasing;
-use 5.12.0;
+use 5.22.0;
 use strict;
 use warnings;
 use Dancer2 appname => 'Reports';

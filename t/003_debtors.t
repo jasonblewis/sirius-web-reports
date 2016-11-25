@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use 5.12.0;
+use 5.22.0;
 
 use Test::More tests => 7;
 

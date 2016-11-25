@@ -18,6 +18,7 @@
 package Reports::Sales;
 use strict;
 use warnings;
+use 5.22.0;
 use Dancer2 appname => 'Reports';
 use Dancer2::Plugin::Database;
 use Dancer2::Plugin::Auth::Extensible;
@@ -284,7 +285,9 @@ sub customer_24_month_detail {
     select_customer('/sales/customer-24-month-detail');
   } else { # don't know which customer the user wants yet, so ask them then redirect to the real report template
     
-    my $sql = q/Set transaction isolation level read uncommitted;
+    my $sql = q/
+
+Set transaction isolation level read uncommitted;
 
 Declare @debug bit
 set @debug = 0

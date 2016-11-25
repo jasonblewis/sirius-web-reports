@@ -18,6 +18,8 @@
 package Reports::AccountsReceivable;
 use strict;
 use warnings;
+use 5.22.0;
+
 use Dancer2 appname => 'Reports';
 use Dancer2::Plugin::Auth::Extensible;
 use Dancer2::Plugin::DBIC;

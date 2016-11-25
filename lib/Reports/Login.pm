@@ -20,7 +20,7 @@ use strict;
 use warnings;
 use Dancer2 appname => 'Reports';
 use Dancer2::Plugin::Auth::Extensible;
-use 5.24.0;
+use 5.22.0;
 
 sub login_page_handler {
     my $return_url = query_parameters->get('return_url');

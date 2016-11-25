@@ -14,8 +14,9 @@
 	    <ul class="nav navbar-nav">
 		<li [% IF request.path == '/' %]class="active"[% END %]><a href="/">Home</a></li>
 		
-		[% INCLUDE navbar_accounts_receivable.tt %]
 		[% INCLUDE navbar_accounts_payable.tt %]
+		[% INCLUDE navbar_accounts_receivable.tt %]
+		[% INCLUDE navbar_general_ledger.tt %]
 		[% INCLUDE navbar_purchasing.tt %]
 		[% INCLUDE navbar_sales.tt %]
 	    </ul>

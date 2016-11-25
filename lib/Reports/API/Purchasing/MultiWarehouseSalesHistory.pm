@@ -32,7 +32,7 @@ use DateTime;
 
 use URI;
 
-#use ReportUtils qw(rtrim);
+#use Reports::Utils qw(rtrim);
 
 sub multi_warehouse_sales_history {
 

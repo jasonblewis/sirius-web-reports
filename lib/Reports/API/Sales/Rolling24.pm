@@ -16,6 +16,7 @@
 #     along with Sirius Web Reports.  If not, see <http://www.gnu.org/licenses/>.
 
 package Reports::API::Sales::Rolling24;
+use Reports::Utils qw(rtrim);
 
 use strict;
 use warnings;
@@ -30,7 +31,6 @@ use List::MoreUtils;
 
 use URI;
 
-use ReportUtils qw(rtrim);
 
 sub territory_24_month_summary {
 
@@ -153,8 +153,8 @@ End/;
     foreach my $row (@$rows) {
       my $full_detail_url = new URI $detail_url;
       $full_detail_url->query_form(territory_code => rtrim($row->{'Territory Code'}));
-      $row->{'Territory Code'} = "<a href='" . $full_detail_url->as_string . "'>" . rtrim($row->{'Territory Code'}) . "</a>";
-      $row->{'description'} = "<a href='" . $full_detail_url->as_string . "'>" . rtrim($row->{'description'}) . "</a>";
+      $row->{'Territory Code'} = "<a href='" . $full_detail_url->as_string . "'>" . Reports::Utils::rtrim($row->{'Territory Code'}) . "</a>";
+      $row->{'description'} = "<a href='" . $full_detail_url->as_string . "'>" . Reports::Utils::rtrim($row->{'description'}) . "</a>";
     };
     #my $extra_column =  { data => 'url', title => 'Row Name' };
     #unshift(@$columns, $extra_column); 

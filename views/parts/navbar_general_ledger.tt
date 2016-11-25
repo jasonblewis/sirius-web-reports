@@ -1,0 +1,11 @@
+<ul class="nav navbar-nav">
+    <li class="dropdown [% IF vars.compare_url_segments('/general-ledger',request.path,1) %]active[% END %]">
+	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">GL<span class="caret"></span></a>
+	<ul class="dropdown-menu">
+	    <li class="[% IF vars.compare_url_segments(request.path,'/general-ledger/credit-card/reconciliation',3) %]active[% END %]">
+		<a href="/general-ledger/credit-card/reconciliation">Credit Card Reconcilliation</a>
+	    </li>
+	</ul>
+    </li>
+</ul>
+

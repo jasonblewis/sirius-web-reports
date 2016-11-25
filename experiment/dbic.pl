@@ -36,7 +36,7 @@ use Reports::Schema;
 use DateTime::Format::Strptime;
 use DateTime::Duration;
 
-use ReportUtils qw(rtrim);
+use Reports::Utils qw(rtrim);
 
 my $tmpcfg;
 

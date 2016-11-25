@@ -1,5 +1,6 @@
 use utf8;
 package Reports::Schema;
+use 5.22.0;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
