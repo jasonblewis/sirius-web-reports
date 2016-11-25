@@ -101,7 +101,12 @@ SELECT
   convert(int,round(coalesce(ms.[2],0),0,0)) as ms_2,
   convert(int,round(coalesce(ms.[1],0),0,0)) as ms_1,
   convert(int,round(coalesce(ms.[0],0),0,0)) as ms_0,
-  convert(int,round(coalesce(ms.[0]+ms.[1]+ms.[2]+ms.[3]+ms.[4]+ms.[5],0),0,0)) as [mtotal],
+  convert(int,round(coalesce(ms.[0]
+                    + coalesce(ms.[1],0)
+                    + coalesce(ms.[2],0)
+                    + coalesce(ms.[3],0)
+                    + coalesce(ms.[4],0)
+                    + coalesce(ms.[5],0) ,0),0,0)) as [mtotal],
   wp.maximum,
   pc.lead_time_days,
   rc.min_days_stock,
