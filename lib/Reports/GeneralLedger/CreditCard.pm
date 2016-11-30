@@ -58,7 +58,8 @@ sub credit_card_reconciliation {
       pageLength => 50,
       paging => 'true',
       page   => 'last',
-
+      row_contextual_class => 'row_contextual_class',
+      row_tooltip => 'WARNING: Transaction Date out of period',
     },
     caption => "<h4>Credit Card Reconciliation for $account_code</h4>",
     json_data_url => "/api/general-ledger/credit-card-reconciliation/$account_code"

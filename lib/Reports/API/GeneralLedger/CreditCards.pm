@@ -51,11 +51,14 @@ set transaction isolation level read uncommitted
 SELECT
  batch_code,
  trans,
+ p.period_start,
+ p.period_end,
  "gl_transaction"."amt",
+ case when ((gl_transaction.trans_date < p.period_start) or (gl_transaction.trans_date > p.period_end)) then 'warning' else null end as [row_contextual_class],
  (select sum(t2.amt)
    from gl_transaction t2
    where 
-     t2.account='20110' and (
+     t2.account=gl_transaction.account and (
 	   ( t2."period"<>0 and 
 	     (	 (t2.batch_code < gl_transaction.batch_code) or
              (t2.batch_code = gl_transaction.batch_code and t2.trans <= gl_transaction.trans))) 
@@ -87,12 +90,20 @@ INNER JOIN
 	 ON 
 	 "gl_account_idx"."account"="zz_gl_account_creditcard"."account")
 ON "gl_transaction"."account"="zz_gl_account_creditcard"."account"
+
+  join period p
+  on gl_transaction.year = p.year and
+     gl_transaction.period = p.period 
+	 and p.period_type = 'FM'
+
+
 WHERE  
-("zz_gl_account_creditcard"."account"=? and
+("zz_gl_account_creditcard"."account"= ?  and
   (( "gl_transaction"."period"<>0 )
    OR 
   ("gl_transaction"."period"=0 AND "gl_transaction"."year"=2006)
   ))
+
 ORDER BY "gl_transaction"."year",
   "gl_transaction"."period",
   "gl_transaction"."trans_date",

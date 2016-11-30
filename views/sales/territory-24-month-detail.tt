@@ -30,7 +30,7 @@
         [% grand_total = 0 %]
         [% FOREACH row IN rows %]
             [% row_total = 0 %]
-            <tr [% IF row.item('On Hold') == 'Y' %]class="danger" data-toggle="tooltup" title="Debtor on credit hold"[% END %]>
+            <tr [% IF row.item('On Hold') == 'Y' %]class="danger" data-toggle="tooltip" title="Debtor on credit hold"[% END %]>
                 [% FOREACH field IN fields %]
                     [% IF (field == 'Customer Code' ) %]
                         <td class="text-left small"><a href='[% url(customer_code = row.item('Customer Code')) %]'>[% row.$field %]</a></td>
