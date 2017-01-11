@@ -30,6 +30,7 @@ use URI;
 
 sub credit_cards {
   my $sql = q{
+              set transaction isolation level read uncommitted
               select * from zz_gl_account_creditcard
   };
 

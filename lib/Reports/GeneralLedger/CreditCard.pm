@@ -24,6 +24,34 @@ use Dancer2::Plugin::Database;
 use Dancer2::Plugin::Auth::Extensible;
 use Data::Dumper;
 
+sub get_credit_card_account_code {
+  my $columns = encode_json([
+    { data => 'name',
+      title => 'GL Account',
+      formatfn => 'render_url',
+      format_data => 'account',
+      'target_url' => request->uri,
+      'target_url_id_col' => 'account',
+    },
+    { data => 'account',
+      title => 'Account Code',
+    },
+  ]);
+  template 'utils/get-selection-json2', {
+    title => 'CC Reconciliation<br><small>Select account</small>',
+    columns => $columns,
+    dt_options => {
+      ordering => 'true',
+      dom      => 'lfrtip',
+      lengthMenu => '[10,25,50,75,100]',
+      responsive => 'true',
+      pageLength => 50,
+      paging => 'false',
+    },
+    json_data_url => "/api/general-ledger/credit-cards",
+  }
+}
+
 sub credit_card_reconciliation {
   my $account_code;
 
@@ -34,10 +62,10 @@ sub credit_card_reconciliation {
     { data => 'posted_flag', title => 'Posted?', className => 'text-center' },
     { data => 'description', title => 'Description', className => 'text-left' },
     { data => 'year',        title => 'Year', className => 'text-left' },
-    { data => 'period',      title => 'Period', className => 'text-left' },
+    { data => 'period',      title => 'Period', className => 'text-right' },
     { data => 'source',      title => 'Source', className => 'text-left' },
-    { data => 'seq',         title => 'Seq', className => 'text-left' },
-    { data => 'jnl',         title => 'Journal', className => 'text-left' },
+    { data => 'seq',         title => 'Seq', className => 'text-right' },
+    { data => 'jnl',         title => 'Journal', className => 'text-right' },
   ]);
   
   if (params->{account_code}) {
