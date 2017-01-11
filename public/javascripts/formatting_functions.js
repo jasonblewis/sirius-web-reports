@@ -21,10 +21,7 @@ function fromnow(data,type,row){
 
 function render_url(data,type,row,meta){
     var parameters = meta.settings.oInit.columns[meta.col].parameters;
-    var target_url = parameters.url;
-    var target_url_id_col = parameters.url_id_col;
-    console.log(parameters.url);
-    console.log(target_url);
-    console.log(target_url_id_col);
+    var target_url = parameters.url; // the url to render
+    var target_url_id_col = parameters.url_id_col; // id column for the url
     return '<a href="'+target_url+'/'+row[target_url_id_col]+'">'+data+'</a>';
 }
