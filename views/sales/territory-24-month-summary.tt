@@ -1,54 +1,5 @@
-<script src="/javascripts/datatablesdisplay.js"></script>
 [% INCLUDE page_header.tt %]
 
 [% INCLUDE datatables_buttons.tt %]    
 
-<div id="loader" class="loader"></div>
-<script>
- $(document).ajaxStart(function ()
-     {
-	 $('#loader').addClass('loader');
-
-     }).ajaxComplete(function () {
-	 
-	 $('#loader').removeClass('loader');
-	 
-     });
- 
- $( document ).ready( function( $ ) {
-     $.ajax({
-         "url": '[% json_data_url %]',
-	 "data": '{"detail_url":"[% detail_url %]"}',
-	 "type": "POST",
-         "success": function(myjson) {
-             var tableHeaders = '';  // should be at least the empty string first time through
-	     $.each(myjson.columns, function(i, val){
-                 tableHeaders += "<th>" + val.data + "</th>";
-             });
-             $("#tableDiv").html('<table id="displayTable" class="table table-striped table-xtra-condensed" cellspacing="0" style="width: 100%;"><thead><tr>' + tableHeaders + '</tr></thead></table>');
-	     
-	     myjson.dom = 'Bfrtip';
-	     myjson.buttons = ['copy',
-			       'csv',
-			       'excel',
-			       {extend: 'pdfHtml5',
-				text: 'PDF',
-				orientation: 'landscape',
-				pageSize: 'A4',
-				download: 'download',
-				filename: '*',
-				extension: 'pdf'
-			       },
-			       'print'];
-
-             console.log(myjson);
-
-             $('#displayTable').DataTable(myjson);
-         },
-         "dataType": "json",
-     });
- });
-</script>
-
-
-<div id="tableDiv"></div>
+[% INCLUDE json_table2.tt %]

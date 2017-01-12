@@ -29,7 +29,7 @@ sub get_credit_card_account_code {
     { data => 'name',
       title => 'GL Account',
       formatfn => 'render_url',
-      'target_url' => request->uri,
+      'target_url' => request->uri . '/',
       'target_url_id_col' => 'account',
     },
     { data => 'account',

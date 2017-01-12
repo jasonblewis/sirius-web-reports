@@ -31,7 +31,7 @@ sub get_primary_supplier {
     { data => 'name',
       title => 'Supplier',
       formatfn => 'render_url',
-      'target_url' => request->uri,
+      'target_url' => request->uri . '/',
       'target_url_id_col' => 'supplier_code',
     },
     { data => 'supplier_code',

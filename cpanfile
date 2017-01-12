@@ -20,6 +20,7 @@ requires "DBIx::Class::TimeStamp";
 requires "DBIx::Class::Helper::ResultSet::Shortcut";
 requires "DBIx::Class::Schema::Config";
 requires "List::MoreUtils";
+requires "DateTime";
 
 requires "Smart::Comments";
 requires "URI";

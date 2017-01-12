@@ -128,7 +128,7 @@ End/;
   my $rows = $sth->fetchall_arrayref({});
   $sth->finish;
 
-  say Dumper( $fields);
+#  say Dumper( $fields);
   
   my $columns = [];
   # push @$columns, (
@@ -162,8 +162,6 @@ End/;
   
 
   return {
-    pageLength => 50,
-    columns => $columns,
     data => [@$rows],
   };
   

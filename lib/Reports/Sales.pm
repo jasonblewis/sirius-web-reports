@@ -264,11 +264,41 @@ Begin Exec SP_EXECUTESQL @query End
 };
 
 sub territory_24_month_summary {
+  my $columns = [
+    {data => 'Territory Code',
+     title => 'Territory',
+     className => 'text-center',
+     formatfn => 'render_url',
+     target_url => '/sales/territory-24-month-detail?territory_code=',
+     target_url_id_col => 'Territory Code',
+   },
+    {data => 'description',
+     formatfn => 'render_url',
+     target_url => '/sales/territory-24-month-detail?territory_code=',
+     target_url_id_col => 'Territory Code',
+   },
+  ];
+  for (my $i = 24; $i > 1; $i--) {
+    push @$columns, {
+      data => DateTime->now->subtract(months => $i)->strftime('%Y-%m-01'),
+      title => DateTime->now->subtract(months => $i)->strftime('%Y<br>%m'),
+      className => 'text-right',
+    };
+  }
+  push @$columns, {data => 'total',className => 'text-right', title => 'Total', };
   template 'sales/territory-24-month-summary',
     {
       json_data_url => "/api/sales/territory-24-month-summary",
-      'title' => "Territory 24 Month Rolling summary",
-      'detail_url' => '/sales/territory-24-month-detail',
+      columns => encode_json($columns),
+      title => "Territory 24 Month Rolling summary",
+      dt_options => {
+        ordering => 'true',
+        dom      => 'lBfrtip',
+        lengthMenu => '[10,25,50,75,100]',
+        responsive => 'true',
+        pageLength => 50,
+        paging => 'true',
+      },
     };
 };
 
