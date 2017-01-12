@@ -4,7 +4,7 @@
 	<meta charset="[% settings.charset %]">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 	<title>[% title %]</title>
-	<link rel="shortcut icon" type="image/png" href="col-light-earth-logo-earth-only32x32.png" />
+	<link rel="shortcut icon" type="image/png" href="/col-light-earth-logo-earth-only32x32.png" />
 	<!-- we set the media type to "print" for our special print CSS, and give it and ID. -->
 	<link rel="stylesheet" href="[% request.uri_base %]/css/print.css" type="text/css" media="print" id="css_print" />
 	<link rel="stylesheet" href="[% request.uri_base %]/css/style.css">
