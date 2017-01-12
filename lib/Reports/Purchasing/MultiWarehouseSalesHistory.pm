@@ -27,9 +27,29 @@ use Dancer2::Plugin::DBIC;
 
 
 sub get_primary_supplier {
-  template 'utils/get-selection-json', {
+    my $columns = encode_json([
+    { data => 'name',
+      title => 'Supplier',
+      formatfn => 'render_url',
+      'target_url' => request->uri,
+      'target_url_id_col' => 'supplier_code',
+    },
+    { data => 'supplier_code',
+      title => 'Supplier Code',
+    },
+  ]);
+
+  template 'utils/get-selection-json2', {
     title => 'Multi Warehouse Sales History <small>Select a primary Supplier</small>',
-    'target_url' => request->uri,
+    columns => $columns,
+    dt_options => {
+      ordering => 'true',
+      dom      => 'lfrtip',
+      lengthMenu => '[10,25,50,75,100]',
+      responsive => 'true',
+      pageLength => 50,
+      paging => 'false',
+    },
     json_data_url => "/api/accounts-payable/suppliers",
   }
 }

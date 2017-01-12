@@ -23,5 +23,7 @@ function render_url(data,type,row,meta){
     var parameters = meta.settings.oInit.columns[meta.col].parameters;
     var target_url = parameters.url; // the url to render
     var target_url_id_col = parameters.url_id_col; // id column for the url
+//    console.log(target_url_id_col);
+//    console.log(row[target_url_id_col]);
     return '<a href="'+target_url+'/'+row[target_url_id_col]+'">'+data+'</a>';
 }

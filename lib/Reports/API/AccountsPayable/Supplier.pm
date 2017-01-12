@@ -52,42 +52,12 @@ sub suppliers {
   my $fields = $sth->{NAME};
   my $rows = $sth->fetchall_arrayref({});
   $sth->finish;
-
-  my $return_columns = [
-      { data => 'supplier_code'},
-      { data => 'name'},
-    ];
-
-
-  my $params = request->body_parameters;
-  my $target_url = body_parameters->get('target_url');
-  
-  if ($target_url) {
-    foreach my $supplier (@$rows) {
-      my $full_target_url = URI->new($target_url);
-      $full_target_url->path_segments($full_target_url->path_segments,$supplier->{supplier_code});
-      $supplier->{'url'} = "<a href='" . $full_target_url->as_string . "'>" . rtrim($supplier->{name}) . "</a>";
-    };
-    my $extra_column =  { data => 'url', title => 'Supplier Name' };
-    unshift(@$return_columns, $extra_column); 
-  }
-  
   
   return {
-    columns => $return_columns,
     data => $rows,
-    pageLength => 50,
-    columnDefs => [
-      {
-	targets => 2,
-	visible => false,
-	searchable => false,
-      },
-    ],
   }
-  
 };
-
-any ['get','post'] => '/accounts-payable/suppliers' => require_login \&suppliers;
+    
+    any ['get','post'] => '/accounts-payable/suppliers' => require_login \&suppliers;
 
 1;
