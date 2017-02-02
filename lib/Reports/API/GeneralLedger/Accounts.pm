@@ -15,7 +15,7 @@
 #     You should have received a copy of the GNU Affero Public License
 #     along with Sirius Web Reports.  If not, see <http://www.gnu.org/licenses/>.
 
-package Reports::API::GeneralLedger::CreditCards;
+package Reports::API::GeneralLedger::Accounts;
 
 use strict;
 use warnings;
@@ -27,11 +27,11 @@ use Dancer2::Plugin::Database;
 use Reports::Utils qw(rtrim);
 use Data::Dumper;
 use URI;
-
-sub credit_cards {
+use Math::Round;
+sub accounts {
   my $sql = q{
               set transaction isolation level read uncommitted
-              select * from zz_gl_account_creditcard
+              select * from zz_gl_account
   };
 
   my $sth = database->prepare($sql) or die "can't prepare\n";
@@ -45,7 +45,7 @@ sub credit_cards {
   }
 }
 
-sub credit_card_reconciliation {
+sub gl_account_reconciliation {
   my $account_code = route_parameters->get('account_code');
   my $sql = q{
 set transaction isolation level read uncommitted
@@ -56,22 +56,6 @@ SELECT
  p.period_end,
  "gl_transaction"."amt",
  case when ((gl_transaction.trans_date < p.period_start) or (gl_transaction.trans_date > p.period_end)) then 'warning' else null end as [row_contextual_class],
- (select sum(t2.amt)
-   from gl_transaction t2
-   where 
-     t2.account=gl_transaction.account and (
-	   ( t2."period"<>0 and 
-	     (	 (t2.batch_code < gl_transaction.batch_code) or
-             (t2.batch_code = gl_transaction.batch_code and t2.trans <= gl_transaction.trans))) 
-	   or
-
- 
-       (t2."period"=0 AND t2."year"=2006))
-
-
-  
-
-	 ) as [running total],
  "gl_transaction"."posted_flag",
  "gl_transaction"."year",
  "gl_transaction"."period",
@@ -80,17 +64,17 @@ SELECT
  "gl_transaction"."description",
  "gl_transaction"."source",
  "gl_transaction"."jnl",
- "zz_gl_account_creditcard"."account",
- "zz_gl_account_creditcard"."name",
+ "zz_gl_account"."account",
+ "zz_gl_account"."name",
  "gl_account_idx"."account"
 FROM  
  "siriusv8"."dbo"."gl_transaction" "gl_transaction" 
 INNER JOIN
  (  "siriusv8"."dbo"."gl_account_idx" "gl_account_idx"
-    INNER JOIN "siriusv8"."dbo"."zz_gl_account_creditcard" "zz_gl_account_creditcard"
+    INNER JOIN "siriusv8"."dbo"."zz_gl_account" "zz_gl_account"
 	 ON 
-	 "gl_account_idx"."account"="zz_gl_account_creditcard"."account")
-ON "gl_transaction"."account"="zz_gl_account_creditcard"."account"
+	 "gl_account_idx"."account"="zz_gl_account"."account")
+ON "gl_transaction"."account"="zz_gl_account"."account"
 
   join period p
   on gl_transaction.year = p.year and
@@ -99,7 +83,7 @@ ON "gl_transaction"."account"="zz_gl_account_creditcard"."account"
 
 
 WHERE  
-("zz_gl_account_creditcard"."account"= ?  and
+("zz_gl_account"."account"= ? and
   (( "gl_transaction"."period"<>0 )
    OR 
   ("gl_transaction"."period"=0 AND "gl_transaction"."year"=2006)
@@ -118,14 +102,22 @@ ORDER BY "gl_transaction"."year",
   my $fields = $sth->{NAME};
   my $rows = $sth->fetchall_arrayref({});
   $sth->finish;
-  
+
+  my $rt = 0; # make a running total column
+  foreach my $row (@$rows) {
+    $rt = nearest(0.01,$rt + nearest(0.01,$row->{amt}));
+    $row->{RT} = $rt;
+  };
+
+    say Dumper($rows->[0]);
+
   return {
     data => $rows,
   }
 
 }
 
-any ['get','post'] => '/general-ledger/credit-cards' => require_login \&credit_cards;
-any ['get','post'] => '/general-ledger/credit-card-reconciliation/:account_code' => require_login \&credit_card_reconciliation;
+any ['get','post'] => '/general-ledger/account' => require_role GL => \&accounts;
+any ['get','post'] => '/general-ledger/account-reconciliation/:account_code' => require_role GL => \&gl_account_reconciliation;
 
 1;

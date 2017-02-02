@@ -15,7 +15,7 @@
 #     You should have received a copy of the GNU Affero Public License
 #     along with Sirius Web Reports.  If not, see <http://www.gnu.org/licenses/>.
 
-package Reports::GeneralLedger::CreditCard;
+package Reports::GeneralLedger::Accounts;
 use 5.22.0;
 use strict;
 use warnings;
@@ -24,7 +24,7 @@ use Dancer2::Plugin::Database;
 use Dancer2::Plugin::Auth::Extensible;
 use Data::Dumper;
 
-sub get_credit_card_account_code {
+sub get_gl_account_code {
   my $columns = encode_json([
     { data => 'name',
       title => 'GL Account',
@@ -37,7 +37,7 @@ sub get_credit_card_account_code {
     },
   ]);
   template 'utils/get-selection-json2', {
-    title => 'CC Reconciliation<br><small>Select account</small>',
+    title => 'GL Account Reconciliation<br><small>Select account</small>',
     columns => $columns,
     dt_options => {
       ordering => 'true',
@@ -47,17 +47,18 @@ sub get_credit_card_account_code {
       pageLength => 50,
       paging => 'false',
     },
-    json_data_url => "/api/general-ledger/credit-cards",
+    json_data_url => "/api/general-ledger/account",
   }
 }
 
-sub credit_card_reconciliation {
+sub gl_account_reconciliation {
   my $account_code;
 
   my $columns = encode_json([
     { data => 'trans_date',  title => 'Transaction Date', className => 'text-left', formatfn => 'formatdate' },
     { data => 'amt',         title => 'Amount', className => 'text-right', formatfn => 'round2dp' },
-    { data => 'running total', title => 'Total', className => 'text-right', formatfn => 'round2dp' },
+#    { data => 'running total', title => 'Total', className => 'text-right', formatfn => 'round2dp' },
+    { data => 'RT',           title => 'Running<br>Total', className => 'text-right' },
     { data => 'posted_flag', title => 'Posted?', className => 'text-center' },
     { data => 'description', title => 'Description', className => 'text-left' },
     { data => 'year',        title => 'Year', className => 'text-left' },
@@ -73,13 +74,13 @@ sub credit_card_reconciliation {
     warn "account_code not supplied";
   }
   
-  template 'gl/credit-card-reconciliation', {
-    title => "Credit Card Reconciliation",
+  template 'gl/gl-account-reconciliation', {
+    title => "GL Account Reconciliation",
     sub_title => "$account_code",
     columns => $columns,
     dt_options => {
       ordering => 'false',
-      dom      => 'lBfrtip',
+      dom      => 'lBfrptip',
       lengthMenu => '[10,25,50,75,100]',
       responsive => 'true',
       pageLength => 50,
@@ -88,14 +89,14 @@ sub credit_card_reconciliation {
       row_contextual_class => 'row_contextual_class',
       row_tooltip => 'WARNING: Transaction Date out of period',
     },
-    caption => "<h4>Credit Card Reconciliation for $account_code</h4>",
-    json_data_url => "/api/general-ledger/credit-card-reconciliation/$account_code"
+    caption => "<h4>GL Acount Reconciliation for $account_code</h4>",
+    json_data_url => "/api/general-ledger/account-reconciliation/$account_code"
    }
 };
 
 prefix '/general-ledger' => sub {
-  get '/credit-card/reconciliation' => require_login \&get_credit_card_account_code;
-  get '/credit-card/reconciliation/:account_code' => require_login \&credit_card_reconciliation;
+  get '/account-reconciliation' => require_role GL => \&get_gl_account_code;
+  get '/account-reconciliation/:account_code' => require_role GL => \&gl_account_reconciliation;
 };
 
 1;

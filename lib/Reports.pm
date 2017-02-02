@@ -29,7 +29,7 @@ use Reports::AccountsPayable;
 use Reports::Sales;
 use Reports::Purchasing;
 use Reports::Login;
-use Reports::GeneralLedger::CreditCard;
+use Reports::GeneralLedger::Accounts;
 use Reports::Utils qw(compare_url_segments);
 
 set 'logger'       => 'console';

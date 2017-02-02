@@ -30,7 +30,7 @@ use Reports::API::Sales;
 use Reports::API::Sales::Rolling24;
 use Reports::API::Sales::SalesOrder;
 use Reports::API::Purchasing::MultiWarehouseSalesHistory;
-use Reports::API::GeneralLedger::CreditCards;
+use Reports::API::GeneralLedger::Accounts;
 # use Dancer2::Plugin::Auth::Extensible;
 # use Dancer2::Plugin::DBIC;
 set serializer => 'JSON';

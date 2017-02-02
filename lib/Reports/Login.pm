@@ -23,14 +23,22 @@ use Dancer2::Plugin::Auth::Extensible;
 use 5.22.0;
 
 sub login_page_handler {
-    my $return_url = query_parameters->get('return_url');
-    template
-      'account/login', {
-        title => 'Sign in OT Reports',
-        return_url => $return_url,
+  my $return_url = query_parameters->get('return_url');
+  template
+    'account/login', {
+      title => 'Sign in OT Reports',
+      return_url => $return_url,
     },
-        { layout => 'login.tt',
-        };
+      { layout => 'login.tt',
+      };
 }
+
+sub permission_denied_page_handler {
+  template
+    'account/permission_denied', {
+      title => 'permission denied',
+    };
+}
+
 
 1;
