@@ -140,7 +140,7 @@ End/;
       push @$columns, { data => $field, className => 'text-left small' }; 
     } elsif (List::MoreUtils::any { $_ eq $field} ('description') ) {
       push @$columns, { data => $field, className => 'text-left nowrap small' }; 
-    } elsif (List::MoreUtils::any { $_ eq $field} ('total') ) {
+    } elsif (List::MoreUtils::any { $_ eq $field} ('Total') ) {
       push @$columns, { data => $field, className => 'text-right row_total small' }; 
     } else {
       push @$columns, { data => $field, className => 'text-right small' }; 

@@ -205,7 +205,7 @@ td.col_total {
     font-weight: bold;
 }
 
-td.row_total {
+.table>tbody>tr>td.row_total {
     text-align: right;
     font-weight: bold;
 }

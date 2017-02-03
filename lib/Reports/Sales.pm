@@ -278,7 +278,7 @@ sub territory_24_month_summary {
      target_url_id_col => 'Territory Code',
    },
   ];
-  for (my $i = 24; $i > 1; $i--) {
+  for (my $i = 25; $i >= 0; $i--) {
     push @$columns, {
       data => DateTime->now->subtract(months => $i)->strftime('%Y-%m-01'),
       title => DateTime->now->subtract(months => $i)->strftime('%Y<br>%m'),

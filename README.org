@@ -74,3 +74,9 @@ DANCER_ENVIRONMENT=test prove -l t/002_index_route.t
 # restart systemd service
 sudo systemctl restart reports
 #+END_SRC
+
+* Best practice
+ See the GL Account Reconcilliation report for the current best way to write reports
+ * Make a report path /some/report
+ * make an API path /API/some/report that returns the json data
+ * use json_table2.tt to build it
