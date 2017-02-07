@@ -4,6 +4,7 @@
 	<ul class="dropdown-menu">
 	    <li class="[% IF request.path == '/purchasing/sales-history' %]active[% END %]"><a href="/purchasing/sales-history">Sales History</a></li>
 	    <li class="[% IF request.path == '/purchasing/multi-warehouse-sales-history' %]active[% END %]"><a href="/purchasing/multi-warehouse-sales-history">Multi Warehouse Sales History</a></li>
+	    <li class="[% IF request.path == '/purchasing/blue-green' %]active[% END %]"><a href="/purchasing/blue-green">Blue Green Report</a></li>
 	</ul>
     </li>
 </ul>

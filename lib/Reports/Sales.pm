@@ -1,4 +1,4 @@
-# Copyright 2016 Jason Lewis
+# Copyright 2017 Jason Lewis
 
 # This file is part of Sirius Web Reports.
 

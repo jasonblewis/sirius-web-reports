@@ -1,4 +1,4 @@
-# Copyright 2016 Jason Lewis
+# Copyright 2017 Jason Lewis
 
 # This file is part of Sirius Web Reports.
 
@@ -28,6 +28,7 @@ use Dancer2::Plugin::Ajax;
 
 use Reports::Purchasing::CombinedWarehouse;
 use Reports::Purchasing::MultiWarehouseSalesHistory;
+use Reports::Purchasing::BlueGreen;
 #use Devel::Peek;
 
 #use Reports::Schema;
