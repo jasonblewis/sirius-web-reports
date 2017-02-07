@@ -26,80 +26,176 @@ use Dancer2::Plugin::Auth::Extensible;
 use Dancer2::Plugin::Database;
 use Data::Dumper;
 
-use List::MoreUtils;
-
 use DateTime;
 
 use URI;
 
 
 sub blue_green {
-
   
   database->{LongReadLen} = 100000;
   database->{LongTruncOk} = 0;
   
-  my $sql = q/
-select 1
-/;
+  my $sql = q{
+set transaction isolation level read uncommitted
+
+Declare @debug bit
+set @debug = 0
+declare @months int
+set @months = 15
+declare @startdate datetime
+set @startdate = DATEADD(month, DATEDIFF(month, 0, dateadd(m,-@months,getdate())), 0)
+
+ declare @cols as nvarchar(max),@query as nvarchar(max)
+
+                ;with cte(intCount,month)
+                 as
+                 (
+                   Select 0, 	       DATEADD(month, DATEDIFF(month, 0, DATEADD(month, 0,            GETDATE())), 0) as month
+                   union all
+                    Select intCount+1, DATEADD(month, DATEDIFF(month, 0, DATEADD(month, -(intCount+1), GETDATE())), 0) as month
+                	 from cte
+                                            where intCount < @months
+                 )
+                Select @cols = coalesce(@cols + ',','') + quotename(convert(varchar(10),month,120))
+                from cte order by month
+
+
+
+declare @spmonths int
+set @spmonths = 3
+declare @spstartdate datetime
+set @spstartdate = DATEADD(m, - @spmonths, DATEADD(dd, - DAY(GETDATE()) + 1,GETDATE()))
+declare @spenddate datetime
+set @spenddate = DATEADD(dd, - DAY(GETDATE()) + 1, GETDATE())
+
+
+select @query =
+'
+select 
+aps.spare_flag_02 as [OT Brand],
+ * 
+from (
+select 
+supplier_code,
+sale_or_purchase,
+' + @cols + '
+
+ from
+(select 
+  ''S'' as [sale_or_purchase],
+  s.supplier_code,
+  DATEADD(month, DATEDIFF(month, 0, sht.invoice_date), 0) as [month],
+  sum(sht.sales_amt) as sales
+  
+ from 
+   in_product p
+ join 
+   ap_supplier s
+ on 
+   p.primary_supplier = s.supplier_code
+ join 
+	sh_transaction sht
+ on
+	p.primary_supplier = sht.supplier_code
+	and p.product_code = sht.product_code
+
+
+	WHERE    sht.invoice_date >=  @p1
+group by
+  s.supplier_code,
+  DATEADD(month, DATEDIFF(month, 0, sht.invoice_date), 0) ) x
+ pivot
+   (
+                  sum(sales)
+                  for [month] in (   ' + @cols + ' )
+) s 
+
+
+
+union
+
+select 
+  supplier_code,
+  sale_or_purchase,
+  ' + @cols + '
+ from
+(
+select 
+	''P''as [sale_or_purchase],
+	i.supplier_code,
+	DATEADD(month, DATEDIFF(month, 0, i.invoice_date), 0) as [month],
+	sum(i.invoice_amt) as purchases
+from 
+    po_invoice i
+
+
+where 
+    i.invoice_date >=   @p1
+
+group by
+  i.supplier_code,
+  DATEADD(month, DATEDIFF(month, 0, i.invoice_date), 0)) x
+ pivot
+   (
+                  sum(purchases)
+                  for [month] in (   ' + @cols + ' )
+ ) p
+ 
+) q
+
+join
+zz_stock_on_hand_value_by_primary_supplier sohv
+ on q.supplier_code = sohv.primary_supplier
+join
+	ap_supplier aps
+on
+	aps.supplier_code = q.supplier_code
+join
+	(SELECT        
+  p.primary_supplier as supplier_code,
+  SUM(sh.sales_amt) / @spmonths * 0.73 AS suggested_purchase
+FROM
+   sh_transaction sh WITH (NOLOCK)
+left join
+	in_product p
+	on p.product_code = sh.product_code
+WHERE
+   (sh.invoice_date >= @spstartdate) AND (sh.invoice_date < @spenddate)
+GROUP BY p.primary_supplier)
+	
+	pg
+on
+	pg.supplier_code = q.supplier_code
+order by
+    aps.spare_flag_02 desc,
+	pg.supplier_code,
+	sale_or_purchase desc
+'
+
+
+ if @debug = 1 
+ Begin
+     Print @query 
+ End
+ Else 
+ Begin 
+   Exec SP_EXECUTESQL @query,N'@p1 DateTime,@spstartdate DateTime,@spenddate DateTime,@spmonths int',@startdate,@spstartdate,@spenddate,@spmonths 
+ End 
+
+
+  };
 
   my $sth = database->prepare($sql) or die "can't prepare\n";
-  $sth->execute($qry_supplier_code) or die $sth->errstr;
+  $sth->execute or die $sth->errstr;
   my $fields = $sth->{NAME};
   my $rows = $sth->fetchall_arrayref({});
   $sth->finish;
-  
-#  say Dumper $fields;
-
-  sub month_name {
-    my $deltamonth = shift(@_);
-    return DateTime->now->subtract(months => $deltamonth)->strftime('%b %g');
-  }  
-  my $columns = [];
-  foreach my $field (@$fields) {
-    if (List::MoreUtils::any { $_ eq $field} ('Warehouse') ) {
-      push @$columns, { data => $field, className => 'warehouse text-center' }; 
-    } elsif (List::MoreUtils::any { $_ eq $field} ('Product Code') ) {
-      push @$columns, { data => $field, className => 'product-code text-left', title => 'Product Code', }; 
-    } elsif (List::MoreUtils::any { $_ eq $field} ('Description') ) {
-      push @$columns, { data => $field, className => 'description text-left' }; 
-    } elsif (List::MoreUtils::any { $_ eq $field} ('On Hand') ) {
-      push @$columns, { data => $field, className => 'on-hand text-right', formatfn => 'round0dp'}; 
-    } elsif (List::MoreUtils::any { $_ eq $field} ('Committed') ) {
-      push @$columns, { data => $field, className => 'committed text-right', formatfn => 'round0dp' }; 
-    } elsif (List::MoreUtils::any { $_ eq $field} ('total') ) {
-      push @$columns, { data => $field, className => 'text-right row_total' }; 
-    } elsif (List::MoreUtils::any { $_ eq $field} (0 .. 12) ) {
-      push @$columns, { data => $field, className => 'qty text-right', "title" => month_name($field) , formatfn => 'round0dp' }; 
-    } else {
-      push @$columns, { data => $field, className => 'text-right', }; 
-    }
-  }
-
-  # my $detail_url = body_parameters->get('detail_url');
-  # if ($detail_url) {
-  #   say "detail_url = ",$detail_url;
-  #   foreach my $row (@$rows) {
-  #     my $full_detail_url = new URI $detail_url;
-  #     $full_detail_url->query_form(territory_code => rtrim($row->{'Territory Code'}));
-  #     $row->{'Territory Code'} = "<a href='" . $full_detail_url->as_string . "'>" . rtrim($row->{'Territory Code'}) . "</a>";
-  #     $row->{'description'} = "<a href='" . $full_detail_url->as_string . "'>" . rtrim($row->{'description'}) . "</a>";
-  #   };
-  #   #my $extra_column =  { data => 'url', title => 'Row Name' };
-  #   #unshift(@$columns, $extra_column); 
-  # }
-  
 
   return {
-    pageLength => 50,
-    columns => $columns,
-    data => [@$rows],
-    order => [[1,"asc"]],
-    columnDefs => [{visible=> "false", targets => ".product-code"}]
-  };
-
-};
-
+    data => $rows,
+  }
+}
 
 any ['get','post'] => '/purchasing/blue-green' => require_login \&blue_green;
 
