@@ -74,6 +74,7 @@ select @query =
 '
 select 
 aps.spare_flag_02 as [OT Brand],
+case when (sale_or_purchase = ''S'') then ''success'' else ''info'' end as [row_contextual_class],
  * 
 from (
 select 

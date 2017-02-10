@@ -291,6 +291,10 @@ td.qty {
     padding: 2px !important;
 }
 
+.text-black {
+  color: #ffffff !important;
+}
+
 .loader {
     color: #000000;
     font-size: 90px;

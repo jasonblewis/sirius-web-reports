@@ -33,9 +33,11 @@
              [% IF dt_options.dom %]datatables.dom = '[% dt_options.dom %]';[% END %]
              [% IF dt_options.lengthMenu %]datatables.lengthMenu = [% dt_options.lengthMenu %];[% END %]
              [% IF dt_options.ordering %]datatables.ordering =     [% dt_options.ordering %];[% END %]
+             [% IF dt_options.order %]datatables.order =     [% dt_options.order %];[% END %]
              [% IF dt_options.responsive %]datatables.responsive = [% dt_options.responsive %]; [% END %]
              [% IF dt_options.pageLength %]datatables.pageLength = [% dt_options.pageLength %]; [% END %]
              [% IF dt_options.paging %]datatables.paging = [% dt_options.paging %]; [% END %]
+             [% IF dt_options.createdRowFn %]datatables.createdRow = [% dt_options.createdRowFn %];[% END %]
              [% IF dt_options.row_contextual_class %]
              datatables.createdRow = function (row,mydata,index) {
                  if(mydata.[% dt_options.row_contextual_class %]) {

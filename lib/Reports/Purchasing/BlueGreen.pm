@@ -25,10 +25,43 @@ use Dancer2::Plugin::Auth::Extensible;
 use Data::Dumper;
 
 sub blue_green {
+  
+  my $columns = [
+    { data => 'OT Brand'},
+    { data => 'supplier_code', title => 'Supplier Code', className => 'text-left'},
+    { data => 'sale_or_purchase', title => '<span class=text-primary>Sale</span><br><span class=text-success>Purchase</span>', className => 'text-right'},
+    { data => 'suggested_purchase', title => 'Budget', className => 'text-right text-warning',formatfn => 'round0dp',},
+    { data => 'value',title => 'SOH', className => 'text-right text-black',formatfn => 'round0dp'},
+  ];
+
+  my $months = 15;
+    for (my $i = $months; $i >= 0; $i--) {
+    push @$columns, {
+      data => DateTime->now->subtract(months => $i)->strftime('%Y-%m-01'),
+      title => DateTime->now->subtract(months => $i)->strftime('%Y<br>%m'),
+      className => 'text-right',
+      formatfn => 'round0dp',
+    };
+  }
+
+
+#  push @$columns, { data => '2015-11-01',className => 'text-right',formatfn => 'round2dp'};
+  
   template 'purchasing/blue-green', {
     title => "The Blue Green Report",
-    json_data_url => "/api/purchasing/blue-green"
-   }
+    json_data_url => "/api/purchasing/blue-green",
+    columns => encode_json($columns),
+    dt_options => {
+      order      => '[[0, "desc"],[1,"asc"],[2,"desc"]]',
+      responsive => 'true',
+      pageLength => 50,
+      paging => 'true',
+      page   => 'first',
+      createdRowFn => 'blue_green',
+     },
+    json_data_url => "/api/purchasing/blue-green",
+      
+  }
 };
 
 prefix '/purchasing' => sub {

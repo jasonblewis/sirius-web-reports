@@ -10,8 +10,13 @@
      return parseFloat(data).toFixed(2);
  };
 
- function round0dp(data,type,row){
-     return parseFloat(data).toFixed(0);
+function round0dp(data,type,row){
+    var mynumber = parseFloat(data).toFixed(0);
+    if (mynumber == 0 || isNaN(mynumber)) {
+        return '-';
+    } else {
+        return mynumber;
+    };
  };
 
 function fromnow(data,type,row){
@@ -26,4 +31,14 @@ function render_url(data,type,row,meta){
 //    console.log(target_url_id_col);
 //    console.log(row[target_url_id_col]);
     return '<a href="'+target_url+row[target_url_id_col]+'">'+data+'</a>';
+}
+
+function blue_green(row,data,index){
+    if (data["sale_or_purchase"] == 'S') {
+        $(row).addClass('text-primary');
+    } else {
+        $(row).addClass('text-success');
+    };
+    return data;
+
 }

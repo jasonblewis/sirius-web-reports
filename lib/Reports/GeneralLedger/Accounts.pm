@@ -57,7 +57,6 @@ sub gl_account_reconciliation {
   my $columns = encode_json([
     { data => 'trans_date',  title => 'Transaction Date', className => 'text-left', formatfn => 'formatdate' },
     { data => 'amt',         title => 'Amount', className => 'text-right', formatfn => 'round2dp' },
-#    { data => 'running total', title => 'Total', className => 'text-right', formatfn => 'round2dp' },
     { data => 'RT',           title => 'Running<br>Total', className => 'text-right' },
     { data => 'posted_flag', title => 'Posted?', className => 'text-center' },
     { data => 'description', title => 'Description', className => 'text-left' },
