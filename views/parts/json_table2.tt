@@ -38,6 +38,8 @@
              [% IF dt_options.pageLength %]datatables.pageLength = [% dt_options.pageLength %]; [% END %]
              [% IF dt_options.paging %]datatables.paging = [% dt_options.paging %]; [% END %]
              [% IF dt_options.createdRowFn %]datatables.createdRow = [% dt_options.createdRowFn %];[% END %]
+             [% IF dt_options.visible %]datatables.visible = [% dt_options.visible %]; [% END %]
+             
              [% IF dt_options.row_contextual_class %]
              datatables.createdRow = function (row,mydata,index) {
                  if(mydata.[% dt_options.row_contextual_class %]) {

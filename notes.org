@@ -1,0 +1,101 @@
+* calculating on hand and committed 
+  notes from colin:
+
+Committed for Branch Xfer is almost identical to Sales Order
+
+1. find any NEW or PICKED xfers out and add any quantities to COMMITTED
+2. check those same xfers out and if stock has been allocated to them, remove that qty from committed and add it to reserved.
+
+Those 2 steps are identical to how Sales Order Shipment lines are checked.
+
+Once you've dealt with the xfers out, you have to check RELEASED Branch Transfer Requests.
+ Any items on a request that are not on a XFER out, add to committed.
+This is same way Released Sales Orders are checked.
+
+Once a branch xfer out has been Verified, the qty comes out of stock on hand.
+ The same way Sales Orders handle it when a shipment is Verified.
+
+
+
+
+On the inventory adjustment record (IN_Adjustment)
+ there are 2 fields called xfer_out_no and xfer_out_line_no. 
+Any stock allocated to the Xfer Out line will have those foreign keys filled in.
+
+so_order -> bt_request
+so_order_line -> bt_request_line
+so_shipment_line -> bt_xfer_out_line
+
+* progress
+  select top 100 
+  o.from_branch_code,
+  l.product_code,
+  l.requested_qty,
+  xfer_out_qty,
+  xfer_out_status,
+  ia.qty,
+  
+
+  *
+from
+  bt_request o
+inner join
+	bt_request_line l
+	on o.request_no = l.request_no
+left outer join
+	bt_xfer_out_line xol
+on
+	l.request_no = xol.request_no
+	and l.request_line_no = xol.request_line_no
+left outer join
+	in_adjustment ia
+on
+	xol.xfer_no = ia.xfer_out_no 
+	and xol.xfer_out_line_no = ia.xfer_out_line_no
+
+
+where
+	o.req_status <> 'F'
+	and l.req_status  <> 'F'
+	and l.product_code = '2201131'
+
+select * from bt_request where req_status = 'R'
+* progress 2
+  this seems to give the same committed quantities as is calculated in Product Information Enquiry. further testing required
+
+  double checked. seems to work the 2 i checked. don't forget to add the SO committed to get the total committed as shown in sirius
+#+BEGIN_SRC sql
+select 
+  o.from_branch_code,
+  l.product_code,
+  l.requested_qty,
+  xfer_out_qty,
+  l.requested_qty - xfer_out_qty as bo_qty,
+  xfer_out_status,
+  CASE 
+    WHEN 
+	  xfer_out_status = 'V'
+	THEN
+	  l.requested_qty - xfer_out_qty 
+	ELSE
+	  l.requested_qty
+	 END as committed_qty
+from
+  bt_request o
+inner join
+	bt_request_line l
+	on o.request_no = l.request_no
+left outer join
+	bt_xfer_out_line xol
+on
+	l.request_no = xol.request_no
+	and l.request_line_no = xol.request_line_no
+
+
+where
+	o.req_status <> 'F'
+	and l.req_status  <> 'F'
+	and l.product_code in ( '2201125')
+	--and xfer_out_status <> 'P'
+#+END_SRC
+

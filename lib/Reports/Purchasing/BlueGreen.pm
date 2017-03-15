@@ -29,9 +29,13 @@ sub blue_green {
   my $columns = [
     { data => 'OT Brand'},
     { data => 'supplier_code', title => 'Supplier Code', className => 'text-left'},
-    { data => 'sale_or_purchase', title => '<span class=text-primary>Sale</span><br><span class=text-success>Purchase</span>', className => 'text-right'},
+    { data => 'sale_or_purchase',
+      title => '<span class=text-primary>Sale</span><br><span class=text-success>Purchase</span>',
+      className => 'text-right',
+      visible => 1,
+    },
     { data => 'suggested_purchase', title => 'Budget', className => 'text-right text-warning',formatfn => 'round0dp',},
-    { data => 'value',title => 'SOH', className => 'text-right text-black',formatfn => 'round0dp'},
+    { data => 'value', title => 'SOH', className => 'text-right text-black',formatfn => 'round0dp'},
   ];
 
   my $months = 15;
