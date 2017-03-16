@@ -84,17 +84,17 @@ sub sales_history {
     
     my $sql = q{
 Set transaction isolation level read uncommitted;
---select * from po_catalogue where our_product_code in( '6013401','6013402','6013403')
---select * from in_warehouse_product where product_code in( '6013401','6013402','6013403')
 SELECT
   p.product_code,
   p.description,
   s.notes,
   convert(int,round([oh].[on_hand],0,0)) as on_hand,
   convert(int,round(po.on_order,0,0)) as on_order,
-  convert(int,round(c.committed,0,0)) as committed,
+  convert(int,round(soc.committed,0,0)) as so_committed,
+  convert(int,round(coalesce(btc.qty,0),0,0)) as bt_committed,
   convert(int,round(rb.qty,0,0)) as return_bin_qty,
-  convert(int,round(oh.on_hand + po.on_order - coalesce(c.committed,0) - coalesce(rb.qty,0),0,0)) as available,
+  convert(int,round(oh.on_hand + po.on_order - coalesce(soc.committed,0) - coalesce(rb.qty,0)- coalesce(btc.qty,0),0,0)) as available,
+
   convert(int,round(coalesce(ms.[5],0),0,0)) as ms_5,
   convert(int,round(coalesce(ms.[4],0),0,0)) as ms_4,
   convert(int,round(coalesce(ms.[3],0),0,0)) as ms_3,
@@ -134,9 +134,13 @@ join
   on 
     po.product_code = p.product_code
 left join 
-  zz_so_committed2 c
+  zz_so_committed2 soc
   on
-    c.product_code = p.product_code
+    soc.product_code = p.product_code
+left join
+  zz_bt_committed_combined btc
+  on
+    btc.product_code = p.product_code
 left join
   zz_in_stock_in_return_bin rb
   on
@@ -176,6 +180,7 @@ on cc.our_product_code = p.product_code and
 and pc.active_flag = 'Y'
 and (p.spare_flag_03 is null or p.spare_flag_03 = 'Y')
 and not ((wp.reorder_type = 'Q' and wp.reorder_class = 'Q'))
+
 order by p.product_code
 
 };
@@ -237,7 +242,8 @@ order by p.product_code
         'Description',
         'On<br /> Hand',
         'On<br />Order',
-        'Committed',
+        'SO<br>Comm',
+        'BT<br>Comm',
         'Return<br />bin',
         'Available',
         "$abbr[$monthnum[5]-1]<br />$monthnum[5]<br />$fmmonthnum[5]",

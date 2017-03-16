@@ -9,10 +9,6 @@
      $('#toggle-notes').click(function(){
          $('.content-one').slideToggle();
      });
-     new $.fn.DataTable.FixedHeader( table, {
-         // options
-     } );
-
      
  });
 </script>
@@ -41,14 +37,15 @@
         <td class="text-right" [% position %]">[% heading.9 %]</td>
         <td class="text-right" [% position %]">[% heading.10 %]</td>
         <td class="text-right" [% position %]">[% heading.11 %]</td>
-        <td class="text-right text-primary" [% position %]">[% heading.12 %]</td>
-        <td class="text-right" [% position %]">[% heading.13 %]</td>
+        <td class="text-right" [% position %]">[% heading.12 %]</td>
+        <td class="text-right text-primary" [% position %]">[% heading.13 %]</td>
         <td class="text-right" [% position %]">[% heading.14 %]</td>
         <td class="text-right" [% position %]">[% heading.15 %]</td>
         <td class="text-right" [% position %]">[% heading.16 %]</td>
         <td class="text-right" [% position %]">[% heading.17 %]</td>
         <td class="text-right" [% position %]">[% heading.18 %]</td>
         <td class="text-right" [% position %]">[% heading.19 %]</td>
+        <td class="text-right" [% position %]">[% heading.20 %]</td>
     </tr>
             [% END # BLOCK table_head_foot %]
     <table id="sh" class="table table-striped table-xtra-condensed" cellspacing="0" >
@@ -63,7 +60,8 @@
                     <td class="text-left border-right description">[% row.description    %]</td>
                     <td class="text-right">[% row.on_hand        %]</td>
                     <td class="text-right">[% row.on_order       %]</td>
-                    <td class="text-right">[% row.committed      %]</td>
+                    <td class="text-right">[% row.so_committed      %]</td>
+                    <td class="text-right">[% row.bt_committed      %]</td>
                     <td class="text-right red">[% row.return_bin_qty %]</td>
                     <td class="text-right border-right">[% row.available      %]</td>
                     <td class="text-right">[% row.ms_5 %]</td>
