@@ -45,11 +45,15 @@ sub multi_warehouse_sales_history {
 SET TRANSACTION ISOLATION LEVEL READ uncommitted;  
 
 select 
+  --b.branch_code,
   oh.warehouse_code as 'Warehouse',
   p.product_code as 'Product Code',
   p.description as 'Description',
   oh.on_hand as 'On Hand',
-  coalesce(c.committed,0) as 'Committed',
+  coalesce(c.committed,0) as 'SO Committed',
+  coalesce(btc.bt_committed_qty,0) as 'BT Committed',
+  coalesce(oh.on_hand,0) - coalesce(c.committed,0) - coalesce(btc.bt_committed_qty,0) as [Available],
+
   coalesce([0],0) as [0],
   coalesce([1],0) as [1],
   coalesce([2],0) as [2],
@@ -61,11 +65,16 @@ select
   coalesce([8],0) as [8],
   coalesce([9],0) as [9]
 
-from in_product p
+from 
+  in_product p
 left join
 	zz_in_stock_on_hand_warehouse_all oh
 
 	on p.product_code = oh.product_code
+join
+  branch b
+on 
+  b.default_warehouse = oh.warehouse_code
 	
 	
 left join zz_so_committed2_by_warehouse c on 
@@ -77,9 +86,17 @@ left join zz_sh_monthly_sales_by_warehouse shm
 	p.product_code = shm.product_code
 	and
 	oh.warehouse_code = shm.warehouse_code
+left join
+	zz_bt_committed_by_warehouse btc 
+	on
+	
+	btc.bt_from_branch_code =   b.branch_code
+	and
+	btc.product_code = oh.product_code
 
 where oh.warehouse_code is not null
 and p.primary_supplier = ?
+
 /;
 
   my $sth = database->prepare($sql) or die "can't prepare\n";
@@ -104,7 +121,7 @@ and p.primary_supplier = ?
       push @$columns, { data => $field, className => 'description text-left' }; 
     } elsif (List::MoreUtils::any { $_ eq $field} ('On Hand') ) {
       push @$columns, { data => $field, className => 'on-hand text-right', formatfn => 'round0dp'}; 
-    } elsif (List::MoreUtils::any { $_ eq $field} ('Committed') ) {
+    } elsif (List::MoreUtils::any { $_ eq $field} ('SO Committed','BT Committed','Available') ) {
       push @$columns, { data => $field, className => 'committed text-right', formatfn => 'round0dp' }; 
     } elsif (List::MoreUtils::any { $_ eq $field} ('total') ) {
       push @$columns, { data => $field, className => 'text-right row_total' }; 
