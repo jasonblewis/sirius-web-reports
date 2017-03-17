@@ -198,6 +198,6 @@ order by
   }
 }
 
-any ['get','post'] => '/purchasing/blue-green' => require_login \&blue_green;
+any ['get','post'] => '/purchasing/blue-green' => require_role GL => \&blue_green;
 
 1;

@@ -58,6 +58,7 @@ sub blue_green {
     dt_options => {
       order      => '[[0, "desc"],[1,"asc"],[2,"desc"]]',
       responsive => 'true',
+      dom        => 'ftr',
       pageLength => 50,
       paging => 'true',
       page   => 'first',
@@ -69,7 +70,7 @@ sub blue_green {
 };
 
 prefix '/purchasing' => sub {
-  get '/blue-green' => require_login \&blue_green;
+  get '/blue-green' => require_role GL => \&blue_green;
 };
 
 1;
