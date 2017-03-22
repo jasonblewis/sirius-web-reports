@@ -27,6 +27,7 @@ use Dancer2::Plugin::DBIC;
 use Dancer2::Plugin::Ajax;
 
 use Reports::Purchasing::CombinedWarehouse;
+use Reports::Purchasing::CombinedSalesHistory;
 use Reports::Purchasing::MultiWarehouseSalesHistory;
 use Reports::Purchasing::BlueGreen;
 #use Devel::Peek;
