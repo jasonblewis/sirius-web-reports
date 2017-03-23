@@ -23,7 +23,7 @@ use Dancer2 appname => 'Reports';
 use Dancer2::Plugin::Database;
 use Dancer2::Plugin::Auth::Extensible;
 use Data::Dumper;
-use Reports::Schema::Result::ArCustomer;
+use Dancer2::Plugin::DBIC;
 
 sub get_supplier_code {
   my $columns = encode_json([
@@ -79,7 +79,7 @@ sub combined_sales_history {
   ]);
   
    my $supplier_code = route_parameters->get('supplier_code');
-   my $supplier_name = 
+   my $supplier_name = schema->resultset('ApSupplierSelectView')->find($supplier_code);
   template 'purchasing/combined-sales-history', {
     title => 'Combined Warehouse Sales History',
     columns => $columns,

@@ -1,4 +1,5 @@
 #!/usr/bin/env perl
+# run this from the project root to update the schema
 use 5.12.0;
 use strict;
 use warnings;
@@ -44,6 +45,7 @@ make_schema_at(
 				  ar_customer|
 				  ar_customer_select_view|
 				  ar_debtor|
+                                  ap_supplier_select_view|
 				  sh_transaction|
 				  gst_tax_table|
 				  in_department|
