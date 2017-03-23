@@ -23,6 +23,7 @@ use Dancer2 appname => 'Reports';
 use Dancer2::Plugin::Database;
 use Dancer2::Plugin::Auth::Extensible;
 use Data::Dumper;
+use Reports::Schema::Result::ArCustomer;
 
 sub get_supplier_code {
   my $columns = encode_json([
@@ -55,22 +56,32 @@ sub get_supplier_code {
 sub combined_sales_history {
 
     my $columns = encode_json([
-    { data => 'trans_date',  title => 'Transaction Date', className => 'text-left', formatfn => 'formatdate' },
-    { data => 'amt',         title => 'Amount', className => 'text-right', formatfn => 'round2dp' },
-    { data => 'RT',           title => 'Running<br>Total', className => 'text-right' },
-    { data => 'posted_flag', title => 'Posted?', className => 'text-center' },
-    { data => 'description', title => 'Description', className => 'text-left' },
-    { data => 'year',        title => 'Year', className => 'text-left' },
-    { data => 'period',      title => 'Period', className => 'text-right' },
-    { data => 'source',      title => 'Source', className => 'text-left' },
-    { data => 'seq',         title => 'Seq', className => 'text-right' },
-    { data => 'jnl',         title => 'Journal', className => 'text-right' },
+      { data => 'product_code',   title => 'Product<br>Code', className => 'text-left'},
+      { data => 'description',    title => 'Description', className => 'text-left border-right' },
+      { data => 'on_hand',        title => 'On<br>Hand', className => 'text-right' },
+      { data => 'on_order',       title => 'On<br>Order', className => 'text-right' },
+      { data => 'so_committed',   title => 'SO<br>Comm', className => 'text-right' },
+      { data => 'bt_committed',   title => 'BT<br>Comm', className => 'text-right' },
+      { data => 'return_bin_qty', title => 'Return<br>Bin', className => 'text-right' },
+      { data => 'available',      title => 'Available', className => 'text-right border-right' },
+      { data => 'ms_5',           title => 'ms_5', className => 'text-right' },
+      { data => 'ms_4',           title => 'ms_4', className => 'text-right' },
+      { data => 'ms_3',           title => 'ms_3', className => 'text-right' },
+      { data => 'ms_2',           title => 'ms_2', className => 'text-right' },
+      { data => 'ms_1',           title => 'ms_1', className => 'text-right' },
+      { data => 'ms_0',           title => 'ms_0', className => 'text-right border-right text-primary' },
+      { data => 'mtotal',         title => '6 Month<br>Total', className => 'text-right' },
+      { data => 'maximum',        title => 'Max<br>O/H', className => 'text-right' },
+      { data => 'lead_time_days', title => 'Lead<br>Time', className => 'text-right' },
+      { data => 'min_days_stock', title => 'Min<br>Days', className => 'text-right' },
+      { data => 'reorder_class',  title => 'C', className => 'text-right' },
+      { data => 'reorder_type',   title => 'T', className => 'text-left' },
   ]);
   
-
-
+   my $supplier_code = route_parameters->get('supplier_code');
+   my $supplier_name = 
   template 'purchasing/combined-sales-history', {
-    title => "Combined Warehouse Sales History",
+    title => 'Combined Warehouse Sales History',
     columns => $columns,
     dt_options => {
       ordering => 'false',
@@ -81,8 +92,8 @@ sub combined_sales_history {
       paging => 'true',
       page   => 'last',
     },
-    caption => "<h4>Combined Warehouse Sales History</h4>",
-    json_data_url => "/api/purchasing/combined-sales-history",
+    caption => "<h4>Combined Warehouse Sales History for $supplier_code</h4>",
+    json_data_url => "/api/purchasing/combined-sales-history/MACTAY",
   }
     
 };
@@ -90,7 +101,7 @@ sub combined_sales_history {
 
 prefix '/purchasing' => sub {
   get '/combined-sales-history' => require_login \&get_supplier_code;
-  get '/combined-sales-history:supplier_code'  => require_login \&combined_sales_history;
+  get '/combined-sales-history/:supplier_code'  => require_login \&combined_sales_history;
 };
 
 1;

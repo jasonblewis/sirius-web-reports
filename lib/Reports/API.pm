@@ -30,6 +30,7 @@ use Reports::API::Sales;
 use Reports::API::Sales::Rolling24;
 use Reports::API::Sales::SalesOrder;
 use Reports::API::Purchasing::MultiWarehouseSalesHistory;
+use Reports::API::Purchasing::CombinedSalesHistory;
 use Reports::API::Purchasing::BlueGreen;
 use Reports::API::GeneralLedger::Accounts;
 # use Dancer2::Plugin::Auth::Extensible;

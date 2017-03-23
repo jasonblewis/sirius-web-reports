@@ -42,6 +42,7 @@ make_schema_at(
                                   in_product|
 				  ar_transaction|
 				  ar_customer|
+				  ar_customer_select_view|
 				  ar_debtor|
 				  sh_transaction|
 				  gst_tax_table|
@@ -51,7 +52,7 @@ make_schema_at(
 				  pr_price|
 				  pr_qty_break)\z/x ],
 	],
-#      overwrite_modifications => 1,
+      overwrite_modifications => 1,
       
   },
     [ $dsn, $username, $password,

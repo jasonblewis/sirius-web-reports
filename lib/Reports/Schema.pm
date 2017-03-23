@@ -1,6 +1,5 @@
 use utf8;
 package Reports::Schema;
-use 5.22.0;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
@@ -13,8 +12,8 @@ use base 'DBIx::Class::Schema';
 __PACKAGE__->load_namespaces;
 
 
-# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-05-09 11:58:11
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:tM0je4mmgVw2r6axmf2Vxw
+# Created by DBIx::Class::Schema::Loader v0.07045 @ 2017-03-23 15:50:54
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:mq03vkMmXnShepJU1QcSMQ
 
 __PACKAGE__->load_namespaces(
    default_resultset_class => '+Reports::Schema::ResultSet',
