@@ -54,46 +54,52 @@ sub get_supplier_code {
 
 
 sub combined_sales_history {
-
-    my $columns = encode_json([
-      { data => 'product_code',   title => 'Product<br>Code', className => 'text-left'},
-      { data => 'description',    title => 'Description', className => 'text-left border-right' },
-      { data => 'on_hand',        title => 'On<br>Hand', className => 'text-right' },
-      { data => 'on_order',       title => 'On<br>Order', className => 'text-right' },
-      { data => 'so_committed',   title => 'SO<br>Comm', className => 'text-right' },
-      { data => 'bt_committed',   title => 'BT<br>Comm', className => 'text-right' },
-      { data => 'return_bin_qty', title => 'Return<br>Bin', className => 'text-right' },
-      { data => 'available',      title => 'Available', className => 'text-right border-right' },
-      { data => 'ms_5',           title => 'ms_5', className => 'text-right' },
-      { data => 'ms_4',           title => 'ms_4', className => 'text-right' },
-      { data => 'ms_3',           title => 'ms_3', className => 'text-right' },
-      { data => 'ms_2',           title => 'ms_2', className => 'text-right' },
-      { data => 'ms_1',           title => 'ms_1', className => 'text-right' },
-      { data => 'ms_0',           title => 'ms_0', className => 'text-right border-right text-primary' },
-      { data => 'mtotal',         title => '6 Month<br>Total', className => 'text-right' },
-      { data => 'maximum',        title => 'Max<br>O/H', className => 'text-right' },
-      { data => 'lead_time_days', title => 'Lead<br>Time', className => 'text-right' },
-      { data => 'min_days_stock', title => 'Min<br>Days', className => 'text-right' },
-      { data => 'reorder_class',  title => 'C', className => 'text-right' },
-      { data => 'reorder_type',   title => 'T', className => 'text-left' },
+  
+  my $columns = encode_json([
+    { data => 'product_code',   title => 'Product<br>Code', className => 'text-left'},
+    { data => 'description',    title => 'Description', className => 'text-left border-right' },
+    { data => 'on_hand',        title => 'On<br>Hand', className => 'text-right' },
+    { data => 'on_order',       title => 'On<br>Order', className => 'text-right' },
+    { data => 'so_committed',   title => 'SO<br>Comm', className => 'text-right' },
+    { data => 'bt_committed',   title => 'BT<br>Comm', className => 'text-right' },
+    { data => 'return_bin_qty', title => 'Return<br>Bin', className => 'text-right' },
+    { data => 'available',      title => 'Available', className => 'text-right border-right' },
+    { data => 'ms_5',           title => 'ms_5', className => 'text-right' },
+    { data => 'ms_4',           title => 'ms_4', className => 'text-right' },
+    { data => 'ms_3',           title => 'ms_3', className => 'text-right' },
+    { data => 'ms_2',           title => 'ms_2', className => 'text-right' },
+    { data => 'ms_1',           title => 'ms_1', className => 'text-right' },
+    { data => 'ms_0',           title => 'ms_0', className => 'text-right border-right text-primary' },
+    { data => 'mtotal',         title => '6 Month<br>Total', className => 'text-right' },
+    { data => 'maximum',        title => 'Max<br>O/H', className => 'text-right' },
+    { data => 'lead_time_days', title => 'Lead<br>Time', className => 'text-right' },
+    { data => 'min_days_stock', title => 'Min<br>Days', className => 'text-right' },
+    { data => 'reorder_class',  title => 'C', className => 'text-right' },
+    { data => 'reorder_type',   title => 'T', className => 'text-left' },
   ]);
   
-   my $supplier_code = route_parameters->get('supplier_code');
-   my $supplier_name = schema->resultset('ApSupplierSelectView')->find($supplier_code);
+  my $supplier_code = route_parameters->get('supplier_code');
+  my $supplier = schema->resultset('ApSupplier')->find($supplier_code);
+  my $supplier_select_view = schema->resultset('ApSupplierSelectView')->find($supplier_code);
+  my $supplier_notes = $supplier->notes;
+  my $supplier_name = $supplier_select_view->name;
+  my @supplier_emails = schema->resultset('ApSupplier')->find($supplier_code);
   template 'purchasing/combined-sales-history', {
-    title => 'Combined Warehouse Sales History',
+    title => "Combined Warehouse Sales History",
+    sub_title => "$supplier_name <small>($supplier_code)</small>",
     columns => $columns,
     dt_options => {
       ordering => 'false',
-      dom      => 'lBfrptip',
+      dom      => 'Bfrti',
       lengthMenu => '[10,25,50,75,100]',
       responsive => 'true',
       pageLength => 50,
-      paging => 'true',
+      paging => 'false',
       page   => 'last',
     },
-    caption => "<h4>Combined Warehouse Sales History for $supplier_code</h4>",
-    json_data_url => "/api/purchasing/combined-sales-history/MACTAY",
+    caption => "<h4>Combined Warehouse Sales History for $supplier_name</h4>",
+    json_data_url => "/api/purchasing/combined-sales-history/$supplier_code",
+    notes => $supplier_notes,
   }
     
 };

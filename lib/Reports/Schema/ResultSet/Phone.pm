@@ -17,4 +17,11 @@ sub buyer_phone_numbers {
    })
 }
 
+sub supplier_emails {
+   my $self = shift;
+   $self->search({
+      $self->current_source_alias . '.phone_type' => { '=' => 'PO' }
+   })
+}
+
 1;

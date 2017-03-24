@@ -1,6 +1,29 @@
-combined sales history
-
 [% INCLUDE page_header.tt %]
+
+<script src="/javascripts/datatablesdisplay.js"></script>
+
+<script type='text/javascript'>
+ $(document).ready(function(){
+     $('#toggle-notes').click(function(){
+         console.log('here');
+         if ($(".content-one").is(':visible')) {
+             $('#toggle-notes').html('show notes');
+             $('.content-one').slideUp();
+         } else {
+             $('#toggle-notes').html('hide notes');
+             $('.content-one').slideDown();
+         }
+     });
+     
+ });
+</script>
+
+<button id="toggle-notes" type="button">Notes</button>
+<p class="content-one">[% notes | html | html_line_break %]</p>
+[% FOREACH poemail IN poemails %]
+    <a href="mailto:[% poemail.phone_no %]" target="_top" >[% poemail.phone_no %]</a>
+[% END  %]
+
 
 [% INCLUDE datatables_buttons.tt %]    
 
