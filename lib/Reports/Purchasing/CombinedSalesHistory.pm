@@ -83,23 +83,23 @@ sub combined_sales_history {
   my $supplier_select_view = schema->resultset('ApSupplierSelectView')->find($supplier_code);
   my $supplier_notes = $supplier->notes;
   my $supplier_name = $supplier_select_view->name;
-  my @supplier_emails = schema->resultset('ApSupplier')->find($supplier_code);
+  my $supplier_emails = $supplier->company->phones->supplier_emails;
+  $supplier_emails->result_class('DBIx::Class::ResultClass::HashRefInflator');
+
   template 'purchasing/combined-sales-history', {
     title => "Combined Warehouse Sales History",
     sub_title => "$supplier_name <small>($supplier_code)</small>",
     columns => $columns,
     dt_options => {
       ordering => 'false',
-      dom      => 'Bfrti',
-      lengthMenu => '[10,25,50,75,100]',
+      dom      => 'Bfrt',
       responsive => 'true',
-      pageLength => 50,
       paging => 'false',
-      page   => 'last',
     },
     caption => "<h4>Combined Warehouse Sales History for $supplier_name</h4>",
     json_data_url => "/api/purchasing/combined-sales-history/$supplier_code",
     notes => $supplier_notes,
+    supplier_emails => $supplier_emails->all,
   }
     
 };

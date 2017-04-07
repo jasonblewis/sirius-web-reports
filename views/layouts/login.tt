@@ -15,7 +15,9 @@
 	<script type="text/javascript">/* <![CDATA[ */
 	 !window.jQuery && document.write('<script type="text/javascript" src="[% request.uri_base %]/javascripts/jquery.js"><\/script>')
 	 /* ]]> */</script>
-	
+
+	<link rel="stylesheet" type="text/css" href="https://cloud.typography.com/6679376/7499972/css/fonts.css" />
+
 	
 	
 	<!-- bootstrap css -->

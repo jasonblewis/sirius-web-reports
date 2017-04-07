@@ -15,7 +15,8 @@
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.1.2/css/fixedHeader.dataTables.min.css">
 
 	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.css">
-	
+
+	<link rel="stylesheet" type="text/css" href="https://cloud.typography.com/6679376/7499972/css/fonts.css" />
 	<!-- Grab jQuery from a CDN, fall back to local if necessary -->
 	<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
 	<script type="text/javascript">/* <![CDATA[ */

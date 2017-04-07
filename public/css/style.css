@@ -18,6 +18,18 @@ body {
     color: #333;
 }
 
+/* set Gotham font as the default font */
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Gotham SSm A", "Gotham SSm B";
+    font-style: normal;
+    font-weight: 500;
+}
+p, div {
+    font-family: "Gotham SSm A", "Gotham SSm B";
+    font-style: normal;
+    font-weight: 400;
+}
+
 h1 {
     font-size: 28px;
     color: #000;

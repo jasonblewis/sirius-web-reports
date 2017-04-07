@@ -7,10 +7,10 @@
      $('#toggle-notes').click(function(){
          console.log('here');
          if ($(".content-one").is(':visible')) {
-             $('#toggle-notes').html('show notes');
+             $('#toggle-notes').html('Show Notes');
              $('.content-one').slideUp();
          } else {
-             $('#toggle-notes').html('hide notes');
+             $('#toggle-notes').html('Hide Notes');
              $('.content-one').slideDown();
          }
      });
@@ -18,10 +18,16 @@
  });
 </script>
 
-<button id="toggle-notes" type="button">Notes</button>
+<button id="toggle-notes" type="button">Show Notes</button>
 <p class="content-one">[% notes | html | html_line_break %]</p>
-[% FOREACH poemail IN poemails %]
-    <a href="mailto:[% poemail.phone_no %]" target="_top" >[% poemail.phone_no %]</a>
+before for loop
+[% USE Dumper %]
+[% # Dumper.dump_html(supplier_emails) %]
+[% FOREACH supplier_email IN supplier_emails %]
+    [% Dumper.dump_html(supplier_email.phone_no) %]
+    [% Dumper.dump_html(supplier_email.phone_no) %]
+    
+    <a href="mailto:[% supplier_email.phone_no %]" target="_top" >[% supplier_email.phone_no %]</a>
 [% END  %]
 
 

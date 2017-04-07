@@ -51,6 +51,7 @@ make_schema_at(
 				  in_department|
 				  zz_most_recent_purchase|
 				  zz_product_list_today|
+                                  period|
 				  pr_price|
 				  pr_qty_break)\z/x ],
 	],

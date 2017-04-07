@@ -628,11 +628,11 @@ __PACKAGE__->set_primary_key("supplier_code");
 
 #__PACKAGE__->has_many('supplier_code' => 'Reports::Schema::DboInProduct','primary_supplier');
 
-# __PACKAGE__->belongs_to(
-#     company =>
-#         'Reports::Schema::Result::Company',
-#     'company_code',
-# );
+__PACKAGE__->belongs_to(
+    company =>
+        'Reports::Schema::Result::Company',
+    'company_code',
+);
 
 
 1;
