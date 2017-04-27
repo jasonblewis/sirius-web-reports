@@ -19,7 +19,7 @@
 
 
 use 5.20.2;
-use Smart::Comments;
+#use Smart::Comments;
 use strict;
 use warnings;
 use Env;
@@ -56,14 +56,14 @@ my $options = $config->{plugins}->{DBIC}->{default}->{options};
 
 my $schema = Reports::Schema->connect($dsn,$username,$password,$options);
 
-my $transactions = $schema->resultset('ArTransaction')->search_rs({
-  trans_type => 'INV',
-  completed_date => undef,
-});
+# my $transactions = $schema->resultset('ArTransaction')->search_rs({
+#   trans_type => 'INV',
+#   completed_date => undef,
+# });
 
-while (my $tr = $transactions->next) {
-  say $tr->batch_nr;
-}
+# while (my $tr = $transactions->next) {
+#   say $tr->batch_nr;
+# }
 
 
 # my $invoices = $schema->resultset('ArTransaction')->invoices->search({completed_date => undef});
@@ -77,58 +77,58 @@ while (my $tr = $transactions->next) {
 # }
 
 ### get ar_customer codes and company names
-my $ar_customers = $schema->resultset('ArCustomer')->search_rs(undef,
- {
-#   join => { company => 'name'},
-   prefetch => 'company',
-#   prefetch => { company => 'name'},
- }
-);
+# my $ar_customers = $schema->resultset('ArCustomer')->search_rs(undef,
+#  {
+# #   join => { company => 'name'},
+#    prefetch => 'company',
+# #   prefetch => { company => 'name'},
+#  }
+# );
 
-while (my $ar_customer = $ar_customers->next) {
-  say "customer_code: ",$ar_customer->customer_code, " company name: ",$ar_customer->company->name;
-};
-
-
-### get ar_transactions
-
-my $ar_transactions = $schema->resultset('ArTransaction')->search_rs(undef,
- {
-#   prefetch => 'ar_customer',
-   prefetch => { ar_customer => 'company' }
- }
-)->rows(10);
-
-while (my $ar_transaction = $ar_transactions->next) {
-  say "batch_number: ",$ar_transaction->batch_nr,
-    " customer_code: ",$ar_transaction->customer_code,
-    " company_code: ",$ar_transaction->ar_customer->company_code,
-    " company name: ",$ar_transaction->ar_customer->company->name;
-};
+# while (my $ar_customer = $ar_customers->next) {
+#   say "customer_code: ",$ar_customer->customer_code, " company name: ",$ar_customer->company->name;
+# };
 
 
-### get ar_transactions use select to format columns
+# ### get ar_transactions
 
-$ar_transactions = $schema->resultset('ArTransaction')->search({},
- {
-   prefetch => { ar_customer => 'company' },
-   '+select' => [
-     { '' => \'round(trans_amt,1)', '-as' => 'trans_amt_rounded'}
-     ],
-#   '+as'     => [qw/one/],
-#   '+columns' => [  foo =>   \[ 'convert(varchar,trans_date,103)'  ],
-   #ROUND ( numeric_expression , length [ ,function ] )
- }
-)->rows(10);
+# my $ar_transactions = $schema->resultset('ArTransaction')->search_rs(undef,
+#  {
+# #   prefetch => 'ar_customer',
+#    prefetch => { ar_customer => 'company' }
+#  }
+# )->rows(10);
 
-while (my $ar_transaction = $ar_transactions->next) {
-  say "batch_number: ",$ar_transaction->batch_nr,
-    " customer_code: ",$ar_transaction->customer_code,
-    " company_code: ",$ar_transaction->ar_customer->company_code,
-    " company name: ",$ar_transaction->ar_customer->company->name,
-    " foo: "      ,$ar_transaction->get_column('trans_amt_rounded');
-#     " mydate: "      ,$ar_transaction->get_column('mydate'); 
-};
+# while (my $ar_transaction = $ar_transactions->next) {
+#   say "batch_number: ",$ar_transaction->batch_nr,
+#     " customer_code: ",$ar_transaction->customer_code,
+#     " company_code: ",$ar_transaction->ar_customer->company_code,
+#     " company name: ",$ar_transaction->ar_customer->company->name;
+# };
+
+
+# ### get ar_transactions use select to format columns
+
+# $ar_transactions = $schema->resultset('ArTransaction')->search({},
+#  {
+#    prefetch => { ar_customer => 'company' },
+#    '+select' => [
+#      { '' => \'round(trans_amt,1)', '-as' => 'trans_amt_rounded'}
+#      ],
+# #   '+as'     => [qw/one/],
+# #   '+columns' => [  foo =>   \[ 'convert(varchar,trans_date,103)'  ],
+#    #ROUND ( numeric_expression , length [ ,function ] )
+#  }
+# )->rows(10);
+
+# while (my $ar_transaction = $ar_transactions->next) {
+#   say "batch_number: ",$ar_transaction->batch_nr,
+#     " customer_code: ",$ar_transaction->customer_code,
+#     " company_code: ",$ar_transaction->ar_customer->company_code,
+#     " company name: ",$ar_transaction->ar_customer->company->name,
+#     " foo: "      ,$ar_transaction->get_column('trans_amt_rounded');
+# #     " mydate: "      ,$ar_transaction->get_column('mydate'); 
+# };
 
 
 ### multi step prefetch
@@ -148,29 +148,95 @@ while (my $ar_transaction = $ar_transactions->next) {
 
 ### get debtor statement email addresses
 
-# my $phones_rs = $schema->resultset('Phone')->search(
-#   { phone_type => 'STEM',
-#     'debtor_code' => { '!=', undef } },
-#   { collapse => 1,
-#     prefetch => { company => 'ar_debtors' },
-#   }
-# );
+my $phones_rs = $schema->resultset('Phone')->search(
+  { phone_type => 'STEM',
+    'debtor_code' => { '!=', undef } },
+  { collapse => 1,
+    prefetch => { company => 'ar_debtors' },
+  }
+);
 
 
-# my $phoneslist = [];
+my $phoneslist = [];
 
-# while (my $phone = $phones_rs->next) {
+while (my $phone = $phones_rs->next) {
+  # say
+  #   "debtor code: ", $phone->company->ar_debtors->first->debtor_code,
+  #   " company name: ", $phone->company->name,
+  #   " phone: ", $phone->phone_no;
+  push @$phoneslist, {debtor_code => $phone->company->ar_debtors->first->debtor_code,
+		     company_name => $phone->company->name,
+		     phone => $phone->phone_no}
+  
+}
+
+#print Dumper($phoneslist);
+
+#my $supplier_emails = [];
+# my $supplier_emails_rs = $schema->resultset('Phone')->supplier_emails->search();
+
+# while (my $supplier_email = $supplier_emails_rs->next) {
 #   # say
 #   #   "debtor code: ", $phone->company->ar_debtors->first->debtor_code,
 #   #   " company name: ", $phone->company->name,
 #   #   " phone: ", $phone->phone_no;
-#   push @$phoneslist, {debtor_code => $phone->company->ar_debtors->first->debtor_code,
-# 		     company_name => $phone->company->name,
-# 		     phone => $phone->phone_no}
-  
+#   push @$supplier_emails, {
+#     company_code => $supplier_email->company_code,
+#     phone_type => $supplier_email->phone_type,
+#     phone_no =>      $supplier_email->phone_no,
+#   }
 # }
+#print Dumper($supplier_emails);
 
-# print Dumper($phoneslist);
+my $supplier = $schema->resultset('ApSupplier')->search(
+  { supplier_code => 'VOOCOF'}
+)->single;
+
+#print Dumper($supplier);
+
+my $supplier_emails = [];
+my $supplier_emails_rs = $supplier->company->phones->supplier_emails;
+say 'supplier_email';
+while (my $supplier_email = $supplier_emails_rs->next) {
+  # say
+  #   "debtor code: ", $phone->company->ar_debtors->first->debtor_code,
+  #   " company name: ", $phone->company->name,
+  #   " phone: ", $phone->phone_no;
+  push @$supplier_emails, {
+    company_code => $supplier_email->company_code,
+    phone_type => $supplier_email->phone_type,
+    phone_no =>      $supplier_email->phone_no,
+  }
+}
+
+print Dumper($supplier_emails);
+
+my $periods = [];
+my $periods_rs = $schema->resultset('Period')->search(
+  {period_type => 'FM'},
+#  {result_class => 'DBIx::Class::ResultClass::HashRefInflator',}
+);
+while (my $period = $periods_rs->next) {
+  push @$periods, {
+    period_type => $period->period_type,
+    period_start => $period->period_start->ymd(),
+    period_description => $period->description,
+  }
+}
+print Dumper($periods);
+
+my $dtf = $schema->storage->datetime_parser;
+my $now = DateTime->now();
+my $period = $schema->resultset('Period')->search(
+  {period_type => 'FM',
+   period_start => { '<=' => $dtf->format_datetime($now)},
+   period_end   => { '>=' => $dtf->format_datetime($now)},
+   period => {-not_in => [0,999]},
+ },)->single;
+
+print Dumper($period->year);
+print Dumper($period->period);
+print Dumper($period->description);
 
 
 # ### select most recent transactions for a given customer1 
@@ -241,48 +307,48 @@ while (my $ar_transaction = $ar_transactions->next) {
 #   #}
 # }
 
-### get customer and transactions by customer id
-my $dtf = $schema->storage->datetime_parser;
-my $customer  = $schema->resultset('ArCustomer')->find('777SUP');
-my $mrpcount = $customer->most_recent_purchases->count;
-say "most recent purcahses count: ", $mrpcount;
+# ### get customer and transactions by customer id
+# my $dtf = $schema->storage->datetime_parser;
+# my $customer  = $schema->resultset('ArCustomer')->find('777SUP');
+# my $mrpcount = $customer->most_recent_purchases->count;
+# say "most recent purcahses count: ", $mrpcount;
 
-my $duration = DateTime::Duration->new( months => 6 );
-my $start_date = DateTime->now - $duration;
-say $start_date;
+# my $duration = DateTime::Duration->new( months => 6 );
+# my $start_date = DateTime->now - $duration;
+# say $start_date;
 
 
-my $mrps = $customer->most_recent_purchases->search(
-  {
-    'sh_transaction.sales_qty' => { '>=' => 0},
-    'sh_transaction.invoice_date' => { '>=' => $dtf->format_datetime($start_date)},
-  },
-  { prefetch => { sh_transaction => ['product_list_today', {product => 'gst_tax_table'} ] } ,
-    order_by => [ 'sh_transaction.department','sh_transaction.product_code' ],
-     '+select' => [
-       { '' => \'CONVERT(VARCHAR(10),sh_transaction.invoice_date,103)', '-as' => 'invoice_date_datepart'},
-       { '' => \"case when cartononly is not null then 'N/A' ELSE ( convert(varchar,convert(decimal(8,2),product_list_today.unitprice)) ) end", '-as' => 'unitprice_2dp_na'},
-     ],
-  }
- );
-while (my $mrp = $mrps->next ) {
-  my $unitprice;
-  if (length ($mrp->sh_transaction->product->spare_flag_02)) {
-    $unitprice = "N/A";
-  } else {
-    $unitprice = sprintf("%.2f",$mrp->sh_transaction->product_list_today->unitprice);
-  };
+# my $mrps = $customer->most_recent_purchases->search(
+#   {
+#     'sh_transaction.sales_qty' => { '>=' => 0},
+#     'sh_transaction.invoice_date' => { '>=' => $dtf->format_datetime($start_date)},
+#   },
+#   { prefetch => { sh_transaction => ['product_list_today', {product => 'gst_tax_table'} ] } ,
+#     order_by => [ 'sh_transaction.department','sh_transaction.product_code' ],
+#      '+select' => [
+#        { '' => \'CONVERT(VARCHAR(10),sh_transaction.invoice_date,103)', '-as' => 'invoice_date_datepart'},
+#        { '' => \"case when cartononly is not null then 'N/A' ELSE ( convert(varchar,convert(decimal(8,2),product_list_today.unitprice)) ) end", '-as' => 'unitprice_2dp_na'},
+#      ],
+#   }
+#  );
+# while (my $mrp = $mrps->next ) {
+#   my $unitprice;
+#   if (length ($mrp->sh_transaction->product->spare_flag_02)) {
+#     $unitprice = "N/A";
+#   } else {
+#     $unitprice = sprintf("%.2f",$mrp->sh_transaction->product_list_today->unitprice);
+#   };
 
-  say rtrim($mrp->product_code),
-    ' ', rtrim($mrp->sh_transaction->department),
-    ' ', rtrim($mrp->sh_transaction->product->department->description),
-    ' ', rtrim($mrp->sh_transaction->product_list_today->description),
-    ' ', rtrim($mrp->sh_transaction->product->gst_tax_table->tax_rate),
-    '        ', $mrp->invoice_date->strftime('%d/%m/%G'),
-    '       ' , $mrp->sh_transaction->sales_qty,
-    ' ', $mrp->sh_transaction->product_list_today->unitprice_2dp_na,
-    ' ', $mrp->sh_transaction->product_list_today->cartonprice_2dp,
-    ' ', $mrp->sh_transaction->product_list_today->cartonsize,
-    ' ', $mrp->sh_transaction->product_list_today->barcode;
-}
+#   say rtrim($mrp->product_code),
+#     ' ', rtrim($mrp->sh_transaction->department),
+#     ' ', rtrim($mrp->sh_transaction->product->department->description),
+#     ' ', rtrim($mrp->sh_transaction->product_list_today->description),
+#     ' ', rtrim($mrp->sh_transaction->product->gst_tax_table->tax_rate),
+#     '        ', $mrp->invoice_date->strftime('%d/%m/%G'),
+#     '       ' , $mrp->sh_transaction->sales_qty,
+#     ' ', $mrp->sh_transaction->product_list_today->unitprice_2dp_na,
+#     ' ', $mrp->sh_transaction->product_list_today->cartonprice_2dp,
+#     ' ', $mrp->sh_transaction->product_list_today->cartonsize,
+#     ' ', $mrp->sh_transaction->product_list_today->barcode;
+# }
 

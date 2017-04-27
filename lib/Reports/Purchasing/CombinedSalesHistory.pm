@@ -42,7 +42,7 @@ sub get_supplier_code {
     columns => $columns,
     dt_options => {
       ordering => 'true',
-      dom      => 'lfrtip',
+      dom      => 'Bfrtip',
       lengthMenu => '[10,25,50,75,100]',
       responsive => 'true',
       pageLength => 50,
@@ -54,22 +54,34 @@ sub get_supplier_code {
 
 
 sub combined_sales_history {
+
+  my $dtf = schema->storage->datetime_parser;
+  my $now = DateTime->now();
+  my $period = schema->resultset('Period')->search(
+    {period_type => 'FM',
+     period_start => { '<=' => $dtf->format_datetime($now)},
+     period_end   => { '>=' => $dtf->format_datetime($now)},
+     period => {-not_in => [0,999]},
+   },
+)->single;
+
   
   my $columns = encode_json([
     { data => 'product_code',   title => 'Product<br>Code', className => 'text-left'},
     { data => 'description',    title => 'Description', className => 'text-left border-right' },
     { data => 'on_hand',        title => 'On<br>Hand', className => 'text-right' },
     { data => 'on_order',       title => 'On<br>Order', className => 'text-right' },
-    { data => 'so_committed',   title => 'SO<br>Comm', className => 'text-right' },
-    { data => 'bt_committed',   title => 'BT<br>Comm', className => 'text-right' },
+    { data => 'so_committed',   title => 'Comm<br>SO', className => 'text-right' },
+    { data => 'bt_committed',   title => 'Comm<br>BT', className => 'text-right' },
     { data => 'return_bin_qty', title => 'Return<br>Bin', className => 'text-right' },
-    { data => 'available',      title => 'Available', className => 'text-right border-right' },
+    { data => 'available',      title => 'Available', className => 'text-right' },
+    { data => 'available_no_bt',      title => 'Available<br>no BT', className => 'text-right border-right' },
     { data => 'ms_5',           title => 'ms_5', className => 'text-right' },
     { data => 'ms_4',           title => 'ms_4', className => 'text-right' },
     { data => 'ms_3',           title => 'ms_3', className => 'text-right' },
     { data => 'ms_2',           title => 'ms_2', className => 'text-right' },
     { data => 'ms_1',           title => 'ms_1', className => 'text-right' },
-    { data => 'ms_0',           title => 'ms_0', className => 'text-right border-right text-primary' },
+    { data => 'ms_0',           title => $period->period, className => 'text-right border-right text-primary' },
     { data => 'mtotal',         title => '6 Month<br>Total', className => 'text-right' },
     { data => 'maximum',        title => 'Max<br>O/H', className => 'text-right' },
     { data => 'lead_time_days', title => 'Lead<br>Time', className => 'text-right' },
@@ -79,20 +91,26 @@ sub combined_sales_history {
   ]);
   
   my $supplier_code = route_parameters->get('supplier_code');
-  my $supplier = schema->resultset('ApSupplier')->find($supplier_code);
+  my $supplier = schema->resultset('ApSupplier')->search({supplier_code => $supplier_code})->single;
   my $supplier_select_view = schema->resultset('ApSupplierSelectView')->find($supplier_code);
   my $supplier_notes = $supplier->notes;
   my $supplier_name = $supplier_select_view->name;
-  my $supplier_emails = $supplier->company->phones->supplier_emails;
-  $supplier_emails->result_class('DBIx::Class::ResultClass::HashRefInflator');
+  my $supplier_emails = $supplier->company->phones->supplier_emails(
+    {},
+    {
+      result_class => 'DBIx::Class::ResultClass::HashRefInflator',
+    }
+  );
 
+
+  
   template 'purchasing/combined-sales-history', {
     title => "Combined Warehouse Sales History",
     sub_title => "$supplier_name <small>($supplier_code)</small>",
     columns => $columns,
     dt_options => {
       ordering => 'false',
-      dom      => 'Bfrt',
+      dom      => 'Bfrtip',
       responsive => 'true',
       paging => 'false',
     },

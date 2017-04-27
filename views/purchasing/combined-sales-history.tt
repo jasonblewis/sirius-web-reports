@@ -20,17 +20,12 @@
 
 <button id="toggle-notes" type="button">Show Notes</button>
 <p class="content-one">[% notes | html | html_line_break %]</p>
-before for loop
-[% USE Dumper %]
-[% # Dumper.dump_html(supplier_emails) %]
 [% FOREACH supplier_email IN supplier_emails %]
-    [% Dumper.dump_html(supplier_email.phone_no) %]
-    [% Dumper.dump_html(supplier_email.phone_no) %]
-    
     <a href="mailto:[% supplier_email.phone_no %]" target="_top" >[% supplier_email.phone_no %]</a>
 [% END  %]
+<br>
 
 
 [% INCLUDE datatables_buttons.tt %]    
-
+<br>
 [% INCLUDE json_table2.tt %]

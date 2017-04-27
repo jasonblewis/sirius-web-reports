@@ -53,6 +53,7 @@ SELECT
   convert(int,round(coalesce(btc.qty,0),0,0)) as bt_committed,
   convert(int,round(rb.qty,0,0)) as return_bin_qty,
   convert(int,round(oh.on_hand + po.on_order - coalesce(soc.committed,0) - coalesce(rb.qty,0)- coalesce(btc.qty,0),0,0)) as available,
+  convert(int,round(oh.on_hand + po.on_order - coalesce(soc.committed,0) - coalesce(rb.qty,0),0,0)) as available_no_bt,
 
   convert(int,round(coalesce(ms.[5],0),0,0)) as ms_5,
   convert(int,round(coalesce(ms.[4],0),0,0)) as ms_4,
