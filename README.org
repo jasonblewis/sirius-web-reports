@@ -31,6 +31,7 @@ This file is part of Sirius Web Reports.
 pkill fcgi && DANCER_ENVIRONMENT=production plackup -D -E deployment -s FCGI --listen  /var/run/reports/reports.sock /home/reports/Reports/bin/app.psgi
 * to launch for development
 DANCER_ENVIRONMENT=development plackup -L Shotgun bin/app.psgi
+browser-sync start --config bs-config.js
 * authentication via config file
   generate hashed passwords with /usr/sbin/slappasswd
 * to test the app
