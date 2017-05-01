@@ -65,6 +65,7 @@ sub combined_sales_history {
      period => {-not_in => [0,999]},
    },
 )->single;
+
   sub monthtitle {
     my ($age_in_months) = @_;
     return month_name_from_age($age_in_months) . '<br>' . month_number_from_age($age_in_months) . '<br>' . schema->resultset('Period')->period_from_month_age('FM',$age_in_months)->period;
