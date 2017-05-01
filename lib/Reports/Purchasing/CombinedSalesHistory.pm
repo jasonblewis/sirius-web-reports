@@ -24,6 +24,7 @@ use Dancer2::Plugin::Database;
 use Dancer2::Plugin::Auth::Extensible;
 use Data::Dumper;
 use Dancer2::Plugin::DBIC;
+use Reports::DateUtils qw(month_name_from_age month_number_from_age);
 
 sub get_supplier_code {
   my $columns = encode_json([
@@ -64,7 +65,10 @@ sub combined_sales_history {
      period => {-not_in => [0,999]},
    },
 )->single;
-
+  sub monthtitle {
+    my ($age_in_months) = @_;
+    return month_name_from_age($age_in_months) . '<br>' . month_number_from_age($age_in_months) . '<br>' . schema->resultset('Period')->period_from_month_age('FM',$age_in_months)->period;
+  }
   
   my $columns = encode_json([
     { data => 'product_code',   title => 'Product<br>Code', className => 'text-left'},
@@ -75,13 +79,13 @@ sub combined_sales_history {
     { data => 'bt_committed',   title => 'Comm<br>BT', className => 'text-right' },
     { data => 'return_bin_qty', title => 'Return<br>Bin', className => 'text-right' },
     { data => 'available',      title => 'Available', className => 'text-right' },
-    { data => 'available_no_bt',      title => 'Available<br>no BT', className => 'text-right border-right' },
-    { data => 'ms_5',           title => 'ms_5', className => 'text-right' },
-    { data => 'ms_4',           title => 'ms_4', className => 'text-right' },
-    { data => 'ms_3',           title => 'ms_3', className => 'text-right' },
-    { data => 'ms_2',           title => 'ms_2', className => 'text-right' },
-    { data => 'ms_1',           title => 'ms_1', className => 'text-right' },
-    { data => 'ms_0',           title => $period->period, className => 'text-right border-right text-primary' },
+    { data => 'available_no_bt',      title => 'Available<br>+ Comm BT', className => 'text-right border-right' },
+    { data => 'ms_5',           title => monthtitle(5), className => 'text-right' },
+    { data => 'ms_4',           title => monthtitle(4), className => 'text-right' },
+    { data => 'ms_3',           title => monthtitle(3), className => 'text-right' },
+    { data => 'ms_2',           title => monthtitle(2), className => 'text-right' },
+    { data => 'ms_1',           title => monthtitle(1), className => 'text-right' },
+    { data => 'ms_0',           title => month_name_from_age(0) . '<br>' . month_number_from_age(0) . '<br>' . schema->resultset('Period')->period_from_month_age('FM',0)->period, className => 'text-right border-right text-primary' },
     { data => 'mtotal',         title => '6 Month<br>Total', className => 'text-right' },
     { data => 'maximum',        title => 'Max<br>O/H', className => 'text-right' },
     { data => 'lead_time_days', title => 'Lead<br>Time', className => 'text-right' },

@@ -81,3 +81,8 @@ sudo systemctl restart reports
  * Make a report path /some/report
  * make an API path /API/some/report that returns the json data
  * use json_table2.tt to build it
+* debugging sql queries
+  to get DBIX_CLASS traces do:
+  DBIC_TRACE="4=/tmp/trace.out" DANCER_ENVIRONMENT=development plackup -L Shotgun bin/app.psgi
+
+  (trace to a file outside the directory if you are running under broser-sync)

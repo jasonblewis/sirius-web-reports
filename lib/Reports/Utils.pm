@@ -6,7 +6,7 @@ use 5.22.0;
 use Data::Dumper;
 use List::Util 'all';
 
-require Exporter;
+use Exporter('import');
 
 my $logger;
 
@@ -14,8 +14,7 @@ sub set_logger {
   $logger = shift;
 }
 
-my @ISA = qw(Exporter);
-my @EXPORT_OK = qw(ltrim rtrim trim url_first_part compare_url_segments);
+our @EXPORT_OK = qw(ltrim rtrim trim url_first_part compare_url_segments);
 
 
 sub ltrim { my $s = shift; $s =~ s/^\s+//;       return $s };

@@ -22,7 +22,7 @@ requires "DBIx::Class::Schema::Config";
 requires "List::MoreUtils";
 requires "DateTime";
 requires "Math::Round";
-
+requires "Scalar::Util::Numeric";
 requires "Smart::Comments";
 requires "URI";
 

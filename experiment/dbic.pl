@@ -218,12 +218,17 @@ my $periods_rs = $schema->resultset('Period')->search(
 );
 while (my $period = $periods_rs->next) {
   push @$periods, {
+    period => $period->period,
     period_type => $period->period_type,
     period_start => $period->period_start->ymd(),
     period_description => $period->description,
   }
 }
-print Dumper($periods);
+#print Dumper($periods);
+say "after periods";
+my $period_rs = $schema->resultset('Period')->period_from_month_age('FM',0);
+#print Dumper($period_rs);
+
 
 my $dtf = $schema->storage->datetime_parser;
 my $now = DateTime->now();
@@ -237,6 +242,10 @@ my $period = $schema->resultset('Period')->search(
 print Dumper($period->year);
 print Dumper($period->period);
 print Dumper($period->description);
+
+say "before";
+$period_rs = $schema->resultset('Period')->period_from_month_age('FM',0);
+printf "period: %d\n",$period_rs->period; 
 
 
 # ### select most recent transactions for a given customer1 
