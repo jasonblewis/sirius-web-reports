@@ -34,7 +34,7 @@ use URI;
 
 #use Reports::Utils qw(rtrim);
 
-sub combined_sales_history {
+sub combined_warehouse_sales_history {
 
   my $qry_supplier_code = route_parameters->get('supplier_code');
   
@@ -159,6 +159,6 @@ order by p.product_code
 };
 
 
-any ['get','post'] => '/purchasing/combined-sales-history/:supplier_code' => require_login \&combined_sales_history;
+any ['get','post'] => '/purchasing/combined-warehouse-sales-history/:supplier_code' => require_login \&combined_warehouse_sales_history;
 
 1;

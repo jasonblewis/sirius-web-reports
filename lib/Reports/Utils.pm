@@ -45,7 +45,7 @@ sub compare_url_segments {
   # ie, compare /some/path with /some/path/foo.
   # will match if level = 2 as the first 2 segments match
   # pass in 2 urls + a number
-  $logger->("in compare_url_segments");
+  #$logger->("in compare_url_segments");
   my @args = @_;
   my $url1 = $args[0];
   my $url2 = $args[1];

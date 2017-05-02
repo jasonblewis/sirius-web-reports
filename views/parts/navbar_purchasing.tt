@@ -2,7 +2,7 @@
     <li class="dropdown [% IF request.path.replace('(/[^/]+.*?)/.*', '$1') == '/purchasing' %]active[% END %]">
 	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Purchasing<span class="caret"></span></a>
 	<ul class="dropdown-menu">
-	    <li class="[% IF request.path == '/purchasing/combined-sales-history' %]active[% END %]"><a href="/purchasing/combined-warehouse-sales-history">Combined Warehouse Sales History</a></li>
+	    <li class="[% IF (matches =  request.path.match('\/purchasing\/combined-warehouse-sales-history.*')) %]active[% END %]"><a href="/purchasing/combined-warehouse-sales-history">Combined Warehouse Sales History</a></li>
 	    <li class="[% IF request.path == '/purchasing/multi-warehouse-sales-history' %]active[% END %]"><a href="/purchasing/multi-warehouse-sales-history">Multi Warehouse Sales History</a></li>
 	    <li class="[% IF request.path == '/purchasing/blue-green' %]active[% END %]"><a href="/purchasing/blue-green">Blue Green Report</a></li>
 	</ul>

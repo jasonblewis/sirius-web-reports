@@ -54,7 +54,7 @@ sub get_supplier_code {
 }
 
 
-sub combined_sales_history {
+sub combined_warehouse_sales_history {
 
   my $dtf = schema->storage->datetime_parser;
   my $now = DateTime->now();
@@ -120,7 +120,7 @@ sub combined_sales_history {
       paging => 'false',
     },
     caption => "<h4>Combined Warehouse Sales History for $supplier_name</h4>",
-    json_data_url => "/api/purchasing/combined-sales-history/$supplier_code",
+    json_data_url => "/api/purchasing/combined-warehouse-sales-history/$supplier_code",
     notes => $supplier_notes,
     supplier_emails => $supplier_emails->all,
   }
@@ -129,8 +129,8 @@ sub combined_sales_history {
 
 
 prefix '/purchasing' => sub {
-  get '/combined-sales-history' => require_login \&get_supplier_code;
-  get '/combined-sales-history/:supplier_code'  => require_login \&combined_sales_history;
+  get '/combined-warehouse-sales-history' => require_login \&get_supplier_code;
+  get '/combined-warehouse-sales-history/:supplier_code'  => require_login \&combined_warehouse_sales_history;
 };
 
 1;
