@@ -15,7 +15,7 @@
 #     You should have received a copy of the GNU Affero Public License
 #     along with Sirius Web Reports.  If not, see <http://www.gnu.org/licenses/>.
 
-package Reports::API::Purchasing::CombinedSalesHistory;
+package Reports::API::Purchasing::CombinedWarehouseSalesHistory;
 
 use strict;
 use warnings;

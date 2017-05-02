@@ -26,18 +26,9 @@ use Data::Dumper;
 use Dancer2::Plugin::DBIC;
 use Dancer2::Plugin::Ajax;
 
-use Reports::Purchasing::CombinedWarehouse;
-use Reports::Purchasing::CombinedSalesHistory;
+use Reports::Purchasing::CombinedWarehouseSalesHistory;
 use Reports::Purchasing::MultiWarehouseSalesHistory;
 use Reports::Purchasing::BlueGreen;
-#use Devel::Peek;
-
-#use Reports::Schema;
-#use Reports::Schema::Result::DboApSupplier;
-#use Reports::Schema::Result::DboInProduct;
-
-
-
 
 sub menu {
   template 'purchasing/purchasing';

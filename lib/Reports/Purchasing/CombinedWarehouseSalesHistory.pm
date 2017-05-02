@@ -15,7 +15,7 @@
 #     You should have received a copy of the GNU Affero Public License
 #     along with Sirius Web Reports.  If not, see <http://www.gnu.org/licenses/>.
 
-package Reports::Purchasing::CombinedSalesHistory;
+package Reports::Purchasing::CombinedWarehouseSalesHistory;
 use 5.22.0;
 use strict;
 use warnings;
@@ -109,7 +109,7 @@ sub combined_sales_history {
 
 
   
-  template 'purchasing/combined-sales-history', {
+  template 'purchasing/combined-warehouse-sales-history', {
     title => "Combined Warehouse Sales History",
     sub_title => "$supplier_name <small>($supplier_code)</small>",
     columns => $columns,
