@@ -86,7 +86,7 @@ sub combined_warehouse_sales_history {
     { data => 'ms_3',           title => monthtitle(3), className => 'text-right' },
     { data => 'ms_2',           title => monthtitle(2), className => 'text-right' },
     { data => 'ms_1',           title => monthtitle(1), className => 'text-right' },
-    { data => 'ms_0',           title => month_name_from_age(0) . '<br>' . month_number_from_age(0) . '<br>' . schema->resultset('Period')->period_from_month_age('FM',0)->period, className => 'text-right border-right text-primary' },
+    { data => 'ms_0',           title => monthtitle(0), className => 'text-right border-right text-primary' },
     { data => 'mtotal',         title => '6 Month<br>Total', className => 'text-right' },
     { data => 'maximum',        title => 'Max<br>O/H', className => 'text-right' },
     { data => 'lead_time_days', title => 'Lead<br>Time', className => 'text-right' },
@@ -111,7 +111,7 @@ sub combined_warehouse_sales_history {
   
   template 'purchasing/combined-warehouse-sales-history', {
     title => "Combined Warehouse Sales History",
-    sub_title => "$supplier_name <small>($supplier_code)</small>",
+    sub_title => "$supplier_name ($supplier_code)",
     columns => $columns,
     dt_options => {
       ordering => 'false',
