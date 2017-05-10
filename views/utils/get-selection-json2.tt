@@ -3,4 +3,10 @@
 [% INCLUDE datatables_buttons.tt %]    
 
 [% INCLUDE json_table2.tt %]
-
+<script>
+ document.addEventListener('DOMContentLoaded', function () {
+   
+   document.getElementById("displayTable_filter").getElementByTagName("input").focus();
+ }, false);
+ 
+</script>
