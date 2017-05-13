@@ -68,6 +68,8 @@ curl -b ~/.curl-cookies https://reports.organictrader.com.au/api/accounts-receiv
 ssh reports@debian
 # get the latest version
 git pull
+# make sure libpam0g-dev is installed, required for Authen::PAM
+sudo apt install libpam0g-dev
 # install any new dependencies
 cpanm --installdeps .
 # run tests
