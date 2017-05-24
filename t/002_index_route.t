@@ -3,7 +3,7 @@ use warnings;
 
 use 5.12.0;
 
-use Test::More tests => 12;
+use Test::More;
 
 use Test::WWW::Mechanize::PSGI;
 use Data::Dumper qw(Dumper);
@@ -35,7 +35,6 @@ my %routes = (
   '/history'              => {TODO => 'not implemented yet'},
   '/old-reports'          => {TODO => 'not implemented yet'},
   '/price-lists and catalogues' => {TODO => 'not implemented yet'},
-  '/purchasing'               => {},
   '/purchasing/sales-history' => {},
   '/purchasing/sales-history?primary_supplier=PUKHER' =>  {},
 
@@ -84,7 +83,7 @@ my $loc = $mech->response->header('Location');
 is $loc, 'http://localhost/login?return_url=%2F', '/ redirects to /login' or diag "Location header: $loc";
 
 $mech->get($loc);
-ok $mech->status eq '401', "login page" or diag $mech->status;
+ok $mech->status eq '200', "login page" or diag $mech->status;
 
 
 $mech->submit_form(
@@ -92,8 +91,6 @@ $mech->submit_form(
     fields      => { username => 'test',
                      password => 'test' },
 ) or diag "died on submit";
-
-diag "mech success: $mech->success";
 
 $loc = $mech->response->header('Location');
 diag "loc: $loc";
@@ -103,7 +100,6 @@ $mech->get_ok($loc);
 my $base = $mech->base;
 diag "base: $base";
 subtest 'all routes work' => sub {
-  plan tests => scalar keys %routes;
   for my $route (keys %routes) {
     local $TODO = $routes{$route}{TODO}; # tests are marked as TODO when $TODO is true
     $mech->get_ok($base->new_abs($route,$base));
@@ -113,7 +109,6 @@ subtest 'all routes work' => sub {
 
 # test all api routes
 subtest 'all api routes work' => sub {
-  plan tests => scalar keys %api_routes;
   for my $api_route (keys %api_routes) {
     local $TODO = $api_routes{$api_route}{TODO}; # tests are marked as TODO when $TODO is true
     $mech->get_ok($base->new_abs($api_route,$base));
@@ -138,3 +133,5 @@ $mech->content_contains( qq(/abc/def?customer_code) );
 
 $mech->get_ok($base->new_abs('/sales/order-form-w-pricecode?customer_code=ALBOND',$base));
 $mech->content_contains('/api/sales/order-form-w-pricecode/ALBOND');
+
+done_testing;
