@@ -12,7 +12,7 @@
  
  /*jshint esversion: 6*/  
  $( document ).ready( function( $ ) {
-     var columns = [% columns %];
+   var columns = [% columns %];
      $.ajax({
          "processing": true,
          "url": "[% json_data_url %]",
@@ -29,7 +29,7 @@
                                               "url_id_col": val.target_url_id_col};
                  };
              });
-             $("#tableDiv").html('<table id="displayTable" class="table table-striped table-xtra-condensed table-hover" width="100%" cellspacing="0"><caption class="text-success">[% caption %]</caption><thead><tr>' + tableHeaders + '</tr></thead></table>');
+             $("#tableDiv").html('<table id="displayTable" class="table table-striped table-xtra-condensed table-hover" width="100%" cellspacing="0"><caption class="text-success"><h4>[% caption | html_entity %]</h4></caption><thead><tr>' + tableHeaders + '</tr></thead></table>');
              [% IF dt_options.dom %]datatables.dom = '[% dt_options.dom %]';[% END %]
              [% IF dt_options.lengthMenu %]datatables.lengthMenu = [% dt_options.lengthMenu %];[% END %]
              [% IF dt_options.ordering %]datatables.ordering =     [% dt_options.ordering %];[% END %]

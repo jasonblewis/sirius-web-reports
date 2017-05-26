@@ -56,15 +56,7 @@ sub get_supplier_code {
 
 sub combined_warehouse_sales_history {
 
-  my $dtf = schema->storage->datetime_parser;
-  my $now = DateTime->now();
-  my $period = schema->resultset('Period')->search(
-    {period_type => 'FM',
-     period_start => { '<=' => $dtf->format_datetime($now)},
-     period_end   => { '>=' => $dtf->format_datetime($now)},
-     period => {-not_in => [0,999]},
-   },
-)->single;
+  my $period = schema->resultset('Period')->period_from_calendar_date();
 
   sub monthtitle {
     my ($age_in_months) = @_;
@@ -100,13 +92,7 @@ sub combined_warehouse_sales_history {
   my $supplier_select_view = schema->resultset('ApSupplierSelectView')->find($supplier_code);
   my $supplier_notes = $supplier->notes;
   my $supplier_name = $supplier_select_view->name;
-  my $supplier_emails = $supplier->company->phones->supplier_emails(
-    {},
-    {
-      result_class => 'DBIx::Class::ResultClass::HashRefInflator',
-    }
-  );
-
+  my $supplier_emails = $supplier->company->phones->supplier_emails->hri;
 
   
   template 'purchasing/combined-warehouse-sales-history', {
@@ -114,12 +100,12 @@ sub combined_warehouse_sales_history {
     sub_title => "$supplier_name ($supplier_code)",
     columns => $columns,
     dt_options => {
-      ordering => 'false',
+      ordering => 'true',
       dom      => 'Bfrtip',
       responsive => 'true',
       paging => 'false',
     },
-    caption => "<h4>Combined Warehouse Sales History for $supplier_name</h4>",
+    caption => "Combined Warehouse Sales History for $supplier_name",
     json_data_url => "/api/purchasing/combined-warehouse-sales-history/$supplier_code",
     notes => $supplier_notes,
     supplier_emails => $supplier_emails->all,

@@ -3,3 +3,4 @@ environments/*.yml
 /t/config.yml
 /Reports.pid
 /trace
+node_modules/*

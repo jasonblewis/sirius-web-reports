@@ -37,3 +37,9 @@ plugins:
   Auth::Extensible:
     login_page_handler: 'Reports::Login::login_page_handler'
     permission_denied_page_handler: 'Reports::Login::permission_denied_page_handler'
+
+  Database:
+    dbi_params:
+      LongReadLen: 500001
+      LongTruncOk: 0
+      on_connect_do: ['Set transaction isolation level read uncommitted;']

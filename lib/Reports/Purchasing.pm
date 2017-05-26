@@ -30,8 +30,9 @@ use Reports::Purchasing::CombinedWarehouseSalesHistory;
 use Reports::Purchasing::MultiWarehouseSalesHistory;
 use Reports::Purchasing::BlueGreen;
 
-sub menu {
-  template 'purchasing/purchasing';
+prefix '/purchasing' => sub {
+  ajax '/data/suppliers.json' => require_login \&data_suppliers_json;
+  
 };
 
 sub data_suppliers_json {
@@ -46,10 +47,5 @@ sub data_suppliers_json {
 
 
 
-prefix '/purchasing' => sub {
-  get ''                             => require_login \&menu;
-  ajax '/data/suppliers.json' => require_login \&data_suppliers_json;
-  
-};
 
 1;
