@@ -34,12 +34,18 @@ use URI;
 
 #use Reports::Utils qw(rtrim);
 
+any ['get','post'] => '/purchasing/combined-warehouse-sales-history/:supplier_code' => require_login \&combined_warehouse_sales_history;
+
 sub combined_warehouse_sales_history {
 
   my $qry_supplier_code = route_parameters->get('supplier_code');
+
+  debug "LongReadLen = :", database->{LongReadLen};
+  debug "LongTruncOk = :", database->{LongTruncOk};
   
-  database->{LongReadLen} = 100000;
-  database->{LongTruncOk} = 0;
+  # database->{LongReadLen} = 100000;
+  # database->{LongTruncOk} = 0;
+
   
   my $sql = q/
 Set transaction isolation level read uncommitted;
@@ -159,6 +165,5 @@ order by p.product_code
 };
 
 
-any ['get','post'] => '/purchasing/combined-warehouse-sales-history/:supplier_code' => require_login \&combined_warehouse_sales_history;
 
 1;

@@ -23,4 +23,22 @@ sub period_from_month_age {
   return $row;
 }
 
+sub period_from_calendar_date {
+  my ($self, $date) = @_;
+  my $schema = $self->result_source->schema;
+  my $dtf = $self->result_source->storage->datetime_parser;
+
+  unless ($date) {
+    $date = DateTime->now;
+  }; 
+  my $period = $self->search(
+    {period_type => 'FM',
+     period_start => { '<=' => $dtf->format_datetime($date)},
+     period_end   => { '>=' => $dtf->format_datetime($date)},
+     period => {-not_in => [0,999]},
+   },
+  )->single;
+  return $period;
+}
+
 1;

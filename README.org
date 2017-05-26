@@ -85,4 +85,4 @@ sudo systemctl restart reports
   to get DBIX_CLASS traces do:
   DBIC_TRACE="4=/tmp/trace.out" DANCER_ENVIRONMENT=development plackup -L Shotgun bin/app.psgi
 
-  (trace to a file outside the directory if you are running under broser-sync)
+  (trace to a file outside the directory if you are running under browser-sync)

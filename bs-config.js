@@ -13,7 +13,7 @@
  |
  */
 module.exports = {
-    proxy: 'quartz.organictrader.net.au:5000',
+    proxy: 'localhost:5000',
     files: ['lib/**/*.pm',
             'view/**/*.tt',
             'public/*.html',
@@ -21,6 +21,7 @@ module.exports = {
             'public/images/*',
             'public/javascripts/*.js',
            ],
-    host: 'quartz.organictrader.net.au',
+    host: 'localhost',
     open: "external",
+    browser: "google-chrome",
 };

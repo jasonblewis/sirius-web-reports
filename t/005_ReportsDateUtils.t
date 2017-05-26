@@ -10,27 +10,23 @@ use lib "$FindBin::Bin/../lib";
 
 use Reports::DateUtils qw(month_name_from_age month_number_from_age);
 
+# stefan says use DateTime instead of localtime to get the month number instead of adding 1
 my ( $day, $month_0, $year ) = ( localtime )[3,4,5];
-my $month = $month_0+1;
+my $month = $month_0 + 1;
 
 my @months =  qw/ Jan Feb Mar 
                    Apr May Jun 
                    Jul Aug Sep 
                    Oct Nov Dec /;
 
-is(month_name_from_age(0),$months[($month_0-0) % 12 ]);
-is(month_name_from_age(1),$months[($month_0-1) % 12 ]);
-is(month_name_from_age(2),$months[($month_0-2) % 12 ]);
-is(month_name_from_age(3),$months[($month_0-3) % 12 ]);
-is(month_name_from_age(4),$months[($month_0-4) % 12 ]);
-is(month_name_from_age(5),$months[($month_0-5) % 12 ]);
-is(month_name_from_age(6),$months[($month_0-6) % 12 ]);
-is(month_name_from_age(7),$months[($month_0-7) % 12 ]);
-is(month_name_from_age(8),$months[($month_0-8) % 12 ]);
-is(month_name_from_age(9),$months[($month_0-9) % 12 ]);
-is(month_name_from_age(10),$months[($month_0-10) % 12 ]);
-is(month_name_from_age(11),$months[($month_0-11) % 12 ]);
-is(month_name_from_age(12),$months[($month_0-12) % 12 ]);
+my $dt = DateTime->now;
+for my $month_idx (0..12) {
+  
+  is(month_name_from_age($month_idx),$dt->month_abbr);
+  $dt->subtract(months => 1);
+    
+};
+
 
 # hmm.. can pass negative ages too.
 is(month_name_from_age(-1),$months[($month_0+1) % 12 ]);

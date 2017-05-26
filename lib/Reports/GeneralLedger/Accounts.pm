@@ -57,7 +57,7 @@ sub gl_account_reconciliation {
   my $columns = encode_json([
     { data => 'trans_date',  title => 'Transaction Date', className => 'text-left', formatfn => 'formatdate' },
     { data => 'amt',         title => 'Amount', className => 'text-right', formatfn => 'round2dp' },
-    { data => 'RT',           title => 'Running<br>Total', className => 'text-right' },
+    { data => 'RT',          title => 'Running<br>Total', className => 'text-right' },
     { data => 'posted_flag', title => 'Posted?', className => 'text-center' },
     { data => 'description', title => 'Description', className => 'text-left' },
     { data => 'year',        title => 'Year', className => 'text-left' },
@@ -72,6 +72,7 @@ sub gl_account_reconciliation {
   } else {
     warn "account_code not supplied";
   }
+  # stefan says check account code is valid, throw some error if not.
   
   template 'gl/gl-account-reconciliation', {
     title => "GL Account Reconciliation",
@@ -88,7 +89,7 @@ sub gl_account_reconciliation {
       row_contextual_class => 'row_contextual_class',
       row_tooltip => 'WARNING: Transaction Date out of period',
     },
-    caption => "<h4>GL Acount Reconciliation for $account_code</h4>",
+    caption => "GL Acount Reconciliation for $account_code",
     json_data_url => "/api/general-ledger/account-reconciliation/$account_code"
    }
 };
