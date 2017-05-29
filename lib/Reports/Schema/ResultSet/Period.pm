@@ -20,6 +20,7 @@ sub period_from_month_age {
 
   })->all;
   die "Too many rows returned from period query!" if @too_many;
+  die "no period returned!" if !($row);
   return $row;
 }
 
