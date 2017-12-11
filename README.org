@@ -76,11 +76,17 @@ ssh reports@debian
 # get the latest version
 git pull
 # make sure libpam0g-dev is installed, required for Authen::PAM
-sudo apt install libpam0g-dev
+sudo apt install libpam0g-dev unixodbc-dev
+# unset LANG in a subshell
+(unset LANG ; cpanm DBD::ODBC)
+# Authen::PAM doesn't install cleanly under a container, do it manually, no test
+cpanm -n Authen::PAM
+# DBIx::Class::Schema::Loader has problems - skip tests for it
+cpanm -n DBIx::Class::Schema::Loader
 # install any new dependencies
 cpanm --installdeps .
 # run tests
-DANCER_ENVIRONMENT=test prove -l t/002_index_route.t
+DANCER_ENVIRONMENT=test prove -l t/002_routes.t
 # restart systemd service
 sudo systemctl restart reports
 #+END_SRC
