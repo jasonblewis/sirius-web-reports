@@ -69,7 +69,13 @@ ssh reports@debian
 # get the latest version
 git pull
 # make sure libpam0g-dev is installed, required for Authen::PAM
-sudo apt install libpam0g-dev
+sudo apt install libpam0g-dev unixodbc-dev
+# unset LANG in a subshell
+(unset LANG ; cpanm DBD::ODBC)
+# Authen::PAM doesn't install cleanly under a container, do it manually, no test
+cpanm -n Authen::PAM
+# DBIx::Class::Schema::Loader has problems - skip tests for it
+cpanm -n DBIx::Class::Schema::Loader
 # install any new dependencies
 cpanm --installdeps .
 # run tests
