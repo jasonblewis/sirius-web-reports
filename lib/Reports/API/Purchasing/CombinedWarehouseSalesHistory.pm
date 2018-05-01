@@ -114,8 +114,6 @@ left join
 left join
   zz_sh_monthly_sales_2 ms
   on
-    ms.supplier_code = p.primary_supplier
-    and
     ms.product_code = p.product_code
 join po_catalogue pc
   on
