@@ -1,6 +1,6 @@
 * Sirius web reports app
 * Copyright
- Copyright 2017 Jason Lewis
+ Copyright 2018 Jason Lewis
 
 * License
 This file is part of Sirius Web Reports.
@@ -31,7 +31,7 @@ This file is part of Sirius Web Reports.
 perlbrew install <latest perl>
 perlbrew install-cpanm
 # install libpam0g-dev for Authen::Simple
-apt install libpam0g-dev
+sudo apt install libpam0g-dev
 cpanm --installdeps .
 #+END_SRC
 * to launch for production
