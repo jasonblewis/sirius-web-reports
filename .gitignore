@@ -4,3 +4,4 @@ environments/*.yml
 /Reports.pid
 /trace
 node_modules/*
+/.#README.org
