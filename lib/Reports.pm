@@ -46,6 +46,7 @@ our $VERSION = '0.1';
 Reports::Utils::set_logger( sub {debug @_});
 
 my $order_columns = encode_json([
+  {  data => 'first_name', title=>'User', className => 'text-left',      },
   {  data => 'name',       title=>'Store Name', className => 'text-left',      },
   {  data => 'order_nr',   title=>'Order<br>Number', className => 'text-right',      },
   {  data => 'amount',     title=>'Total', className => 'text-right', formatfn => 'round2dp',   },

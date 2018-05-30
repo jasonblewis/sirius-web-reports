@@ -45,24 +45,31 @@ sub outstanding_sales_orders {
   my $sql = q/
 Set transaction isolation level read uncommitted;
   select 
-    customer_code,
-    name,
-    order_status,
-    branch_code,
-    sale_or_credit,
-	order_nr,
-	order_date,
-	sales_rep_code,
-    DATEDIFF(s, '1970-01-01 00:00:00', order_date) as odts,
-    sum(unit_price * ordered_qty) as amount
+  CASE CHARINDEX(' ', u.user_name, 1)
+     WHEN 0 THEN u.user_name -- empty or single word
+     ELSE SUBSTRING(u.user_name, 1, CHARINDEX(' ', u.user_name, 1) - 1) END as first_name, -- multi-word
+    so.customer_code,
+    so.name,
+    so.order_status,
+    so.branch_code,
+    so.sale_or_credit,
+	so.order_nr,
+	so.order_date,
+	so.sales_rep_code,
+    DATEDIFF(s, '1970-01-01 00:00:00', so.order_date) as odts,
+    sum(so.unit_price * so.ordered_qty) as amount
 	
- from so_order_and_lines_view 
+ from so_order_and_lines_view so
+ join user_file u on
+   u.user_id = so.user_id
 
 where
- order_status not in ( 'F','C')
- and sale_or_credit = 'S'
- group by customer_code,name,order_status,branch_code,sale_or_credit,order_nr,order_date,sales_rep_code
- order by order_date
+ so.order_status not in ( 'F','C')
+ and so.sale_or_credit = 'S'
+ group by CASE CHARINDEX(' ', u.user_name, 1)
+     WHEN 0 THEN u.user_name -- empty or single word
+     ELSE SUBSTRING(u.user_name, 1, CHARINDEX(' ', u.user_name, 1) - 1) END ,so.customer_code,so.name,so.order_status,so.branch_code,so.sale_or_credit,so.order_nr,so.order_date,so.sales_rep_code
+ order by so.order_date
   /;
   
 
