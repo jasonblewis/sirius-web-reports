@@ -1,13 +1,11 @@
 //! moment.js locale configuration
-//! locale : Arabic (Lybia) [ar-ly]
-//! author : Ali Hmer: https://github.com/kikoanis
 
 ;(function (global, factory) {
    typeof exports === 'object' && typeof module !== 'undefined'
        && typeof require === 'function' ? factory(require('../moment')) :
    typeof define === 'function' && define.amd ? define(['../moment'], factory) :
    factory(global.moment)
-}(this, function (moment) { 'use strict';
+}(this, (function (moment) { 'use strict';
 
 
     var symbolMap = {
@@ -54,7 +52,7 @@
         'ديسمبر'
     ];
 
-    var ar_ly = moment.defineLocale('ar-ly', {
+    var arLy = moment.defineLocale('ar-ly', {
         months : months,
         monthsShort : months,
         weekdays : 'الأحد_الإثنين_الثلاثاء_الأربعاء_الخميس_الجمعة_السبت'.split('_'),
@@ -92,6 +90,7 @@
             future : 'بعد %s',
             past : 'منذ %s',
             s : pluralize('s'),
+            ss : pluralize('s'),
             m : pluralize('m'),
             mm : pluralize('m'),
             h : pluralize('h'),
@@ -104,7 +103,7 @@
             yy : pluralize('y')
         },
         preparse: function (string) {
-            return string.replace(/\u200f/g, '').replace(/،/g, ',');
+            return string.replace(/،/g, ',');
         },
         postformat: function (string) {
             return string.replace(/\d/g, function (match) {
@@ -117,6 +116,6 @@
         }
     });
 
-    return ar_ly;
+    return arLy;
 
-}));
+})));
