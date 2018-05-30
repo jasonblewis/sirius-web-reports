@@ -1,2 +1,3 @@
 <!-- Moment.js -->
 <script type="text/javascript" src="/bower_components/moment/moment.js"></script>
+<script type="text/javascript" src="//cdn.datatables.net/plug-ins/1.10.16/sorting/datetime-moment.js"></script>

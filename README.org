@@ -101,3 +101,8 @@ sudo systemctl restart reports
   DBIC_TRACE="4=/tmp/trace.out" DANCER_ENVIRONMENT=development plackup -L Shotgun bin/app.psgi
 
   (trace to a file outside the directory if you are running under browser-sync)
+* to update bower managed packages
+  cd public
+  bower list
+  bower update <package_name>
+

@@ -38,7 +38,9 @@ sub outstanding_invoices {
      '+select' => [
        { '' => \'ltrim(str(trans_amt,25,2))', '-as' => 'trans_amt_rounded'},
        { '' => \'CONVERT(VARCHAR(10),trans_date,103)', '-as' => 'trans_date_datepart'},
-       { '' => \'CONVERT(VARCHAR(10),due_date,103)', '-as' => 'due_date_datepart'}
+       { '' => \'CONVERT(VARCHAR(10),trans_date,120)', '-as' => 'trans_date_datepart_sortable'},
+       { '' => \'CONVERT(VARCHAR(10),due_date,103)', '-as' => 'due_date_datepart'},
+       { '' => \'CONVERT(VARCHAR(10),due_date,120)', '-as' => 'due_date_datepart_sortable'}
      ],
 
  })->hri;
@@ -49,11 +51,15 @@ sub outstanding_invoices {
 	{ data => "batch_nr",                 title => 'Batch<br />Number',       className => "text-right"},          
 	{ data => "ar_debtor.company.name",   title => 'Debtor',                  className => "text-left"},
 	{ data => "ar_customer.company.name", title => 'Customer',                className => "text-left"},
-	{ data => "trans_date_datepart",      title => 'Transaction<br />Date',   className => "text-right"},
+	{ data => {"_" => "trans_date_datepart",
+                   sort => "trans_date_datepart_sortable" },
+          title => 'Transaction<br />Date',   className => "text-right", type => "date"},
 	{ data => "trans_amt_rounded",        title => 'Transaction<br />Amount', className => "text-right"},
 	{ data => "ref_1",                    title => 'Ref1',                    className => "text-left"},
 	{ data => "ref_2",                    title => 'Ref2',                    className => "text-left"},
-	{ data => "due_date_datepart",        title => 'Due Date',                className => "text-left", type => "date"},
+	{ data => {"_" => "due_date_datepart",
+          sort => "due_date_datepart_sortable" },
+          title => 'Due Date',                className => "text-left", type => "date"},
       ],
 	data => [@invoices],
       };

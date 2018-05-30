@@ -1,53 +1,53 @@
 <div id="loader" class="loader"></div>
 <script>
  $(document).ajaxStart(function ()
-     {
-	 $('#loader').addClass('loader');
+   {
+     $('#loader').addClass('loader');
 
-     }).ajaxComplete(function () {
-	 
-	 $('#loader').removeClass('loader');
-	 
-     });
+   }).ajaxComplete(function () {
+     
+     $('#loader').removeClass('loader');
+     
+   });
  
  
  $( document ).ready( function( $ ) {
-     $.ajax({
-	 "processing": true,
-         "url": '[% json_data_url %]',
-	 "data": '{"target_url":"[% target_url %]"}',
-	 "type": "POST",
-	 "fixedHeader": true,
-	 "responsive" : true,
-         "success": function(json) {
-             var tableHeaders = '';  // should be at least the empty string first time through
-	     $.each(json.columns, function(i, val){
-                 tableHeaders += "<th>" + val.data + "</th>";
-		 if(val.formatfn){ // check if we have a formatter for this column
-		     json.columns[i].render = window[val.formatfn]; // get the name of the formatting function to use
-		 };
+   $.ajax({
+     "processing": true,
+     "url": '[% json_data_url %]',
+     "data": '{"target_url":"[% target_url %]"}',
+     "type": "POST",
+     "fixedHeader": true,
+     "responsive" : true,
+     "success": function(json) {
+       var tableHeaders = '';  // should be at least the empty string first time through
+       $.each(json.columns, function(i, val){
+         tableHeaders += "<th>" + val.data + "</th>";
+	 if(val.formatfn){ // check if we have a formatter for this column
+	   json.columns[i].render = window[val.formatfn]; // get the name of the formatting function to use
+	 };
 
-             });
-             $("#tableDiv").html('<table id="displayTable" class="table table-striped table-xtra-condensed table-hover" width="100%" cellspacing="0"><caption class="text-success">[% caption %]</caption><thead><tr>' + tableHeaders + '</tr></thead></table>');
-	     json.dom = 'Bfrtip';
-	     json.buttons = ['copy',
-			       'csv',
-			       'excel',
-			       {extend: 'pdfHtml5',
-				text: 'PDF',
-				orientation: 'landscape',
-				pageSize: 'A4',
-				download: 'download',
-				filename: '*',
-				extension: 'pdf'
-			       },
-			       'print'];
+       });
+       $("#tableDiv").html('<table id="displayTable" class="table table-striped table-xtra-condensed table-hover" width="100%" cellspacing="0"><caption class="text-success">[% caption %]</caption><thead><tr>' + tableHeaders + '</tr></thead></table>');
+       json.dom = 'Bfrtip';
+       json.buttons = ['copy',
+		       'csv',
+		       'excel',
+		       {extend: 'pdfHtml5',
+			text: 'PDF',
+			orientation: 'landscape',
+			pageSize: 'A4',
+			download: 'download',
+			filename: '*',
+			extension: 'pdf'
+		       },
+		       'print'];
 
-             var table = $('#displayTable').DataTable(json);
-	     new $.fn.dataTable.FixedHeader(table);
-         },
-         "dataType": "json"
-     });
+       var table = $('#displayTable').DataTable(json);
+       new $.fn.dataTable.FixedHeader(table);
+     },
+     "dataType": "json"
+   });
  });
 </script>
 <div id="tableDiv" class="small"></div>
