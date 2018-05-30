@@ -53,7 +53,7 @@ sub outstanding_invoices {
 	{ data => "trans_amt_rounded",        title => 'Transaction<br />Amount', className => "text-right"},
 	{ data => "ref_1",                    title => 'Ref1',                    className => "text-left"},
 	{ data => "ref_2",                    title => 'Ref2',                    className => "text-left"},
-	{ data => "due_date_datepart",        title => 'Due Date',                className => "text-left"},
+	{ data => "due_date_datepart",        title => 'Due Date',                className => "text-left", type => "date"},
       ],
 	data => [@invoices],
       };
