@@ -34,6 +34,19 @@ perlbrew install-cpanm
 sudo apt install libpam0g-dev
 cpanm --installdeps .
 #+END_SRC
+* updating perl version and cpan modules in production
+ - login as user reports on debian
+ - perlbrew install most recent stable perl
+ - perlbrew use perl just installed
+ - cd ~reports/Reports
+ - cpanm --installdeps .
+ - systectl stop reports
+ - modify /etc/systemd/system/reports.service to have paths pointing to the newly installed perl
+ - as user reports, do a perlbrew switch <newly installed perl version>
+ - systemctl start reports
+ - test if its working ok
+
+
 * to launch for production
 pkill fcgi && DANCER_ENVIRONMENT=production plackup -D -E deployment -s FCGI --listen  /var/run/reports/reports.sock /home/reports/Reports/bin/app.psgi
 * to launch for development
@@ -96,6 +109,10 @@ sudo systemctl restart reports
  * Make a report path /some/report
  * make an API path /API/some/report that returns the json data
  * use json_table2.tt to build it
+ * date columns should include orthogonal data for  sorting purposes
+   https://datatables.net/examples/ajax/orthogonal-data.html
+   see ar/outstanding invoices report
+   [[file:lib/Reports/API/AccountsReceivable.pm::60]]
 * debugging sql queries
   to get DBIX_CLASS traces do:
   DBIC_TRACE="4=/tmp/trace.out" DANCER_ENVIRONMENT=development plackup -L Shotgun bin/app.psgi
