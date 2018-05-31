@@ -34,14 +34,28 @@ perlbrew install-cpanm
 sudo apt install libpam0g-dev
 cpanm --installdeps .
 #+END_SRC
+* DBD::Sybase
+  on debian we use DBD::Sybase driver
+  To install:
+#+BEGIN_SRC bash
+mkdir /tmp/sybase
+ln -s /usr/lib/x86_64-linux-gnu /tmp/sybase/lib
+ln -s /usr/include/ /tmp/sybase/include
+# install in verbose mode because it prompts for some answers
+# I chose CHAINED=Y
+# anything for the test user as -n means no test
+cpanm -n -v DBD::Sybase
+#+END_SRC
 * updating perl version and cpan modules in production
  - login as user reports on debian
  - perlbrew install most recent stable perl
  - perlbrew use perl just installed
  - cd ~reports/Reports
+ - install DBD::Sybase as above
  - cpanm --installdeps .
  - systectl stop reports
  - modify /etc/systemd/system/reports.service to have paths pointing to the newly installed perl
+ - systemctl daemon-reload
  - as user reports, do a perlbrew switch <newly installed perl version>
  - systemctl start reports
  - test if its working ok

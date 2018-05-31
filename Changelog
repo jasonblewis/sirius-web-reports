@@ -1,0 +1,6 @@
+	* 2018-05-31 Jason Lewis
+	Outstanding Orders on the homepage now shows the user who entered the order
+	Date columns sort dates correctly on AR/Outstanding Invoice [sic]
+	updated README.org
+	updated pdfmaker and moment js libraries
+	
