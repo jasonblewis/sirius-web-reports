@@ -2,7 +2,7 @@
     <li class="dropdown [% IF request.path.replace('(/[^/]+.*)/.*', '$1') == '/accounts-receivable' %]active[% END %]">
 	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">AR<span class="caret"></span></a>
 	<ul class="dropdown-menu">
-	    <li class="[% IF request.path == '/accounts-receivable/outstanding-invoices' %]active[% END %]"><a href="/accounts-receivable/outstanding-invoices">Outstanding Invoice</a></li>
+	    <li class="[% IF request.path == '/accounts-receivable/outstanding-invoices' %]active[% END %]"><a href="/accounts-receivable/outstanding-invoices">Outstanding Invoices</a></li>
 	    <li class="[% IF request.path == '/accounts-receivable/statement-email-addresses' %]active[% END %]"><a href="/accounts-receivable/statement-email-addresses">Statement Email Addresses</a></li>
 	</ul>
     </li>
