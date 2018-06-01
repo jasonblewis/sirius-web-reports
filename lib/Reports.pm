@@ -50,8 +50,13 @@ my $order_columns = encode_json([
   {  data => 'name',       title=>'Store Name', className => 'text-left',      },
   {  data => 'order_nr',   title=>'Order<br>Number', className => 'text-right',      },
   {  data => 'amount',     title=>'Total', className => 'text-right', formatfn => 'round2dp',   },
-  {  data => 'order_date', title=>'Age', className => 'text-right', formatfn => 'fromnow', orderData => 4, },
-  {  data => 'odts', title=>'Date timestamp', className => 'text-right', 'visible' => false },
+
+  {  data => {"_" => 'order_date',
+              sort => 'order_date_sortable',
+            },
+              title=>'Age', className => 'text-right', formatfn => 'fromnow', type => 'date' },
+
+#  {  data => 'odts', title=>'Date timestamp', className => 'text-right', 'visible' => false },
   {  data => 'order_status', title=>'Order<br>Status', className => 'text-right'},
   {  data => 'branch_code', title=>'Branch', className => 'text-right'},
   {  data => 'sales_rep_code', title=>'Rep', className => 'text-right'},
@@ -62,8 +67,12 @@ my $credit_columns = encode_json([
   {  data => 'name',       title=>'Store Name', className => 'text-left',      },
   {  data => 'order_nr',   title=>'Credit<br>Number', className => 'text-right',      },
   {  data => 'amount',     title=>'Total', className => 'text-right', formatfn => 'round2dp',   },
-  {  data => 'order_date', title=>'Date', className => 'text-right', formatfn => 'fromnow', orderData => 4, },
-  {  data => 'odts', title=>'Date timestamp', className => 'text-right', 'visible' => false },
+ # {  data => 'order_date', title=>'Date', className => 'text-right', formatfn => 'fromnow', orderData => 4, },
+  {  data => {"_" => 'order_date',
+              sort => 'order_date_sortable',
+            },
+              title=>'Age', className => 'text-right', formatfn => 'fromnow', orderData => 4, },
+#  {  data => 'odts', title=>'Date timestamp', className => 'text-right', 'visible' => false },
   {  data => 'order_status', title=>'Credit<br>Status', className => 'text-right'},
   
 ],);

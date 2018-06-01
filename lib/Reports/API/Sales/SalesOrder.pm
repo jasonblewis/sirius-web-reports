@@ -43,7 +43,7 @@ sub outstanding_sales_orders {
   database->{LongTruncOk} = 0;
   
   my $sql = q/
-Set transaction isolation level read uncommitted;
+  Set transaction isolation level read uncommitted;
   select 
   CASE CHARINDEX(' ', u.user_name, 1)
      WHEN 0 THEN u.user_name -- empty or single word
@@ -53,9 +53,10 @@ Set transaction isolation level read uncommitted;
     so.order_status,
     so.branch_code,
     so.sale_or_credit,
-	so.order_nr,
-	so.order_date,
-	so.sales_rep_code,
+    so.order_nr,
+    so.order_date,
+    CONVERT(VARCHAR(10),so.order_date,120) as order_date_sortable,
+    so.sales_rep_code,
     DATEDIFF(s, '1970-01-01 00:00:00', so.order_date) as odts,
     sum(so.unit_price * so.ordered_qty) as amount
 	
@@ -96,7 +97,12 @@ sub outstanding_sales_credits {
   my $sql = q/Set transaction isolation level read uncommitted;
   select 
     customer_code,
-    name,order_status,sale_or_credit,order_nr,order_date,
+    name,
+    order_status,
+    sale_or_credit,
+    order_nr,
+    order_date,
+    CONVERT(VARCHAR(10),order_date,120) as order_date_sortable,
     DATEDIFF(s, '1970-01-01 00:00:00', order_date) as odts,
     sum(unit_price * ordered_qty) as amount from so_order_and_lines_view 
 
@@ -128,7 +134,7 @@ my $sql = q{select
   invoice_nr,
   invoice_date,
   sum(round(round(unit_price,2)*shipped_qty*(1-discount_rate/100),2)) as [summary total],
-sum(round(round(unit_price,2)*shipped_qty*(1-discount_rate/100) * (tax_rate/100),2)) as [gst],
+  sum(round(round(unit_price,2)*shipped_qty*(1-discount_rate/100) * (tax_rate/100),2)) as [gst],
   
   sum(round(round(unit_price,2)*shipped_qty*(1-discount_rate/100),2) + (round(round(unit_price,2)*shipped_qty*(1-discount_rate/100) * (tax_rate/100),2))) as [total inc gst]
   
