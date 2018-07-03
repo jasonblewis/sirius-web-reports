@@ -27,13 +27,40 @@ This file is part of Sirius Web Reports.
   http://lists.preshweb.co.uk/pipermail/dancer-users/2015-October/005237.html
   https://github.com/wyoung/advent-calendar/tree/master/danceradvent/public/articles/2015
 * installation for development
+install perlbrew if its not already installed
+
 #+BEGIN_SRC bash
 perlbrew install <latest perl>
 perlbrew install-cpanm
 # install libpam0g-dev for Authen::Simple
 sudo apt install libpam0g-dev
+cd ~/Reports
 cpanm --installdeps .
+(unset LANG ; cpanm DBD::ODBC)
 #+END_SRC
+** install msodbc
+   https://docs.microsoft.com/en-us/sql/connect/odbc/linux-mac/installing-the-microsoft-odbc-driver-for-sql-server?view=sql-server-2017
+#+BEGIN_SRC bash
+curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+curl https://packages.microsoft.com/config/debian/9/prod.list > /etc/apt/sources.list.d/mssql-release.list
+apt-get update
+ACCEPT_EULA=Y apt-get install msodbcsql17
+# optional: for bcp and sqlcmd
+ACCEPT_EULA=Y apt-get install mssql-tools
+
+# add it to path
+echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile
+echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
+source ~/.bashrc
+# optional: for unixODBC development headers
+sudo apt-get install unixodbc-dev
+
+#+END_SRC
+** set up 
+#+BEGIN_SRC bash
+mkdir ~Reports/environments
+#+END_SRC
+copy development enviromment from somewhere - 
 * DBD::Sybase
   on debian we use DBD::Sybase driver
   To install:
