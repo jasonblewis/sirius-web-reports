@@ -53,7 +53,7 @@ sub outstanding_sales_orders {
     so.order_status,
     so.branch_code,
     so.sale_or_credit,
-    so.order_nr,
+    so.order_no,
     so.order_date,
     CONVERT(VARCHAR(10),so.order_date,120) as order_date_sortable,
     so.sales_rep_code,
@@ -69,7 +69,7 @@ where
  and so.sale_or_credit = 'S'
  group by CASE CHARINDEX(' ', u.user_name, 1)
      WHEN 0 THEN u.user_name -- empty or single word
-     ELSE SUBSTRING(u.user_name, 1, CHARINDEX(' ', u.user_name, 1) - 1) END ,so.customer_code,so.name,so.order_status,so.branch_code,so.sale_or_credit,so.order_nr,so.order_date,so.sales_rep_code
+     ELSE SUBSTRING(u.user_name, 1, CHARINDEX(' ', u.user_name, 1) - 1) END ,so.customer_code,so.name,so.order_status,so.branch_code,so.sale_or_credit,so.order_no,so.order_date,so.sales_rep_code
  order by so.order_date
   /;
   
@@ -100,7 +100,7 @@ sub outstanding_sales_credits {
     name,
     order_status,
     sale_or_credit,
-    order_nr,
+    order_no,
     order_date,
     CONVERT(VARCHAR(10),order_date,120) as order_date_sortable,
     DATEDIFF(s, '1970-01-01 00:00:00', order_date) as odts,
@@ -109,7 +109,7 @@ sub outstanding_sales_credits {
 where
  order_status not in ( 'F','C')
  and sale_or_credit = 'C'
- group by customer_code,name,order_status,sale_or_credit,order_nr,order_date
+ group by customer_code,name,order_status,sale_or_credit,order_no,order_date
  order by order_date
   /;
   
@@ -131,7 +131,7 @@ sub sales_invoices {
   # returns todays invoices only
 my $sql = q{select 
   name,
-  invoice_nr,
+  invoice_no,
   invoice_date,
   sum(round(round(unit_price,2)*shipped_qty*(1-discount_rate/100),2)) as [summary total],
   sum(round(round(unit_price,2)*shipped_qty*(1-discount_rate/100) * (tax_rate/100),2)) as [gst],
@@ -145,7 +145,7 @@ my $sql = q{select
   and
   sale_or_credit = 'S'
   group by 
-  name,invoice_nr,invoice_date
+  name,invoice_no,invoice_date
     
   };
 

@@ -125,7 +125,7 @@ __PACKAGE__->table("sh_transaction");
   is_nullable: 1
   size: 10
 
-=head2 invoice_nr
+=head2 invoice_no
 
   data_type: 'char'
   is_nullable: 1
@@ -228,7 +228,7 @@ __PACKAGE__->add_columns(
   { data_type => "char", is_nullable => 1, size => 16 },
   "supplier_code",
   { data_type => "char", is_nullable => 1, size => 10 },
-  "invoice_nr",
+  "invoice_no",
   { data_type => "char", is_nullable => 1, size => 10 },
   "invoice_date",
   { data_type => "datetime", is_nullable => 0 },

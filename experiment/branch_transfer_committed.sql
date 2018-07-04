@@ -15,10 +15,10 @@ FROM            dbo.so_order AS o WITH (NOLOCK)
  INNER JOIN
                          dbo.so_order_line AS l WITH (NOLOCK)
  ON
-          o.order_nr = l.order_nr 
+          o.order_no = l.order_no 
 LEFT OUTER JOIN
                          dbo.so_shipment_line AS s 
-WITH (NOLOCK) ON l.order_nr = s.order_nr AND l.order_line_nr = s.order_line_nr
+WITH (NOLOCK) ON l.order_no = s.order_no AND l.order_line_nr = s.order_line_nr
 WHERE
   (o.order_status <> 'H') AND
   (l.completed_flag <> 'Y') AND
