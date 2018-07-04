@@ -226,7 +226,7 @@ __PACKAGE__->table("ar_customer");
   is_nullable: 1
   size: 10
 
-=head2 line_nr_rqd
+=head2 line_no_rqd
 
   data_type: 'char'
   is_nullable: 0
@@ -590,7 +590,7 @@ __PACKAGE__->add_columns(
   { data_type => "char", is_nullable => 1, size => 6 },
   "cust_prod_list",
   { data_type => "char", is_nullable => 1, size => 10 },
-  "line_nr_rqd",
+  "line_no_rqd",
   { data_type => "char", is_nullable => 0, size => 1 },
   "run_code",
   { data_type => "char", is_nullable => 1, size => 10 },
