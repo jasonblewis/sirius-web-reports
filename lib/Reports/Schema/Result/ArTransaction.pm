@@ -152,7 +152,7 @@ __PACKAGE__->table("ar_transaction");
   data_type: 'double precision'
   is_nullable: 1
 
-=head2 held_flag
+=head2 hold_flag
 
   data_type: 'char'
   is_nullable: 1
@@ -229,7 +229,7 @@ __PACKAGE__->table("ar_transaction");
   is_nullable: 0
   size: 1
 
-=head2 so_shipment_nr
+=head2 so_shipment_no
 
   data_type: 'numeric'
   is_nullable: 1
@@ -296,7 +296,7 @@ __PACKAGE__->add_columns(
   { data_type => "double precision", is_nullable => 0 },
   "discount_amt",
   { data_type => "double precision", is_nullable => 1 },
-  "held_flag",
+  "hold_flag",
   { data_type => "char", is_nullable => 1, size => 1 },
   "completed_date",
   { data_type => "datetime", is_nullable => 1 },
@@ -324,7 +324,7 @@ __PACKAGE__->add_columns(
   { data_type => "datetime", is_nullable => 1 },
   "posted_flag",
   { data_type => "char", is_nullable => 0, size => 1 },
-  "so_shipment_nr",
+  "so_shipment_no",
   { data_type => "numeric", is_nullable => 1, size => [11, 0] },
   "gl_ar_control",
   { data_type => "char", is_nullable => 1, size => 20 },
