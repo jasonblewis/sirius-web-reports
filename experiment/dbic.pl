@@ -62,18 +62,18 @@ my $schema = Reports::Schema->connect($dsn,$username,$password,$options);
 # });
 
 # while (my $tr = $transactions->next) {
-#   say $tr->batch_nr;
+#   say $tr->batch_no;
 # }
 
 
 # my $invoices = $schema->resultset('ArTransaction')->invoices->search({completed_date => undef});
 # while (my $tr = $invoices->next) {
-#   say "batch_nr: ", $tr->batch_nr, "debtor: ", $tr->debtor_code;
+#   say "batch_no: ", $tr->batch_no, "debtor: ", $tr->debtor_code;
 # }
 
 # my $invoices = $schema->resultset('ArTransaction')->invoices->outstanding;
 # while (my $tr = $invoices->next) {
-#   say "batch_nr: ", $tr->batch_nr, "debtor: ", $tr->debtor_code;
+#   say "batch_no: ", $tr->batch_no, "debtor: ", $tr->debtor_code;
 # }
 
 ### get ar_customer codes and company names
@@ -100,7 +100,7 @@ my $schema = Reports::Schema->connect($dsn,$username,$password,$options);
 # )->rows(10);
 
 # while (my $ar_transaction = $ar_transactions->next) {
-#   say "batch_number: ",$ar_transaction->batch_nr,
+#   say "batch_number: ",$ar_transaction->batch_no,
 #     " customer_code: ",$ar_transaction->customer_code,
 #     " company_code: ",$ar_transaction->ar_customer->company_code,
 #     " company name: ",$ar_transaction->ar_customer->company->name;
@@ -122,7 +122,7 @@ my $schema = Reports::Schema->connect($dsn,$username,$password,$options);
 # )->rows(10);
 
 # while (my $ar_transaction = $ar_transactions->next) {
-#   say "batch_number: ",$ar_transaction->batch_nr,
+#   say "batch_number: ",$ar_transaction->batch_no,
 #     " customer_code: ",$ar_transaction->customer_code,
 #     " company_code: ",$ar_transaction->ar_customer->company_code,
 #     " company name: ",$ar_transaction->ar_customer->company->name,

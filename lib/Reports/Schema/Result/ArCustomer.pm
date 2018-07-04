@@ -131,7 +131,7 @@ __PACKAGE__->table("ar_customer");
   is_nullable: 1
   size: 10
 
-=head2 ordernr_rqd
+=head2 orderno_rqd
 
   data_type: 'char'
   is_nullable: 0
@@ -558,7 +558,7 @@ __PACKAGE__->add_columns(
   { data_type => "char", is_nullable => 0, size => 1 },
   "pricing_customer",
   { data_type => "char", is_nullable => 1, size => 10 },
-  "ordernr_rqd",
+  "orderno_rqd",
   { data_type => "char", is_nullable => 0, size => 1 },
   "account_or_cash",
   { data_type => "char", is_nullable => 0, size => 1 },

@@ -35,7 +35,7 @@ __PACKAGE__->table("ar_transaction");
 
 =head1 ACCESSORS
 
-=head2 batch_nr
+=head2 batch_no
 
   data_type: 'char'
   is_nullable: 0
@@ -256,7 +256,7 @@ __PACKAGE__->table("ar_transaction");
 =cut
 
 __PACKAGE__->add_columns(
-  "batch_nr",
+  "batch_no",
   { data_type => "char", is_nullable => 0, size => 10 },
   "batch_line_no",
   { data_type => "numeric", is_nullable => 0, size => [9, 0] },
@@ -338,7 +338,7 @@ __PACKAGE__->add_columns(
 
 =over 4
 
-=item * L</batch_nr>
+=item * L</batch_no>
 
 =item * L</batch_line_no>
 
@@ -346,7 +346,7 @@ __PACKAGE__->add_columns(
 
 =cut
 
-__PACKAGE__->set_primary_key("batch_nr", "batch_line_no");
+__PACKAGE__->set_primary_key("batch_no", "batch_line_no");
 
 
 # Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-05-09 12:00:11
