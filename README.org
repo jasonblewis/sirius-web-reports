@@ -164,6 +164,7 @@ sudo systemctl restart reports
   bower list
   bower update <package_name>
 * changes made to update to sirius9
+** in the Reports project source, search and replace all these:
   s/order_nr/order_no
   s/invoice_nr/invoice_no
   s/batch_line_nr/batch_line_no
@@ -175,3 +176,29 @@ sudo systemctl restart reports
   s/bank_code/bank
   s/line_nr_rqd/line_no_rqd
   s/phone_no/phone
+  s/batch_code/batch_no
+  s/discount_perc/discount_rate
+** Several views need updating in the sql server
+ - zz_in_stock_on_hand
+   s/complete_flag/completed_flag
+
+ - zz_so_committed2
+   s/nr/no
+
+ - zz_in_stock_return_bin
+   s/complete_flag/completed_flag
+ 
+ - zz_in_stock_on_hand_warehouse
+   s/complete_flag/completed_flag
+
+ - zz_so_committed2_by_warehouse
+   s/order_line_nr/order_line_no
+
+ - zz_stock_on_hand_value_by_primary_supplier
+   s/complete_flag/completed_flag
+
+ - zz_prod_special_discount_product
+   s/discount_perc/discount_rate
+
+ - zz_prod_carton_size_today
+   s/discount_perc/discount_rate

@@ -58,7 +58,7 @@ __PACKAGE__->table("pr_qty_break");
   is_nullable: 1
   size: 1
 
-=head2 discount_perc
+=head2 discount_rate
 
   data_type: 'double precision'
   is_nullable: 1
@@ -74,7 +74,7 @@ __PACKAGE__->add_columns(
   { data_type => "datetime", is_nullable => 0 },
   "u_version",
   { data_type => "char", is_nullable => 1, size => 1 },
-  "discount_perc",
+  "discount_rate",
   { data_type => "double precision", is_nullable => 1 },
 );
 
