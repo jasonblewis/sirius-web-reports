@@ -177,3 +177,6 @@ sudo systemctl restart reports
 * changes made to update to sirius9
   s/order_nr/order_no
   s/invoice_nr/invoice_no
+  s/batch_line_nr/batch_line_no
+  s/siriusv8/sirius9
+  

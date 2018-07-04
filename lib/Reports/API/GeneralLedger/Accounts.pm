@@ -68,10 +68,10 @@ SELECT
  "zz_gl_account"."name",
  "gl_account_idx"."account"
 FROM  
- "siriusv8"."dbo"."gl_transaction" "gl_transaction" 
+ "sirius9"."dbo"."gl_transaction" "gl_transaction" 
 INNER JOIN
- (  "siriusv8"."dbo"."gl_account_idx" "gl_account_idx"
-    INNER JOIN "siriusv8"."dbo"."zz_gl_account" "zz_gl_account"
+ (  "sirius9"."dbo"."gl_account_idx" "gl_account_idx"
+    INNER JOIN "sirius9"."dbo"."zz_gl_account" "zz_gl_account"
 	 ON 
 	 "gl_account_idx"."account"="zz_gl_account"."account")
 ON "gl_transaction"."account"="zz_gl_account"."account"
