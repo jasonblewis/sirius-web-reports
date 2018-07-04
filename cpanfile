@@ -25,7 +25,7 @@ requires "Math::Round";
 requires "Scalar::Util::Numeric";
 requires "Smart::Comments";
 requires "URI";
-
+requires "App::cpanoutdated";
 requires "Test::WWW::Mechanize::PSGI";
 
 recommends "YAML"             => "0";
