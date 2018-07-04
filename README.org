@@ -168,4 +168,5 @@ sudo systemctl restart reports
   s/invoice_nr/invoice_no
   s/batch_line_nr/batch_line_no
   s/siriusv8/sirius9
-  
+  s/held_flag/hold_flag  
+  s/so_shipment_nr/so_shipment_no
