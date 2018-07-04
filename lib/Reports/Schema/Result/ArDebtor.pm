@@ -65,7 +65,7 @@ __PACKAGE__->table("ar_debtor");
   is_nullable: 0
   size: 1
 
-=head2 bank_code
+=head2 bank
 
   data_type: 'char'
   is_nullable: 1
@@ -496,7 +496,7 @@ __PACKAGE__->add_columns(
   { data_type => "char", is_nullable => 0, size => 10 },
   "debtor_type",
   { data_type => "char", is_nullable => 0, size => 1 },
-  "bank_code",
+  "bank",
   { data_type => "char", is_nullable => 1, size => 6 },
   "bank_branch",
   { data_type => "char", is_nullable => 1, size => 20 },
