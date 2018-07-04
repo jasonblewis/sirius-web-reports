@@ -19,7 +19,7 @@
 
 
 [% FOREACH poemail IN poemails %]
-    <a href="mailto:[% poemail.phone_no %]" target="_top" >[% poemail.phone_no %]</a>
+    <a href="mailto:[% poemail.phone %]" target="_top" >[% poemail.phone %]</a>
 [% END  %]
 
     <h3></h3> 

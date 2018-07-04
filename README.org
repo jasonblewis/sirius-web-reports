@@ -185,3 +185,4 @@ sudo systemctl restart reports
   s/ordernr_rqd/orderno_rqd
   s/bank_code/bank
   s/line_nr_rqd/line_no_rqd
+  s/phone_no/phone
