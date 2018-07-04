@@ -35,8 +35,8 @@ my %routes = (
   '/history'              => {TODO => 'not implemented yet'},
   '/old-reports'          => {TODO => 'not implemented yet'},
   '/price-lists and catalogues' => {TODO => 'not implemented yet'},
-  '/purchasing/sales-history' => {},
-  '/purchasing/sales-history?primary_supplier=PUKHER' =>  {},
+  '/purchasing/combined-warehouse-sales-history' => {},
+  '/purchasing/combined-warehouse-sales-history?primary_supplier=PUKHER' =>  {},
 
   '/sales/new-stores-quarterly-sales' => {},
   '/sales/territory-24-month-summary' => {},
