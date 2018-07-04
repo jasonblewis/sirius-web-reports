@@ -45,7 +45,7 @@ sub creditor_terms {
   $sth_dbname->finish;
 
   my $term_sql = qq/SELECT "ap_creditor"."creditor_code", "ap_creditor"."term_code", "term_rate"."description", "term_rate"."term_days", "term_rate"."term_method", "term_rate"."discount_rate"
- FROM   "siriusv8"."dbo"."ap_creditor" "ap_creditor" INNER JOIN "siriusv8"."dbo"."term_rate" "term_rate" ON "ap_creditor"."term_code"="term_rate"."term_code"
+ FROM   "sirius9"."dbo"."ap_creditor" "ap_creditor" INNER JOIN "sirius9"."dbo"."term_rate" "term_rate" ON "ap_creditor"."term_code"="term_rate"."term_code"
  WHERE  "ap_creditor"."term_code"<>'0'/;
 
   $sth = database->prepare($term_sql) or die "can't prepare\n";
@@ -106,7 +106,7 @@ sub detailed_trial_balance {
  "zz_ap_last_payment"."trans_amt" as "zz_ap_last_payment_trans_amt",
  "zz_ap_allocation_total"."alloc_amt" as "zz_ap_allocation_total_alloc_amt",
  "ap_transaction"."trans_amt" - ISNULL("zz_ap_allocation_total"."alloc_amt",0) as owing
- FROM   ("siriusv8"."dbo"."term_rate" "term_rate" INNER JOIN ("siriusv8"."dbo"."zz_ap_last_payment" "zz_ap_last_payment" RIGHT OUTER JOIN (("siriusv8"."dbo"."zz_ap_allocation_total" "zz_ap_allocation_total" FULL OUTER JOIN "siriusv8"."dbo"."ap_transaction" "ap_transaction" ON ("zz_ap_allocation_total"."batch_nr"="ap_transaction"."batch_nr") AND ("zz_ap_allocation_total"."batch_line_nr"="ap_transaction"."batch_line_nr")) INNER JOIN "siriusv8"."dbo"."ap_creditor" "ap_creditor" ON "ap_transaction"."creditor_code"="ap_creditor"."creditor_code") ON "zz_ap_last_payment"."creditor_code"="ap_creditor"."creditor_code") ON "term_rate"."term_code"="ap_creditor"."term_code") INNER JOIN "siriusv8"."dbo"."company" "company" ON "ap_creditor"."company_code"="company"."company_code"
+ FROM   ("sirius9"."dbo"."term_rate" "term_rate" INNER JOIN ("sirius9"."dbo"."zz_ap_last_payment" "zz_ap_last_payment" RIGHT OUTER JOIN (("sirius9"."dbo"."zz_ap_allocation_total" "zz_ap_allocation_total" FULL OUTER JOIN "sirius9"."dbo"."ap_transaction" "ap_transaction" ON ("zz_ap_allocation_total"."batch_nr"="ap_transaction"."batch_nr") AND ("zz_ap_allocation_total"."batch_line_no"="ap_transaction"."batch_line_no")) INNER JOIN "sirius9"."dbo"."ap_creditor" "ap_creditor" ON "ap_transaction"."creditor_code"="ap_creditor"."creditor_code") ON "zz_ap_last_payment"."creditor_code"="ap_creditor"."creditor_code") ON "term_rate"."term_code"="ap_creditor"."term_code") INNER JOIN "sirius9"."dbo"."company" "company" ON "ap_creditor"."company_code"="company"."company_code"
  WHERE  "ap_transaction"."completed_date" IS  NULL  AND ("zz_ap_allocation_total"."alloc_amt" IS  NULL  OR "zz_ap_allocation_total"."alloc_amt"<>"ap_transaction"."trans_amt")
  ORDER BY "ap_creditor"."creditor_code", "ap_transaction"."trans_date"/;
 

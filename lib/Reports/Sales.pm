@@ -57,19 +57,19 @@ SELECT "zz_first_order_date"."customer_code",
  "company"."name",
  DATEADD(qq, DATEDIFF(qq, 0, "zz_first_order_date"."inv_date"), 0) as firstorderquarter
  FROM   ((
-        "siriusv8"."dbo"."sh_transaction" "sh_transaction"
+        "sirius9"."dbo"."sh_transaction" "sh_transaction"
  INNER JOIN
-       "siriusv8"."dbo"."zz_first_order_date" "zz_first_order_date"
+       "sirius9"."dbo"."zz_first_order_date" "zz_first_order_date"
      ON
      ("sh_transaction"."invoice_date">="zz_first_order_date"."inv_date")
      AND
      ("sh_transaction"."customer_code"="zz_first_order_date"."customer_code"))
  INNER JOIN
-        "siriusv8"."dbo"."ar_customer" "ar_customer"
+        "sirius9"."dbo"."ar_customer" "ar_customer"
      ON
      "sh_transaction"."customer_code"="ar_customer"."customer_code")
  INNER JOIN
-     "siriusv8"."dbo"."company" "company"
+     "sirius9"."dbo"."company" "company"
      ON
      "ar_customer"."company_code"="company"."company_code"
  WHERE
