@@ -21,7 +21,7 @@
 <button id="toggle-notes" type="button">Show Notes</button>
 <p class="content-one">[% notes | html | html_line_break %]</p>
 [% FOREACH supplier_email IN supplier_emails %]
-    <a href="mailto:[% supplier_email.phone_no %]" target="_top" >[% supplier_email.phone_no %]</a>
+    <a href="mailto:[% supplier_email.phone %]" target="_top" >[% supplier_email.phone %]</a>
 [% END  %]
 <br>
 

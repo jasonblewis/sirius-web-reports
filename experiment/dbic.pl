@@ -163,10 +163,10 @@ while (my $phone = $phones_rs->next) {
   # say
   #   "debtor code: ", $phone->company->ar_debtors->first->debtor_code,
   #   " company name: ", $phone->company->name,
-  #   " phone: ", $phone->phone_no;
+  #   " phone: ", $phone->phone;
   push @$phoneslist, {debtor_code => $phone->company->ar_debtors->first->debtor_code,
 		     company_name => $phone->company->name,
-		     phone => $phone->phone_no}
+		     phone => $phone->phone}
   
 }
 
@@ -179,11 +179,11 @@ while (my $phone = $phones_rs->next) {
 #   # say
 #   #   "debtor code: ", $phone->company->ar_debtors->first->debtor_code,
 #   #   " company name: ", $phone->company->name,
-#   #   " phone: ", $phone->phone_no;
+#   #   " phone: ", $phone->phone;
 #   push @$supplier_emails, {
 #     company_code => $supplier_email->company_code,
 #     phone_type => $supplier_email->phone_type,
-#     phone_no =>      $supplier_email->phone_no,
+#     phone =>      $supplier_email->phone,
 #   }
 # }
 #print Dumper($supplier_emails);
@@ -201,11 +201,11 @@ while (my $supplier_email = $supplier_emails_rs->next) {
   # say
   #   "debtor code: ", $phone->company->ar_debtors->first->debtor_code,
   #   " company name: ", $phone->company->name,
-  #   " phone: ", $phone->phone_no;
+  #   " phone: ", $phone->phone;
   push @$supplier_emails, {
     company_code => $supplier_email->company_code,
     phone_type => $supplier_email->phone_type,
-    phone_no =>      $supplier_email->phone_no,
+    phone =>      $supplier_email->phone,
   }
 }
 
@@ -277,11 +277,11 @@ printf "period: %d\n",$period_rs->period;
 #   "company name: " , $customer->company->name;
 # my $phones = $customer->company->phones->buyer_phone_numbers;
 # while (my $phone = $phones->next) {
-#   say "   phone: ", $phone->phone_no;
+#   say "   phone: ", $phone->phone;
 # }
 # my $faxs = $customer->company->phones->buyer_fax_numbers;
 # while (my $fax = $faxs->next) {
-#   say "   fax: ", $fax->phone_no;
+#   say "   fax: ", $fax->phone;
 # }
 
 # my $purchases = $customer->most_recent_purchases;

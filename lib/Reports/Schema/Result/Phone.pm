@@ -59,7 +59,7 @@ __PACKAGE__->table("phone");
   is_nullable: 1
   size: [9,0]
 
-=head2 phone_no
+=head2 phone
 
   data_type: 'char'
   is_nullable: 0
@@ -88,7 +88,7 @@ __PACKAGE__->add_columns(
   { data_type => "char", is_nullable => 1, size => 1 },
   "seq",
   { data_type => "numeric", is_nullable => 1, size => [9, 0] },
-  "phone_no",
+  "phone",
   { data_type => "char", is_nullable => 0, size => 50 },
   "phone_type",
   { data_type => "char", is_nullable => 0, size => 6 },

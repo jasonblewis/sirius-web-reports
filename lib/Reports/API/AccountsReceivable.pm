@@ -82,7 +82,7 @@ sub statement_email_addresses {
   while (my $phone = $phones_rs->next) {
     push @$phoneslist, {debtor_code => $phone->company->ar_debtors->first->debtor_code,
 		       company_name => $phone->company->name,
-		       phone => $phone->phone_no}
+		       phone => $phone->phone}
   }
   return { columns => [
     { data => 'debtor_code',  title => 'Debtor Code',             className => 'text-right'},
