@@ -111,7 +111,7 @@ curl -b ~/.curl-cookies -d"message=hello" localhost:5000/time
 #+END_SRC
 ** simple api request
 #+BEGIN_SRC bash
-curl -b ~/.curl-cookies 'localhost:5000/api/general-ledger/credit-cards' | json_pp | less
+curl -b ~/.curl-cookies 'localhost:5000/api/general-ledger/credit-cards'| json_pp | less
 #+END_SRC
 ** to post 
 curl -s -b ~/.curl-cookies -X POST --data '{"target_url":"/abc/def"}' http://localhost:5000/api/accounts-receivable/customers  | json_pp
@@ -163,4 +163,6 @@ sudo systemctl restart reports
   cd public
   bower list
   bower update <package_name>
-
+* changes made to update to sirius9
+  s/order_nr/order_no
+  s/invoice_nr/invoice_no

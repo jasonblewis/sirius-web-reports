@@ -48,7 +48,7 @@ Reports::Utils::set_logger( sub {debug @_});
 my $order_columns = encode_json([
   {  data => 'first_name', title=>'User', className => 'text-left',      },
   {  data => 'name',       title=>'Store Name', className => 'text-left',      },
-  {  data => 'order_nr',   title=>'Order<br>Number', className => 'text-right',      },
+  {  data => 'order_no',   title=>'Order<br>Number', className => 'text-right',      },
   {  data => 'amount',     title=>'Total', className => 'text-right', formatfn => 'round2dp',   },
 
   {  data => {"_" => 'order_date',
@@ -65,7 +65,7 @@ my $order_columns = encode_json([
 
 my $credit_columns = encode_json([
   {  data => 'name',       title=>'Store Name', className => 'text-left',      },
-  {  data => 'order_nr',   title=>'Credit<br>Number', className => 'text-right',      },
+  {  data => 'order_no',   title=>'Credit<br>Number', className => 'text-right',      },
   {  data => 'amount',     title=>'Total', className => 'text-right', formatfn => 'round2dp',   },
  # {  data => 'order_date', title=>'Date', className => 'text-right', formatfn => 'fromnow', orderData => 4, },
   {  data => {"_" => 'order_date',
@@ -78,7 +78,7 @@ my $credit_columns = encode_json([
 ],);
 my $invoice_columns = encode_json([
   {  data => 'name',       title=>'Store Name', className => 'text-left',      },
-  {  data => 'invoice_nr',   title=>'Invoice<br>Number', className => 'text-right',      },
+  {  data => 'invoice_no',   title=>'Invoice<br>Number', className => 'text-right',      },
   {  data => 'total inc gst',     title=>'Total', className => 'text-right', formatfn => 'round2dp',   },
   {  data => 'invoice_date', title=>'Date', className => 'text-right', formatfn => 'fromnow' },
   
