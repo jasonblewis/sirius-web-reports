@@ -48,7 +48,7 @@ sub outstanding_invoices {
   return {
     pageLength => 50,
       columns => [
-	{ data => "batch_nr",                 title => 'Batch<br />Number',       className => "text-right"},          
+	{ data => "batch_no",                 title => 'Batch<br />Number',       className => "text-right"},          
 	{ data => "ar_debtor.company.name",   title => 'Debtor',                  className => "text-left"},
 	{ data => "ar_customer.company.name", title => 'Customer',                className => "text-left"},
 	{ data => {"_" => "trans_date_datepart",

@@ -170,3 +170,6 @@ sudo systemctl restart reports
   s/siriusv8/sirius9
   s/held_flag/hold_flag  
   s/so_shipment_nr/so_shipment_no
+  s/batch_nr/batch_no
+  s/ordernr_rqd/orderno_rqd
+
