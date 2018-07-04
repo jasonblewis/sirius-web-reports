@@ -97,7 +97,7 @@ browser-sync start --config bs-config.js
   generate hashed passwords with /usr/sbin/slappasswd
 * to test the app
 #+BEGIN_SRC 
-DANCER_ENVIRONMENT=test prove -l t/002_index_route.t
+DANCER_ENVIRONMENT=test prove -l t/002_routes.t
 #+END_SRC
 * curl ajax
 ** to login with curl:
