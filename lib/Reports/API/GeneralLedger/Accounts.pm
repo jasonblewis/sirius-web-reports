@@ -50,7 +50,7 @@ sub gl_account_reconciliation {
   my $sql = q{
 set transaction isolation level read uncommitted
 SELECT
- batch_code,
+ batch_no,
  trans,
  p.period_start,
  p.period_end,
