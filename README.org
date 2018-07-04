@@ -183,4 +183,4 @@ sudo systemctl restart reports
   s/so_shipment_nr/so_shipment_no
   s/batch_nr/batch_no
   s/ordernr_rqd/orderno_rqd
-
+  s/bank_code/bank
