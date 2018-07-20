@@ -73,9 +73,9 @@ SELECT "zz_first_order_date"."customer_code",
      ON
      "ar_customer"."company_code"="company"."company_code"
  WHERE
- "sh_transaction"."invoice_date">=DATEADD(qq, DATEDIFF(qq, 0, @mydate)-1, 0)
+ "sh_transaction"."invoice_date">=DATEADD(qq, DATEDIFF(qq, 0, @mydate)-2, 0)
  AND
- "zz_first_order_date"."inv_date">=DATEADD(qq, DATEDIFF(qq, 0, @mydate)-1, 0)
+ "zz_first_order_date"."inv_date">=DATEADD(qq, DATEDIFF(qq, 0, @mydate)-2, 0)
  order by DATEADD(qq, DATEDIFF(qq, 0, "zz_first_order_date"."inv_date"), 0) desc, customer_code/;
 
   $sth = database->prepare($term_sql) or die "can't prepare\n";
