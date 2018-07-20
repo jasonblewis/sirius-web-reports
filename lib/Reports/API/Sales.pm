@@ -69,7 +69,8 @@ sub order_form_w_pricecode {
       { className => 'text-right small', data => 'sh_transaction.product.gst_tax_table.tax_rate', title => 'GST %'},
       { className => 'text-right small', data => 'invoice_date_datepart', title => 'Last Purchased'},
       { className => 'text-right small', data => 'sh_transaction.sales_qty', title => 'Last Purch. Qty'},
-      { className => 'text-right small', data => 'sh_transaction.product_list_today.barcode', title => 'Barcode'},
+      { className => 'text-right small', data => 'sh_transaction.product_list_today.barcode', title => 'Barcode',},
+      { className => 'text-right small', defaultContent => '',  title => 'Order Qty', },
     ],
     data => [@mrps],
   };
