@@ -2,6 +2,7 @@
 [% USE url(detail_url) %]
 [% INCLUDE page_header.tt %]
 <h2>[% territory_row.0.description %] ([% territory_code %])</h2>
+Dollar value sales
 <script src="/javascripts/datatablesdisplay.js"></script>
 
 <!-- <h2>Fields</h2>
