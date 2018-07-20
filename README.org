@@ -46,6 +46,14 @@ ln -s /usr/include/ /tmp/sybase/include
 # anything for the test user as -n means no test
 cpanm -n -v DBD::Sybase
 #+END_SRC
+* updating production 
+when there has been minor updates to the code and you just want to update the code from git
+#+BEGIN_SRC 
+ssh debian
+sudo -u reports git --git-dir=/home/reports/Reports/.git --work-tree=/home/reports/Reports pull
+sudo systemctl restart reports 
+
+#+END_SRC
 * updating perl version and cpan modules in production
  - login as user reports on debian
  - perlbrew install most recent stable perl
