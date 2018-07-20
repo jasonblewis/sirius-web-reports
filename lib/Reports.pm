@@ -51,12 +51,18 @@ my $order_columns = encode_json([
   {  data => 'order_nr',   title=>'Order<br>Number', className => 'text-right',      },
   {  data => 'amount',     title=>'Total', className => 'text-right', formatfn => 'round2dp',   },
 
-  {  data => {"_" => 'order_date',
-              sort => 'order_date_sortable',
+  { data => 'order_date',
+    render => {"_" => 'order_date',
             },
-              title=>'Age', className => 'text-right', formatfn => 'fromnow', type => 'date' },
+    title=>'Age',
+    orderable => false,
+    className => 'text-right',
+    formatfn => 'fromnow',
+    type => 'date' },
 
-#  {  data => 'odts', title=>'Date timestamp', className => 'text-right', 'visible' => false },
+
+  
+  {  data => 'order_date_sortable', title=>'Date', className => 'text-right', 'visible' => true, type => 'date' },
   {  data => 'order_status', title=>'Order<br>Status', className => 'text-right'},
   {  data => 'branch_code', title=>'Branch', className => 'text-right'},
   {  data => 'sales_rep_code', title=>'Rep', className => 'text-right'},
