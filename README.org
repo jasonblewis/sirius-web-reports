@@ -202,3 +202,63 @@ sudo systemctl restart reports
 
  - zz_prod_carton_size_today
    s/discount_perc/discount_rate
+
+** sql to update views
+use sirius9
+
+if (exists (select COLUMN_NAME from information_schema.columns
+              where TABLE_NAME = 'zz_cust_NSWCustomers' and COLUMN_NAME = 'line_nr_rqd'))
+begin
+  exec sp_rename 'zz_cust_NSWCustomers.line_nr_rqd','line_no_rqd','column'
+end
+go
+
+if (exists (select COLUMN_NAME from information_schema.columns
+              where TABLE_NAME = 'zz_cust_NSWCustomers' and COLUMN_NAME = 'ordernr_rqd'))
+begin
+  exec sp_rename 'zz_cust_NSWCustomers.ordernr_rqd','orderno_rqd','column'
+end
+go
+
+if (exists (select COLUMN_NAME from information_schema.columns
+              where TABLE_NAME = 'zz_cust_customer_outside_NSW' and COLUMN_NAME = 'line_nr_rqd'))
+begin
+  exec sp_rename 'zz_cust_customer_outside_NSW.line_nr_rqd','line_no_rqd','column'
+end
+go
+
+if (exists (select COLUMN_NAME from information_schema.columns
+              where TABLE_NAME = 'zz_cust_customer_outside_NSW' and COLUMN_NAME = 'ordernr_rqd'))
+begin
+  exec sp_rename 'zz_cust_customer_outside_NSW.ordernr_rqd','orderno_rqd','column'
+end
+go
+
+if (exists (select COLUMN_NAME from information_schema.columns
+              where TABLE_NAME = 'zz_cust_VIC_customers' and COLUMN_NAME = 'line_nr_rqd'))
+begin
+  exec sp_rename 'zz_cust_VIC_customers.line_nr_rqd','line_no_rqd','column'
+end
+go
+
+if (exists (select COLUMN_NAME from information_schema.columns
+              where TABLE_NAME = 'zz_cust_VIC_customers' and COLUMN_NAME = 'ordernr_rqd'))
+begin
+  exec sp_rename 'zz_cust_VIC_customers.ordernr_rqd','orderno_rqd','column'
+end
+go
+
+if (exists (select COLUMN_NAME from information_schema.columns
+              where TABLE_NAME = 'zz_ar_customer_select_view_nolock' and COLUMN_NAME = 'line_nr_rqd'))
+begin
+  exec sp_rename 'zz_ar_customer_select_view_nolock.line_nr_rqd','line_no_rqd','column'
+end
+go
+
+if (exists (select COLUMN_NAME from information_schema.columns
+              where TABLE_NAME = 'zz_ar_customer_select_view_nolock' and COLUMN_NAME = 'ordernr_rqd'))
+begin
+  exec sp_rename 'zz_ar_customer_select_view_nolock.ordernr_rqd','orderno_rqd','column'
+end
+go
+
