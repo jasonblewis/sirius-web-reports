@@ -189,6 +189,7 @@ sudo systemctl restart reports
   s/phone_no/phone
   s/batch_code/batch_no
   s/discount_perc/discount_rate
+  
 ** Several views need updating in the sql server
  - zz_in_stock_on_hand
    s/complete_flag/completed_flag
@@ -196,7 +197,7 @@ sudo systemctl restart reports
  - zz_so_committed2
    s/nr/no
 
- - zz_in_stock_return_bin
+ - zz_in_stock_in_return_bin
    s/complete_flag/completed_flag
  
  - zz_in_stock_on_hand_warehouse
@@ -204,6 +205,7 @@ sudo systemctl restart reports
 
  - zz_so_committed2_by_warehouse
    s/order_line_nr/order_line_no
+   s/order_nr/order_no
 
  - zz_stock_on_hand_value_by_primary_supplier
    s/complete_flag/completed_flag
@@ -213,6 +215,12 @@ sudo systemctl restart reports
 
  - zz_prod_carton_size_today
    s/discount_perc/discount_rate
+ 
+ - zz_ap_allocation_total
+   s/_nr/_no
+
+ - zz_prod_carton_price_today
+   s/perc/rate
 
 ** sql to update views
 use sirius9
