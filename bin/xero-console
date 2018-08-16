@@ -67,7 +67,7 @@ round((round(unit_price,2)
   -discount_rate/100*round(unit_price,2)))*shipped_qty,2)/shipped_qty as UnitAmount,
 
 case when  (tax_rate = 10)  then '210.1' else '210.2' end as AccountCode,
-case when  (tax_rate = 10)  then 'BAS Excluded' else 'BAS Excluded' end as TaxType,
+case when  (tax_rate = 10)  then 'BASEXCLUDED' else 'BASEXCLUDED' end as TaxType,
 '' as TrackingName1,
 '' as TrackingOption1,
 '' as TrackingName2,
@@ -153,6 +153,8 @@ sub submit_xero_invoice {
         InvoiceNumber => $invoice_number,
         Date => $data->[0]->{InvoiceDate},
         DueDate => $data->[0]->{DueDate},
+        CurrencyCode => 'AUD',
+        TaxType => $data->[0]->{TaxType},
     );
 
     # build data structure for submission
