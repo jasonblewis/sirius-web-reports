@@ -157,7 +157,7 @@ sub submit_xero_invoice {
 
     # build data structure for submission
     my $xero_invoice = {
-        Type => 'ACCREC',
+        Type => 'ACCPAY',
         Contact => {
             ContactID => $contact_id,
         },
