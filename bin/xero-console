@@ -15,6 +15,26 @@ use Data::Dumper;
 use Dancer2;
 use Dancer2::Plugin::Database;
 
+=head1 Name
+
+xero-console
+
+=head1 Prerequisites
+
+=over
+
+=item Currency
+
+AUD has to be enabled in the Xero account.
+
+=back
+
+=head1 WebService::Xero
+
+The module doesn't support PUT requests, here is a patch: L<https://rt.cpan.org/Ticket/Display.html?id=126897>.
+
+=cut
+
 my $command = shift || '';
 my $xero_config = config->{xero};
 my $pkey = path($xero_config->{private_key_file})->slurp;
