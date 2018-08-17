@@ -7,7 +7,7 @@ use Path::Tiny;
 use YAML::Tiny;
 use Net::Xero;
 use XML::Simple;
-use JSON;
+use JSON::MaybeXS;
 
 use WebService::Xero::Agent::PrivateApplication;
 use Data::Dumper;
