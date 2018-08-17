@@ -19,6 +19,12 @@ my $command = shift || '';
 my $xero_config = config->{xero};
 my $pkey = path($xero_config->{private_key_file})->slurp;
 
+my $json = '';
+
+if (@ARGV == 1) {
+    $json = load_json($ARGV[0]);
+}
+
 # instantiate private application object
 my $xero_app = WebService::Xero::Agent::PrivateApplication->new(
     CONSUMER_KEY    => $xero_config->{consumer_key},
@@ -204,5 +210,29 @@ sub nuke_whitespace {
             $data->{$field} = $value;
         }
     }
+}
+
+=head2 load_json($json_file)
+
+Loads JSON from file and verifies it.
+
+=cut
+
+sub load_json {
+    my $json_file = shift;
+    my $json;
+
+    $json = path($json_file)->slurp_utf8;
+
+    # verify
+    eval {
+        my $struct = decode_json($json);
+    };
+
+    if ($@) {
+        die "Failed to parse JSON file $ARGV[0]: ", $@;
+    }
+
+    return $json;
 }
 
