@@ -39,11 +39,6 @@ my $command = shift || '';
 my $xero_config = config->{xero};
 my $pkey = path($xero_config->{private_key_file})->slurp;
 
-my $json = '';
-
-if (@ARGV == 1) {
-    $json = load_json($ARGV[0]);
-}
 
 # instantiate private application object
 my $xero_app = WebService::Xero::Agent::PrivateApplication->new(
@@ -51,6 +46,33 @@ my $xero_app = WebService::Xero::Agent::PrivateApplication->new(
     CONSUMER_SECRET => $xero_config->{consumer_secret},
     PRIVATE_KEY     => $pkey,
 );
+
+my %cmd_list = (
+    delete_invoice => {
+        positional => [qw/invoice_number/],
+        function => \&delete_invoice,
+    },
+);
+
+if (exists $cmd_list{$command}) {
+    my $command_config = $cmd_list{$command};
+    my @command_args;
+
+    if (exists $command_config->{positional}) {
+        @command_args = shift @ARGV, scalar(@{$command_config->{positional}});
+    }
+
+    print Dumper(\@command_args);
+
+    $command_config->{function}->($xero_app, @command_args);
+    exit;
+}
+
+my $json = '';
+
+if (@ARGV == 1) {
+    $json = load_json($ARGV[0]);
+}
 
 if ($command eq 'create_account') {
     unless ($json) {
@@ -237,6 +259,28 @@ sub submit_xero_invoice {
     print "RI: ", Dumper($ret_invoice), "\n";
 }
 
+=head2 delete_invoice($xero_app, $invoice_number)
+
+Set status of invoice to C<DELETED>.
+Only applicable to C<DRAFT> invoices.
+
+=cut
+
+sub delete_invoice {
+    my ($xero_app, $invoice_number) = @_;
+
+    my $json = encode_json({
+        InvoiceNumber => $invoice_number,
+        Status => 'DELETED',
+    });
+
+    my $contact = $xero_app->do_xero_api_call(
+        'https://api.xero.com/api.xro/2.0/Invoices/' . $invoice_number,
+        'POST',
+        $json,
+    );
+
+}
 sub nuke_whitespace {
     my $data = shift;
 
