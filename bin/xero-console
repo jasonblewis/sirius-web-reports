@@ -52,6 +52,11 @@ my %cmd_list = (
         positional => [qw/invoice_number/],
         function => \&delete_invoice,
     },
+    update_contact => {
+        positional => [qw/contact_id/],
+        function => \&update_contact,
+        json => 1,
+    },
 );
 
 if (exists $cmd_list{$command}) {
@@ -60,6 +65,14 @@ if (exists $cmd_list{$command}) {
 
     if (exists $command_config->{positional}) {
         @command_args = shift @ARGV, scalar(@{$command_config->{positional}});
+    }
+
+    if (exists $command_config->{json}) {
+        unless (@ARGV == 1) {
+            die "Missing parameter for JSON file.";
+        }
+
+        push @command_args, load_json(shift);
     }
 
     print Dumper(\@command_args);
@@ -259,6 +272,22 @@ sub submit_xero_invoice {
     print "RI: ", Dumper($ret_invoice), "\n";
 }
 
+=head2 update_contact($xero_app, $contact_id, $json)
+
+Update contact with id $contact_id. Data provided within $json.
+
+=cut
+
+sub update_contact {
+    my ($xero_app, $contact_id, $json) = @_;
+
+    my $contact = $xero_app->do_xero_api_call(
+        'https://api.xero.com/api.xro/2.0/Contacts/' . $contact_id,
+        'POST',
+        $json,
+    );
+}
+
 =head2 delete_invoice($xero_app, $invoice_number)
 
 Set status of invoice to C<DELETED>.
@@ -309,7 +338,7 @@ sub load_json {
     };
 
     if ($@) {
-        die "Failed to parse JSON file $ARGV[0]: ", $@;
+        die "Failed to parse JSON file $json_file: ", $@;
     }
 
     return $json;
