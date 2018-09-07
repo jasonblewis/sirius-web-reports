@@ -5,15 +5,17 @@ use warnings;
 
 use Path::Tiny;
 use YAML::Tiny;
-use Net::Xero;
 use XML::Simple;
 use JSON::MaybeXS;
-
-use WebService::Xero::Agent::PrivateApplication;
-use Data::Dumper;
-
 use Dancer2;
 use Dancer2::Plugin::Database;
+
+use FindBin;
+use lib "$FindBin::Bin/../lib";
+use Xero::Console::Command;
+
+use Data::Dumper;
+
 
 =head1 Name
 
@@ -41,10 +43,10 @@ my $pkey = path($xero_config->{private_key_file})->slurp;
 
 
 # instantiate private application object
-my $xero_app = WebService::Xero::Agent::PrivateApplication->new(
-    CONSUMER_KEY    => $xero_config->{consumer_key},
-    CONSUMER_SECRET => $xero_config->{consumer_secret},
-    PRIVATE_KEY     => $pkey,
+my $xero_app = Xero::Console::Command->new(
+    consumer_key    => $xero_config->{consumer_key},
+    consumer_secret => $xero_config->{consumer_secret},
+    private_key     => $pkey,
 );
 
 my %cmd_list = (
@@ -52,9 +54,13 @@ my %cmd_list = (
         positional => [qw/invoice_number/],
         function => \&delete_invoice,
     },
+    create_item => {
+        function => 'create_item',
+        json => 1,
+    },
     update_contact => {
         positional => [qw/contact_id/],
-        function => \&update_contact,
+        function => 'update_contact',
         json => 1,
     },
 );
@@ -75,9 +81,10 @@ if (exists $cmd_list{$command}) {
         push @command_args, load_json(shift);
     }
 
-    print Dumper(\@command_args);
+    my $fun = $command_config->{function};
 
-    $command_config->{function}->($xero_app, @command_args);
+    $xero_app->$fun(@command_args);
+
     exit;
 }
 
@@ -168,12 +175,18 @@ my $rows = $sth->fetchall_arrayref({});
 $sth->finish;
 
 # Retrieve invoices from our organisation
-my $invoice_struct = $xero_app->do_xero_api_call(
-    'https://api.xero.com/api.xro/2.0/Invoices?ContactIDs=' . $xero_config->{contact_id},
-    'GET',
+my $invoice_struct = $xero_app->get_invoices_by_contact_id(
+    $xero_config->{contact_id},
 );
 
 my $xero_invoice_struct = $invoice_struct->{Invoices};
+
+if ($command eq 'list_xero_invoices') {
+    for my $invoice_ref (@$xero_invoice_struct) {
+        print $invoice_ref->{InvoiceNumber}, ': ', $invoice_ref->{Status}, "\n";
+    }
+    exit 0;
+}
 
 print "Number of invoices in Xero: ", scalar(@$xero_invoice_struct), "\n";
 
@@ -183,11 +196,6 @@ my %xero_invoices;
 for my $invoice_ref (@$xero_invoice_struct) {
     $xero_invoices{$invoice_ref->{InvoiceNumber}} = $invoice_ref;
 }
-
-# print Dumper $invoice_struct;
-
-print Dumper $rows->[0];
-print "Invoices from Xero: ", Dumper(\%xero_invoices), "\n";
 
 my %sirius_invoices;
 my $current_invoice_number = '';
@@ -221,8 +229,28 @@ submit_xero_invoice( $xero_app, $contact_id, $current_invoice_number, $sirius_in
 
 sub submit_xero_invoice {
     my ($xero, $contact_id, $invoice_number, $data) = @_;
+    my $missing_items = 0;
 
     print "Data for $invoice_number: ", Dumper($data);
+
+    # check whether all items are present
+    for my $sirius_item (@$data) {
+        my $item;
+        print "ItemCode: ", $sirius_item->{InventoryItemCode}, "\n";
+        unless ( $item = $xero->get_item( $sirius_item->{InventoryItemCode} ) ) {
+            warn "Missing item $sirius_item->{InventoryItemCode}.\n";
+            $missing_items++;
+        }
+        else {
+            print Dumper($item);
+        }
+    }
+
+    if ($missing_items) {
+        return;
+    }
+
+    return;
 
     # get common information from first record
     my %invoice_data = (
@@ -270,22 +298,6 @@ sub submit_xero_invoice {
     );
 
     print "RI: ", Dumper($ret_invoice), "\n";
-}
-
-=head2 update_contact($xero_app, $contact_id, $json)
-
-Update contact with id $contact_id. Data provided within $json.
-
-=cut
-
-sub update_contact {
-    my ($xero_app, $contact_id, $json) = @_;
-
-    my $contact = $xero_app->do_xero_api_call(
-        'https://api.xero.com/api.xro/2.0/Contacts/' . $contact_id,
-        'POST',
-        $json,
-    );
 }
 
 =head2 delete_invoice($xero_app, $invoice_number)
