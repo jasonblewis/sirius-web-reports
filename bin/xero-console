@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Getopt::Long;
 use Path::Tiny;
 use YAML::Tiny;
 use XML::Simple;
@@ -16,6 +17,19 @@ use Xero::Console::Command;
 
 use Data::Dumper;
 
+# commandline options
+my %cmdopts = (
+    count => 0,
+);
+
+my $whandler = $SIG{__WARN__};
+$SIG{__WARN__} = sub {print STDERR "$0: @_";};
+unless (GetOptions (\%cmdopts,
+                    'count|c=i',
+                    'dry-run|n',
+                )) {
+    exit 1;
+}
 
 =head1 Name
 
@@ -68,6 +82,7 @@ my %cmd_list = (
 if (exists $cmd_list{$command}) {
     my $command_config = $cmd_list{$command};
     my @command_args;
+    my $fun = $command_config->{function};
 
     if (exists $command_config->{positional}) {
         @command_args = shift @ARGV, scalar(@{$command_config->{positional}});
@@ -75,15 +90,20 @@ if (exists $cmd_list{$command}) {
 
     if (exists $command_config->{json}) {
         unless (@ARGV == 1) {
-            die "Missing parameter for JSON file.";
+            die "$0: $fun: Missing parameter for JSON file.\n";
         }
 
         push @command_args, load_json(shift);
     }
 
-    my $fun = $command_config->{function};
 
-    $xero_app->$fun(@command_args);
+
+    if ( $cmdopts{'dry-run'} ) {
+        print "Dry-run: command $fun @command_args\n";
+    }
+    else {
+        $xero_app->$fun(@command_args);
+    }
 
     exit;
 }
@@ -214,24 +234,34 @@ for my $invoice_entry (@$rows) {
 
     if ($current_invoice_number ne $invoice_number) {
         if ($current_invoice_number) {
-            print "Done with invoice $current_invoice_number.\n";
             submit_xero_invoice( $xero_app, $contact_id, $current_invoice_number, $sirius_invoices{$current_invoice_number} );
-            exit;
         }
+
+        # check if we exceeded the limit of invoices to be processed
+        if ( $cmdopts{'count'} > 0
+                 && scalar(keys %sirius_invoices) == $cmdopts{'count'} ) {
+            $current_invoice_number = '';
+            last;
+        }
+
         $current_invoice_number = $invoice_number;
     }
 
     push @{$sirius_invoices{$invoice_number}}, $invoice_entry;
-};
+}
 
-# submit last invoice
-submit_xero_invoice( $xero_app, $contact_id, $current_invoice_number, $sirius_invoices{$current_invoice_number} );
+if ( $current_invoice_number ) {
+    # submit last invoice
+    submit_xero_invoice( $xero_app, $contact_id, $current_invoice_number, $sirius_invoices{$current_invoice_number} );
+}
 
 sub submit_xero_invoice {
     my ($xero, $contact_id, $invoice_number, $data) = @_;
     my $missing_items = 0;
 
-    print "Data for $invoice_number: ", Dumper($data);
+    print "Submitting invoice number $invoice_number.\n";
+
+    return if $cmdopts{'dry-run'};
 
     # check whether all items are present
     for my $sirius_item (@$data) {
