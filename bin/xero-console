@@ -49,6 +49,34 @@ AUD has to be enabled in the Xero account.
 
 The module doesn't support PUT requests, here is a patch: L<https://rt.cpan.org/Ticket/Display.html?id=126897>.
 
+=head1 Configuration
+
+The following configuration parameters need to be present in the Dancer environment:
+
+=over
+
+=item consumer_key
+
+Copy "Consumer Key" from Xero Developer website, MyApps, OAuth 1.0a Credentials.
+
+=item consumer_secret
+
+Copy "Consumer Secret" from Xero Developer website, MyApps, OAuth 1.0a Credentials.
+
+=item private_key_file
+
+=item contact_id
+
+=back
+
+Example:
+
+  xero:
+    consumer_key: D5C9C6THWILD2WVXDG0SGSJCNNDBTA
+    consumer_secret: PXA7I5O4YKL6AXGP68YYTZ6HVSVWKW
+    private_key_file: "/home/sirius/xero-app/keys/xero-private.pem"
+    contact_id: a3c532d0-c293-447d-b5f6-b00414638591
+
 =cut
 
 my $command = shift || '';
@@ -147,7 +175,7 @@ my $contact_id = $xero_config->{contact_id};
 
 # run the query
 my $invoices_sql = q%
-select 
+select
 'Organic Trader Pty Ltd' as ContactName,
 'orders@organictrader.com.au' as EmailAddress,
 'Unit 13, 809-821 Botany Road' as 'POAddressLine1',
