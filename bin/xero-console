@@ -186,7 +186,7 @@ select
 'NSW' as PORegion,
 '2018' as POPostalCode,
 'Australia' as POCountry,
-invoice_nr as 'InvoiceNumber',
+invoice_no as 'InvoiceNumber',
 convert(date,invoice_date) as InvoiceDate,
 convert(date,dateadd(d,30,invoice_date)) as DueDate,
 product_code as InventoryItemCode,
@@ -213,7 +213,7 @@ where customer_code = 'FATAPP'
  and invoice_date >= '2018-03-31'
 --and invoice_nr = '228679'
 --and invoice_nr = '230162'
-order by invoice_nr 
+order by invoice_no
 %;
 
 my $sth = database->prepare($invoices_sql) or die "can't prepare\n";
