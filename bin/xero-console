@@ -8,6 +8,10 @@ use Path::Tiny;
 use YAML::Tiny;
 use XML::Simple;
 use JSON::MaybeXS;
+
+use DateTime;
+use DateTime::Format::ISO8601;
+use DateTime::Format::ISO8601::Format;
 use Dancer2;
 use Dancer2::Plugin::Database;
 
@@ -27,6 +31,7 @@ $SIG{__WARN__} = sub {print STDERR "$0: @_";};
 unless (GetOptions (\%cmdopts,
                     'count|c=i',
                     'dry-run|n',
+                    'from-date|f=s',
                 )) {
     exit 1;
 }
@@ -170,14 +175,27 @@ if ($command eq 'create_contact') {
     exit;
 }
 
+# determine start date for SQL query
+my ($dt, $start_date);
+my $format = DateTime::Format::ISO8601::Format->new;
+
+if ( $cmdopts{'from-date'} ) {
+    $dt = DateTime::Format::ISO8601->parse_datetime( $cmdopts{'from-date'} );
+}
+else {
+    $dt = DateTime->now->subtract(weeks => 2);
+}
+
+$start_date = $format->format_date($dt);
+
 # use contact id from configuration
 my $contact_id = $xero_config->{contact_id};
 
 # run the query
-my $invoices_sql = q%
+my $invoices_sql = qq%
 select
 'Organic Trader Pty Ltd' as ContactName,
-'orders@organictrader.com.au' as EmailAddress,
+'orders\@organictrader.com.au' as EmailAddress,
 'Unit 13, 809-821 Botany Road' as 'POAddressLine1',
 '' as 'POAddressLine2',
 '' as 'POAddressLine3',
@@ -209,9 +227,11 @@ case when  (tax_rate = 10)  then 'BASEXCLUDED' else 'BASEXCLUDED' end as TaxType
 
  from so_order_and_ship_view with (nolock)
 where customer_code = 'FATAPP'
- and invoice_date >= '2018-03-31'
+ and invoice_date >= '$start_date'
 order by invoice_no
 %;
+
+#print "SQL query: ", $invoices_sql, "\n";
 
 my $sth = database->prepare($invoices_sql) or die "can't prepare\n";
 $sth->execute or die $sth->errstr;
