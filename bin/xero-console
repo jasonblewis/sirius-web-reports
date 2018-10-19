@@ -209,10 +209,7 @@ case when  (tax_rate = 10)  then 'BASEXCLUDED' else 'BASEXCLUDED' end as TaxType
 
  from so_order_and_ship_view with (nolock)
 where customer_code = 'FATAPP'
---and invoice_date >= '2017-02-09'
  and invoice_date >= '2018-03-31'
---and invoice_nr = '228679'
---and invoice_nr = '230162'
 order by invoice_no
 %;
 
