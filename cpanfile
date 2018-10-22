@@ -28,6 +28,13 @@ requires "URI";
 requires "App::cpanoutdated";
 requires "Test::WWW::Mechanize::PSGI";
 
+# Xero console
+requires "WebService::Xero";
+requires "LWP::Protocol::https";
+requires "YAML::Tiny";
+requires "Date::Time";
+requires "DateTime::Format::ISO8601::Format";
+
 recommends "YAML"             => "0";
 recommends "URL::Encode::XS"  => "0";
 recommends "CGI::Deurl::XS"   => "0";
