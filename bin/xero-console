@@ -325,8 +325,6 @@ sub submit_xero_invoice {
         return;
     }
 
-    return;
-
     # get common information from first record
     my %invoice_data = (
         InvoiceNumber => $invoice_number,
@@ -366,10 +364,10 @@ sub submit_xero_invoice {
     # submit invoice to xero
     my $json_data = to_json( $xero_invoice );
 
-    my $ret_invoice = $xero_app->do_xero_api_call(
-        'https://api.xero.com/api.xro/2.0/Invoices',
-        'POST',
-        $json_data,
+    my $ret_invoice = $xero_app->_xero_api_call(
+        subject => 'Invoices',
+        method => 'POST',
+        json => $json_data,
     );
 
     print "RI: ", Dumper($ret_invoice), "\n";
