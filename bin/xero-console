@@ -1,0 +1,433 @@
+#! /usr/bin/env perl
+
+use strict;
+use warnings;
+
+use Getopt::Long;
+use Path::Tiny;
+use YAML::Tiny;
+use XML::Simple;
+use JSON::MaybeXS;
+
+use DateTime;
+use DateTime::Format::ISO8601;
+use DateTime::Format::ISO8601::Format;
+use Dancer2;
+use Dancer2::Plugin::Database;
+
+use FindBin;
+use lib "$FindBin::Bin/../lib";
+use Xero::Console::Command;
+
+use Data::Dumper;
+
+# commandline options
+my %cmdopts = (
+    count => 0,
+);
+
+my $whandler = $SIG{__WARN__};
+$SIG{__WARN__} = sub {print STDERR "$0: @_";};
+unless (GetOptions (\%cmdopts,
+                    'count|c=i',
+                    'dry-run|n',
+                    'from-date|f=s',
+                )) {
+    exit 1;
+}
+
+=head1 Name
+
+xero-console
+
+=head1 Prerequisites
+
+=over
+
+=item Currency
+
+AUD has to be enabled in the Xero account.
+
+=back
+
+=head1 WebService::Xero
+
+The module doesn't support PUT requests, here is a patch: L<https://rt.cpan.org/Ticket/Display.html?id=126897>.
+
+=head1 Configuration
+
+The following configuration parameters need to be present in the Dancer environment:
+
+=over
+
+=item consumer_key
+
+Copy "Consumer Key" from Xero Developer website, MyApps, OAuth 1.0a Credentials.
+
+=item consumer_secret
+
+Copy "Consumer Secret" from Xero Developer website, MyApps, OAuth 1.0a Credentials.
+
+=item private_key_file
+
+=item contact_id
+
+=back
+
+Example:
+
+  xero:
+    consumer_key: D5C9C6THWILD2WVXDG0SGSJCNNDBTA
+    consumer_secret: PXA7I5O4YKL6AXGP68YYTZ6HVSVWKW
+    private_key_file: "/home/sirius/xero-app/keys/xero-private.pem"
+    contact_id: a3c532d0-c293-447d-b5f6-b00414638591
+
+=cut
+
+my $command = shift || '';
+my $xero_config = config->{xero};
+my $pkey = path($xero_config->{private_key_file})->slurp;
+
+
+# instantiate private application object
+my $xero_app = Xero::Console::Command->new(
+    consumer_key    => $xero_config->{consumer_key},
+    consumer_secret => $xero_config->{consumer_secret},
+    private_key     => $pkey,
+);
+
+my %cmd_list = (
+    delete_invoice => {
+        positional => [qw/invoice_number/],
+        function => \&delete_invoice,
+    },
+    create_item => {
+        function => 'create_item',
+        json => 1,
+    },
+    update_contact => {
+        positional => [qw/contact_id/],
+        function => 'update_contact',
+        json => 1,
+    },
+);
+
+if (exists $cmd_list{$command}) {
+    my $command_config = $cmd_list{$command};
+    my @command_args;
+    my $fun = $command_config->{function};
+
+    if (exists $command_config->{positional}) {
+        @command_args = shift @ARGV, scalar(@{$command_config->{positional}});
+    }
+
+    if (exists $command_config->{json}) {
+        unless (@ARGV == 1) {
+            die "$0: $fun: Missing parameter for JSON file.\n";
+        }
+
+        push @command_args, load_json(shift);
+    }
+
+
+
+    if ( $cmdopts{'dry-run'} ) {
+        print "Dry-run: command $fun @command_args\n";
+    }
+    else {
+        $xero_app->$fun(@command_args);
+    }
+
+    exit;
+}
+
+my $json = '';
+
+if (@ARGV == 1) {
+    $json = load_json($ARGV[0]);
+}
+
+if ($command eq 'create_account') {
+    unless ($json) {
+        die "Need JSON data for $command.\n";
+    }
+
+    my $account = $xero_app->do_xero_api_call(
+        'https://api.xero.com/api.xro/2.0/Accounts',
+        'PUT',
+        $json,
+    );
+
+    print Dumper($account);
+    exit;
+}
+
+if ($command eq 'create_contact') {
+    my $json =  to_json({Name => 'Organic Trader'});
+
+    # create contact initially
+    my $contact = $xero_app->do_xero_api_call(
+        'https://api.xero.com/api.xro/2.0/Contacts',
+        'POST',
+        $json,
+    );
+
+    exit;
+}
+
+# determine start date for SQL query
+my ($dt, $start_date);
+my $format = DateTime::Format::ISO8601::Format->new;
+
+if ( $cmdopts{'from-date'} ) {
+    $dt = DateTime::Format::ISO8601->parse_datetime( $cmdopts{'from-date'} );
+}
+else {
+    $dt = DateTime->now->subtract(weeks => 2);
+}
+
+$start_date = $format->format_date($dt);
+
+# use contact id from configuration
+my $contact_id = $xero_config->{contact_id};
+
+# run the query
+my $invoices_sql = qq%
+select
+'Organic Trader Pty Ltd' as ContactName,
+'orders\@organictrader.com.au' as EmailAddress,
+'Unit 13, 809-821 Botany Road' as 'POAddressLine1',
+'' as 'POAddressLine2',
+'' as 'POAddressLine3',
+'' as  'POAddressLine4',
+'Rosebery' as POCity,
+'NSW' as PORegion,
+'2018' as POPostalCode,
+'Australia' as POCountry,
+invoice_no as 'InvoiceNumber',
+convert(date,invoice_date) as InvoiceDate,
+convert(date,dateadd(d,30,invoice_date)) as DueDate,
+product_code as InventoryItemCode,
+description as Description,
+shipped_qty as Quantity,
+round((round(unit_price,2)
+  -discount_rate/100*round(unit_price,2)
+  +tax_rate/100*(round(unit_price,2)
+  -discount_rate/100*round(unit_price,2)))*shipped_qty,2)/shipped_qty as UnitAmount,
+
+case when  (tax_rate = 10)  then '210.1' else '210.2' end as AccountCode,
+case when  (tax_rate = 10)  then 'BASEXCLUDED' else 'BASEXCLUDED' end as TaxType,
+'' as TrackingName1,
+'' as TrackingOption1,
+'' as TrackingName2,
+'' as TrackingOption2,
+'' as Currency
+
+
+
+ from so_order_and_ship_view with (nolock)
+where customer_code = 'FATAPP'
+ and invoice_date >= '$start_date'
+order by invoice_no
+%;
+
+#print "SQL query: ", $invoices_sql, "\n";
+
+my $sth = database->prepare($invoices_sql) or die "can't prepare\n";
+$sth->execute or die $sth->errstr;
+my $fields = $sth->{NAME};
+my $rows = $sth->fetchall_arrayref({});
+$sth->finish;
+
+# Retrieve invoices from our organisation
+my $invoice_struct = $xero_app->get_invoices_by_contact_id(
+    $xero_config->{contact_id},
+);
+
+my $xero_invoice_struct = $invoice_struct->{Invoices};
+
+if ($command eq 'list_xero_invoices') {
+    for my $invoice_ref (@$xero_invoice_struct) {
+        print $invoice_ref->{InvoiceNumber}, ': ', $invoice_ref->{Status}, "\n";
+    }
+    exit 0;
+}
+
+print "Number of invoices in Xero: ", scalar(@$xero_invoice_struct), "\n";
+
+# Turn into a hash
+my %xero_invoices;
+
+for my $invoice_ref (@$xero_invoice_struct) {
+    $xero_invoices{$invoice_ref->{InvoiceNumber}} = $invoice_ref;
+}
+
+my %sirius_invoices;
+my $current_invoice_number = '';
+
+exit if scalar(@$rows) == 0;
+
+# loop over entries
+for my $invoice_entry (@$rows) {
+    # nuke excess whitespace
+    nuke_whitespace($invoice_entry);
+
+    # check if we have already an entry for this invoice number
+    my $invoice_number = $invoice_entry->{InvoiceNumber};
+
+    next if exists $xero_invoices{$invoice_number};
+
+    if ($current_invoice_number ne $invoice_number) {
+        if ($current_invoice_number) {
+            submit_xero_invoice( $xero_app, $contact_id, $current_invoice_number, $sirius_invoices{$current_invoice_number} );
+        }
+
+        # check if we exceeded the limit of invoices to be processed
+        if ( $cmdopts{'count'} > 0
+                 && scalar(keys %sirius_invoices) == $cmdopts{'count'} ) {
+            $current_invoice_number = '';
+            last;
+        }
+
+        $current_invoice_number = $invoice_number;
+    }
+
+    push @{$sirius_invoices{$invoice_number}}, $invoice_entry;
+}
+
+if ( $current_invoice_number ) {
+    # submit last invoice
+    submit_xero_invoice( $xero_app, $contact_id, $current_invoice_number, $sirius_invoices{$current_invoice_number} );
+}
+
+sub submit_xero_invoice {
+    my ($xero, $contact_id, $invoice_number, $data) = @_;
+    my $missing_items = 0;
+
+    print "Submitting invoice number $invoice_number.\n";
+
+    return if $cmdopts{'dry-run'};
+
+    # check whether all items are present
+    for my $sirius_item (@$data) {
+        my $item;
+        print "ItemCode: ", $sirius_item->{InventoryItemCode}, "\n";
+        unless ( $item = $xero->get_item( $sirius_item->{InventoryItemCode} ) ) {
+            warn "Missing item $sirius_item->{InventoryItemCode}.\n";
+            $missing_items++;
+        }
+        else {
+            print Dumper($item);
+        }
+    }
+
+    if ($missing_items) {
+        return;
+    }
+
+    return;
+
+    # get common information from first record
+    my %invoice_data = (
+        InvoiceNumber => $invoice_number,
+        Date => $data->[0]->{InvoiceDate},
+        DueDate => $data->[0]->{DueDate},
+        CurrencyCode => 'AUD',
+        TaxType => $data->[0]->{TaxType},
+    );
+
+    # build data structure for submission
+    my $xero_invoice = {
+        Type => 'ACCPAY',
+        Contact => {
+            ContactID => $contact_id,
+        },
+        %invoice_data,
+    };
+
+    # add line items
+    my @xero_items;
+
+    for my $organic_item (@$data) {
+        my $xero_item = {
+            Description => $organic_item->{Description},
+            Quantity => $organic_item->{Quantity},
+            AccountCode => $organic_item->{AccountCode},
+            UnitAmount => $organic_item->{UnitAmount},
+        };
+
+        push @xero_items, $xero_item;
+    };
+
+    $xero_invoice->{LineItems} = \@xero_items;
+
+#    print "Xero data: ", Dumper($xero_invoice);
+
+    # submit invoice to xero
+    my $json_data = to_json( $xero_invoice );
+
+    my $ret_invoice = $xero_app->do_xero_api_call(
+        'https://api.xero.com/api.xro/2.0/Invoices',
+        'POST',
+        $json_data,
+    );
+
+    print "RI: ", Dumper($ret_invoice), "\n";
+}
+
+=head2 delete_invoice($xero_app, $invoice_number)
+
+Set status of invoice to C<DELETED>.
+Only applicable to C<DRAFT> invoices.
+
+=cut
+
+sub delete_invoice {
+    my ($xero_app, $invoice_number) = @_;
+
+    my $json = encode_json({
+        InvoiceNumber => $invoice_number,
+        Status => 'DELETED',
+    });
+
+    my $contact = $xero_app->do_xero_api_call(
+        'https://api.xero.com/api.xro/2.0/Invoices/' . $invoice_number,
+        'POST',
+        $json,
+    );
+
+}
+sub nuke_whitespace {
+    my $data = shift;
+
+    while (my ($field, $value) = each %$data) {
+        if ($value =~ s%\s+$%%) {
+            $data->{$field} = $value;
+        }
+    }
+}
+
+=head2 load_json($json_file)
+
+Loads JSON from file and verifies it.
+
+=cut
+
+sub load_json {
+    my $json_file = shift;
+    my $json;
+
+    $json = path($json_file)->slurp_utf8;
+
+    # verify
+    eval {
+        my $struct = decode_json($json);
+    };
+
+    if ($@) {
+        die "Failed to parse JSON file $json_file: ", $@;
+    }
+
+    return $json;
+}
+
