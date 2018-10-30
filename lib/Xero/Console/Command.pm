@@ -64,7 +64,7 @@ sub get_contacts {
     return $contact_list;
 }
 
-=head2 update_contact($xero_app, $contact_id, $json)
+=head2 update_contact($contact_id, $json)
 
 Update contact with id $contact_id. Data provided within $json.
 
