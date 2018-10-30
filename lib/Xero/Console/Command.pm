@@ -47,6 +47,23 @@ sub _build_xero_app {
 
 L<https://developer.xero.com/documentation/api/contacts>
 
+=head2 get_contacts
+
+Returns list of contacts.
+
+=cut
+
+sub get_contacts {
+    my ($self) = @_;
+
+    my $contact_list = $self->_xero_api_call(
+        subject => 'Contacts',
+        method => 'GET',
+    );
+
+    return $contact_list;
+}
+
 =head2 update_contact($xero_app, $contact_id, $json)
 
 Update contact with id $contact_id. Data provided within $json.

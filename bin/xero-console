@@ -105,6 +105,9 @@ my %cmd_list = (
         function => 'create_item',
         json => 1,
     },
+    contact_list => {
+        function => 'get_contacts',
+    },
     update_contact => {
         positional => [qw/contact_id/],
         function => 'update_contact',
