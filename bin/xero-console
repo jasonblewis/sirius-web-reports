@@ -118,6 +118,8 @@ my %cmd_list = (
 if (exists $cmd_list{$command}) {
     my $command_config = $cmd_list{$command};
     my @command_args;
+    my $command_result;
+
     my $fun = $command_config->{function};
 
     if (exists $command_config->{positional}) {
@@ -138,7 +140,8 @@ if (exists $cmd_list{$command}) {
         print "Dry-run: command $fun @command_args\n";
     }
     else {
-        $xero_app->$fun(@command_args);
+        $command_result = $xero_app->$fun(@command_args);
+        print Dumper($command_result);
     }
 
     exit;
