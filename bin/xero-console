@@ -354,6 +354,7 @@ sub submit_xero_invoice {
 
     for my $organic_item (@$data) {
         my $xero_item = {
+            ItemCode => $organic_item->{InventoryItemCode},
             Description => $organic_item->{Description},
             Quantity => $organic_item->{Quantity},
             AccountCode => $organic_item->{AccountCode},
