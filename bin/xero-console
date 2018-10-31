@@ -323,7 +323,7 @@ sub submit_xero_invoice {
             $missing_items++;
         }
         else {
-            print Dumper($item);
+#            print Dumper($item);
         }
     }
 
