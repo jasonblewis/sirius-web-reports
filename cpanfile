@@ -33,6 +33,7 @@ requires "WebService::Xero";
 requires "LWP::Protocol::https";
 requires "YAML::Tiny";
 requires "Date::Time";
+requires "DateTime::Format::ISO8601";
 requires "DateTime::Format::ISO8601::Format";
 
 recommends "YAML"             => "0";
