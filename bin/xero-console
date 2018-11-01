@@ -237,7 +237,9 @@ where customer_code = 'FATAPP'
 order by invoice_no
 %;
 
-#print "SQL query: ", $invoices_sql, "\n";
+if ( $cmdopts{'dry-run'} ) {
+    print "SQL query: ", $invoices_sql, "\n";
+}
 
 my $sth = database->prepare($invoices_sql) or die "can't prepare\n";
 $sth->execute or die $sth->errstr;
