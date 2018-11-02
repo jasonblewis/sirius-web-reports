@@ -32,6 +32,7 @@ unless (GetOptions (\%cmdopts,
                     'count|c=i',
                     'dry-run|n',
                     'from-date|f=s',
+                    'invoice-number=s',
                 )) {
     exit 1;
 }
@@ -181,18 +182,27 @@ if ($command eq 'create_contact') {
     exit;
 }
 
-# determine start date for SQL query
-my ($dt, $start_date);
-my $format = DateTime::Format::ISO8601::Format->new;
+my $cond_invoice;
 
-if ( $cmdopts{'from-date'} ) {
-    $dt = DateTime::Format::ISO8601->parse_datetime( $cmdopts{'from-date'} );
+if ( my $invoice_no = $cmdopts{'invoice-number'} ) {
+    $cond_invoice = "invoice_no = '$invoice_no'";
 }
 else {
-    $dt = DateTime->now->subtract(weeks => 2);
-}
+    # determine start date for SQL query
+    my ($dt, $start_date);
+    my $format = DateTime::Format::ISO8601::Format->new;
 
-$start_date = $format->format_date($dt);
+    if ( $cmdopts{'from-date'} ) {
+        $dt = DateTime::Format::ISO8601->parse_datetime( $cmdopts{'from-date'} );
+    }
+    else {
+        $dt = DateTime->now->subtract(weeks => 2);
+    }
+
+    $start_date = $format->format_date($dt);
+
+    $cond_invoice = "invoice_date >= '$start_date'";
+}
 
 # use contact id from configuration
 my $contact_id = $xero_config->{contact_id};
@@ -233,7 +243,7 @@ case when  (tax_rate = 10)  then 'BASEXCLUDED' else 'BASEXCLUDED' end as TaxType
 
  from so_order_and_ship_view with (nolock)
 where customer_code = 'FATAPP'
- and invoice_date >= '$start_date'
+ and $cond_invoice
 order by invoice_no
 %;
 
