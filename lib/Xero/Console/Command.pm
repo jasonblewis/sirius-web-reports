@@ -167,6 +167,24 @@ sub get_currencies {
     return $currency_list;
 }
 
+=head2 add_currency($data)
+
+Adds an currency from C<$data>.
+
+=cut
+
+sub add_currency {
+    my ($self, $json) = @_;
+
+    my $currency_result = $self->_xero_api_call(
+        subject => 'Currencies',
+        method => 'PUT',
+        json => $json,
+    );
+
+    return $currency_result;
+}
+
 sub _xero_api_call {
     my ($self, %args) = @_;
     my ($result, $json, $uri, $params);

@@ -109,6 +109,10 @@ my %cmd_list = (
     contact_list => {
         function => 'get_contacts',
     },
+    add_currency => {
+        function => 'add_currency',
+        json => 1,
+    },
     currency_list => {
         function => 'get_currencies',
     },
