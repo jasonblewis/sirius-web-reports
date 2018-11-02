@@ -109,6 +109,9 @@ my %cmd_list = (
     contact_list => {
         function => 'get_contacts',
     },
+    currency_list => {
+        function => 'get_currencies',
+    },
     update_contact => {
         positional => [qw/contact_id/],
         function => 'update_contact',

@@ -146,6 +146,27 @@ sub create_item {
                                         json => $data );
 }
 
+=head1 Currencies
+
+L<https://developer.xero.com/documentation/api/currencies>
+
+=head2 get_currencies
+
+Returns list of currencies.
+
+=cut
+
+sub get_currencies {
+    my ($self) = @_;
+
+    my $currency_list = $self->_xero_api_call(
+        subject => 'Currencies',
+        method => 'GET',
+    );
+
+    return $currency_list;
+}
+
 sub _xero_api_call {
     my ($self, %args) = @_;
     my ($result, $json, $uri, $params);
