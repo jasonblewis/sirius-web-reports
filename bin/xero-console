@@ -191,6 +191,10 @@ if ($command eq 'create_contact') {
     exit;
 }
 
+unless ($command eq 'submit_invoices') {
+    die "$0: unknown command '$command'.";
+}
+
 my $cond_invoice;
 
 if ( my $invoice_no = $cmdopts{'invoice-number'} ) {
