@@ -89,6 +89,8 @@ my $command = shift || '';
 my $xero_config = config->{xero};
 my $pkey = path($xero_config->{private_key_file})->slurp;
 
+# create JSON serializer instance
+my $json_ser = JSON::MaybeXS->new( pretty => 1 );
 
 # instantiate private application object
 my $xero_app = Xero::Console::Command->new(
@@ -149,7 +151,7 @@ if (exists $cmd_list{$command}) {
     }
     else {
         $command_result = $xero_app->$fun(@command_args);
-        print Dumper($command_result);
+        print $json_ser->encode( $command_result );
     }
 
     exit;
