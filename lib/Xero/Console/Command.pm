@@ -225,6 +225,30 @@ sub add_currency {
     return $currency_result;
 }
 
+=head1 Tax Rates
+
+L<https://developer.xero.com/documentation/api/tax-rates>
+
+
+=cut
+
+=head2 get_tax_rates
+
+Returns list of currencies.
+
+=cut
+
+sub get_tax_rates {
+    my ($self) = @_;
+
+    my $tax_rate_list = $self->_xero_api_call(
+        subject => 'TaxRates',
+        method => 'GET',
+    );
+
+    return $tax_rate_list;
+}
+
 sub _xero_api_call {
     my ($self, %args) = @_;
     my ($result, $json, $uri, $params);

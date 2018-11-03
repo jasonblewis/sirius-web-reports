@@ -131,6 +131,9 @@ my %cmd_list = (
         function => 'update_contact',
         json => 1,
     },
+    taxrate_list => {
+        function => 'get_tax_rates',
+    },
 );
 
 if (exists $cmd_list{$command}) {
