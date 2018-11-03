@@ -108,6 +108,10 @@ my %cmd_list = (
         function => 'create_item',
         json => 1,
     },
+    create_account => {
+        function => 'create_account',
+        json => 1,
+    },
     contact_list => {
         function => 'get_contacts',
     },
@@ -165,21 +169,6 @@ my $json = '';
 
 if (@ARGV == 1) {
     $json = load_json($ARGV[0]);
-}
-
-if ($command eq 'create_account') {
-    unless ($json) {
-        die "Need JSON data for $command.\n";
-    }
-
-    my $account = $xero_app->do_xero_api_call(
-        'https://api.xero.com/api.xro/2.0/Accounts',
-        'PUT',
-        $json,
-    );
-
-    print Dumper($account);
-    exit;
 }
 
 unless ($command eq 'submit_invoices') {
@@ -371,7 +360,7 @@ sub submit_xero_invoice {
     for my $organic_item (@$data) {
         my $xero_item = {
             ItemCode => $organic_item->{InventoryItemCode},
-            Description => $organic_item->{Description},
+#            Description => $organic_item->{Description},
             Quantity => $organic_item->{Quantity},
             AccountCode => $organic_item->{AccountCode},
             UnitAmount => $organic_item->{UnitAmount},

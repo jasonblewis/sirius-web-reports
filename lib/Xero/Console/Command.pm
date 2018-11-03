@@ -164,6 +164,28 @@ sub create_item {
                                         json => $data );
 }
 
+=head1 Accounts
+
+L<https://developer.xero.com/documentation/api/accounts>
+
+=head2 create_account($data)
+
+Create an account from C<$data>.
+
+=cut
+
+sub create_account {
+    my ($self, $data) = @_;
+
+    my $account = $self->_xero_api_call(
+        subject => 'Accounts',
+        method => 'PUT',
+        json => $data,
+    );
+
+    return $account;
+}
+
 =head1 Currencies
 
 L<https://developer.xero.com/documentation/api/currencies>
