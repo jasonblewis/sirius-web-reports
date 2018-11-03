@@ -64,6 +64,24 @@ sub get_contacts {
     return $contact_list;
 }
 
+=head2 create_contact($data)
+
+Create contact from C<$data>.
+
+=cut
+
+sub create_contact {
+    my ($self, $data) = @_;
+
+    my $contact = $self->_xero_api_call(
+        subject => 'Contacts',
+        method => 'POST',
+        json => $data,
+    );
+
+    return $contact;
+}
+
 =head2 update_contact($contact_id, $json)
 
 Update contact with id $contact_id. Data provided within $json.
