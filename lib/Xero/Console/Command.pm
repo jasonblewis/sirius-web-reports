@@ -168,6 +168,23 @@ sub create_item {
 
 L<https://developer.xero.com/documentation/api/accounts>
 
+=head2 get_accounts
+
+Returns list of accounts.
+
+=cut
+
+sub get_accounts {
+    my ($self) = @_;
+
+    my $account_list = $self->_xero_api_call(
+        subject => 'Accounts',
+        method => 'GET',
+    );
+
+    return $account_list;
+}
+
 =head2 create_account($data)
 
 Create an account from C<$data>.

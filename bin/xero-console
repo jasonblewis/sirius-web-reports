@@ -108,6 +108,9 @@ my %cmd_list = (
         function => 'create_item',
         json => 1,
     },
+    account_list => {
+        function => 'get_accounts',
+    },
     create_account => {
         function => 'create_account',
         json => 1,
