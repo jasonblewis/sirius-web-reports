@@ -281,3 +281,68 @@ begin
 end
 go
 
+** more views that need updating
+use sirius9
+
+if (exists (select COLUMN_NAME from information_schema.columns
+              where TABLE_NAME = 'zz_sh_store_bought_last90days' and COLUMN_NAME = 'order_nr'))
+begin
+  exec sp_rename 'zz_sh_store_bought_last90days.order_nr','order_no','column'
+end
+go
+
+if (exists (select COLUMN_NAME from information_schema.columns
+              where TABLE_NAME = 'zz_so_eps_order_staging' and COLUMN_NAME = 'order_nr'))
+begin
+  exec sp_rename 'zz_so_eps_order_staging.order_nr','order_no','column'
+end
+go
+
+if (exists (select COLUMN_NAME from information_schema.columns
+              where TABLE_NAME = 'zz_so_eps_order_staging_nolock' and COLUMN_NAME = 'order_nr'))
+begin
+  exec sp_rename 'zz_so_eps_order_staging_nolock.order_nr','order_no','column'
+end
+go
+
+if (exists (select COLUMN_NAME from information_schema.columns
+              where TABLE_NAME = 'zz_so_ship_to_with_notes' and COLUMN_NAME = 'order_nr'))
+begin
+  exec sp_rename 'zz_so_ship_to_with_notes.order_nr','order_no','column'
+end
+go
+if (exists (select COLUMN_NAME from information_schema.columns
+              where TABLE_NAME = 'zz_so_shipment_view' and COLUMN_NAME = 'order_nr'))
+begin
+  exec sp_rename 'zz_so_shipment_view.order_nr','order_no','column'
+end
+go
+
+if (exists (select COLUMN_NAME from information_schema.columns
+              where TABLE_NAME = 'zz_store_first_qtr_sales' and COLUMN_NAME = 'invoice_nr'))
+begin
+  exec sp_rename 'zz_store_first_qtr_sales.invoice_nr','invoice_no','column'
+end
+go
+if (exists (select COLUMN_NAME from information_schema.columns
+              where TABLE_NAME = 'zz_wip_dailyinvoices.' and COLUMN_NAME = 'invoice_nr'))
+begin
+  exec sp_rename 'zz_wip_dailyinvoices.invoice_nr','invoice_no','column'
+end
+go
+
+
+if (exists (select COLUMN_NAME from information_schema.columns
+              where TABLE_NAME = 'zz_in_product_unit_carton_pricing' and COLUMN_NAME = 'discount_perc'))
+begin
+  exec sp_rename 'zz_in_product_unit_carton_pricing.discount_perc','discount_rate','column'
+end
+
+go
+if (exists (select COLUMN_NAME from information_schema.columns
+              where TABLE_NAME = 'zz_pr_qty_break_current' and COLUMN_NAME = 'discount_perc'))
+begin
+  exec sp_rename 'zz_pr_qty_break_current.discount_perc','discount_rate','column'
+end
+go
+
