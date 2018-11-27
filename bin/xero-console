@@ -169,7 +169,13 @@ if (exists $cmd_list{$command}) {
     }
     else {
         $command_result = $xero_app->$fun(@command_args);
-        print $json_ser->encode( $command_result );
+
+        if ( defined $command_result ) {
+            print $json_ser->encode( $command_result );
+        }
+        else {
+            print "No result found.\n";
+        }
     }
 
     exit;
