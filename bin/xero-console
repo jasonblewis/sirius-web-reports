@@ -104,6 +104,9 @@ my %cmd_list = (
         positional => [qw/invoice_number/],
         function => \&delete_invoice,
     },
+    invoice_list => {
+        function => 'get_invoices',
+    },
     create_item => {
         function => 'create_item',
         json => 1,
@@ -158,7 +161,8 @@ if (exists $cmd_list{$command}) {
         push @command_args, load_json(shift);
     }
 
-
+    # append remaining arguments
+    push @command_args, @ARGV;
 
     if ( $cmdopts{'dry-run'} ) {
         print "Dry-run: command $fun @command_args\n";

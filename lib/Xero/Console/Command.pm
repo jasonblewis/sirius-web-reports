@@ -103,6 +103,25 @@ sub update_contact {
 
 L<https://developer.xero.com/documentation/api/invoices>.
 
+=head2 get_invoices($record_filter)
+
+Returns list of invoices.
+
+Filters the list by C<$record_filter> parameter, which can be either
+an invoice number or invoice id.
+
+=cut
+
+sub get_invoices {
+    my ($self, $record_filter) = @_;
+
+    return $self->_xero_api_call(
+        subject => 'Invoices',
+        method => 'GET',
+        object_id => $record_filter,
+    );
+}
+
 =head2 get_invoices_by_contact_id($contact_id)
 
 Returns all invoices for given C<$contact_id>.
