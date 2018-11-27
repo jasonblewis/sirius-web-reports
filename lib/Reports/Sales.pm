@@ -398,6 +398,103 @@ sub select_customer {
       target_url => $target_url}
 }
 
+
+
+sub debtor_24_month_detail {
+  my $dbh = database(); 
+  $dbh->{LongReadLen} = 100000;
+  $dbh->{LongTruncOk} = 1;
+ 
+
+  my $debtor_code = query_parameters->get('debtor_code');
+
+  unless ($debtor_code) {
+    select_debtor('/sales/debtor-24-month-detail');
+  } else { # don't know which debtor the user wants yet, so ask them then redirect to the real report template
+    
+    my $sql = q/
+Set transaction isolation level read uncommitted;
+
+Declare @debug bit
+set @debug = 0
+
+
+declare @cols as nvarchar(max),@query as nvarchar(max)
+declare @debtor as nvarchar(max);
+set @debtor = ?;
+;with cte(intCount,month)
+as
+(
+Select 0, 	       DATEADD(month, DATEDIFF(month, 0, DATEADD(month, 0,            GETDATE())), 0) as month
+union all
+Select intCount+1, DATEADD(month, DATEDIFF(month, 0, DATEADD(month, -(intCount+1), GETDATE())), 0) as month
+from cte
+where intCount<=24
+)
+Select @cols = coalesce(@cols + ',','') + quotename(convert(varchar(10),month,120))
+from cte order by month
+select @query =
+'select * from 
+(select
+sh.product_code,
+sh.description,
+DATEADD(month, DATEDIFF(month, 0, sh.invoice_date), 0) as ''month'',
+sum(sh.sales_qty) as sales_qty
+from
+ sh_select_trans_view sh
+ join
+ ar_customer cu
+ on sh.customer_code = cu.customer_code
+where sh.invoice_date >= DATEADD(YEAR, DATEDIFF(YEAR, 0, DATEADD(YEAR, -2, GETDATE())), 0)
+and ltrim(rtrim(cu.debtor_code)) = ''' + @debtor + '''
+group by sh.product_code, sh.description, DATEADD(month, DATEDIFF(month, 0, sh.invoice_date), 0)   ) x
+pivot
+(
+sum(sales_qty)
+for [month] in ( ' + @cols + ' )
+) p'
+
+if @debug = 1 Begin     Print @query End
+Else 
+Begin Exec SP_EXECUTESQL @query End
+
+
+/;
+    
+    my $sth = database->prepare($sql) or die "can't prepare\n";
+    $sth->bind_param(1,$debtor_code);
+    $sth->execute or die $sth->errstr;
+    my $fields = $sth->{NAME};
+    my $rows = $sth->fetchall_arrayref({});
+    $sth->finish;
+
+    $sth = database->prepare(q/select top 1 * from ar_debtor_selections_view where debtor_code = ?/) or die "can't prepare\n";
+    $sth->bind_param(1,$debtor_code);
+    $sth->execute or die $sth->errstr;
+    my $debtor = $sth->fetchall_arrayref({});
+    $sth->finish;
+    
+    
+    template 'sales/customer-24-month-detail', {
+      debtor_code => $debtor_code,
+      debtor_row => $debtor,
+      'title' => "Debtor 24 Month Detail $debtor_code",
+      'fields' => $fields,
+      'rows' => $rows,
+    };
+  };
+}; # end sub debtor_24_month_detail
+
+sub select_debtor {
+  my ($target_url) = @_;
+  template 'ar/select-customer',
+    { title => 'Select Debtor',
+      json_data_url => '/api/accounts-receivable/debtors',
+      target_url => $target_url}
+}
+
+
+
 sub order_form_w_pricecode {
   my $customer = query_parameters->get('customer_code');
   unless ($customer) {
@@ -417,6 +514,7 @@ prefix '/sales' => sub {
   get '/territory-24-month-summary' => require_login \&territory_24_month_summary;
   get '/territory-24-month-detail'  => require_login \&territory_24_month_detail;
   get '/customer-24-month-detail'   => require_login \&customer_24_month_detail;
+  get '/debtor-24-month-detail'     => require_login \&debtor_24_month_detail;
   get '/order-form-w-pricecode'     => require_login \&order_form_w_pricecode;
 };
 
