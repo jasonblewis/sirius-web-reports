@@ -99,13 +99,18 @@ my $xero_app = Xero::Console::Command->new(
     private_key     => $pkey,
 );
 
+# use contact id from configuration
+my $contact_id = $xero_config->{contact_id};
+
 my %cmd_list = (
     delete_invoice => {
         positional => [qw/invoice_number/],
         function => \&delete_invoice,
     },
     invoice_list => {
-        function => 'get_invoices',
+        function => 'get_invoices_by_contact_id',
+        fixed => [ $contact_id ],
+        help => "Lists all invoices for contact id $contact_id.",
     },
     create_item => {
         function => 'create_item',
@@ -149,8 +154,13 @@ if (exists $cmd_list{$command}) {
 
     my $fun = $command_config->{function};
 
+    if (exists $command_config->{fixed}) {
+        # fixed arguments like ContactId
+        push @command_args, @{$command_config->{fixed}};
+    }
+
     if (exists $command_config->{positional}) {
-        @command_args = shift @ARGV, scalar(@{$command_config->{positional}});
+        push @command_args, shift @ARGV, scalar(@{$command_config->{positional}});
     }
 
     if (exists $command_config->{json}) {
@@ -228,9 +238,6 @@ else {
     $cond_invoice = "invoice_date >= '$start_date'";
 }
 
-# use contact id from configuration
-my $contact_id = $xero_config->{contact_id};
-
 # run the query
 my $invoices_sql = qq%
 select
@@ -281,11 +288,9 @@ my $rows = $sth->fetchall_arrayref({});
 $sth->finish;
 
 # Retrieve invoices from our organisation
-my $invoice_struct = $xero_app->get_invoices_by_contact_id(
+my $xero_invoice_struct = $xero_app->get_invoices_by_contact_id(
     $xero_config->{contact_id},
 );
-
-my $xero_invoice_struct = $invoice_struct->{Invoices};
 
 if ($command eq 'list_xero_invoices') {
     for my $invoice_ref (@$xero_invoice_struct) {

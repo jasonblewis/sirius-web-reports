@@ -126,16 +126,58 @@ sub get_invoices {
 
 Returns all invoices for given C<$contact_id>.
 
+This method uses paging to get all available records.
+
 =cut
 
 sub get_invoices_by_contact_id {
     my ($self, $contact_id) = @_;
 
-    return $self->_xero_api_call(
+    return $self->_get_invoices(
+        'ContactIDs' => $contact_id,
+    );
+}
+
+# internal method for getting invoices
+
+sub _get_invoices {
+    my ($self, %invoice_args) = @_;
+    my %params;
+    my @invoice_list;
+
+    # static arguments for API call
+    my %call_args = (
         subject => 'Invoices',
         method => 'GET',
-        params => "ContactIDs=$contact_id",
     );
+
+    if ($invoice_args{'ContactIDs'}) {
+        my $cids = delete $invoice_args{'ContactIDs'};
+
+        $params{ContactIDs} = $cids;
+    }
+
+    my $page = 1;
+    my $records = 100;
+
+    while ($records == 100) {
+        $params{page} = $page++;
+
+        my $query_string = join ('&', map { "$_=$params{$_}" } (keys %params));
+
+        my $result = $self->_xero_api_call(
+            %call_args,
+            params => $query_string,
+        );
+
+        my $invoices = $result->{Invoices};
+
+        $records = scalar(@$invoices);
+
+        push @invoice_list, @$invoices;
+    }
+
+    return \@invoice_list;
 }
 
 =head1 Items
