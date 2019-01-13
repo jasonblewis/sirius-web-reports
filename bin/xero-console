@@ -339,7 +339,7 @@ sub submit_xero_invoice {
     my ($xero, $contact_id, $invoice_number, $data) = @_;
     my $missing_items = 0;
 
-    print "Submitting invoice number $invoice_number.\n";
+    print "Submitting invoice number $invoice_number from $data->[0]->{InvoiceDate}.\n";
 
     return if $cmdopts{'dry-run'};
 
