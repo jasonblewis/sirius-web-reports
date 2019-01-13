@@ -188,7 +188,16 @@ if (@ARGV == 1) {
 }
 
 unless ($command eq 'submit_invoices') {
-    die "$0: unknown command '$command'.";
+    warn "$0: unknown command '$command'.";
+    print "\Available commands:\n\n";
+
+    for my $cmd (sort keys %cmd_list) {
+        print '  ', $cmd, "\n";
+    }
+
+    print "\n";
+
+    exit 0;
 }
 
 my $cond_invoice;
