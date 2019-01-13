@@ -192,7 +192,13 @@ unless ($command eq 'submit_invoices') {
     print "\nAvailable commands:\n\n";
 
     for my $cmd (sort keys %cmd_list) {
-        print '  ', $cmd, "\n";
+        print '  ', $cmd;
+
+        if ( exists $cmd_list{$cmd}->{help} ) {
+            print ': ', $cmd_list{$cmd}->{help};
+        }
+
+        print "\n";
     }
 
     print "\n";
