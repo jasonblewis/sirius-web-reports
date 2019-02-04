@@ -181,7 +181,14 @@ if (exists $cmd_list{$command}) {
         $command_result = $xero_app->$fun(@command_args);
 
         if ( defined $command_result ) {
-            print $json_ser->encode( $command_result );
+            if ( exists $command_config->{filter} ) {
+                # filter structure retrieved from Xero
+                my $output = $command_config->{filter}->( $command_result );
+                print join("\n", @$output);
+            }
+            else {
+                print $json_ser->encode( $command_result );
+            }
         }
         else {
             print "No result found.\n";
@@ -476,3 +483,23 @@ sub load_json {
     return $json;
 }
 
+sub invoice_list_filter {
+    my ($invoice_list) = @_;
+    my @output;
+
+    for my $invoice (@{$invoice_list}) {
+         for my $fld (qw/InvoiceNumber
+Type
+DateString
+Status
+Total
+InvoiceID
+                        /)  {
+             push @output, "$fld: $invoice->{$fld}";
+         }
+         push @output, 'ContactID: ' . $invoice->{Contact}->{ContactID};
+         push @output, '';
+     }
+
+    return \@output;
+}
