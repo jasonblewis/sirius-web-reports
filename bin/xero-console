@@ -110,6 +110,7 @@ my %cmd_list = (
     invoice_list => {
         function => 'get_invoices_by_contact_id',
         fixed => [ $contact_id ],
+        filter => \&invoice_list_filter,
         help => "Lists all invoices for contact id $contact_id.",
     },
     create_item => {
