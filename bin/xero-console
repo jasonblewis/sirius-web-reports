@@ -107,6 +107,11 @@ my %cmd_list = (
         positional => [qw/invoice_number/],
         function => \&delete_invoice,
     },
+    get_invoices => {
+        positional => [qw/invoice_number/],
+        filter => \&invoice_list_filter,
+        function => 'get_invoices',
+    },
     invoice_list => {
         function => 'get_invoices_by_contact_id',
         fixed => [ $contact_id ],
