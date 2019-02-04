@@ -370,13 +370,9 @@ sub submit_xero_invoice {
     # check whether all items are present
     for my $sirius_item (@$data) {
         my $item;
-        print "ItemCode: ", $sirius_item->{InventoryItemCode}, "\n";
         unless ( $item = $xero->get_item( $sirius_item->{InventoryItemCode} ) ) {
             warn "Missing item $sirius_item->{InventoryItemCode}.\n";
             $missing_items++;
-        }
-        else {
-#            print Dumper($item);
         }
     }
 
@@ -408,7 +404,6 @@ sub submit_xero_invoice {
     for my $organic_item (@$data) {
         my $xero_item = {
             ItemCode => $organic_item->{InventoryItemCode},
-#            Description => $organic_item->{Description},
             Quantity => $organic_item->{Quantity},
             AccountCode => $organic_item->{AccountCode},
             UnitAmount => $organic_item->{UnitAmount},
@@ -419,8 +414,6 @@ sub submit_xero_invoice {
 
     $xero_invoice->{LineItems} = \@xero_items;
 
-#    print "Xero data: ", Dumper($xero_invoice);
-
     # submit invoice to xero
     my $json_data = to_json( $xero_invoice );
 
@@ -430,7 +423,10 @@ sub submit_xero_invoice {
         json => $json_data,
     );
 
-    print "RI: ", Dumper($ret_invoice), "\n";
+    my $result = invoice_list_filter($ret_invoice->{Invoices});
+    print join("\n", @$result);
+
+    return;
 }
 
 =head2 delete_invoice($xero_app, $invoice_number)
