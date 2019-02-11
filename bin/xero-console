@@ -294,7 +294,14 @@ if ( $cmdopts{'dry-run'} ) {
     print "SQL query: ", $invoices_sql, "\n";
 }
 
-my $sth = database->prepare($invoices_sql) or die "can't prepare\n";
+my $sth;
+{
+    my $whandler = $SIG{__WARN__};
+    $SIG{__WARN__} = sub {print "$0: @_";};
+    $sth = database->prepare($invoices_sql) or die "can't prepare\n";
+    $SIG{__WARN__} = $whandler;
+}
+
 $sth->execute or die $sth->errstr;
 my $fields = $sth->{NAME};
 my $rows = $sth->fetchall_arrayref({});
