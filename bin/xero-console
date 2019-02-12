@@ -88,6 +88,11 @@ Example:
 
 my $command = shift || '';
 my $xero_config = config->{xero};
+
+if (! defined $xero_config || ref($xero_config) ne 'HASH') {
+    die "$0: Xero configuration missing - did you set DANCER_ENVIRONMENT variable?\n";
+}
+
 my $pkey = path($xero_config->{private_key_file})->slurp;
 
 # create JSON serializer instance
