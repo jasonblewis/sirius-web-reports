@@ -30,6 +30,7 @@ my $whandler = $SIG{__WARN__};
 $SIG{__WARN__} = sub {print STDERR "$0: @_";};
 unless (GetOptions (\%cmdopts,
                     'count|c=i',
+                    'debug',
                     'dry-run|n',
                     'from-date|f=s',
                     'invoice-number=s',
@@ -319,7 +320,9 @@ if ($command eq 'list_xero_invoices') {
     exit 0;
 }
 
-print "Number of invoices in Xero: ", scalar(@$xero_invoice_struct), "\n";
+if ($cmdopts{debug}) {
+    print "Number of invoices in Xero: ", scalar(@$xero_invoice_struct), "\n";
+}
 
 # Turn into a hash
 my %xero_invoices;
