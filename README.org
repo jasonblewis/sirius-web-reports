@@ -115,11 +115,11 @@ curl --cookie-jar ~/.curl-cookies --data 'username=test;password=test' localhost
 #+END_SRC
 **  to do an ajax request with curl and cookies:
 #+BEGIN_SRC bash
-curl -b ~/.curl-cookies -d"message=hello" localhost:5000/time
+curl -s -b ~/.curl-cookies -d"message=hello" localhost:5000/time
 #+END_SRC
 ** simple api request
 #+BEGIN_SRC bash
-curl -b ~/.curl-cookies 'localhost:5000/api/general-ledger/credit-cards'| json_pp | less
+curl -s -b ~/.curl-cookies 'localhost:5000/api/general-ledger/credit-cards'| json_pp | less
 #+END_SRC
 ** to post 
 curl -s -b ~/.curl-cookies -X POST --data '{"target_url":"/abc/def"}' http://localhost:5000/api/accounts-receivable/customers  | json_pp
@@ -158,7 +158,7 @@ sudo systemctl restart reports
  * Make a report path /some/report
  * make an API path /API/some/report that returns the json data
  * use json_table2.tt to build it
- * date columns should include orthogonal data for  sorting purposes
+ * date columns should include orthogonal data for sorting purposes
    https://datatables.net/examples/ajax/orthogonal-data.html
    see ar/outstanding invoices report
    [[file:lib/Reports/API/AccountsReceivable.pm::60]]
@@ -345,4 +345,38 @@ begin
   exec sp_rename 'zz_pr_qty_break_current.discount_perc','discount_rate','column'
 end
 go
+* Notes on various reports
+** Stockist by Supplier
+#+BEGIN_SRC sql
+select distinct
+  sh.customer_code,
+  --sh.product_code,
+  --c.company_code,
+  --p.primary_supplier,
+  y.name,
+  ph.phone,
+  ph.phone_type,
+  y.address_1,
+  y.address_2,
+  y.address_3,
+  y.postcode
+from 
+  sh_transaction sh
+join in_product p
+on
+  sh.product_code = p.product_code
+join ar_customer c
+on
+	sh.customer_code = c.customer_code
+join company y
+on
+	c.company_code = y.company_code
+right outer join phone ph
+on 
+	y.company_code = ph.company_code
+	and ph.phone_type = 'BUS'
 
+where 
+  sh.invoice_date >= '2018-03-01 00:00:00'
+  and p.primary_supplier = ''
+#+END_SRC
