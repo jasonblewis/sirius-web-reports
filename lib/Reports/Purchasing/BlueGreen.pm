@@ -70,7 +70,7 @@ sub blue_green {
 };
 
 prefix '/purchasing' => sub {
-  get '/blue-green' => require_role GL => \&blue_green;
+  get '/blue-green' => require_any_role [qw(GL BG)] => \&blue_green;
 };
 
 1;
