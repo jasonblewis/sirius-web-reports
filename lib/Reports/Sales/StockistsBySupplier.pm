@@ -24,8 +24,45 @@ use Dancer2::Plugin::Database;
 use Dancer2::Plugin::Auth::Extensible;
 use Data::Dumper;
 
+sub get_primary_supplier {
+    my $columns = encode_json([
+    { data => 'name',
+      title => 'Supplier',
+      formatfn => 'render_url',
+      'target_url' => request->uri . '/',
+      'target_url_id_col' => 'supplier_code',
+    },
+    { data => 'supplier_code',
+      title => 'Supplier Code',
+    },
+  ]);
+
+  template 'utils/get-selection-json2', {
+    title => 'Stickists by supplier <small>Select a primary Supplier</small>',
+    columns => $columns,
+    dt_options => {
+      ordering => 'true',
+      dom      => 'lfrtip',
+      lengthMenu => '[10,25,50,75,100]',
+      responsive => 'true',
+      pageLength => 50,
+      paging => 'false',
+    },
+    json_data_url => "/api/accounts-payable/suppliers",
+  }
+}
+
 sub stockists_by_supplier {
+  my $supplier_code;
   
+  if (params->{supplier_code}) {
+    $supplier_code = params->{supplier_code}
+  } else {
+    warn "supplier_code not supplied";
+  }
+  
+
+    
   my $columns = [
     { data => 'name'},
     { data => 'phone'},
@@ -39,16 +76,15 @@ sub stockists_by_supplier {
 #  push @$columns, { data => '2015-11-01',className => 'text-right',formatfn => 'round2dp'};
   
   template 'sales/stockists-by-supplier', {
-    title => "Stockists by Supplier",
-    json_data_url => "/api/sales/stockists-by-supplier",
+    title => "Stockists of $supplier_code",
+    json_data_url => "/api/sales/stockists-by-supplier/$supplier_code",
     columns => encode_json($columns),
-    json_data_url => "/api/sales/stockists-by-supplier",
-      
   }
 };
 
 prefix '/sales' => sub {
-  get '/stockists-by-supplier' => require_any_role [qw(GL BG)] => \&stockists_by_supplier;
+  get '/stockists-by-supplier' => require_any_role [qw(GL BG)] => \&get_primary_supplier;
+  get '/stockists-by-supplier/:supplier_code' => require_any_role [qw(GL BG)] => \&stockists_by_supplier;
 };
 
 1;

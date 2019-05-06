@@ -38,11 +38,14 @@ Reports::Utils::set_logger( sub {debug @_});
 sub stockists_by_supplier {
 
   my $params = request->body_parameters;
+  my $qry_supplier_code = route_parameters->get('supplier_code');
 
   database->{LongReadLen} = 100000;
   database->{LongTruncOk} = 0;
   
   my $sql = q/
+
+SET TRANSACTION ISOLATION LEVEL READ uncommitted;  
 select distinct
   sh.customer_code,
   --sh.product_code,
@@ -73,13 +76,13 @@ on
 
 where 
   sh.invoice_date >= '2018-03-01 00:00:00'
-  and p.primary_supplier ='UNILEV'
+  and p.primary_supplier = ?
   
   /;
   
 
   my $sth = database->prepare($sql) or die "can't prepare\n";
-  $sth->execute or die $sth->errstr;
+  $sth->execute($qry_supplier_code) or die $sth->errstr;
   my $fields = $sth->{NAME};
   my $rows = $sth->fetchall_arrayref({});
   $sth->finish;
@@ -90,7 +93,7 @@ where
   
 };
 
-any ['get','post'] => '/sales/stockists-by-supplier' => require_any_role [qw(GL BG)] => \&stockists_by_supplier;
+any ['get','post'] => '/sales/stockists-by-supplier/:supplier_code' => require_any_role [qw(GL BG)] => \&stockists_by_supplier;
 
 
 1;
