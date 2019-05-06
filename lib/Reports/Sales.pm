@@ -23,7 +23,7 @@ use Dancer2 appname => 'Reports';
 use Dancer2::Plugin::Database;
 use Dancer2::Plugin::Auth::Extensible;
 use Data::Dumper;
-
+use Reports::Sales::StockistsBySupplier;
 
 sub menu {
   template 'sales/sales';
@@ -516,6 +516,7 @@ prefix '/sales' => sub {
   get '/customer-24-month-detail'   => require_login \&customer_24_month_detail;
   get '/debtor-24-month-detail'     => require_login \&debtor_24_month_detail;
   get '/order-form-w-pricecode'     => require_login \&order_form_w_pricecode;
+  get '/stockists-by-supplier'      => require_login \&stockists_by_supplier;
 };
 
 

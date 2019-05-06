@@ -43,6 +43,38 @@ sub stockists_by_supplier {
   database->{LongTruncOk} = 0;
   
   my $sql = q/
+select distinct
+  sh.customer_code,
+  --sh.product_code,
+  --c.company_code,
+  --p.primary_supplier,
+  y.name,
+  ph.phone,
+  ph.phone_type,
+  y.address_1,
+  y.address_2,
+  y.address_3,
+  y.postcode
+from 
+  sh_transaction sh
+join in_product p 
+on
+  sh.product_code = p.product_code
+join ar_customer c
+on
+	sh.customer_code = c.customer_code
+join company y
+on
+	c.company_code = y.company_code
+right outer join phone ph
+on 
+	y.company_code = ph.company_code
+	and ph.phone_type = 'BUS'
+
+where 
+  sh.invoice_date >= '2018-03-01 00:00:00'
+  and p.primary_supplier ='UNILEV'
+  
   /;
   
 

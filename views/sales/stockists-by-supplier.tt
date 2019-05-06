@@ -1,1 +1,5 @@
-test
+[% INCLUDE page_header.tt %]
+
+[% INCLUDE datatables_buttons.tt %]    
+
+[% INCLUDE json_table2.tt %]

@@ -27,43 +27,21 @@ use Data::Dumper;
 sub stockists_by_supplier {
   
   my $columns = [
-    { data => 'OT Brand'},
-    { data => 'supplier_code', title => 'Supplier Code', className => 'text-left'},
-    { data => 'sale_or_purchase',
-      title => '<span class=text-primary>Sale</span><br><span class=text-success>Purchase</span>',
-      className => 'text-right',
-      visible => 1,
-    },
-    { data => 'suggested_purchase', title => 'Budget', className => 'text-right text-warning',formatfn => 'round0dp',},
-    { data => 'value', title => 'SOH', className => 'text-right text-black',formatfn => 'round0dp'},
+    { data => 'name'},
+    { data => 'phone'},
+    { data => 'address_1'},
+    { data => 'address_3'},
+    { data => 'address_2'},
+    { data => 'postcode'},
   ];
-
-  my $months = 15;
-    for (my $i = $months; $i >= 0; $i--) {
-    push @$columns, {
-      data => DateTime->now->subtract(months => $i)->strftime('%Y-%m-01'),
-      title => DateTime->now->subtract(months => $i)->strftime('%Y<br>%m'),
-      className => 'text-right',
-      formatfn => 'round0dp',
-    };
-  }
 
 
 #  push @$columns, { data => '2015-11-01',className => 'text-right',formatfn => 'round2dp'};
   
   template 'sales/stockists-by-supplier', {
-    title => "The Blue Green Report",
-    json_data_url => "/api/purchasing/blue-green",
+    title => "Stockists by Supplier",
+    json_data_url => "/api/sales/stockists-by-supplier",
     columns => encode_json($columns),
-    dt_options => {
-      order      => '[[0, "desc"],[1,"asc"],[2,"desc"]]',
-      responsive => 'true',
-      dom        => 'ftr',
-      pageLength => 50,
-      paging => 'true',
-      page   => 'first',
-      createdRowFn => 'blue_green',
-     },
     json_data_url => "/api/sales/stockists-by-supplier",
       
   }

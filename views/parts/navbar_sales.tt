@@ -8,6 +8,7 @@
             <li class="[% IF request.path == '/sales/customer-24-month-detail' %]active[% END %]"><a href="/sales/customer-24-month-detail" >Customer 24 Month Detail</a>
             <li class="[% IF request.path == '/sales/debtor-24-month-detail' %]active[% END %]"><a href="/sales/debtor-24-month-detail" >Debtor 24 Month Detail</a>
             <li class="[% IF request.path == '/sales/order-form-w-pricecode' %]active[% END %]"><a href="/sales/order-form-w-pricecode" >Order Form W Price code</a>
+            <li class="[% IF request.path == '/sales/stockists-by-supplier' %]active[% END %]"><a href="/sales/stockists-by-supplier" >Stockists by Supplier</a>
 	</ul>
     </li>
 </ul>
