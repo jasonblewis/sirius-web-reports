@@ -64,12 +64,17 @@ sub stockists_by_supplier {
 
     
   my $columns = [
-    { data => 'name'},
-    { data => 'phone'},
-    { data => 'address_1'},
-    { data => 'address_3'},
-    { data => 'address_2'},
-    { data => 'postcode'},
+    { data => 'name', title => 'Store Name'},
+    { data => 'phone',
+      title => 'Phone Number',
+      formatfn => 'render_url',
+      'target_url' => 'tel:',
+      'target_url_id_col' => 'phone',
+    },
+    { data => 'address_1', title => 'Address 1'},
+    { data => 'address_3', title => 'Address 2'},
+    { data => 'address_2', title => 'Address 3'},
+    { data => 'postcode', title => 'Postcode'},
   ];
 
 
