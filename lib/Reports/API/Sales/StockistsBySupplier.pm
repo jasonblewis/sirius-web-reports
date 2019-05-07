@@ -45,15 +45,18 @@ sub stockists_by_supplier {
   
   my $sql = q/
 
-SET TRANSACTION ISOLATION LEVEL READ uncommitted;  
+Declare @StartDate datetime
+set @StartDate = Convert(date, (DATEADD(year, -1, getdate())))
 select distinct
   sh.customer_code,
   --sh.product_code,
   --c.company_code,
   --p.primary_supplier,
   y.name,
-  ph.phone,
-  ph.phone_type,
+ first_value(ph.phone) over (partition by c.company_code order by ph.phone_line desc) as phone,
+ --ph.phone,
+  --ph.phone_type,
+  --ph.phone_line,
   y.address_1,
   y.address_2,
   y.address_3,
@@ -75,7 +78,7 @@ on
 	and ph.phone_type = 'BUS'
 
 where 
-  sh.invoice_date >= '2018-03-01 00:00:00'
+  sh.invoice_date >= @StartDate
   and p.primary_supplier = ?
   
   /;

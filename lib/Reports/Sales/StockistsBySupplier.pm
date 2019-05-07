@@ -84,6 +84,15 @@ sub stockists_by_supplier {
     title => "Stockists of $supplier_code",
     json_data_url => "/api/sales/stockists-by-supplier/$supplier_code",
     columns => encode_json($columns),
+    dt_options => {
+      ordering => 'true',
+      dom      => 'lBfrtip',
+      lengthMenu => '[10,25,50,75,100]',
+      responsive => 'true',
+      pageLength => 50,
+      paging => 'false',
+    },
+
   }
 };
 
