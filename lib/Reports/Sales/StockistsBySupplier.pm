@@ -38,7 +38,7 @@ sub get_primary_supplier {
   ]);
 
   template 'utils/get-selection-json2', {
-    title => 'Stickists by supplier <small>Select a primary Supplier</small>',
+    title => 'Stockists by supplier <small>Select a primary Supplier</small>',
     columns => $columns,
     dt_options => {
       ordering => 'true',
