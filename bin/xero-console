@@ -276,10 +276,11 @@ convert(date,dateadd(d,30,invoice_date)) as DueDate,
 product_code as InventoryItemCode,
 description as Description,
 shipped_qty as Quantity,
-round((round(unit_price,2)
-  -discount_rate/100*round(unit_price,2)
-  +tax_rate/100*(round(unit_price,2)
-  -discount_rate/100*round(unit_price,2)))*shipped_qty,2)/shipped_qty as UnitAmount,
+unit_price,
+shipped_qty,
+-- if shipped_qty = 0, then just send the total line cost
+  case when (shipped_qty = 0) then ship_line_pre_tax + ship_line_tax else
+round((ship_line_pre_tax + ship_line_tax)/shipped_qty,2) end  as UnitAmount,
 
 case when  (tax_rate = 10)  then 'BASEXCLUDED' else 'BASEXCLUDED' end as TaxType,
 '' as TrackingName1,
@@ -287,8 +288,6 @@ case when  (tax_rate = 10)  then 'BASEXCLUDED' else 'BASEXCLUDED' end as TaxType
 '' as TrackingName2,
 '' as TrackingOption2,
 '' as Currency
-
-
 
  from so_order_and_ship_view with (nolock)
 where customer_code = 'FATAPP'
