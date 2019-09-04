@@ -271,6 +271,7 @@ select
 '2018' as POPostalCode,
 'Australia' as POCountry,
 invoice_no as 'InvoiceNumber',
+sale_or_credit,
 convert(date,invoice_date) as InvoiceDate,
 convert(date,dateadd(d,30,invoice_date)) as DueDate,
 product_code as InventoryItemCode,
