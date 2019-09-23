@@ -386,7 +386,7 @@ sub submit_xero_invoice {
     for my $sirius_item (@$data) {
         my $item;
         unless ( $item = $xero->get_item( $sirius_item->{InventoryItemCode} ) ) {
-            warn "Missing item $sirius_item->{InventoryItemCode}.\n";
+            warn "Missing item $sirius_item->{InventoryItemCode} for invoice $invoice_number.\n";
             $missing_items++;
         }
     }
