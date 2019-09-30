@@ -95,7 +95,24 @@ left join
 	btc.product_code = oh.product_code
 
 where oh.warehouse_code is not null
+
 and p.primary_supplier = ?
+
+and not (oh.on_hand = 0 and 
+coalesce(c.committed,0) = 0 and 
+coalesce(btc.bt_committed_qty,0) = 0 and 
+coalesce(oh.on_hand,0) - coalesce(c.committed,0) - coalesce(btc.bt_committed_qty,0)  = 0 and 
+coalesce([0],0) = 0 and
+coalesce([1],0) = 0 and
+coalesce([2],0) = 0 and
+coalesce([3],0) = 0 and
+coalesce([4],0) = 0 and
+coalesce([5],0) = 0 and
+coalesce([6],0) = 0 and
+coalesce([7],0) = 0 and
+coalesce([8],0) = 0 and
+coalesce([9],0) = 0 )
+order by p.product_code, oh.warehouse_code
 
 /;
 
@@ -150,7 +167,7 @@ and p.primary_supplier = ?
     pageLength => 50,
     columns => $columns,
     data => [@$rows],
-    order => [[1,"asc"]],
+    order => [[1,"asc"],[0,"asc"]],
     columnDefs => [{visible=> "false", targets => ".product-code"}]
   };
 
