@@ -14,6 +14,7 @@ use DateTime::Format::ISO8601;
 use DateTime::Format::ISO8601::Format;
 use Dancer2;
 use Dancer2::Plugin::Database;
+use Email::Stuffer;
 
 use FindBin;
 use lib "$FindBin::Bin/../lib";
@@ -104,6 +105,9 @@ my $xero_app = Xero::Console::Command->new(
     consumer_secret => $xero_config->{consumer_secret},
     private_key     => $pkey,
 );
+
+# errors to be emailed separately
+my %invoice_errors;
 
 # use contact id from configuration
 my $contact_id = $xero_config->{contact_id};
@@ -374,11 +378,54 @@ if ( $current_invoice_number ) {
     submit_xero_invoice( $xero_app, $contact_id, $current_invoice_number, $sirius_invoices{$current_invoice_number} );
 }
 
+if ( keys %invoice_errors ) {
+    # build up text
+    my @error_text;
+
+    while (my ($invoice_number, $errors) = each( %invoice_errors )) {
+        push @error_text, "Invoice $invoice_number:", '';
+
+        for my $err (@$errors) {
+            push @error_text, $err;
+        }
+        push @error_text, '';
+    }
+
+    # send invoice errors
+    my $email_config = $xero_config->{error_email};
+
+    unless ( exists $email_config->{from} ) {
+        die "$0: Missing sender for invoice import error email.";
+    }
+
+    unless ( exists $email_config->{to} ) {
+        die "$0: Missing recipient for invoice import error email.";
+    }
+
+    Email::Stuffer->from( $email_config->{from} )
+            ->to( $email_config->{to} )
+            ->cc( $email_config->{cc} || '')
+    ->subject('Xero Invoice Import Errors')
+    ->text_body( join( "\n", @error_text ) )
+    ->send;
+}
+
 sub submit_xero_invoice {
     my ($xero, $contact_id, $invoice_number, $data) = @_;
     my $missing_items = 0;
+    my $sale_or_credit = $data->[0]->{sale_or_credit};
 
     print "Submitting invoice number $invoice_number from $data->[0]->{InvoiceDate}.\n";
+
+    if ( $sale_or_credit eq 'C' ) {
+        warn "Credit notes are not supported yet (INV $invoice_number).\n";
+        push @{ $invoice_errors{ $invoice_number } }, "Credit notes are not supported, please add them manually.";
+        return;
+    }
+    elsif ( $sale_or_credit ne 'S' ) {
+        warn "Invalid value '$sale_or_credit' for sale_or_credit (INV $invoice_number).\n";
+        return;
+    }
 
     return if $cmdopts{'dry-run'};
 
@@ -386,7 +433,8 @@ sub submit_xero_invoice {
     for my $sirius_item (@$data) {
         my $item;
         unless ( $item = $xero->get_item( $sirius_item->{InventoryItemCode} ) ) {
-            warn "Missing item $sirius_item->{InventoryItemCode}.\n";
+            warn "Missing item $sirius_item->{InventoryItemCode} for invoice $invoice_number.\n";
+            push @{ $invoice_errors{ $invoice_number } }, "Please add missing item $sirius_item->{InventoryItemCode}.";
             $missing_items++;
         }
     }

@@ -35,6 +35,7 @@ requires "YAML::Tiny";
 requires "Date::Time";
 requires "DateTime::Format::ISO8601";
 requires "DateTime::Format::ISO8601::Format";
+requires "Email::Stuffer";
 
 recommends "YAML"             => "0";
 recommends "URL::Encode::XS"  => "0";
