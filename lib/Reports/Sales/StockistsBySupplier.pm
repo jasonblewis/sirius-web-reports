@@ -98,8 +98,8 @@ sub stockists_by_supplier {
 };
 
 prefix '/sales' => sub {
-  get '/stockists-by-supplier' => require_any_role [qw(GL BG)] => \&get_primary_supplier;
-  get '/stockists-by-supplier/:supplier_code' => require_any_role [qw(GL BG)] => \&stockists_by_supplier;
+  get '/stockists-by-supplier' => require_any_role [qw(GL BG stockist)] => \&get_primary_supplier;
+  get '/stockists-by-supplier/:supplier_code' => require_any_role [qw(GL BG stockist)] => \&stockists_by_supplier;
 };
 
 1;

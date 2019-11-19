@@ -96,7 +96,7 @@ where
   
 };
 
-any ['get','post'] => '/sales/stockists-by-supplier/:supplier_code' => require_any_role [qw(GL BG)] => \&stockists_by_supplier;
+any ['get','post'] => '/sales/stockists-by-supplier/:supplier_code' => require_any_role [qw(GL BG stockist)] => \&stockists_by_supplier;
 
 
 1;

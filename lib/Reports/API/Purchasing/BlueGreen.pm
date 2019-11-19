@@ -198,6 +198,6 @@ order by
   }
 }
 
-any ['get','post'] => '/purchasing/blue-green' => require_any_role [qw(GL BG)] => \&blue_green;
+any ['get','post'] => '/purchasing/blue-green' => require_any_role [qw(GL BG stockist)] => \&blue_green;
 
 1;
