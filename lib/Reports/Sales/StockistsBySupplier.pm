@@ -83,6 +83,7 @@ sub stockists_by_supplier {
   template 'sales/stockists-by-supplier', {
     title => "Stockists of $supplier_code",
     sub_title => "purchased in last 365 days",
+    warning => "Confidential - data not for distribution outside Organic Trader",
     json_data_url => "/api/sales/stockists-by-supplier/$supplier_code",
     columns => encode_json($columns),
     dt_options => {

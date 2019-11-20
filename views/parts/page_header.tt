@@ -2,3 +2,7 @@
   <h1>[% title %]</h1>
 </div>
 [% IF sub_title %]<h2>[% sub_title | html %]</h2>[% END %]
+[% IF warning %]<div class="alert alert-warning">
+  <strong>[% warning | html %]</strong> 
+</div>
+[% END %]
