@@ -29,8 +29,12 @@ function render_url(data,type,row,meta){
     var target_url = parameters.url; // the url to render
     var target_url_id_col = parameters.url_id_col; // id column for the url
 //    console.log(target_url_id_col);
-//    console.log(row[target_url_id_col]);
-    return '<a href="'+target_url+row[target_url_id_col]+'">'+data+'</a>';
+    //    console.log(row[target_url_id_col]);
+    if (row[target_url_id_col] != null) {
+        return '<a href="'+target_url+row[target_url_id_col]+'">'+data+'</a>';
+    } else {
+        return '';
+    }
 }
 
 function blue_green(row,data,index){
