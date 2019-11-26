@@ -64,7 +64,12 @@ sub stockists_by_supplier {
 
     
   my $columns = [
-    { data => 'name', title => 'Store Name'},
+    { data => 'name',
+      title => 'Store Name',
+      formatfn => 'render_url',
+      target_url => '/sales/customer-24-month-detail?customer_code=',
+      'target_url_id_col' => 'customer_code',
+    },
     { data => 'phone',
       title => 'Phone Number',
       formatfn => 'render_url',
