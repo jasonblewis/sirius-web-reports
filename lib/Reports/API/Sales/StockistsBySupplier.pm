@@ -72,7 +72,7 @@ on
 join company y
 on
 	c.company_code = y.company_code
-right outer join phone ph
+left join phone ph
 on 
 	y.company_code = ph.company_code
 	and ph.phone_type = 'BUS'
