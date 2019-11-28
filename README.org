@@ -380,3 +380,8 @@ where
   sh.invoice_date >= '2018-03-01 00:00:00'
   and p.primary_supplier = ''
 #+END_SRC
+* Error handling
+  to throw an error in the webapp:
+  error "some text here"
+  warning
+  debug
