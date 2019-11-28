@@ -30,6 +30,7 @@ use Reports::API::Sales;
 use Reports::API::Sales::Rolling24;
 use Reports::API::Sales::SalesOrder;
 use Reports::API::Sales::StockistsBySupplier;
+use Reports::API::Sales::Customer24MonthDetail;
 use Reports::API::Purchasing::MultiWarehouseSalesHistory;
 use Reports::API::Purchasing::CombinedWarehouseSalesHistory;
 use Reports::API::Purchasing::BlueGreen;
