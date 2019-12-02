@@ -69,6 +69,7 @@ sub stockists_by_supplier {
       formatfn => 'render_url',
       target_url => '/sales/customer-24-month-detail/',
       'target_url_id_col' => 'customer_code',
+      filter => $supplier_code,
     },
     { data => 'phone',
       title => 'Phone Number',

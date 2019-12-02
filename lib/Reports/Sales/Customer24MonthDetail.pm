@@ -67,7 +67,7 @@ sub customer_24_month_detail {
     { data => 'product_code' },
     { data => 'description'},
     { data => 'primary_supplier',
-      visible => true},
+      visible => false},
   ];
 
   # todo - make this a function in utils or somewhere

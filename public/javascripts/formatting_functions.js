@@ -28,13 +28,24 @@ function render_url(data,type,row,meta){
     var parameters = meta.settings.oInit.columns[meta.col].parameters;
     var target_url = parameters.url; // the url to render
     var target_url_id_col = parameters.url_id_col; // id column for the url
-//    console.log(target_url_id_col);
-    //    console.log(row[target_url_id_col]);
+    var filter     = parameters.filter;
+    var myurl      = '';
+    var address    = '';
+    
+    console.log(target_url_id_col);
+    console.log(row[target_url_id_col]);
+//    console.log(filter);
     if (row[target_url_id_col] != null) {
-        return '<a href="'+target_url+row[target_url_id_col]+'">'+data+'</a>';
+//        myurl = '<a href="'+target_url+row[target_url_id_col]+'">'+data+'</a>';
+        address = target_url+row[target_url_id_col]
+        if (filter != null) {
+            address = address + '?filter=' + filter;
+        }
+        myurl = '<a href="'+address+'">'+data+'</a>';
     } else {
-        return '';
+        myurl = '';
     }
+    return myurl;
 }
 
 function blue_green(row,data,index){
