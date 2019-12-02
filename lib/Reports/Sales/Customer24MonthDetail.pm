@@ -61,18 +61,28 @@ sub customer_24_month_detail {
     warn "customer_code not supplied";
   }
   
-
+  my $filter = query_parameters->get('filter');
     
   my $columns = [
     { data => 'product_code' },
     { data => 'description'},
     { data => 'primary_supplier',
-      visible => false},
+      visible => true},
   ];
 
+  # todo - make this a function in utils or somewhere
+  my $months = 24;
+    for (my $i = $months; $i >= 0; $i--) {
+    push @$columns, {
+      data => DateTime->now->subtract(months => $i)->strftime('%Y-%m-01'),
+      title => DateTime->now->subtract(months => $i)->strftime('%Y<br>%m'),
+      className => 'text-right',
+      formatfn => 'round0dp',
+    };
+  }
 
-#  push @$columns, { data => '2015-11-01',className => 'text-right',formatfn => 'round2dp'};
   
+
   template 'sales/customer-24-month-detail2', {
     title => "Customer 24 Month Detail of $customer_code",
     #sub_title => "purchased in last 365 days",
@@ -85,6 +95,7 @@ sub customer_24_month_detail {
       responsive => 'true',
       pageLength => 50,
       paging => 'false',
+      filter => $filter,
     },
 
   }

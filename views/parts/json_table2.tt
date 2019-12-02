@@ -68,7 +68,8 @@
              
              var table = $("#displayTable").DataTable(datatables);
              /* new $.fn.dataTable.FixedHeader(table);*/
-             [% IF dt_options.page %]table.page("[% dt_options.page %]").draw("page");[% END %]
+           [% IF dt_options.page %]table.page("[% dt_options.page %]").draw("page");[% END %]
+           [% IF dt_options.filter %] var filtered = table.search("[% dt_options.filter %]").draw(); [% END %]
          },
          "dataType": "json"
      });
