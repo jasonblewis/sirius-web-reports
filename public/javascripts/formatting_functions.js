@@ -32,11 +32,10 @@ function render_url(data,type,row,meta){
     var myurl      = '';
     var address    = '';
     
-    console.log(target_url_id_col);
-    console.log(row[target_url_id_col]);
-//    console.log(filter);
+    //console.log(target_url_id_col);
+    //console.log(row[target_url_id_col]);
+    //    console.log(filter);
     if (row[target_url_id_col] != null) {
-//        myurl = '<a href="'+target_url+row[target_url_id_col]+'">'+data+'</a>';
         address = target_url+row[target_url_id_col]
         if (filter != null) {
             address = address + '?filter=' + filter;
