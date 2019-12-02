@@ -48,7 +48,7 @@ sub stockists_by_supplier {
 Declare @StartDate datetime
 set @StartDate = Convert(date, (DATEADD(year, -1, getdate())))
 select distinct
-  sh.customer_code,
+  rtrim(sh.customer_code) as customer_code,
   --sh.product_code,
   --c.company_code,
   --p.primary_supplier,
