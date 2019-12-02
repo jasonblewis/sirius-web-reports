@@ -64,9 +64,9 @@ sub customer_24_month_detail {
   my $filter = query_parameters->get('filter');
     
   my $columns = [
-    { data => 'product_code' },
-    { data => 'description'},
-    { data => 'primary_supplier',
+    { data => 'product_code', title => 'Product<br>Code' },
+    { data => 'description',  title => 'Description'},
+    { data => 'primary_supplier', title => 'Primary Supplier',
       visible => false},
   ];
 
