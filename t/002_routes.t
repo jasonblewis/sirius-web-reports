@@ -42,7 +42,7 @@ my %routes = (
   '/sales/territory-24-month-summary' => {},
   '/sales/territory-24-month-detail' => {},
   '/sales/customer-24-month-detail' => {},
-  '/sales/customer-24-month-detail?customer_code=777SUP' => {},
+  '/sales/customer-24-month-detail/777SUP' => {},
   
   '/sales/order-form-w-pricecode' => {},
   '/sales/order-form-w-pricecode?customer_code=ALLANE' => {},
