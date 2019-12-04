@@ -83,7 +83,7 @@ sub customer_24_month_detail {
 
   
 
-  template 'sales/customer-24-month-detail2', {
+  template 'sales/customer-24-month-detail', {
     title => "Customer 24 Month Detail of $customer_code",
     #sub_title => "purchased in last 365 days",
     json_data_url => "/api/sales/customer-24-month-detail/$customer_code",
