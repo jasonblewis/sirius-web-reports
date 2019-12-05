@@ -60,7 +60,18 @@ select distinct
   y.address_1,
   y.address_2,
   y.address_3,
-  y.postcode
+  y.postcode,
+  c.cust_disc_group,
+  case
+    when c.spare_flag_09 = 'N' then null
+	when c.spare_flag_09 is null then null
+	else 'Y'
+	end as online_only,
+  case
+    when c.spare_flag_09 = 'N' then null
+	when c.spare_flag_09 is null then null
+	else 'warning'
+	end as row_contextual_class
 from 
   sh_transaction sh
 join in_product p 

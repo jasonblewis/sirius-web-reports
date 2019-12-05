@@ -16,8 +16,12 @@
      $.ajax({
          "processing": true,
          "url": "[% json_data_url %]",
-         "type": "POST",
-         "fixedHeader": true,
+       "type": "POST",
+       scrollY: '150px',
+       "fixedHeader": {
+         header: true,
+         footer: false,
+       },
          "responsive" : true,
          "success": function(datatables) {
              var tableHeaders = "";  // should be at least the empty string first time through
@@ -41,7 +45,6 @@
              [% IF dt_options.paging %]datatables.paging = [% dt_options.paging %]; [% END %]
              [% IF dt_options.createdRowFn %]datatables.createdRow = [% dt_options.createdRowFn %];[% END %]
              [% IF dt_options.visible %]datatables.visible = [% dt_options.visible %]; [% END %]
-             
              [% IF dt_options.row_contextual_class %]
              datatables.createdRow = function (row,mydata,index) {
                  if(mydata.[% dt_options.row_contextual_class %]) {
@@ -67,7 +70,14 @@
                                    },
                                    "print"];
              datatables.columns = columns;
-             
+
+           //datatables.scrollY = '600px';
+           //datatables.fixedHeader = {
+         header: true,
+         footer: false,
+           };
+
+           
              var table = $("#displayTable").DataTable(datatables);
              /* new $.fn.dataTable.FixedHeader(table);*/
            [% IF dt_options.page %]table.page("[% dt_options.page %]").draw("page");[% END %]

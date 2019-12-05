@@ -84,6 +84,7 @@ sub stockists_by_supplier {
     { data => 'address_3', title => 'Address 2'},
     { data => 'address_2', title => 'Address 3'},
     { data => 'postcode', title => 'Postcode'},
+    { data => 'online_only', title => 'Online Only'},
   ];
 
 
@@ -102,6 +103,7 @@ sub stockists_by_supplier {
       responsive => 'true',
       pageLength => 50,
       paging => 'false',
+      row_contextual_class => 'row_contextual_class',
     },
 
   }
