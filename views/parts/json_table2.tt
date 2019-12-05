@@ -73,9 +73,9 @@
 
            //datatables.scrollY = '600px';
            //datatables.fixedHeader = {
-         header: true,
-         footer: false,
-           };
+         //header: true,
+         //footer: false,
+         //  };
 
            
              var table = $("#displayTable").DataTable(datatables);
