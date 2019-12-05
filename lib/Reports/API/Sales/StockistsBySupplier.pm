@@ -80,6 +80,9 @@ on
 where 
   sh.invoice_date >= @StartDate
   and p.primary_supplier = ?
+  and sh.price_code not in ('Z','R')
+  and (c.cust_disc_group is null or c.cust_disc_group != 'STAFF')
+  and (c.spare_flag_01 is null or c.spare_flag_01 != 'Y')
   
   /;
   
