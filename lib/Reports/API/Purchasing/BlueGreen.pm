@@ -79,6 +79,7 @@ case when (sale_or_purchase = ''S'') then ''success'' else ''info'' end as [row_
 from (
 select 
 supplier_code,
+name,
 sale_or_purchase,
 ' + @cols + '
 
@@ -86,13 +87,14 @@ sale_or_purchase,
 (select 
   ''S'' as [sale_or_purchase],
   s.supplier_code,
+  s.name,
   DATEADD(month, DATEDIFF(month, 0, sht.invoice_date), 0) as [month],
   sum(sht.sales_amt) as sales
   
  from 
    in_product p
  join 
-   ap_supplier s
+   ap_supplier_select_view s
  on 
    p.primary_supplier = s.supplier_code
  join 
@@ -105,6 +107,7 @@ sale_or_purchase,
 	WHERE    sht.invoice_date >=  @p1
 group by
   s.supplier_code,
+  s.name,
   DATEADD(month, DATEDIFF(month, 0, sht.invoice_date), 0) ) x
  pivot
    (
@@ -118,6 +121,7 @@ union
 
 select 
   supplier_code,
+  name,
   sale_or_purchase,
   ' + @cols + '
  from
@@ -125,10 +129,15 @@ select
 select 
 	''P''as [sale_or_purchase],
 	i.supplier_code,
+	sup.name,
 	DATEADD(month, DATEDIFF(month, 0, i.invoice_date), 0) as [month],
 	sum(i.invoice_amt) as purchases
 from 
     po_invoice i
+join
+    ap_supplier_select_view sup
+	on
+	i.supplier_code = sup.supplier_code
 
 
 where 
@@ -136,6 +145,7 @@ where
 
 group by
   i.supplier_code,
+  sup.name,
   DATEADD(month, DATEDIFF(month, 0, i.invoice_date), 0)) x
  pivot
    (

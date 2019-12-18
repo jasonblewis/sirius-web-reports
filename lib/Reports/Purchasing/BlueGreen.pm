@@ -29,6 +29,7 @@ sub blue_green {
   my $columns = [
     { data => 'OT Brand'},
     { data => 'supplier_code', title => 'Supplier Code', className => 'text-left'},
+    { data => 'name', title => 'Supplier Name'},
     { data => 'sale_or_purchase',
       title => '<span class=text-primary>Sale</span><br><span class=text-success>Purchase</span>',
       className => 'text-right',
