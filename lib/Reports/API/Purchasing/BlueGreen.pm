@@ -131,7 +131,7 @@ select
 	i.supplier_code,
 	sup.name,
 	DATEADD(month, DATEDIFF(month, 0, i.invoice_date), 0) as [month],
-	sum(i.invoice_amt) as purchases
+	sum(i.invoice_amt)/i.exchange_rate as purchases
 from 
     po_invoice i
 join
@@ -146,6 +146,7 @@ where
 group by
   i.supplier_code,
   sup.name,
+  i.exchange_rate,
   DATEADD(month, DATEDIFF(month, 0, i.invoice_date), 0)) x
  pivot
    (
