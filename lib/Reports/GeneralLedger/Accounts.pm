@@ -76,13 +76,13 @@ sub gl_account_reconciliation {
   }
   # stefan says check account code is valid, throw some error if not.
 
-  my $gl_account = schema->resultset('Gl_Account')->search({account => $account_code})->single;
-  my $gl_account_select_view = schema->resultset('Gl_Account')->find($account_code);
+  my $gl_account = schema->resultset('GlAccount')->search({account => $account_code})->single;
+  my $gl_account_select_view = schema->resultset('GlAccount')->find($account_code);
   my $gl_account_name = $gl_account_select_view->name;
 
   
   template 'gl/gl-account-reconciliation', {
-    title => "GL Account Reconciliation",
+    title => "$gl_account_name GL Account Reconciliation",
     sub_title => "$gl_account_name ($account_code)",
     columns => $columns,
     dt_options => {
@@ -96,7 +96,7 @@ sub gl_account_reconciliation {
       row_contextual_class => 'row_contextual_class',
       row_tooltip => 'WARNING: Transaction Date out of period',
     },
-    caption => "GL Acount Reconciliation for $account_code",
+    caption => "GL Acount Reconciliation for $gl_account_name ($account_code)",
     json_data_url => "/api/general-ledger/account-reconciliation/$account_code"
    }
 };
