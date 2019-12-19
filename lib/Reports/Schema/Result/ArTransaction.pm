@@ -108,37 +108,37 @@ __PACKAGE__->table("ar_transaction");
 
 =head2 ref_1
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 20
 
 =head2 ref_2
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 20
 
 =head2 ref_3
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 20
 
 =head2 ref_4
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 20
 
 =head2 ref_5
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 20
 
 =head2 description
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 40
 
@@ -180,13 +180,13 @@ __PACKAGE__->table("ar_transaction");
 
 =head2 spare_1
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 20
 
 =head2 spare_2
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 20
 
@@ -204,7 +204,7 @@ __PACKAGE__->table("ar_transaction");
 
 =head2 ext_desc
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 20
 
@@ -281,17 +281,17 @@ __PACKAGE__->add_columns(
   "bank",
   { data_type => "char", is_nullable => 1, size => 6 },
   "ref_1",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 20 },
   "ref_2",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 20 },
   "ref_3",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 20 },
   "ref_4",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 20 },
   "ref_5",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 20 },
   "description",
-  { data_type => "char", is_nullable => 1, size => 40 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "trans_amt",
   { data_type => "double precision", is_nullable => 0 },
   "discount_amt",
@@ -307,15 +307,15 @@ __PACKAGE__->add_columns(
   "spare_date_2",
   { data_type => "datetime", is_nullable => 1 },
   "spare_1",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 20 },
   "spare_2",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 20 },
   "spare_flag_1",
   { data_type => "char", is_nullable => 1, size => 1 },
   "spare_flag_2",
   { data_type => "char", is_nullable => 1, size => 1 },
   "ext_desc",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 20 },
   "display_trans_amt",
   { data_type => "double precision", is_nullable => 1 },
   "display_discount_amt",
@@ -349,8 +349,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("batch_no", "batch_line_no");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-05-09 12:00:11
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:uqp0rASqRqTDlBOdV9MMsA
+# Created by DBIx::Class::Schema::Loader v0.07049 @ 2019-12-19 14:22:27
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Us+kC1IA6n5v2QeeRid47A
 
 # Copyright 2017 Jason Lewis
 

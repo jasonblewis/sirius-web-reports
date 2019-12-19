@@ -71,7 +71,7 @@ __PACKAGE__->table("period");
 
 =head2 description
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 10
 
@@ -91,7 +91,7 @@ __PACKAGE__->add_columns(
   "period_end",
   { data_type => "datetime", is_nullable => 0 },
   "description",
-  { data_type => "char", is_nullable => 1, size => 10 },
+  { data_type => "varchar", is_nullable => 1, size => 10 },
 );
 
 =head1 PRIMARY KEY
@@ -111,8 +111,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("period_type", "year", "period");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07045 @ 2017-03-24 12:04:23
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:EEhUppLU0KEoWw9YQ3DUlg
+# Created by DBIx::Class::Schema::Loader v0.07049 @ 2019-12-19 14:22:27
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:wAgzhKbF3SqQbnSx3AWGIg
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

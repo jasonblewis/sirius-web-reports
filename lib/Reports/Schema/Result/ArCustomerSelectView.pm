@@ -44,7 +44,7 @@ __PACKAGE__->table("ar_customer_select_view");
 
 =head2 customer_search_key
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 80
 
@@ -62,43 +62,43 @@ __PACKAGE__->table("ar_customer_select_view");
 
 =head2 name
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 0
   size: 40
 
 =head2 uppercase_name
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 40
 
 =head2 address_1
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 40
 
 =head2 address_2
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 40
 
 =head2 address_3
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 40
 
 =head2 postcode
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 10
 
 =head2 abn
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 12
 
@@ -158,7 +158,7 @@ __PACKAGE__->table("ar_customer_select_view");
 
 =head2 cust_disc_group
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 10
 
@@ -241,7 +241,7 @@ __PACKAGE__->table("ar_customer_select_view");
 
 =head2 eps_supplier_code
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 20
 
@@ -271,7 +271,7 @@ __PACKAGE__->table("ar_customer_select_view");
 
 =head2 cust_prod_list
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 10
 
@@ -283,7 +283,7 @@ __PACKAGE__->table("ar_customer_select_view");
 
 =head2 run_code
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 10
 
@@ -295,7 +295,7 @@ __PACKAGE__->table("ar_customer_select_view");
 
 =head2 freight_code
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 12
 
@@ -313,63 +313,63 @@ __PACKAGE__->table("ar_customer_select_view");
 
 =head2 spare_code_01
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 20
+  size: 40
 
 =head2 spare_code_02
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 20
+  size: 40
 
 =head2 spare_code_03
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 20
+  size: 40
 
 =head2 spare_code_04
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 20
+  size: 40
 
 =head2 spare_code_05
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 20
+  size: 40
 
 =head2 spare_code_06
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 20
+  size: 40
 
 =head2 spare_code_07
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 20
+  size: 40
 
 =head2 spare_code_08
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 20
+  size: 40
 
 =head2 spare_code_09
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 20
+  size: 40
 
 =head2 spare_code_10
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 20
+  size: 40
 
 =head2 spare_value_01
 
@@ -495,31 +495,31 @@ __PACKAGE__->table("ar_customer_select_view");
 
 =head2 ship_to_name
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 40
 
 =head2 ship_to_add1
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 40
 
 =head2 ship_to_add2
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 40
 
 =head2 ship_to_add3
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 40
 
-=head2 ship_to_pc
+=head2 ship_to_postcode
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 10
 
@@ -535,25 +535,25 @@ __PACKAGE__->add_columns(
   "customer_code",
   { data_type => "char", is_nullable => 0, size => 10 },
   "customer_search_key",
-  { data_type => "char", is_nullable => 1, size => 80 },
+  { data_type => "varchar", is_nullable => 1, size => 80 },
   "ship_from_warehouse",
   { data_type => "char", is_nullable => 1, size => 6 },
   "company_code",
   { data_type => "char", is_nullable => 0, size => 10 },
   "name",
-  { data_type => "char", is_nullable => 0, size => 40 },
+  { data_type => "varchar", is_nullable => 0, size => 40 },
   "uppercase_name",
-  { data_type => "char", is_nullable => 1, size => 40 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "address_1",
-  { data_type => "char", is_nullable => 1, size => 40 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "address_2",
-  { data_type => "char", is_nullable => 1, size => 40 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "address_3",
-  { data_type => "char", is_nullable => 1, size => 40 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "postcode",
-  { data_type => "char", is_nullable => 1, size => 10 },
+  { data_type => "varchar", is_nullable => 1, size => 10 },
   "abn",
-  { data_type => "char", is_nullable => 1, size => 12 },
+  { data_type => "varchar", is_nullable => 1, size => 12 },
   "industry_code",
   { data_type => "char", is_nullable => 0, size => 6 },
   "territory_code",
@@ -573,7 +573,7 @@ __PACKAGE__->add_columns(
   "price_code",
   { data_type => "char", is_nullable => 1, size => 1 },
   "cust_disc_group",
-  { data_type => "char", is_nullable => 1, size => 10 },
+  { data_type => "varchar", is_nullable => 1, size => 10 },
   "gets_promo_flag",
   { data_type => "char", is_nullable => 0, size => 1 },
   "pricing_customer",
@@ -601,7 +601,7 @@ __PACKAGE__->add_columns(
   "min_price_code",
   { data_type => "char", is_nullable => 1, size => 1 },
   "eps_supplier_code",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 20 },
   "ship_doc_inv",
   { data_type => "char", is_nullable => 0, size => 1 },
   "ship_doc_pack",
@@ -611,39 +611,39 @@ __PACKAGE__->add_columns(
   "ship_via_code",
   { data_type => "char", is_nullable => 1, size => 6 },
   "cust_prod_list",
-  { data_type => "char", is_nullable => 1, size => 10 },
+  { data_type => "varchar", is_nullable => 1, size => 10 },
   "line_no_rqd",
   { data_type => "char", is_nullable => 0, size => 1 },
   "run_code",
-  { data_type => "char", is_nullable => 1, size => 10 },
+  { data_type => "varchar", is_nullable => 1, size => 10 },
   "run_sequence",
   { data_type => "numeric", is_nullable => 1, size => [5, 0] },
   "freight_code",
-  { data_type => "char", is_nullable => 1, size => 12 },
+  { data_type => "varchar", is_nullable => 1, size => 12 },
   "consolidate_orders_flag",
   { data_type => "char", is_nullable => 0, size => 1 },
   "wet_exempt_flag",
   { data_type => "char", is_nullable => 0, size => 1 },
   "spare_code_01",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "spare_code_02",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "spare_code_03",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "spare_code_04",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "spare_code_05",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "spare_code_06",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "spare_code_07",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "spare_code_08",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "spare_code_09",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "spare_code_10",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "spare_value_01",
   { data_type => "double precision", is_nullable => 1 },
   "spare_value_02",
@@ -689,22 +689,22 @@ __PACKAGE__->add_columns(
   "ship_to_ship_via",
   { data_type => "char", is_nullable => 1, size => 6 },
   "ship_to_name",
-  { data_type => "char", is_nullable => 1, size => 40 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "ship_to_add1",
-  { data_type => "char", is_nullable => 1, size => 40 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "ship_to_add2",
-  { data_type => "char", is_nullable => 1, size => 40 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "ship_to_add3",
-  { data_type => "char", is_nullable => 1, size => 40 },
-  "ship_to_pc",
-  { data_type => "char", is_nullable => 1, size => 10 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
+  "ship_to_postcode",
+  { data_type => "varchar", is_nullable => 1, size => 10 },
   "ship_to_active",
   { data_type => "char", is_nullable => 1, size => 1 },
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07045 @ 2017-03-23 15:50:54
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:d6TO1P6myBtYnCd3vi2z/Q
+# Created by DBIx::Class::Schema::Loader v0.07049 @ 2019-12-19 14:22:27
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:20eJJU15wgnP2AqanjtbYg
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

@@ -1,12 +1,12 @@
 use utf8;
-package Reports::Schema::Result::InProduct;
+package Reports::Schema::Result::GlAccount;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
 
 =head1 NAME
 
-Reports::Schema::Result::InProduct
+Reports::Schema::Result::GlAccount
 
 =cut
 
@@ -27,19 +27,19 @@ use base 'DBIx::Class::Core';
 
 __PACKAGE__->load_components("InflateColumn::DateTime");
 
-=head1 TABLE: C<in_product>
+=head1 TABLE: C<gl_account>
 
 =cut
 
-__PACKAGE__->table("in_product");
+__PACKAGE__->table("gl_account");
 
 =head1 ACCESSORS
 
-=head2 product_code
+=head2 account
 
   data_type: 'char'
   is_nullable: 0
-  size: 16
+  size: 20
 
 =head2 u_version
 
@@ -47,208 +47,67 @@ __PACKAGE__->table("in_product");
   is_nullable: 1
   size: 1
 
-=head2 description
+=head2 component_1
 
   data_type: 'varchar'
   is_nullable: 1
-  size: 40
+  size: 12
 
-=head2 uppercase_desc
-
-  data_type: 'varchar'
-  is_nullable: 1
-  size: 40
-
-=head2 also_known_as
+=head2 component_2
 
   data_type: 'varchar'
   is_nullable: 1
-  size: 16
+  size: 12
 
-=head2 alias
-
-  data_type: 'varchar'
-  is_nullable: 1
-  size: 40
-
-=head2 primary_supplier
-
-  data_type: 'char'
-  is_nullable: 1
-  size: 10
-
-=head2 ship_from_warehouse
-
-  data_type: 'char'
-  is_nullable: 1
-  size: 6
-
-=head2 deposit
+=head2 component_3
 
   data_type: 'varchar'
   is_nullable: 1
-  size: 16
+  size: 12
 
-=head2 unit
-
-  data_type: 'char'
-  is_nullable: 1
-  size: 4
-
-=head2 weight
-
-  data_type: 'double precision'
-  is_nullable: 1
-
-=head2 department
-
-  data_type: 'char'
-  is_nullable: 1
-  size: 6
-
-=head2 group_code
-
-  data_type: 'char'
-  is_nullable: 1
-  size: 6
-
-=head2 sub_group
-
-  data_type: 'char'
-  is_nullable: 1
-  size: 6
-
-=head2 standard_cost
-
-  data_type: 'double precision'
-  is_nullable: 1
-
-=head2 non_diminishing
-
-  data_type: 'char'
-  is_nullable: 0
-  size: 1
-
-=head2 batch_numbered
-
-  data_type: 'char'
-  is_nullable: 0
-  size: 1
-
-=head2 serial_numbered
-
-  data_type: 'char'
-  is_nullable: 0
-  size: 1
-
-=head2 prod_disc_group
+=head2 component_4
 
   data_type: 'varchar'
   is_nullable: 1
-  size: 10
+  size: 12
 
-=head2 qty_break_group
+=head2 component_5
+
+  data_type: 'varchar'
+  is_nullable: 1
+  size: 12
+
+=head2 component_6
+
+  data_type: 'varchar'
+  is_nullable: 1
+  size: 12
+
+=head2 name
+
+  data_type: 'varchar'
+  is_nullable: 1
+  size: 80
+
+=head2 uppercase_name
+
+  data_type: 'varchar'
+  is_nullable: 1
+  size: 80
+
+=head2 normal_sign
+
+  data_type: 'char'
+  is_nullable: 0
+  size: 1
+
+=head2 clear_to
 
   data_type: 'char'
   is_nullable: 1
-  size: 6
-
-=head2 qty_break_flag
-
-  data_type: 'char'
-  is_nullable: 1
-  size: 1
-
-=head2 price_per
-
-  data_type: 'numeric'
-  is_nullable: 0
-  size: [7,0]
-
-=head2 tax_rate
-
-  data_type: 'double precision'
-  is_nullable: 1
-
-=head2 gst_code
-
-  data_type: 'char'
-  is_nullable: 1
-  size: 3
-
-=head2 allocation_method
-
-  data_type: 'char'
-  is_nullable: 0
-  size: 1
-
-=head2 manual_allocation
-
-  data_type: 'char'
-  is_nullable: 0
-  size: 1
-
-=head2 costing_method
-
-  data_type: 'char'
-  is_nullable: 0
-  size: 1
-
-=head2 include_in_sales_report
-
-  data_type: 'char'
-  is_nullable: 0
-  size: 1
+  size: 20
 
 =head2 active_flag
-
-  data_type: 'char'
-  is_nullable: 0
-  size: 1
-
-=head2 gl_sales
-
-  data_type: 'char'
-  is_nullable: 1
-  size: 20
-
-=head2 gl_cogs
-
-  data_type: 'char'
-  is_nullable: 1
-  size: 20
-
-=head2 gl_inventory
-
-  data_type: 'char'
-  is_nullable: 1
-  size: 20
-
-=head2 gl_tax
-
-  data_type: 'char'
-  is_nullable: 1
-  size: 20
-
-=head2 gl_purchases
-
-  data_type: 'char'
-  is_nullable: 1
-  size: 20
-
-=head2 points_code
-
-  data_type: 'char'
-  is_nullable: 0
-  size: 1
-
-=head2 check_order_qty
-
-  data_type: 'char'
-  is_nullable: 0
-  size: 1
-
-=head2 capture_demand
 
   data_type: 'char'
   is_nullable: 0
@@ -257,71 +116,49 @@ __PACKAGE__->table("in_product");
 =head2 date_created
 
   data_type: 'datetime'
-  is_nullable: 0
-
-=head2 demand_start_date
-
-  data_type: 'datetime'
   is_nullable: 1
 
-=head2 price_labels_flag
+=head2 account_type
 
   data_type: 'char'
   is_nullable: 0
   size: 1
 
-=head2 external_service_flag
+=head2 sub_type
 
   data_type: 'char'
-  is_nullable: 0
+  is_nullable: 1
   size: 1
 
-=head2 markup_group
+=head2 gst_code
 
-  data_type: 'varchar'
+  data_type: 'char'
   is_nullable: 1
-  size: 10
+  size: 3
 
-=head2 qty_per_carton
+=head2 flag_1
 
-  data_type: 'numeric'
+  data_type: 'char'
   is_nullable: 1
-  size: [6,0]
+  size: 1
 
-=head2 units_per_carton
+=head2 flag_2
 
-  data_type: 'numeric'
+  data_type: 'char'
   is_nullable: 1
-  size: [6,0]
+  size: 1
 
-=head2 bottle_size
+=head2 flag_3
 
-  data_type: 'numeric'
+  data_type: 'char'
   is_nullable: 1
-  size: [6,0]
+  size: 1
 
-=head2 wet_rate
+=head2 flag_4
 
-  data_type: 'double precision'
+  data_type: 'char'
   is_nullable: 1
-
-=head2 so_entry_warning
-
-  data_type: 'varchar'
-  is_nullable: 1
-  size: 80
-
-=head2 warehouse_warning
-
-  data_type: 'varchar'
-  is_nullable: 1
-  size: 80
-
-=head2 invoice_warning
-
-  data_type: 'varchar'
-  is_nullable: 1
-  size: 80
+  size: 1
 
 =head2 spare_code_01
 
@@ -578,113 +415,51 @@ __PACKAGE__->table("in_product");
   data_type: 'double precision'
   is_nullable: 1
 
-=head2 notes
-
-  data_type: 'varchar'
-  is_nullable: 1
-  size: 6791
-
 =cut
 
 __PACKAGE__->add_columns(
-  "product_code",
-  { data_type => "char", is_nullable => 0, size => 16 },
+  "account",
+  { data_type => "char", is_nullable => 0, size => 20 },
   "u_version",
   { data_type => "char", is_nullable => 1, size => 1 },
-  "description",
-  { data_type => "varchar", is_nullable => 1, size => 40 },
-  "uppercase_desc",
-  { data_type => "varchar", is_nullable => 1, size => 40 },
-  "also_known_as",
-  { data_type => "varchar", is_nullable => 1, size => 16 },
-  "alias",
-  { data_type => "varchar", is_nullable => 1, size => 40 },
-  "primary_supplier",
-  { data_type => "char", is_nullable => 1, size => 10 },
-  "ship_from_warehouse",
-  { data_type => "char", is_nullable => 1, size => 6 },
-  "deposit",
-  { data_type => "varchar", is_nullable => 1, size => 16 },
-  "unit",
-  { data_type => "char", is_nullable => 1, size => 4 },
-  "weight",
-  { data_type => "double precision", is_nullable => 1 },
-  "department",
-  { data_type => "char", is_nullable => 1, size => 6 },
-  "group_code",
-  { data_type => "char", is_nullable => 1, size => 6 },
-  "sub_group",
-  { data_type => "char", is_nullable => 1, size => 6 },
-  "standard_cost",
-  { data_type => "double precision", is_nullable => 1 },
-  "non_diminishing",
+  "component_1",
+  { data_type => "varchar", is_nullable => 1, size => 12 },
+  "component_2",
+  { data_type => "varchar", is_nullable => 1, size => 12 },
+  "component_3",
+  { data_type => "varchar", is_nullable => 1, size => 12 },
+  "component_4",
+  { data_type => "varchar", is_nullable => 1, size => 12 },
+  "component_5",
+  { data_type => "varchar", is_nullable => 1, size => 12 },
+  "component_6",
+  { data_type => "varchar", is_nullable => 1, size => 12 },
+  "name",
+  { data_type => "varchar", is_nullable => 1, size => 80 },
+  "uppercase_name",
+  { data_type => "varchar", is_nullable => 1, size => 80 },
+  "normal_sign",
   { data_type => "char", is_nullable => 0, size => 1 },
-  "batch_numbered",
-  { data_type => "char", is_nullable => 0, size => 1 },
-  "serial_numbered",
-  { data_type => "char", is_nullable => 0, size => 1 },
-  "prod_disc_group",
-  { data_type => "varchar", is_nullable => 1, size => 10 },
-  "qty_break_group",
-  { data_type => "char", is_nullable => 1, size => 6 },
-  "qty_break_flag",
-  { data_type => "char", is_nullable => 1, size => 1 },
-  "price_per",
-  { data_type => "numeric", is_nullable => 0, size => [7, 0] },
-  "tax_rate",
-  { data_type => "double precision", is_nullable => 1 },
-  "gst_code",
-  { data_type => "char", is_nullable => 1, size => 3 },
-  "allocation_method",
-  { data_type => "char", is_nullable => 0, size => 1 },
-  "manual_allocation",
-  { data_type => "char", is_nullable => 0, size => 1 },
-  "costing_method",
-  { data_type => "char", is_nullable => 0, size => 1 },
-  "include_in_sales_report",
-  { data_type => "char", is_nullable => 0, size => 1 },
+  "clear_to",
+  { data_type => "char", is_nullable => 1, size => 20 },
   "active_flag",
   { data_type => "char", is_nullable => 0, size => 1 },
-  "gl_sales",
-  { data_type => "char", is_nullable => 1, size => 20 },
-  "gl_cogs",
-  { data_type => "char", is_nullable => 1, size => 20 },
-  "gl_inventory",
-  { data_type => "char", is_nullable => 1, size => 20 },
-  "gl_tax",
-  { data_type => "char", is_nullable => 1, size => 20 },
-  "gl_purchases",
-  { data_type => "char", is_nullable => 1, size => 20 },
-  "points_code",
-  { data_type => "char", is_nullable => 0, size => 1 },
-  "check_order_qty",
-  { data_type => "char", is_nullable => 0, size => 1 },
-  "capture_demand",
-  { data_type => "char", is_nullable => 0, size => 1 },
   "date_created",
-  { data_type => "datetime", is_nullable => 0 },
-  "demand_start_date",
   { data_type => "datetime", is_nullable => 1 },
-  "price_labels_flag",
+  "account_type",
   { data_type => "char", is_nullable => 0, size => 1 },
-  "external_service_flag",
-  { data_type => "char", is_nullable => 0, size => 1 },
-  "markup_group",
-  { data_type => "varchar", is_nullable => 1, size => 10 },
-  "qty_per_carton",
-  { data_type => "numeric", is_nullable => 1, size => [6, 0] },
-  "units_per_carton",
-  { data_type => "numeric", is_nullable => 1, size => [6, 0] },
-  "bottle_size",
-  { data_type => "numeric", is_nullable => 1, size => [6, 0] },
-  "wet_rate",
-  { data_type => "double precision", is_nullable => 1 },
-  "so_entry_warning",
-  { data_type => "varchar", is_nullable => 1, size => 80 },
-  "warehouse_warning",
-  { data_type => "varchar", is_nullable => 1, size => 80 },
-  "invoice_warning",
-  { data_type => "varchar", is_nullable => 1, size => 80 },
+  "sub_type",
+  { data_type => "char", is_nullable => 1, size => 1 },
+  "gst_code",
+  { data_type => "char", is_nullable => 1, size => 3 },
+  "flag_1",
+  { data_type => "char", is_nullable => 1, size => 1 },
+  "flag_2",
+  { data_type => "char", is_nullable => 1, size => 1 },
+  "flag_3",
+  { data_type => "char", is_nullable => 1, size => 1 },
+  "flag_4",
+  { data_type => "char", is_nullable => 1, size => 1 },
   "spare_code_01",
   { data_type => "varchar", is_nullable => 1, size => 40 },
   "spare_code_02",
@@ -775,74 +550,24 @@ __PACKAGE__->add_columns(
   { data_type => "double precision", is_nullable => 1 },
   "sst_spare_value_05",
   { data_type => "double precision", is_nullable => 1 },
-  "notes",
-  { data_type => "varchar", is_nullable => 1, size => 6791 },
 );
 
 =head1 PRIMARY KEY
 
 =over 4
 
-=item * L</product_code>
+=item * L</account>
 
 =back
 
 =cut
 
-__PACKAGE__->set_primary_key("product_code");
+__PACKAGE__->set_primary_key("account");
 
 
 # Created by DBIx::Class::Schema::Loader v0.07049 @ 2019-12-19 14:22:27
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:WaiafLqAj5SlcOXk3SI1bQ
-
-# Copyright 2017 Jason Lewis
-
-# This file is part of Sirius Web Reports.
-
-#     Sirius Web Reports is free software: you can redistribute it and/or modify
-#     it under the terms of the GNU Affero Public License as published by
-#     the Free Software Foundation, either version 3 of the License, or
-#     (at your option) any later version.
-
-#     Sirius Web Reports is distributed in the hope that it will be useful,
-#     but WITHOUT ANY WARRANTY; without even the implied warranty of
-#     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#     GNU Affero Public License for more details.
-
-#     You should have received a copy of the GNU Affero Public License
-#     along with Sirius Web Reports.  If not, see <http://www.gnu.org/licenses/>.
-
-#__PACKAGE__->belongs_to('ap_supplier' => 'Reports::Schema::Result::ApSupplier','primary_supplier');
-
-__PACKAGE__->has_many(
-  sh_transactions =>
-    'Reports::Schema::Result::ShTransaction',
-  'product_code'
-);
-
-__PACKAGE__->has_many(
-  prices =>
-    'Reports::Schema::Result::PrPrice',
-  'product_code'
-);
-
-__PACKAGE__->has_many(
-  product_list_today =>
-    'Reports::Schema::Result::ZzProductListToday',
-  'product_code'
-);
-
-__PACKAGE__->belongs_to(
-  gst_tax_table =>
-    'Reports::Schema::Result::GstTaxTable',
-  'gst_code'
-);
-
-__PACKAGE__->belongs_to(
-  department =>
-    'Reports::Schema::Result::InDepartment',
-  'department'
-);
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:9N2/NczJqKqj12CPy+SwzQ
 
 
+# You can replace this text with custom code or comments, and it will be preserved on regeneration
 1;

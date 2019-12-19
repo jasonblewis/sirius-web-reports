@@ -49,7 +49,7 @@ __PACKAGE__->table("ar_debtor");
 
 =head2 debtor_search_key
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 80
 
@@ -73,33 +73,39 @@ __PACKAGE__->table("ar_debtor");
 
 =head2 bank_branch
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 20
 
 =head2 bsb_number
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 15
+  size: 50
 
 =head2 account_number
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 20
+  size: 60
 
 =head2 account_name
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 32
 
 =head2 credit_card_no
 
-  data_type: 'numeric'
+  data_type: 'varchar'
   is_nullable: 1
-  size: [22,0]
+  size: 60
+
+=head2 credit_card_cvn
+
+  data_type: 'varchar'
+  is_nullable: 1
+  size: 40
 
 =head2 credit_card_exp
 
@@ -108,7 +114,7 @@ __PACKAGE__->table("ar_debtor");
 
 =head2 credit_card_name
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 40
 
@@ -224,63 +230,63 @@ __PACKAGE__->table("ar_debtor");
 
 =head2 spare_code_01
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 20
+  size: 40
 
 =head2 spare_code_02
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 20
+  size: 40
 
 =head2 spare_code_03
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 20
+  size: 40
 
 =head2 spare_code_04
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 20
+  size: 40
 
 =head2 spare_code_05
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 20
+  size: 40
 
 =head2 spare_code_06
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 20
+  size: 40
 
 =head2 spare_code_07
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 20
+  size: 40
 
 =head2 spare_code_08
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 20
+  size: 40
 
 =head2 spare_code_09
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 20
+  size: 40
 
 =head2 spare_code_10
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 20
+  size: 40
 
 =head2 spare_flag_01
 
@@ -394,33 +400,33 @@ __PACKAGE__->table("ar_debtor");
 
 =head2 sst_spare_code_01
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 20
+  size: 40
 
 =head2 sst_spare_code_02
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 20
+  size: 40
 
 =head2 sst_spare_code_03
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 20
+  size: 40
 
 =head2 sst_spare_code_04
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 20
+  size: 40
 
 =head2 sst_spare_code_05
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 20
+  size: 40
 
 =head2 sst_spare_flag_01
 
@@ -481,7 +487,7 @@ __PACKAGE__->table("ar_debtor");
 
   data_type: 'varchar'
   is_nullable: 1
-  size: 7067
+  size: 6913
 
 =cut
 
@@ -491,7 +497,7 @@ __PACKAGE__->add_columns(
   "u_version",
   { data_type => "char", is_nullable => 1, size => 1 },
   "debtor_search_key",
-  { data_type => "char", is_nullable => 1, size => 80 },
+  { data_type => "varchar", is_nullable => 1, size => 80 },
   "company_code",
   { data_type => "char", is_nullable => 0, size => 10 },
   "debtor_type",
@@ -499,19 +505,21 @@ __PACKAGE__->add_columns(
   "bank",
   { data_type => "char", is_nullable => 1, size => 6 },
   "bank_branch",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 20 },
   "bsb_number",
-  { data_type => "char", is_nullable => 1, size => 15 },
+  { data_type => "varchar", is_nullable => 1, size => 50 },
   "account_number",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 60 },
   "account_name",
-  { data_type => "char", is_nullable => 1, size => 32 },
+  { data_type => "varchar", is_nullable => 1, size => 32 },
   "credit_card_no",
-  { data_type => "numeric", is_nullable => 1, size => [22, 0] },
+  { data_type => "varchar", is_nullable => 1, size => 60 },
+  "credit_card_cvn",
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "credit_card_exp",
   { data_type => "datetime", is_nullable => 1 },
   "credit_card_name",
-  { data_type => "char", is_nullable => 1, size => 40 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "credit_card_auth",
   { data_type => "char", is_nullable => 1, size => 1 },
   "payment_type",
@@ -551,25 +559,25 @@ __PACKAGE__->add_columns(
   "fin_chg_rate",
   { data_type => "double precision", is_nullable => 1 },
   "spare_code_01",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "spare_code_02",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "spare_code_03",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "spare_code_04",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "spare_code_05",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "spare_code_06",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "spare_code_07",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "spare_code_08",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "spare_code_09",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "spare_code_10",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "spare_flag_01",
   { data_type => "char", is_nullable => 1, size => 1 },
   "spare_flag_02",
@@ -611,15 +619,15 @@ __PACKAGE__->add_columns(
   "spare_value_10",
   { data_type => "double precision", is_nullable => 1 },
   "sst_spare_code_01",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "sst_spare_code_02",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "sst_spare_code_03",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "sst_spare_code_04",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "sst_spare_code_05",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "sst_spare_flag_01",
   { data_type => "char", is_nullable => 1, size => 1 },
   "sst_spare_flag_02",
@@ -641,7 +649,7 @@ __PACKAGE__->add_columns(
   "sst_spare_value_05",
   { data_type => "double precision", is_nullable => 1 },
   "notes",
-  { data_type => "varchar", is_nullable => 1, size => 7067 },
+  { data_type => "varchar", is_nullable => 1, size => 6913 },
 );
 
 =head1 PRIMARY KEY
@@ -657,8 +665,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("debtor_code");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-05-09 12:00:11
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:s/XfAz/aS3sKxrASpMmsGw
+# Created by DBIx::Class::Schema::Loader v0.07049 @ 2019-12-19 14:22:27
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:NyHXldARfjfSGMYE6lB+sg
 
 # Copyright 2017 Jason Lewis
 

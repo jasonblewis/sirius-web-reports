@@ -49,7 +49,7 @@ __PACKAGE__->table("in_department");
 
 =head2 description
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 40
 
@@ -61,7 +61,7 @@ __PACKAGE__->add_columns(
   "u_version",
   { data_type => "char", is_nullable => 1, size => 1 },
   "description",
-  { data_type => "char", is_nullable => 1, size => 40 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
 );
 
 =head1 PRIMARY KEY
@@ -77,8 +77,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("department");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-05-09 12:00:11
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:VBYx0n4OoCLNy0ymZa4UNw
+# Created by DBIx::Class::Schema::Loader v0.07049 @ 2019-12-19 14:22:27
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:LPqDzwxKFR4xQC8sVR69zg
 
 # Copyright 2017 Jason Lewis
 

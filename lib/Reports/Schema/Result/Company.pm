@@ -49,49 +49,49 @@ __PACKAGE__->table("company");
 
 =head2 company_search_key
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 80
 
 =head2 parent_company
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 10
 
 =head2 name
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 0
   size: 40
 
 =head2 uppercase_name
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 40
 
 =head2 address_1
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 40
 
 =head2 address_2
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 40
 
 =head2 address_3
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 40
 
 =head2 postcode
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 10
 
@@ -120,7 +120,7 @@ __PACKAGE__->table("company");
 
 =head2 abn
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 12
 
@@ -138,21 +138,21 @@ __PACKAGE__->add_columns(
   "u_version",
   { data_type => "char", is_nullable => 1, size => 1 },
   "company_search_key",
-  { data_type => "char", is_nullable => 1, size => 80 },
+  { data_type => "varchar", is_nullable => 1, size => 80 },
   "parent_company",
-  { data_type => "char", is_nullable => 1, size => 10 },
+  { data_type => "varchar", is_nullable => 1, size => 10 },
   "name",
-  { data_type => "char", is_nullable => 0, size => 40 },
+  { data_type => "varchar", is_nullable => 0, size => 40 },
   "uppercase_name",
-  { data_type => "char", is_nullable => 1, size => 40 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "address_1",
-  { data_type => "char", is_nullable => 1, size => 40 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "address_2",
-  { data_type => "char", is_nullable => 1, size => 40 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "address_3",
-  { data_type => "char", is_nullable => 1, size => 40 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "postcode",
-  { data_type => "char", is_nullable => 1, size => 10 },
+  { data_type => "varchar", is_nullable => 1, size => 10 },
   "industry_code",
   { data_type => "char", is_nullable => 0, size => 6 },
   "territory_code",
@@ -162,7 +162,7 @@ __PACKAGE__->add_columns(
   "date_created",
   { data_type => "datetime", is_nullable => 1 },
   "abn",
-  { data_type => "char", is_nullable => 1, size => 12 },
+  { data_type => "varchar", is_nullable => 1, size => 12 },
   "notes",
   { data_type => "varchar", is_nullable => 1, size => 7632 },
 );
@@ -180,8 +180,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("company_code");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-05-09 12:00:11
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:qBtx/GE3HBoZK7EQEpodPQ
+# Created by DBIx::Class::Schema::Loader v0.07049 @ 2019-12-19 14:22:27
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:8GzrKW2EsCqQGbgCXg9e2g
 
 # Copyright 2017 Jason Lewis
 

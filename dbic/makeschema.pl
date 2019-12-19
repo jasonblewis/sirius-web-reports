@@ -47,6 +47,7 @@ make_schema_at(
 				  ar_debtor|
                                   ap_supplier_select_view|
 				  sh_transaction|
+                                  gl_account|
 				  gst_tax_table|
 				  in_department|
 				  zz_most_recent_purchase|

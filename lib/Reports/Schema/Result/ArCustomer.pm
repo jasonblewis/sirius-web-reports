@@ -49,7 +49,7 @@ __PACKAGE__->table("ar_customer");
 
 =head2 customer_search_key
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 80
 
@@ -115,7 +115,7 @@ __PACKAGE__->table("ar_customer");
 
 =head2 cust_disc_group
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 10
 
@@ -210,7 +210,7 @@ __PACKAGE__->table("ar_customer");
 
 =head2 eps_supplier_code
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 20
 
@@ -222,7 +222,7 @@ __PACKAGE__->table("ar_customer");
 
 =head2 cust_prod_list
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 10
 
@@ -234,7 +234,7 @@ __PACKAGE__->table("ar_customer");
 
 =head2 run_code
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 10
 
@@ -246,7 +246,7 @@ __PACKAGE__->table("ar_customer");
 
 =head2 freight_code
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 12
 
@@ -264,63 +264,63 @@ __PACKAGE__->table("ar_customer");
 
 =head2 spare_code_01
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 20
+  size: 40
 
 =head2 spare_code_02
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 20
+  size: 40
 
 =head2 spare_code_03
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 20
+  size: 40
 
 =head2 spare_code_04
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 20
+  size: 40
 
 =head2 spare_code_05
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 20
+  size: 40
 
 =head2 spare_code_06
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 20
+  size: 40
 
 =head2 spare_code_07
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 20
+  size: 40
 
 =head2 spare_code_08
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 20
+  size: 40
 
 =head2 spare_code_09
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 20
+  size: 40
 
 =head2 spare_code_10
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 20
+  size: 40
 
 =head2 spare_flag_01
 
@@ -434,33 +434,33 @@ __PACKAGE__->table("ar_customer");
 
 =head2 sst_spare_code_01
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 20
+  size: 40
 
 =head2 sst_spare_code_02
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 20
+  size: 40
 
 =head2 sst_spare_code_03
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 20
+  size: 40
 
 =head2 sst_spare_code_04
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 20
+  size: 40
 
 =head2 sst_spare_code_05
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 20
+  size: 40
 
 =head2 sst_spare_flag_01
 
@@ -531,7 +531,7 @@ __PACKAGE__->add_columns(
   "u_version",
   { data_type => "char", is_nullable => 1, size => 1 },
   "customer_search_key",
-  { data_type => "char", is_nullable => 1, size => 80 },
+  { data_type => "varchar", is_nullable => 1, size => 80 },
   "company_code",
   { data_type => "char", is_nullable => 0, size => 10 },
   "branch_code",
@@ -553,7 +553,7 @@ __PACKAGE__->add_columns(
   "price_code",
   { data_type => "char", is_nullable => 1, size => 1 },
   "cust_disc_group",
-  { data_type => "char", is_nullable => 1, size => 10 },
+  { data_type => "varchar", is_nullable => 1, size => 10 },
   "gets_promo_flag",
   { data_type => "char", is_nullable => 0, size => 1 },
   "pricing_customer",
@@ -585,43 +585,43 @@ __PACKAGE__->add_columns(
   "date_created",
   { data_type => "datetime", is_nullable => 1 },
   "eps_supplier_code",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 20 },
   "ship_via_code",
   { data_type => "char", is_nullable => 1, size => 6 },
   "cust_prod_list",
-  { data_type => "char", is_nullable => 1, size => 10 },
+  { data_type => "varchar", is_nullable => 1, size => 10 },
   "line_no_rqd",
   { data_type => "char", is_nullable => 0, size => 1 },
   "run_code",
-  { data_type => "char", is_nullable => 1, size => 10 },
+  { data_type => "varchar", is_nullable => 1, size => 10 },
   "run_sequence",
   { data_type => "numeric", is_nullable => 1, size => [5, 0] },
   "freight_code",
-  { data_type => "char", is_nullable => 1, size => 12 },
+  { data_type => "varchar", is_nullable => 1, size => 12 },
   "consolidate_orders_flag",
   { data_type => "char", is_nullable => 0, size => 1 },
   "wet_exempt_flag",
   { data_type => "char", is_nullable => 0, size => 1 },
   "spare_code_01",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "spare_code_02",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "spare_code_03",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "spare_code_04",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "spare_code_05",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "spare_code_06",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "spare_code_07",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "spare_code_08",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "spare_code_09",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "spare_code_10",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "spare_flag_01",
   { data_type => "char", is_nullable => 1, size => 1 },
   "spare_flag_02",
@@ -663,15 +663,15 @@ __PACKAGE__->add_columns(
   "spare_value_10",
   { data_type => "double precision", is_nullable => 1 },
   "sst_spare_code_01",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "sst_spare_code_02",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "sst_spare_code_03",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "sst_spare_code_04",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "sst_spare_code_05",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "sst_spare_flag_01",
   { data_type => "char", is_nullable => 1, size => 1 },
   "sst_spare_flag_02",
@@ -709,8 +709,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("customer_code");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-05-09 12:00:11
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:GLTpVGbYIOak1hZWnMESzQ
+# Created by DBIx::Class::Schema::Loader v0.07049 @ 2019-12-19 14:22:27
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:rRNPUt9srY+NDdgPsyOpbQ
 
 # Copyright 2017 Jason Lewis
 

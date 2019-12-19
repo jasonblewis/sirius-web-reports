@@ -61,7 +61,7 @@ __PACKAGE__->table("phone");
 
 =head2 phone
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 0
   size: 50
 
@@ -89,7 +89,7 @@ __PACKAGE__->add_columns(
   "seq",
   { data_type => "numeric", is_nullable => 1, size => [9, 0] },
   "phone",
-  { data_type => "char", is_nullable => 0, size => 50 },
+  { data_type => "varchar", is_nullable => 0, size => 50 },
   "phone_type",
   { data_type => "char", is_nullable => 0, size => 6 },
   "notes",
@@ -111,8 +111,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("company_code", "phone_line");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-05-09 12:00:11
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:phbuA1ycMPPtqFNlxPu2Jw
+# Created by DBIx::Class::Schema::Loader v0.07049 @ 2019-12-19 14:22:27
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:+oKR2aJe9BmYuX2kHwu9Tg
 
 # Copyright 2017 Jason Lewis
 

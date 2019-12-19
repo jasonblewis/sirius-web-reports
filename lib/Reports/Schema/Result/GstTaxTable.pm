@@ -49,9 +49,9 @@ __PACKAGE__->table("gst_tax_table");
 
 =head2 description
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
-  size: 20
+  size: 40
 
 =head2 tax_rate
 
@@ -70,6 +70,18 @@ __PACKAGE__->table("gst_tax_table");
   is_nullable: 0
   size: 20
 
+=head2 bas_ref
+
+  data_type: 'varchar'
+  is_nullable: 1
+  size: 3
+
+=head2 notes
+
+  data_type: 'varchar'
+  is_nullable: 1
+  size: 7897
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -78,13 +90,17 @@ __PACKAGE__->add_columns(
   "u_version",
   { data_type => "char", is_nullable => 1, size => 1 },
   "description",
-  { data_type => "char", is_nullable => 1, size => 20 },
+  { data_type => "varchar", is_nullable => 1, size => 40 },
   "tax_rate",
   { data_type => "double precision", is_nullable => 1 },
   "gst_collect_acc",
   { data_type => "char", is_nullable => 0, size => 20 },
   "gst_in_cred_acc",
   { data_type => "char", is_nullable => 0, size => 20 },
+  "bas_ref",
+  { data_type => "varchar", is_nullable => 1, size => 3 },
+  "notes",
+  { data_type => "varchar", is_nullable => 1, size => 7897 },
 );
 
 =head1 PRIMARY KEY
@@ -100,8 +116,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("gst_code");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-05-09 12:00:11
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:HJQaswovOwPVx9+bKO4oig
+# Created by DBIx::Class::Schema::Loader v0.07049 @ 2019-12-19 14:22:27
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:61TQDHX9gyiB+g4EfsvhlA
 
 # Copyright 2017 Jason Lewis
 

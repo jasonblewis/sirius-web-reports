@@ -127,7 +127,7 @@ __PACKAGE__->table("sh_transaction");
 
 =head2 invoice_no
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 10
 
@@ -138,19 +138,19 @@ __PACKAGE__->table("sh_transaction");
 
 =head2 spare_1
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 16
 
 =head2 spare_2
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 16
 
 =head2 spare_3
 
-  data_type: 'char'
+  data_type: 'varchar'
   is_nullable: 1
   size: 16
 
@@ -229,15 +229,15 @@ __PACKAGE__->add_columns(
   "supplier_code",
   { data_type => "char", is_nullable => 1, size => 10 },
   "invoice_no",
-  { data_type => "char", is_nullable => 1, size => 10 },
+  { data_type => "varchar", is_nullable => 1, size => 10 },
   "invoice_date",
   { data_type => "datetime", is_nullable => 0 },
   "spare_1",
-  { data_type => "char", is_nullable => 1, size => 16 },
+  { data_type => "varchar", is_nullable => 1, size => 16 },
   "spare_2",
-  { data_type => "char", is_nullable => 1, size => 16 },
+  { data_type => "varchar", is_nullable => 1, size => 16 },
   "spare_3",
-  { data_type => "char", is_nullable => 1, size => 16 },
+  { data_type => "varchar", is_nullable => 1, size => 16 },
   "sales_qty",
   { data_type => "double precision", is_nullable => 1 },
   "sales_amt",
@@ -269,8 +269,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("trans");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-05-09 12:00:11
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:OybUSZlJVve6WSPbI8Q51Q
+# Created by DBIx::Class::Schema::Loader v0.07049 @ 2019-12-19 14:22:27
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:iPoUmm5n+4Tk3jMssqmjBw
 
 # Copyright 2017 Jason Lewis
 
