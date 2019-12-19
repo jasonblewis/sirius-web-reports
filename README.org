@@ -95,7 +95,6 @@ sudo systemctl restart reports
  - systemctl start reports
  - test if its working ok
 
-
 * to launch for production
 pkill fcgi && DANCER_ENVIRONMENT=production plackup -D -E deployment -s FCGI --listen  /var/run/reports/reports.sock /home/reports/Reports/bin/app.psgi
 * to launch for development

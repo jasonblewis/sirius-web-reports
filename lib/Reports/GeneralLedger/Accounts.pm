@@ -23,6 +23,8 @@ use Dancer2 appname => 'Reports';
 use Dancer2::Plugin::Database;
 use Dancer2::Plugin::Auth::Extensible;
 use Data::Dumper;
+use Dancer2::Plugin::DBIC;
+
 
 sub get_gl_account_code {
   my $columns = encode_json([
@@ -73,10 +75,15 @@ sub gl_account_reconciliation {
     warn "account_code not supplied";
   }
   # stefan says check account code is valid, throw some error if not.
+
+  my $gl_account = schema->resultset('Gl_Account')->search({account => $account_code})->single;
+  my $gl_account_select_view = schema->resultset('Gl_Account')->find($account_code);
+  my $gl_account_name = $gl_account_select_view->name;
+
   
   template 'gl/gl-account-reconciliation', {
     title => "GL Account Reconciliation",
-    sub_title => "$account_code",
+    sub_title => "$gl_account_name ($account_code)",
     columns => $columns,
     dt_options => {
       ordering => 'false',
