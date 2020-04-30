@@ -82,7 +82,7 @@ sum(sh.sales_qty) as sales_qty
 from
  sh_select_trans_view sh
 join
- in_prod_whouse_view p 
+ in_product p 
  on sh.product_code = p.product_code
 
 
