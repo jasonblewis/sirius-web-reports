@@ -42,7 +42,7 @@ sub outstanding_sales_orders {
   database->{LongReadLen} = 100000;
   database->{LongTruncOk} = 0;
   
-  my $sql = q/
+  my $sql = q!
   Set transaction isolation level read uncommitted;
   select 
   CASE CHARINDEX(' ', u.user_name, 1)
@@ -58,7 +58,7 @@ sub outstanding_sales_orders {
     CONVERT(VARCHAR(10),so.order_date,120) as order_date_sortable,
     so.sales_rep_code,
     DATEDIFF(s, '1970-01-01 00:00:00', so.order_date) as odts,
-    sum(so.unit_price * so.ordered_qty) as amount
+    sum((so.unit_price * so.ordered_qty) * (1 - so.discount_rate/100)) as amount
 	
  from so_order_and_lines_view so
  join user_file u on
@@ -71,7 +71,7 @@ where
      WHEN 0 THEN u.user_name -- empty or single word
      ELSE SUBSTRING(u.user_name, 1, CHARINDEX(' ', u.user_name, 1) - 1) END ,so.customer_code,so.name,so.order_status,so.branch_code,so.sale_or_credit,so.order_no,so.order_date,so.sales_rep_code
  order by so.order_date
-  /;
+  !;
   
 
   my $sth = database->prepare($sql) or die "can't prepare\n";
