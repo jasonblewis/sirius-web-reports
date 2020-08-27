@@ -34,7 +34,7 @@ perlbrew install <latest perl>
 perlbrew install-cpanm
 # install libpam0g-dev for Authen::Simple
 sudo apt install libpam0g-dev
-cd ~/Reports
+cd ~/projects/Reports
 cpanm --installdeps .
 (unset LANG ; cpanm DBD::ODBC)
 #+END_SRC
@@ -384,3 +384,12 @@ where
   error "some text here"
   warning
   debug
+* adding new tables to the DBIC Schema.
+  make sure you have commited all current work to git
+  consider starting a new branch for this work.
+
+  edit the dbic/makeschema.pl file and include the table name in the constraing hash.
+  The reason it is constrained like that, is there is no point making schemas for all the tables as we don't use most of them
+
+  from the project root, run ./dbic/makeschema.pl (it is important to run it from the project root so the files get generated in the correct spot)
+
