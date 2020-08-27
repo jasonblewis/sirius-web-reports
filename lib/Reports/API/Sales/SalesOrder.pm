@@ -56,7 +56,7 @@ sub outstanding_sales_orders {
     so.order_no,
     so.order_date,
     CONVERT(VARCHAR(10),so.order_date,120) as order_date_sortable,
-    so.sales_rep_code,
+    so.territory_code,
     DATEDIFF(s, '1970-01-01 00:00:00', so.order_date) as odts,
     sum((so.unit_price * so.ordered_qty) * (1 - so.discount_rate/100)) as amount
 	
@@ -69,7 +69,7 @@ where
  and so.sale_or_credit = 'S'
  group by CASE CHARINDEX(' ', u.user_name, 1)
      WHEN 0 THEN u.user_name -- empty or single word
-     ELSE SUBSTRING(u.user_name, 1, CHARINDEX(' ', u.user_name, 1) - 1) END ,so.customer_code,so.name,so.order_status,so.branch_code,so.sale_or_credit,so.order_no,so.order_date,so.sales_rep_code
+     ELSE SUBSTRING(u.user_name, 1, CHARINDEX(' ', u.user_name, 1) - 1) END ,so.customer_code,so.name,so.order_status,so.branch_code,so.sale_or_credit,so.order_no,so.order_date,so.territory_code
  order by so.order_date
   !;
   

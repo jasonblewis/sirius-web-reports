@@ -65,7 +65,7 @@ my $order_columns = encode_json([
   {  data => 'order_date_sortable', title=>'Date', className => 'text-right', 'visible' => true, type => 'date' },
   {  data => 'order_status', title=>'Order<br>Status', className => 'text-right'},
   {  data => 'branch_code', title=>'Branch', className => 'text-right'},
-  {  data => 'sales_rep_code', title=>'Rep', className => 'text-right'},
+  {  data => 'territory_code', title=>'Ter', className => 'text-right'},
   
 ],);
 
