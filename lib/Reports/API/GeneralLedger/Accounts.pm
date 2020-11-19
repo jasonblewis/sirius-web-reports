@@ -89,10 +89,9 @@ WHERE
   ("gl_transaction"."period"=0 AND "gl_transaction"."year"=2006)
   ))
 
-ORDER BY "gl_transaction"."year",
-  "gl_transaction"."period",
-  "gl_transaction"."trans_date",
-   "gl_transaction"."seq"
+ORDER BY 
+  "gl_transaction"."trans_date"
+  
 
   };
 
