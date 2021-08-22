@@ -42,7 +42,7 @@ set transaction isolation level read uncommitted
 Declare @debug bit
 set @debug = 0
 declare @months int
-set @months = 15
+set @months = 30
 declare @startdate datetime
 set @startdate = DATEADD(month, DATEDIFF(month, 0, dateadd(m,-@months,getdate())), 0)
 
