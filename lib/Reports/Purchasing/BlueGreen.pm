@@ -39,7 +39,7 @@ sub blue_green {
     { data => 'value', title => 'SOH', className => 'text-right text-black',formatfn => 'round0dp'},
   ];
 
-  my $months = 15;
+  my $months = 30;
     for (my $i = $months; $i >= 0; $i--) {
     push @$columns, {
       data => DateTime->now->subtract(months => $i)->strftime('%Y-%m-01'),
