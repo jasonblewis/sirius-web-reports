@@ -172,8 +172,8 @@ FROM
 left join
 	in_product p
 	on p.product_code = sh.product_code
-WHERE
-   (sh.invoice_date >= @spstartdate) AND (sh.invoice_date < @spenddate)
+--WHERE
+  -- (sh.invoice_date >= @spstartdate) AND (sh.invoice_date < @spenddate)
 GROUP BY p.primary_supplier)
 	
 	pg
