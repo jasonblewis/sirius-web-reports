@@ -59,7 +59,7 @@ sub blue_green {
     dt_options => {
       order      => '[[0, "desc"],[1,"asc"],[2,"desc"]]',
       responsive => 'true',
-      dom        => 'ftrpl',
+      dom        => 'Bftrpl',
       pageLength => 100,
       paging => 'true',
       page   => 'first',
